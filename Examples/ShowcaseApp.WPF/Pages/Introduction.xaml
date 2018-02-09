@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="TrafficManagement.WPF.Pages.Introduction"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d"              
+             d:DesignHeight="400" d:DesignWidth="600">
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+            <StackPanel >
+                <Image Source="/Assets/model.png" Width="300" Margin="0,0,0,10"></Image>
+                <mui:BBCodeBlock BBCode="[b]Программа[/b] предназначена для определения величины полосы пропускания путей «из конца в конец» и отдельных каналов полигонного измерительного комплекса (ПИК), а также величины резерва полос пропускания на случай возникновения пульсаций трафика и отказов оборудования.&#13;&#10;&#13;&#10;[b]Авторы: Корячко В.П., Шибанов А.П., Сапрыкин А.Н. и Фам Х.Л.[/b]. Программа разработана на кафедре САПР ВС Рязанского государственного радиотехнического университета. &#13;&#10;&#13;&#10;Задать свои вопросы можно по электронной почте: hoanglong2410@gmail.com.&#13;&#10;&#13;&#10;" Margin="0,0,0,32" />
+                              
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

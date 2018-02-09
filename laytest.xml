@@ -1,0 +1,1942 @@
+<ListOfGraphSerializationData xmlns:yaxlib="http://www.sinairv.com/yaxlib/">
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Центр сбора 1</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>0</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>1</ID>
+    </Data>
+    <Position>
+      <X>145.81783193398</X>
+      <Y>332.230508471183</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>VLB 1</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>1</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>3</ID>
+    </Data>
+    <Position>
+      <X>344.782146044036</X>
+      <Y>244.037632514722</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>VLB 2</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>1</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>4</ID>
+    </Data>
+    <Position>
+      <X>343.91359378422</X>
+      <Y>465.518458767884</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 2</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>5</ID>
+    </Data>
+    <Position>
+      <X>596.66230139077</X>
+      <Y>64.2473147327433</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 12</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>19</ID>
+    </Data>
+    <Position>
+      <X>594.056644611321</X>
+      <Y>244.906184774538</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 4</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>7</ID>
+    </Data>
+    <Position>
+      <X>579.291256194443</X>
+      <Y>421.222293517252</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 5</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>8</ID>
+    </Data>
+    <Position>
+      <X>574.079942635545</X>
+      <Y>607.092477117944</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 6</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>9</ID>
+    </Data>
+    <Position>
+      <X>812.063261825218</X>
+      <Y>-41.7160609648479</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 7</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>10</ID>
+    </Data>
+    <Position>
+      <X>822.485888943013</X>
+      <Y>123.308868400253</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>ИП 1</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>3</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>11</ID>
+    </Data>
+    <Position>
+      <X>983.168057009033</X>
+      <Y>-53.0072403424601</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>ИП 2</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>3</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>12</ID>
+    </Data>
+    <Position>
+      <X>1134.29615021707</X>
+      <Y>111.149136762825</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>ИП 3</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>3</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>13</ID>
+    </Data>
+    <Position>
+      <X>1129.95338891799</X>
+      <Y>392.560068943313</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>ИП 4</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>3</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>14</ID>
+    </Data>
+    <Position>
+      <X>1144.71877733487</X>
+      <Y>614.909447456291</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 8</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>15</ID>
+    </Data>
+    <Position>
+      <X>813.80036634485</X>
+      <Y>301.362081662599</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 9</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>16</ID>
+    </Data>
+    <Position>
+      <X>810.326157305585</X>
+      <Y>387.348755384415</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 10</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>17</ID>
+    </Data>
+    <Position>
+      <X>809.457605045769</X>
+      <Y>480.283847184762</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>Маршрутизатор 11</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>2</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>18</ID>
+    </Data>
+    <Position>
+      <X>816.406023124299</X>
+      <Y>614.040895196475</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>ИП 5</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>3</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>20</ID>
+    </Data>
+    <Position>
+      <X>973.613982151053</X>
+      <Y>262.277229970865</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataVertex">
+      <Text>ИП 6</Text>
+      <Name />
+      <Profession />
+      <Gender />
+      <Age>0</Age>
+      <ImageId>3</ImageId>
+      <IsBlue>False</IsBlue>
+      <GroupId>0</GroupId>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>21</ID>
+    </Data>
+    <Position>
+      <X>963.191355033257</X>
+      <Y>515.025937577414</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>19</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>VLB 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>4</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>7</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>18</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>7</ID>
+      </Source>
+      <Target>
+        <Text>VLB 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>4</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>9</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>VLB 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>3</ID>
+      </Source>
+      <Target>
+        <Text>Центр сбора 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>0</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>1</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>2</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>ИП 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>3</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>11</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 6</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>9</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>8</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>5</ID>
+      </Source>
+      <Target>
+        <Text>VLB 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>3</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>3</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 6</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>9</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>5</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>32</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 12</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>19</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 7</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>10</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>30</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 12</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>19</ID>
+      </Source>
+      <Target>
+        <Text>VLB 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>3</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>17</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Центр сбора 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>0</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>1</ID>
+      </Source>
+      <Target>
+        <Text>VLB 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>4</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>16</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>VLB 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>4</ID>
+      </Source>
+      <Target>
+        <Text>Центр сбора 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>0</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>1</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>31</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>VLB 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>3</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 12</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>19</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>10</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Центр сбора 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>0</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>1</ID>
+      </Source>
+      <Target>
+        <Text>VLB 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>3</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>20</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>VLB 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>4</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 5</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>8</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>21</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 5</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>8</ID>
+      </Source>
+      <Target>
+        <Text>VLB 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>4</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>34</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 12</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>19</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 8</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>15</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>33</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 7</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>10</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 12</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>19</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>24</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 9</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>16</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>7</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>25</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>7</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 9</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>16</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>26</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 10</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>17</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>7</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>27</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>7</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 10</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>17</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>28</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 11</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>18</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 5</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>8</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>29</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 5</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>8</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 11</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>18</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>35</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 8</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>15</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 12</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>19</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>42</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>ИП 3</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>3</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>13</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 9</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>16</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>11</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>VLB 1</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>1</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>3</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>5</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>41</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 7</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>10</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 8</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>15</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>40</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>ИП 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>3</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>12</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 7</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>10</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>43</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>ИП 4</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>3</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>14</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 11</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>18</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>44</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 10</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>17</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 11</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>18</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>45</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 11</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>18</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 10</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>17</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>46</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>ИП 5</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>3</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>20</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 8</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>15</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>47</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>ИП 6</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>3</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>21</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 10</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>17</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>1</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 6</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>9</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 7</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>10</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+  <GraphSerializationData>
+    <Data yaxlib:realtype="ShowcaseApp.WPF.DataEdge">
+      <RoutingPoints></RoutingPoints>
+      <ArrowTarget>False</ArrowTarget>
+      <Angle>90</Angle>
+      <Text />
+      <ToolTipText />
+      <Color>Green</Color>
+      <Speed>100</Speed>
+      <Load>0</Load>
+      <SkipProcessing>Default</SkipProcessing>
+      <ID>12</ID>
+      <IsSelfLoop>False</IsSelfLoop>
+      <SourceConnectionPointId />
+      <TargetConnectionPointId />
+      <Source>
+        <Text>Маршрутизатор 2</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>5</ID>
+      </Source>
+      <Target>
+        <Text>Маршрутизатор 6</Text>
+        <Name />
+        <Profession />
+        <Gender />
+        <Age>0</Age>
+        <ImageId>2</ImageId>
+        <IsBlue>False</IsBlue>
+        <GroupId>0</GroupId>
+        <SkipProcessing>Default</SkipProcessing>
+        <ID>9</ID>
+      </Target>
+      <Weight>1</Weight>
+      <ReversePath>False</ReversePath>
+    </Data>
+    <Position>
+      <X>0</X>
+      <Y>0</Y>
+    </Position>
+  </GraphSerializationData>
+</ListOfGraphSerializationData>

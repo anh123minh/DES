@@ -1,0 +1,26 @@
+﻿<Window x:Class="TrafficManagement.WPF.Pages.windowParaVertex"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrafficManagement.WPF.Pages"
+        mc:Ignorable="d"
+        Title="Параметры" Height="180" Width="250" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DockPanel HorizontalAlignment="Stretch" Margin="3,10,3,3">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3">
+                <TextBox x:Name="tBxName" DockPanel.Dock="Top" HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center" Margin="3"></TextBox>
+                <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" >
+                    <Label Content="Трафик (Мб/с):" DockPanel.Dock="Left" Margin="3"></Label>
+                    <TextBox x:Name="tBxTraffic" DockPanel.Dock="Right" Margin="3" Width="90"></TextBox>
+                </DockPanel>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">
+                <Button x:Name="btnOK" Content="OK" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnOK_Click"></Button>
+                <Button x:Name="btnCancel" Content="Отмена" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCancel_Click">
+                </Button>
+
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>

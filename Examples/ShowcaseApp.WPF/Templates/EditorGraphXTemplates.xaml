@@ -1,0 +1,171 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"   
+    xmlns:local="clr-namespace:TrafficManagement.WPF"
+    xmlns:controls="http://schemas.panthernet.ru/graphx/">   
+
+    <LinearGradientBrush x:Key="NormalBrush" EndPoint="0.5,1" StartPoint="0.5,0" po:Freeze="true">
+        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+        <GradientStop Color="#FFA4ADBB" Offset="0.521"/>
+        <GradientStop Color="#FFD7E0EA" Offset="0.194"/>
+        <GradientStop Color="#FFBAC1CF" Offset="0.811"/>
+        <GradientStop Color="#FFBCC5D5" Offset="0.507"/>
+        <GradientStop Color="#FFE3E4E6" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="NormalBorderBrush" EndPoint="0.5,0" StartPoint="0.5,1" po:Freeze="true">
+        <GradientStop Color="#FF8B8B8B"/>
+        <GradientStop Color="#FFADADAD" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EdgeBrush" EndPoint="0.5,0" StartPoint="0.5,1" po:Freeze="true">
+        <GradientStop Color="Green"/>
+        <GradientStop Color="Green" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="EdgeArrowBrush" Color="Green" po:Freeze="true" />
+
+    <local:ValueToEditorImageConverter x:Key="ImageConverter"/>
+    <local:StringToBrushConverter  x:Key="ColorToBrushConverter"/>    
+    <local:DataEdge x:Key="DataEdge" />
+    
+    <!-- VERTEX CONTROL -->
+    <Style TargetType="{x:Type controls:VertexControl}">
+        <!-- Set background color through attached property -->
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ShowLabel" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:VertexControl}">
+                    <Grid>
+                        <Border CornerRadius="50" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Name="hlBorder">
+                            <Image Source="{Binding ImageId, Converter={StaticResource ImageConverter}}" Width="45" Stretch="Uniform" Margin="2" />
+                        </Border>
+
+                        <!--<controls:VertexLabelControl x:Name="PART_vertexLabel" Content="{Binding Vertex.Text, RelativeSource={RelativeSource TemplatedParent}}" LabelPositionSide="Bottom" FontFamily="Comic Sans MS" />-->
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+
+        </Setter>
+        
+        <!-- TOOLTIP VERTEX -->
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Background="{StaticResource NormalBrush}" UseLayoutRounding="True">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Text}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal" Margin="3">                            
+                            <TextBlock MinWidth="70" Text="Трафик(Мб/с): " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding Traffic}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </Border>
+            </Setter.Value>
+        </Setter>
+
+
+        <!-- VERTEX DRAGGING CONTROL -->
+        <Setter Property="controls:DragBehaviour.IsDragEnabled"
+                Value="False" />
+        <Setter Property="controls:DragBehaviour.UpdateEdgesOnMove"
+                Value="True" />
+
+
+        <Style.Triggers>
+            <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="True">
+                <Setter Property="BorderBrush" Value="Gold"/>
+                <Setter Property="BorderThickness" Value="3"/>
+            </Trigger>
+        </Style.Triggers>
+
+       
+    </Style>
+
+
+    <Style TargetType="controls:AttachableVertexLabelControl">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="LabelPositionMode" Value="Sides"/>
+        <Setter Property="LabelPositionSide" Value="Bottom"/>
+
+        <!-- Custom label template body -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:AttachableVertexLabelControl">
+                    <Grid>
+                            <TextBlock VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center"
+                                           Text="{Binding AttachNode.Vertex, UpdateSourceTrigger=PropertyChanged}"
+                                           FontFamily="Comic Sans MS"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- EDGE CONTROL -->
+    <Style TargetType="{x:Type controls:EdgeControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:EdgeControl}">
+                    <Grid>
+                        <Path Stroke="{Binding Path= Color, Converter={StaticResource ColorToBrushConverter}}"
+                          StrokeThickness="4" MinWidth="1" MinHeight="1"
+                          ToolTip="{TemplateBinding ToolTip}" 
+                            x:Name="PART_edgePath"/>
+                        <controls:DefaultEdgePointer NeedRotation="true" x:Name="PART_EdgePointerForTarget" >
+                            <Path Data="M0,0.5 L1,1 1,0" Fill="{Binding Path= Color, Converter={StaticResource ColorToBrushConverter}}" Stretch="Uniform" Width="15" Height="15"/>
+                        </controls:DefaultEdgePointer>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+       
+
+        <Setter Property="controls:HighlightBehaviour.IsHighlightEnabled" Value="False"/>
+        <!-- TOOLTIP EDGE -->
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Background="{StaticResource NormalBrush}" UseLayoutRounding="True">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Параметры канала:" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="Вес канала: " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding Weight}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="Емкость(Мб/с): " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding Capacity}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>                        
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="Нагрузка(Мб/с): " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding Load}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="Уровень использования(%): " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding Alpha}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Setter.Value>
+        </Setter>
+
+
+        <Style.Triggers>
+            <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="True">
+                <Setter Property="Foreground" Value="Gold"/>
+                <Setter Property="StrokeThickness" Value="5"/>
+              
+            </Trigger>
+            <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="False ">
+                <Setter Property="Foreground" Value="Red"/>
+                <Setter Property="StrokeThickness" Value="4"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+	
+</ResourceDictionary>
