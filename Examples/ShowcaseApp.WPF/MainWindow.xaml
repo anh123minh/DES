@@ -1,34 +1,32 @@
-﻿<mui:ModernWindow x:Class="TrafficManagement.WPF.MainWindow"
+﻿
+<mui:ModernWindow x:Class="TrafficManagement.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-        Title="Сеть передачи данных для проведения летных испытаний изделий" IsTitleVisible="True"
+        Title="Сеть передачи данных для проведения летных испытаний изделий"
+        IsTitleVisible="True"
         TextOptions.TextFormattingMode ="Ideal"
         UseLayoutRounding="False"
         ContentSource="/Pages/EditorGraph.xaml"
         MinWidth="640" MinHeight="480"
         Height="720" Width="1280">
-    
+
     <mui:ModernWindow.TitleLinks>
-        <mui:Link DisplayName="Настройка" Source="/Pages/Settings.xaml" />        
+        <mui:Link DisplayName="Настройка" Source="/Pages/Settings.xaml" />
     </mui:ModernWindow.TitleLinks>
-    
+
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="Рабочий стол">
-        <mui:LinkGroup.Links>
-            <mui:Link DisplayName="Редактор" Source="/Pages/EditorGraph.xaml" />
-        </mui:LinkGroup.Links>
-    </mui:LinkGroup>
-
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="Редактор" Source="/Pages/EditorGraph.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
 
         <mui:LinkGroup DisplayName="О программе">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="О программе" Source="/Pages/Introduction.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-
-
-
 
     </mui:ModernWindow.MenuLinkGroups>
 </mui:ModernWindow>
