@@ -143,10 +143,10 @@ namespace TrafficManagement.WPF.Models
         {
             Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/female.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/male.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/center.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/vlb.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/router.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/ip.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMCreate.jpg", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMQueue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMTerminate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMAccumulate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
 
         }
 

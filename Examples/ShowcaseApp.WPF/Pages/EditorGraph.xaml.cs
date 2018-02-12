@@ -20,13 +20,13 @@ namespace TrafficManagement.WPF.Pages
     /// <summary>
     /// Interaction logic for DynamicGraph.xaml
     /// </summary>
-    public partial class EditorGraph: IDisposable
+    public partial class EditorGraph : IDisposable
     {   // Глобальные перемены     
-        public int maxValuePath = 5, IPCout = 0, ChannelCout = 0, ElementCout = 0;            
+        public int maxValuePath = 5, IPCout = 0, ChannelCout = 0, ElementCout = 0;
         private EditorOperationMode _opMode = EditorOperationMode.Select;
         private VertexControl _ecFrom;
-        private readonly EditorObjectManager _editorManager;       
-        public List<IEnumerable<DataEdge>> _allRoute;         
+        private readonly EditorObjectManager _editorManager;
+        public List<IEnumerable<DataEdge>> _allRoute;
         private IEnumerable<IEnumerable<DataEdge>> PathEnum;
         private IEnumerable<IEnumerable<TaggedEquatableEdge<DataVertex, double>>> PathYen;
         public IEnumerable<DataEdge> EdgeStore;
@@ -35,10 +35,10 @@ namespace TrafficManagement.WPF.Pages
         public DataEdge edgeSelected;
         public DataVertex vertexSelected;
         private DataVertex vertexBefore;
-        private bool overLoad=false;
+        private bool overLoad = false;
         private enum VertexType
         {
-            Center=0,
+            Center = 0,
             VLB,
             Router,
             IP
@@ -51,13 +51,13 @@ namespace TrafficManagement.WPF.Pages
         private int hybridAlgorithm = 0;
         private double mutationRate;
         private double crossoverRate;
-        public int maxValue = 0;     
+        public int maxValue = 0;
         public ushort[] bestchromosome = null;
         public Thread workerThread = null;
         public volatile bool needToStop = false;
         private windowResults windowResult;
         private windowDiagramAlpha _windowDiagramAlpha;
-        private windowDiagramLoad _windowDiagramLoad;        
+        private windowDiagramLoad _windowDiagramLoad;
         public EditorGraph()
         {
             InitializeComponent();
@@ -81,34 +81,20 @@ namespace TrafficManagement.WPF.Pages
             zoomCtrl.MouseDown += zoomCtrl_MouseDown;
             butDelete.Checked += ToolbarButton_Checked;
             butSelect.Checked += ToolbarButton_Checked;
-            butCenter.Checked += ToolbarButton_Checked;
-            butVLB.Checked += ToolbarButton_Checked;
+            BtnCreate.Checked += ToolbarButton_Checked;
+            BtnQueue.Checked += ToolbarButton_Checked;
             butRouter.Checked += ToolbarButton_Checked;
             butIP.Checked += ToolbarButton_Checked;
             butDraw.Checked += ToolbarButton_Checked;
-            butSelect.IsChecked = true;                       
-            Loaded += GG_Loaded;            
+            butSelect.IsChecked = true;
+            Loaded += GG_Loaded;
             selectionBox.SelectedIndex = selectionMethod;
             cbxHybridAlgorithm.SelectedIndex = hybridAlgorithm;
             Title.Text = "noname.xml";
         }
 
-        // Метод для получения и обновления параметров канала из окна настройки
-      public  void GetParameterEdge(DataEdge edge)
-        {           
-            foreach (DataEdge edg in graphArea.LogicCore.Graph.Edges)
-            {
-              if ((edg.Source == edge.Target && edg.Target == edge.Source)||(edg.Source== edge.Source && edg.Target== edge.Target))
-                {
-                    edg.Capacity = edge.Capacity;
-                    edg.Weight = edge.Weight;
-                }              
-            }
-            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
-            graphArea.StateStorage.LoadState("exampleState");
-        }
-
-       // Обработчик события выбора канала
+        #region Su kien khi 1 Edge duoc chon
+        // Обработчик события выбора канала
         void graphArea_EdgeSelected(object sender, EdgeSelectedEventArgs args)
         {
             HighlightBehaviour.SetHighlighted(args.EdgeControl, true);
@@ -117,71 +103,106 @@ namespace TrafficManagement.WPF.Pages
             if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)
             {
                 edgeSelected = (DataEdge)args.EdgeControl.Edge;
-                args.EdgeControl.ContextMenu = new System.Windows.Controls.ContextMenu();                
-                var miEdge = new System.Windows.Controls.MenuItem() { Header = "Параметры", Tag = args.EdgeControl};               
-                miEdge.Click += MiEdge_Click;               
-                args.EdgeControl.ContextMenu.Items.Add(miEdge);                
+                args.EdgeControl.ContextMenu = new System.Windows.Controls.ContextMenu();
+                var miEdge = new System.Windows.Controls.MenuItem() { Header = "Параметры", Tag = args.EdgeControl };
+                miEdge.Click += MiEdge_Click;
+                args.EdgeControl.ContextMenu.Items.Add(miEdge);
                 args.EdgeControl.ContextMenu.IsOpen = true;
-            } 
+            }
         }
+        #endregion
+
+        #region Chuot phai vao Edge
         // Обработчик события выбора меню "Параметр" канала
         private void MiEdge_Click(object sender, RoutedEventArgs e)
         {
             windowParaEdge frmChanel = new windowParaEdge();
-            frmChanel.SetValueControl(edgeSelected);    
+            frmChanel.SetValueControl(edgeSelected);
             frmChanel.Closed += FrmChanel_Closed;
             frmChanel.Show();
-
         }
+        #endregion
+
+        #region Su kien sau khi dong cua so chuot phai Edge thi luu lai gia tri moi
         // Обработчик события закрытия окна настройки параметров канала
         private void FrmChanel_Closed(object sender, EventArgs e)
         {
             GetParameterEdge(edgeSelected);
         }
+        #endregion
+
+        #region Xu ly su kien sau khi dong cua so chuot phai Edge thi luu lai gia tri moi
+        // Метод для получения и обновления параметров канала из окна настройки
+        public void GetParameterEdge(DataEdge edge)
+        {
+            foreach (DataEdge edg in graphArea.LogicCore.Graph.Edges)
+            {
+                if ((edg.Source == edge.Target && edg.Target == edge.Source) || (edg.Source == edge.Source && edg.Target == edge.Target))
+                {
+                    edg.Capacity = edge.Capacity;
+                    edg.Weight = edge.Weight;
+                }
+            }
+            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
+            graphArea.StateStorage.LoadState("exampleState");
+        }
+        #endregion
+
+        #region Su kien khi 1 Vertex duoc chon
         // Обработчик события выбора элемента
         void graphArea_VertexSelected(object sender, VertexSelectedEventArgs args)
         {
-             if(args.MouseArgs.LeftButton == MouseButtonState.Pressed)            
-             {
-                 if (_opMode == EditorOperationMode.AddEdge)
-                    CreateEdgeControl(args.VertexControl);                
-                 else if(_opMode == EditorOperationMode.Delete)
-                     SafeRemoveVertex(args.VertexControl);
-                 else if (_opMode == EditorOperationMode.Select && args.Modifiers == ModifierKeys.Control)
-                     SelectVertex(args.VertexControl);
-             }
-             
-            if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)
+            if (args.MouseArgs.LeftButton == MouseButtonState.Pressed)//Chon bang chuot Left
             {
+                if (_opMode == EditorOperationMode.AddEdge)//Che do them Edge moi
+                    CreateEdgeControl(args.VertexControl);//Tao Edge moi
+                else if (_opMode == EditorOperationMode.Delete)//Che do Delete
+                    SafeRemoveVertex(args.VertexControl);//Xoa Vertex duoc chon
+                else if (_opMode == EditorOperationMode.Select && args.Modifiers == ModifierKeys.Control)//Che do Select va giu phim Control de chon cung luc nhieu icon
+                    SelectVertex(args.VertexControl);//Lam noi bat or lam chim icon duoc chon (khi ket hop Control chon cung luc nhieu icon)
+            }
+
+            if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)//Chon bang chuot Right
+            {
+                //Tao 1 object de chon
                 vertexSelected = (DataVertex)args.VertexControl.Vertex;
                 vertexBefore = (DataVertex)args.VertexControl.Vertex;
-                args.VertexControl.ContextMenu = new System.Windows.Controls.ContextMenu();              
-                var miVertex = new MenuItem { Header = "Параметры", Tag = args.VertexControl};             
+                args.VertexControl.ContextMenu = new System.Windows.Controls.ContextMenu();
+                var miVertex = new MenuItem { Header = "Параметры", Tag = args.VertexControl };
                 miVertex.Click += MiVertex_Click;
                 args.VertexControl.ContextMenu.Items.Add(miVertex);
-                args.VertexControl.ContextMenu.IsOpen = true;        
-            }            
+                args.VertexControl.ContextMenu.IsOpen = true;
+            }
         }
+        #endregion
+
+        #region Chuot phai vao Vertex
         // Обработчик события выбора меню "Параметр" элемента
         private void MiVertex_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             windowParaVertex frmVertex = new windowParaVertex();
             frmVertex.SetValueControl(vertexSelected);
-            frmVertex.Closed += FrmVertex_Closed;            
+            frmVertex.Closed += FrmVertex_Closed;
             frmVertex.Show();
 
         }
+        #endregion
+
+        #region Su kien sau khi dong cua so chuot phai Vertex thi luu lai gia tri moi
         // Обработчик события закрытия окна настройки параметров элемента
         private void FrmVertex_Closed(object sender, EventArgs e)
         {
             GetPameterVertex(vertexSelected);
         }
+        #endregion
+
+        #region Xu ly su kien sau khi dong cua so chuot phai Vertex thi luu lai gia tri moi
         // Получение параметров элемента из окна настройки 
         private void GetPameterVertex(DataVertex vertex)
         {
             foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
             {
-                if (vtx.Text==vertexBefore.Text)
+                if (vtx.Text == vertexBefore.Text)
                 {
                     vtx.Text = vertex.Text;
                     vtx.Traffic = vertex.Traffic;
@@ -190,6 +211,9 @@ namespace TrafficManagement.WPF.Pages
             graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
             graphArea.StateStorage.LoadState("exampleState");
         }
+        #endregion
+
+        #region Lam noi bat or lam chim icon duoc chon (khi ket hop Control chon cung luc nhieu icon)
         // Метод для создание подсветки элемента 
         private static void SelectVertex(DependencyObject vc)
         {
@@ -204,21 +228,24 @@ namespace TrafficManagement.WPF.Pages
                 DragBehaviour.SetIsTagged(vc, true);
             }
         }
+        #endregion
+
+        #region Su kien khi nhan chuot
         // Обработка событий щелчка мышкой
         void zoomCtrl_MouseDown(object sender, MouseButtonEventArgs e)
-        {           
+        {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 if (_opMode == EditorOperationMode.AddVertex)
-                {                    
+                {
                     var pos = zoomCtrl.TranslatePoint(e.GetPosition(zoomCtrl), graphArea);
-                    pos.Offset(-22.5,-22.5);
-                    var vc = CreateVertexControl(pos);                
+                    pos.Offset(-22.5, -22.5);
+                    var vc = CreateVertexControl(pos);//Tao cac Vertex
                 }
-                if(_opMode == EditorOperationMode.Select)
+                if (_opMode == EditorOperationMode.Select)
                 {
                     ClearSelectMode(true);
-                }               
+                }
             }
             if (e.RightButton == MouseButtonState.Pressed)
             {
@@ -226,13 +253,17 @@ namespace TrafficManagement.WPF.Pages
                     ClearEditMode();
             }
         }
+        #endregion
+
+
+        #region Xu ly cac su kien chon bieu tuong
         // Обработка событий щелчка мышкой на кнопке главного панела
         void ToolbarButton_Checked(object sender, RoutedEventArgs e)
         {
-            if(butDelete.IsChecked == true && sender == butDelete)
+            if (butDelete.IsChecked == true && sender == butDelete)
             {
-                butCenter.IsChecked = false;
-                butVLB.IsChecked = false;
+                BtnCreate.IsChecked = false;
+                BtnQueue.IsChecked = false;
                 butRouter.IsChecked = false;
                 butIP.IsChecked = false;
                 butSelect.IsChecked = false;
@@ -243,11 +274,11 @@ namespace TrafficManagement.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (butCenter.IsChecked == true && sender == butCenter)
+            if (BtnCreate.IsChecked == true && sender == BtnCreate)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                butVLB.IsChecked = false;
+                BtnQueue.IsChecked = false;
                 butRouter.IsChecked = false;
                 butIP.IsChecked = false;
                 butDraw.IsChecked = false;
@@ -257,11 +288,11 @@ namespace TrafficManagement.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (butVLB.IsChecked == true && sender == butVLB)
+            if (BtnQueue.IsChecked == true && sender == BtnQueue)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                butCenter.IsChecked = false;
+                BtnCreate.IsChecked = false;
                 butRouter.IsChecked = false;
                 butIP.IsChecked = false;
                 butDraw.IsChecked = false;
@@ -275,8 +306,8 @@ namespace TrafficManagement.WPF.Pages
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                butVLB.IsChecked = false;
-                butCenter.IsChecked = false;
+                BtnQueue.IsChecked = false;
+                BtnCreate.IsChecked = false;
                 butIP.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
@@ -289,9 +320,9 @@ namespace TrafficManagement.WPF.Pages
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                butVLB.IsChecked = false;
+                BtnQueue.IsChecked = false;
                 butRouter.IsChecked = false;
-                butCenter.IsChecked = false;
+                BtnCreate.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
@@ -301,8 +332,8 @@ namespace TrafficManagement.WPF.Pages
             }
             if (butSelect.IsChecked == true && sender == butSelect)
             {
-                butCenter.IsChecked = false;
-                butVLB.IsChecked = false;
+                BtnCreate.IsChecked = false;
+                BtnQueue.IsChecked = false;
                 butRouter.IsChecked = false;
                 butIP.IsChecked = false;
                 butDelete.IsChecked = false;
@@ -317,16 +348,18 @@ namespace TrafficManagement.WPF.Pages
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                butVLB.IsChecked = false;
+                BtnQueue.IsChecked = false;
                 butRouter.IsChecked = false;
-                butCenter.IsChecked = false;
+                BtnCreate.IsChecked = false;
                 butIP.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
-                _opMode = EditorOperationMode.AddEdge;              
+                _opMode = EditorOperationMode.AddEdge;
                 ClearSelectMode();
                 return;
             }
         }
+        #endregion
+
         // Метод для снятия режима выбора 
         private void ClearSelectMode(bool soft = false)
         {
@@ -348,72 +381,80 @@ namespace TrafficManagement.WPF.Pages
             _editorManager.DestroyVirtualEdge();
             _ecFrom = null;
         }
-        // Метод для создания элемента сети передачи данных
+
+        #region Tao cac Vertex
+        // Метод для создания элемента сети передачи данных       
         private VertexControl CreateVertexControl(System.Windows.Point position)
-        {          
+        {
             var data = new DataVertex();
-            switch(_vertextype)
+            switch (_vertextype)
             {
                 case VertexType.Center:
 
-                    data = new DataVertex("Центр сбора "+ (CountElement("Center")+1),"Center") { ImageId = 0 };
+                    data = new DataVertex("Центр сбора " + (CountElement("Center") + 1), "Center") { ImageId = 0 };
                     break;
                 case VertexType.VLB:
-                    data = new DataVertex("VLB "+ (CountElement("VLB") + 1), "VLB") { ImageId = 1};
+                    data = new DataVertex("VLB " + (CountElement("VLB") + 1), "VLB") { ImageId = 1 };
                     break;
                 case VertexType.Router:
-                    data = new DataVertex("Маршрутизатор "+ (CountElement("Router") + 1), "Router") { ImageId = 2};
+                    data = new DataVertex("Маршрутизатор " + (CountElement("Router") + 1), "Router") { ImageId = 2 };
                     break;
                 case VertexType.IP:
-                    data = new DataVertex("ИП "+ (CountElement("IP") + 1), "IP") { ImageId = 3 ,Traffic=20};
+                    data = new DataVertex("ИП " + (CountElement("IP") + 1), "IP") { ImageId = 3, Traffic = 20 };
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
                     break;
-            }           
+            }
             var vc = new VertexControl(data);
             vc.SetPosition(position);
-            graphArea.AddVertexAndData(data, vc, true);            
+            graphArea.AddVertexAndData(data, vc, true);
             return vc;
         }
-        // Метод для создания канала сети передачи данных
+        #endregion
+
+        #region Tao Edge moi
+        // Метод для создания канала сети передачи данных       
         private void CreateEdgeControl(VertexControl vc)
         {
-            if(_ecFrom == null)
+            if (_ecFrom == null)
             {
                 _editorManager.CreateVirtualEdge(vc, vc.GetPosition());
                 _ecFrom = vc;
                 HighlightBehaviour.SetHighlighted(_ecFrom, true);
                 return;
             }
-            if(_ecFrom == vc) return;           
+            if (_ecFrom == vc) return;
             var data = new DataEdge((DataVertex)_ecFrom.Vertex, (DataVertex)vc.Vertex);
             var ec = new EdgeControl(_ecFrom, vc, data);
             graphArea.InsertEdgeAndData(data, ec, 0, true);
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
             _ecFrom = null;
-            _editorManager.DestroyVirtualEdge();      
-            
+            _editorManager.DestroyVirtualEdge();
+
         }
+        #endregion
+
+        #region Xoa Vertex duoc chon
         // Метод для удаления элемента из сети передачи данных
         private void SafeRemoveVertex(VertexControl vc)
-        {            
+        {
             graphArea.RemoveVertexAndEdges(vc.Vertex as DataVertex);
         }
+        #endregion
+
         // Метод для удаления и сброса неуправляемых ресурсов
         public void Dispose()
         {
-            if(_editorManager != null)
+            if (_editorManager != null)
                 _editorManager.Dispose();
-            if(graphArea != null)
-                graphArea.Dispose();                       
-        }       
-       
+            if (graphArea != null)
+                graphArea.Dispose();
+        }
         void GG_Loaded(object sender, RoutedEventArgs e)
         {
             GG_RegisterCommands();
         }
-
         #region Commands
 
         #region GGRelayoutCommand
@@ -462,7 +503,7 @@ namespace TrafficManagement.WPF.Pages
         }
 
         private void SaveLayoutCommandExecute(object sender, ExecutedRoutedEventArgs e)
-        {            
+        {
             foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
             {
                 vtx.ListPath = null;
@@ -478,7 +519,7 @@ namespace TrafficManagement.WPF.Pages
         // Получение схемы компоновки элементов
         #region LoadLayoutCommand
 
-        private static readonly RoutedCommand LoadLayoutCommand = new RoutedCommand();      
+        private static readonly RoutedCommand LoadLayoutCommand = new RoutedCommand();
 
         private static void LoadLayoutCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -516,14 +557,13 @@ namespace TrafficManagement.WPF.Pages
 
             CommandBindings.Add(new CommandBinding(SaveLayoutCommand, SaveLayoutCommandExecute, SaveLayoutCommandCanExecute));
             gg_saveLayout.Command = SaveLayoutCommand;
-            btnSaveGA.Command = SaveLayoutCommand;           
+            btnSaveGA.Command = SaveLayoutCommand;
             CommandBindings.Add(new CommandBinding(LoadLayoutCommand, LoadLayoutCommandExecute, LoadLayoutCommandCanExecute));
             gg_loadLayout.Command = LoadLayoutCommand;
-                      
+
         }
-        
+
         #endregion
-               
         // Обработчик события нажатия на кнопке "Поиск"
         private void btnFindPath_Click(object sender, RoutedEventArgs e)
         {
@@ -531,16 +571,16 @@ namespace TrafficManagement.WPF.Pages
             bool flaggoal = false;
             bool flagroot = false;
             int iPathCount;
-            string goalID=null, rootID=null;
+            string goalID = null, rootID = null;
             PathEnum = null;
             PathList.Items.Clear();
-            PathList.Items.Add("Список маршрутов:");            
+            PathList.Items.Add("Список маршрутов:");
             iPathCount = int.Parse(_tBxPathCount.Text);
             try
             {
                 goalID = cbxGoal.SelectedItem.ToString();
             }
-           catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Назначение не существует !", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -554,7 +594,7 @@ namespace TrafficManagement.WPF.Pages
                 MessageBox.Show("Источник не существует !", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+
             foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
             {
                 if (vt.Text == goalID)
@@ -577,35 +617,35 @@ namespace TrafficManagement.WPF.Pages
                 MessageBox.Show("Источник не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
                 return;
             }
-             // Поиск по алгоритму Гоффман и Павлеи
-                if (cbxAlgorithm.SelectedIndex == 0)
+            // Поиск по алгоритму Гоффман и Павлеи
+            if (cbxAlgorithm.SelectedIndex == 0)
+            {
+                // Реализация алгоритма поиска кратчайших маршрутов
+                Func<DataEdge, double> edgeWeights = E => E.Weight;
+                DataVertex root = new DataVertex();
+                DataVertex vertexToFind = new DataVertex();
+                foreach (DataVertex vertex in graphArea.LogicCore.Graph.Vertices)
                 {
-                    // Реализация алгоритма поиска кратчайших маршрутов
-                    Func<DataEdge, double> edgeWeights = E => E.Weight;
-                    DataVertex root = new DataVertex();
-                    DataVertex vertexToFind = new DataVertex();
-                    foreach (DataVertex vertex in graphArea.LogicCore.Graph.Vertices)
-                    {
-                        if (vertex.Text == rootID) root = vertex;
-                        if (vertex.Text == goalID) vertexToFind = vertex;
-                    }
-                    var rank = new HoffmanPavleyRankedShortestPathAlgorithm<DataVertex, DataEdge>(graphArea.LogicCore.Graph, edgeWeights);
+                    if (vertex.Text == rootID) root = vertex;
+                    if (vertex.Text == goalID) vertexToFind = vertex;
+                }
+                var rank = new HoffmanPavleyRankedShortestPathAlgorithm<DataVertex, DataEdge>(graphArea.LogicCore.Graph, edgeWeights);
 
-                    DataVertex source = root;
-                    DataVertex target = vertexToFind;
-                    rank.ShortestPathCount = iPathCount;
-                    rank.SetRootVertex(root);
-                    rank.Compute(root, vertexToFind);
-                    PathEnum = rank.ComputedShortestPaths;
-                    if (rank.ComputedShortestPathCount == 0) PathList.Items.Add("Маршрут не найден !");
-                    else
+                DataVertex source = root;
+                DataVertex target = vertexToFind;
+                rank.ShortestPathCount = iPathCount;
+                rank.SetRootVertex(root);
+                rank.Compute(root, vertexToFind);
+                PathEnum = rank.ComputedShortestPaths;
+                if (rank.ComputedShortestPathCount == 0) PathList.Items.Add("Маршрут не найден !");
+                else
+                {
+                    foreach (IEnumerable<DataEdge> path in PathEnum)
                     {
-                        foreach (IEnumerable<DataEdge> path in PathEnum)
-                        {
-                            PathList.Items.Add(PathToString(path));
-                        }
+                        PathList.Items.Add(PathToString(path));
                     }
                 }
+            }
             // Поиск по алгоритму Гоффман и Павлеи
             if (cbxAlgorithm.SelectedIndex == 1)
             {
@@ -616,10 +656,10 @@ namespace TrafficManagement.WPF.Pages
                 {
                     if (vertex.Text == rootID) root = vertex;
                     if (vertex.Text == goalID) vertexToFind = vertex;
-                }              
-                var Yen = new YenAlgorithm(graphArea.LogicCore.Graph,root, vertexToFind,iPathCount);
+                }
+                var Yen = new YenAlgorithm(graphArea.LogicCore.Graph, root, vertexToFind, iPathCount);
                 PathEnum = Yen.Execute();
-                if (PathEnum==null) PathList.Items.Add("Маршрут не найден !");
+                if (PathEnum == null) PathList.Items.Add("Маршрут не найден !");
                 else
                 {
                     foreach (IEnumerable<DataEdge> path in PathEnum)
@@ -630,7 +670,6 @@ namespace TrafficManagement.WPF.Pages
             }
 
         }
-
         // Метод для получения названия маршрута по алгоритму Йена
         private string PathToString(IEnumerable<TaggedEquatableEdge<DataVertex, double>> NameOfPath)
         {
@@ -645,9 +684,9 @@ namespace TrafficManagement.WPF.Pages
             return path;
         }
         // Метод преобразования BidirectionalGraph в AdjacencyGraph
-        private AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>> ToAdjacencyGraph(BidirectionalGraph<DataVertex,DataEdge> BiGraph)
+        private AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>> ToAdjacencyGraph(BidirectionalGraph<DataVertex, DataEdge> BiGraph)
         {
-            var adjGraph= new AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>>();
+            var adjGraph = new AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>>();
             foreach (DataVertex vtx in BiGraph.Vertices)
             {
                 adjGraph.AddVertex(vtx);
@@ -675,18 +714,18 @@ namespace TrafficManagement.WPF.Pages
             return BiGraph;
         }
         // Метод для получения названия маршрута
-        private string PathToString (IEnumerable<DataEdge> NameOfPath)
-        {            
-            string path ="";
+        private string PathToString(IEnumerable<DataEdge> NameOfPath)
+        {
+            string path = "";
             foreach (DataEdge edge in NameOfPath)
             {
                 path = edge.Source.ToString();
                 break;
             }
             foreach (DataEdge edge in NameOfPath)
-                path = path + "->" + edge.Target.ToString();            
+                path = path + "->" + edge.Target.ToString();
             return path;
-        } 
+        }
         // Сохрание схемы компоновки элементов сети в виде изображения 
         private void gg_saveAsPngImage_Click(object sender, RoutedEventArgs e)
         {
@@ -695,7 +734,7 @@ namespace TrafficManagement.WPF.Pages
         // Создание нового проекта
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Сохранить файл ?", "", MessageBoxButton.YesNoCancel,MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Сохранить файл ?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -711,15 +750,15 @@ namespace TrafficManagement.WPF.Pages
                     graphArea.LogicCore.Graph.Clear();
                     graphArea.ClearLayout();
                     break;
-                case MessageBoxResult.No:                   
+                case MessageBoxResult.No:
                     graphArea.LogicCore.Graph.Clear();
                     graphArea.ClearLayout();
                     Title.Text = "noname.xml";
                     break;
-                case MessageBoxResult.Cancel:                    
+                case MessageBoxResult.Cancel:
                     break;
-            }            
-        }      
+            }
+        }
         // Печать схему компоновки элементов сети передачи данных
         private void gg_printlay_Click(object sender, RoutedEventArgs e)
         {
@@ -727,7 +766,7 @@ namespace TrafficManagement.WPF.Pages
         }
         // Отображение выбранного канала на экране     
         private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {            
+        {
             IEnumerable<DataEdge> listpath = null;
             var item = sender as ListViewItem;
             if (item != null && item.IsSelected)
@@ -752,13 +791,12 @@ namespace TrafficManagement.WPF.Pages
                 graphArea.StateStorage.LoadState("exampleState");
             }
         }
- 
         // Метод для поиска всех виртуальных каналов для измерителных пунктов
-        private void FindAllPath(string Center,int hybridAlgorithm)
+        private void FindAllPath(string Center, int hybridAlgorithm)
         {
             IPCout = 0;
             bool flag = false;
-            maxValuePath = int.Parse(tbxMaxValue.Text);            
+            maxValuePath = int.Parse(tbxMaxValue.Text);
             _allRoute = null;
             var goal = new DataVertex();
             // поиск центр сбора в графе
@@ -771,26 +809,25 @@ namespace TrafficManagement.WPF.Pages
                     goal = vt;
                     flag = true;
                     break;
-                }                
+                }
             }
-            if (flag != true) MessageBox.Show("Назначение не найден","Внимание",MessageBoxButton.OKCancel,MessageBoxImage.Error);
+            if (flag != true) MessageBox.Show("Назначение не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
             // поиск ИП и все маршрут из этого ИП в центр сбора
             foreach (DataVertex vt in ListVertex)
                 if (vt.TypeOfVertex == "IP")
                 {
                     IPCout++;
-                    FindPath(vt, goal, maxValuePath, ref _allRoute,hybridAlgorithm);
+                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);
                     vt.ListPath = _allRoute;
-                }                  
-                     
+                }
+
             ChannelCout = graphArea.LogicCore.Graph.EdgeCount;
             ElementCout = graphArea.LogicCore.Graph.VertexCount;
             EdgeStore = graphArea.LogicCore.Graph.Edges;
-            
-        }
 
+        }
         // Метод для поиска маршрутов для определенного источника и сохранения результата в двумерный массив
-        private void FindPath(DataVertex root, DataVertex goal,int numberOfPath, ref List<IEnumerable<DataEdge>> allpath, int hybridAlgorithm)
+        private void FindPath(DataVertex root, DataVertex goal, int numberOfPath, ref List<IEnumerable<DataEdge>> allpath, int hybridAlgorithm)
         {
             bool flaggoal = false;
             bool flagroot = false;
@@ -798,7 +835,7 @@ namespace TrafficManagement.WPF.Pages
             {
                 if (vt.Text == goal.Text)
                 {
-                    flaggoal =true ;                    
+                    flaggoal = true;
                 }
                 if (vt.Text == root.Text)
                 {
@@ -880,7 +917,7 @@ namespace TrafficManagement.WPF.Pages
             else MessageBox.Show("Маршрут не найден!");
         }
         // Объявления делегатов для включения асинхронного вызова к установке свойств элементов управления
-        private delegate void SetTextCallback(System.Windows.Controls.TextBox control, string text);        
+        private delegate void SetTextCallback(System.Windows.Controls.TextBox control, string text);
         private void SetText(System.Windows.Controls.TextBox control, string text)
         {
             if (Dispatcher.CheckAccess())
@@ -892,8 +929,8 @@ namespace TrafficManagement.WPF.Pages
                 SetTextCallback d = new SetTextCallback(SetText);
                 Dispatcher.Invoke(d, new object[] { control, text });
             }
-        }        
-        private delegate void SetTextCallbackListView(System.Windows.Controls.ListView control, string text);       
+        }
+        private delegate void SetTextCallbackListView(System.Windows.Controls.ListView control, string text);
         private void SetTextListView(System.Windows.Controls.ListView control, string text)
         {
             if (Dispatcher.CheckAccess())
@@ -905,22 +942,22 @@ namespace TrafficManagement.WPF.Pages
                 SetTextCallbackListView d = new SetTextCallbackListView(SetTextListView);
                 Dispatcher.Invoke(d, new object[] { control, text });
             }
-        }       
-        private delegate void SetGraphColor(GraphAreaExample graph, ushort[] chromosome);        
+        }
+        private delegate void SetGraphColor(GraphAreaExample graph, ushort[] chromosome);
         private void SetColor(GraphAreaExample graph, ushort[] chromosome)
         {
             if (Dispatcher.CheckAccess())
             {
-                UpdateGraph(graphArea,ListVertex, chromosome);
+                UpdateGraph(graphArea, ListVertex, chromosome);
             }
             else
             {
                 SetGraphColor d = new SetGraphColor(SetColor);
                 Dispatcher.Invoke(d, new object[] { graph, chromosome });
             }
-        }       
-        private delegate void UpdatewindowResults(windowResults windowResult,string chromosome, int iteration, double alpha);
-        private void UpdateResults(windowResults windowResult,string chromosome, int iteration, double alpha)
+        }
+        private delegate void UpdatewindowResults(windowResults windowResult, string chromosome, int iteration, double alpha);
+        private void UpdateResults(windowResults windowResult, string chromosome, int iteration, double alpha)
         {
             string str = "Итерация № " + iteration.ToString();
             if (Dispatcher.CheckAccess())
@@ -933,10 +970,9 @@ namespace TrafficManagement.WPF.Pages
             else
             {
                 UpdatewindowResults d = new UpdatewindowResults(UpdateResults);
-                Dispatcher.Invoke(d, new object[] { windowResult,chromosome, iteration,alpha });
+                Dispatcher.Invoke(d, new object[] { windowResult, chromosome, iteration, alpha });
             }
         }
-
         private void ResetGraph_Click(object sender, RoutedEventArgs e)
         {
             RefreshGraph();
@@ -959,7 +995,7 @@ namespace TrafficManagement.WPF.Pages
                         cbxRoot.Items.Add(vtx.Text);
                         cbxGoal.Items.Add(vtx.Text);
                     }
-                    cbxRoot.SelectedIndex = cbxRoot.Items.Count-1;
+                    cbxRoot.SelectedIndex = cbxRoot.Items.Count - 1;
                     cbxGoal.SelectedIndex = 0;
                 }
                 if (TabControl.SelectedItem == TabGA)
@@ -969,14 +1005,13 @@ namespace TrafficManagement.WPF.Pages
                     {
                         if (vtx.TypeOfVertex == "Center")
                             cbxCenter.Items.Add(vtx.Text);
-                        
+
                     }
                     cbxCenter.SelectedIndex = 0;
                 }
             }
-           
+
         }
-               
         // Обновление элемента формы
         private void UpdateSettings()
         {
@@ -986,7 +1021,7 @@ namespace TrafficManagement.WPF.Pages
         // Обрабочик события нажатия на кнопке "Старт"
         private void startButton_Click_1(object sender, RoutedEventArgs e)
         {
-            bool flag = false;  
+            bool flag = false;
             // Получение размер популяции          
             try
             {
@@ -995,7 +1030,7 @@ namespace TrafficManagement.WPF.Pages
             catch
             {
                 populationSize = 40;
-            }   
+            }
             // Получение числа итерации        
             try
             {
@@ -1013,7 +1048,7 @@ namespace TrafficManagement.WPF.Pages
             catch
             {
                 maxValue = 8;
-            }            
+            }
             // Получение коэффициента мутации
             try
             {
@@ -1033,7 +1068,7 @@ namespace TrafficManagement.WPF.Pages
                 mutationRate = 0.1;
             }
             // Обновление элемента формы
-            UpdateSettings();            
+            UpdateSettings();
             selectionMethod = selectionBox.SelectedIndex;
             hybridAlgorithm = cbxHybridAlgorithm.SelectedIndex;
             // Генерация данных о возможных вариантах построения сети
@@ -1042,7 +1077,7 @@ namespace TrafficManagement.WPF.Pages
             {
                 center = cbxCenter.SelectedItem.ToString();
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Центр сбора не существует !", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -1050,7 +1085,7 @@ namespace TrafficManagement.WPF.Pages
             foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
             {
                 if (vt.Text == center)
-                {                   
+                {
                     flag = true;
                     break;
                 }
@@ -1058,7 +1093,7 @@ namespace TrafficManagement.WPF.Pages
             if (flag != true) MessageBox.Show("Не правильно задавать параметр: Центр приема", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
             else
             {
-               // FindAllPath(center,hybridAlgorithm);             
+                // FindAllPath(center,hybridAlgorithm);             
                 // Генерация рабочего потока
                 needToStop = false;
                 workerThread = new Thread(new ThreadStart(SearchSolution));
@@ -1068,7 +1103,7 @@ namespace TrafficManagement.WPF.Pages
                 windowResult.btnSaveResult.Click += BtnSaveResult_Click;
                 windowResult.btnDiagramAlpha.Click += BtnDiagramAlpha_Click;
                 windowResult.btnDiagramLoad.Click += BtnDiagramLoad_Click;
-                windowResult.Show();                   
+                windowResult.Show();
                 windowResult.progressBar.Maximum = iterations;
                 windowResult.progressBar.Minimum = 1;
                 windowResult.iterations = iterations;
@@ -1076,10 +1111,9 @@ namespace TrafficManagement.WPF.Pages
                 windowResult.ListBestChromosome.Items.Add("Лучшие хромосомы:");
                 FindAllPath(center, hybridAlgorithm);
                 workerThread.Start();
-                
-            }            
+
+            }
         }
-           
         // Открывает окно диаграммы нагрузки канала
         private void BtnDiagramLoad_Click(object sender, RoutedEventArgs e)
         {
@@ -1114,21 +1148,21 @@ namespace TrafficManagement.WPF.Pages
             windowResult.btnSaveResult.IsEnabled = true;
             windowResult.TabRoutes.Visibility = Visibility.Visible;
             windowResult.TabDiagram.Visibility = Visibility.Visible;
-            windowResult.TabDiagram.IsSelected=true;
+            windowResult.TabDiagram.IsSelected = true;
             btnSaveGA.IsEnabled = true;
-            UpdateGraph(graphArea, ListVertex, bestchromosome);                   
+            UpdateGraph(graphArea, ListVertex, bestchromosome);
             if (overLoad == true) MessageBox.Show("Сеть перегружена !", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-            windowResult.ListBestRoutes.Items.Clear();           
+            windowResult.ListBestRoutes.Items.Clear();
             for (int i = 0; i < bestchromosome.Length; i++)
             {
                 string nameIP = "ИП " + (i + 1).ToString();
                 foreach (DataVertex vtx in ListVertex)
-                    if (vtx.Text==nameIP)
+                    if (vtx.Text == nameIP)
                     {
                         windowResult.ListBestRoutes.Items.Add(PathToString(vtx.ListPath[bestchromosome[i]]));
                     }
-                }
-                
+            }
+
         }
         // Обработчик события нажатия на кнопке "Стоп" в окне windowResult
         private void windowResult_btnStop_click(object sender, RoutedEventArgs e)
@@ -1140,43 +1174,41 @@ namespace TrafficManagement.WPF.Pages
                 workerThread = null;
             }
         }
-      
         // Метод для поиска оптимального результата с помощью генетического алгоритма
         void SearchSolution()
-        {     
-                FitnessFunction fitnessFunction = new FitnessFunction(EdgeStore, ListVertex);                      
-                Population population = new Population(populationSize,
-                    new ShortArrayChromosome(IPCout, maxValuePath - 1), fitnessFunction,
-                    (selectionMethod == 0) ? (ISelectionMethod)new EliteSelection() :
-                    (selectionMethod == 1) ? (ISelectionMethod)new RankSelection() :
-                    (ISelectionMethod)new RouletteWheelSelection()
-                    );
-                population.MutationRate = mutationRate;
-                population.CrossoverRate = crossoverRate;                
-                int i = 1;
-                string str;                
-                ushort[] path = new ushort[IPCout];            
-                while (!needToStop)
-                {
-                    population.RunEpoch();                    
-                    ushort[] bestValue = ((ShortArrayChromosome)population.BestChromosome).Value;
-                    bestchromosome = bestValue;
-                    str = null;
-                    if (IPCout == 1) str = (bestValue[0]+1).ToString();
-                    else
-                      for (int j = 0; j < bestValue.Length; j++)
-                       {
-                          str += (bestValue[j] + 1).ToString();
-                       }                   
-                    double alpha = Math.Round(fitnessFunction.Alpha(population.BestChromosome), 2);
-                    overLoad = (alpha == 1) ? true : false;                    
-                    UpdateResults(windowResult,str, i,alpha);                
-                    i++;
-                    if ((iterations != 0) && (i > iterations))
-                        break;
-                }       
+        {
+            FitnessFunction fitnessFunction = new FitnessFunction(EdgeStore, ListVertex);
+            Population population = new Population(populationSize,
+                new ShortArrayChromosome(IPCout, maxValuePath - 1), fitnessFunction,
+                (selectionMethod == 0) ? (ISelectionMethod)new EliteSelection() :
+                (selectionMethod == 1) ? (ISelectionMethod)new RankSelection() :
+                (ISelectionMethod)new RouletteWheelSelection()
+                );
+            population.MutationRate = mutationRate;
+            population.CrossoverRate = crossoverRate;
+            int i = 1;
+            string str;
+            ushort[] path = new ushort[IPCout];
+            while (!needToStop)
+            {
+                population.RunEpoch();
+                ushort[] bestValue = ((ShortArrayChromosome)population.BestChromosome).Value;
+                bestchromosome = bestValue;
+                str = null;
+                if (IPCout == 1) str = (bestValue[0] + 1).ToString();
+                else
+                    for (int j = 0; j < bestValue.Length; j++)
+                    {
+                        str += (bestValue[j] + 1).ToString();
+                    }
+                double alpha = Math.Round(fitnessFunction.Alpha(population.BestChromosome), 2);
+                overLoad = (alpha == 1) ? true : false;
+                UpdateResults(windowResult, str, i, alpha);
+                i++;
+                if ((iterations != 0) && (i > iterations))
+                    break;
+            }
         }
-
         private void cbxHybridAlgorithm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source is ComboBox)
@@ -1184,14 +1216,10 @@ namespace TrafficManagement.WPF.Pages
                 if (cbxHybridAlgorithm.SelectedIndex == 2) tbxMaxValue.IsEnabled = false;
                 else tbxMaxValue.IsEnabled = true;
             }
-                
+
         }
-
-
-
-
         //Метод для изменения цвета канала 
-        private void UpdateGraph(GraphAreaExample graphArea,List<DataVertex> ListVertex, ushort[] path)
+        private void UpdateGraph(GraphAreaExample graphArea, List<DataVertex> ListVertex, ushort[] path)
         {
             foreach (DataEdge ed in graphArea.LogicCore.Graph.Edges)
             {
@@ -1203,13 +1231,13 @@ namespace TrafficManagement.WPF.Pages
             {
                 string nameIP = "ИП " + (i + 1).ToString();
                 foreach (DataVertex vertex in ListVertex)
-                    if (vertex.Text == nameIP)  
-                    {                       
+                    if (vertex.Text == nameIP)
+                    {
                         foreach (DataEdge ed in vertex.ListPath[path[i]])
-                            foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)                             
+                            foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
                                 if ((ed.Source == channel.Source && ed.Target == channel.Target) || (ed.Source == channel.Target && ed.Target == channel.Source))
                                 {
-                                    channel.Load = channel.Load + vertex.Traffic;                                  
+                                    channel.Load = channel.Load + vertex.Traffic;
                                 }
                     }
             }
@@ -1227,18 +1255,18 @@ namespace TrafficManagement.WPF.Pages
                     if (channel.Load <= (0.8 * channel.Capacity)) channel.Color = "Orange";
                     else
                     if (channel.Load <= channel.Capacity) channel.Color = "Red";
-                    else channel.Color = "DarkRed";                    
-                }               
+                    else channel.Color = "DarkRed";
+                }
             }
             graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
             graphArea.StateStorage.LoadState("exampleState");
         }
-      // Метод для получения цвета каналов по умольчанию
-           private void RefreshGraph()
-        {            
+        // Метод для получения цвета каналов по умольчанию
+        private void RefreshGraph()
+        {
             PathList.Items.Clear();
             foreach (DataEdge ed in graphArea.LogicCore.Graph.Edges)
-            {                
+            {
                 ed.Load = 0;
                 ed.Alpha = 0;
                 ed.Color = "Green";
@@ -1250,7 +1278,7 @@ namespace TrafficManagement.WPF.Pages
         private int CountElement(string Type)
         {
             if (graphArea.LogicCore.Graph == null) return 0;
-            int cout=0;
+            int cout = 0;
             foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
                 if (vtx.TypeOfVertex == Type) cout++;
             return cout;

@@ -530,9 +530,6 @@
     <Resource Include="Assets\blackCircleFilled.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\center.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ip.png" />
   </ItemGroup>
   <ItemGroup>
@@ -594,6 +591,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\AMCreate.jpg" />
+    <Resource Include="Assets\AMQueue.png" />
+    <Resource Include="Assets\AMTerminate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\center.jpg" />
+    <Resource Include="Assets\center.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\AMAccumulate.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
