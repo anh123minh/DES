@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for DebugGraph.xaml

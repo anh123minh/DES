@@ -5,9 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using FirstFloor.ModernUI;
 using FirstFloor.ModernUI.Windows;
-using TrafficManagement.WPF.Models;
+using Simulation.WPF.Models;
+using Simulation.WPF.Models;
 
-namespace TrafficManagement.WPF.Controls
+namespace Simulation.WPF.Controls
 {
     /// <summary>
     /// Interaction logic for SpecialWindowControl.xaml

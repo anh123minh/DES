@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace TrafficManagement.WPF
+namespace Simulation.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:wpf="clr-namespace:TrafficManagement.WPF"    
+             xmlns:wpf="clr-namespace:Simulation.WPF"    
              xmlns:controls1="http://schemas.panthernet.ru/graphx/"
-             xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=Accordion" x:Class="TrafficManagement.WPF.Pages.EditorGraph"
+             xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=Accordion" x:Class="Simulation.WPF.Pages.EditorGraph"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="600">
     <Grid>

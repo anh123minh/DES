@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using FirstFloor.ModernUI.Windows.Controls;
-using TrafficManagement.WPF.Controls;
-using TrafficManagement.WPF.Models;
+using Simulation.WPF.Controls;
+using Simulation.WPF.Models;
 
-namespace TrafficManagement.WPF
+namespace Simulation.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

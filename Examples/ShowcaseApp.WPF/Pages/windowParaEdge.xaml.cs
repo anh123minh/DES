@@ -7,11 +7,11 @@ using System.Windows.Input;
 using GraphX.PCL.Common.Enums;
 using GraphX.Controls;
 using GraphX.Controls.Models;
-using TrafficManagement.WPF.Models;
+using Simulation.WPF.Models;
 using GraphX.PCL.Logic.Algorithms.LayoutAlgorithms;
 using Microsoft.Win32;
 using QuickGraph;
-using TrafficManagement.WPF.FileSerialization;
+using Simulation.WPF.FileSerialization;
 using Rect = GraphX.Measure.Rect;
 using QuickGraph.Algorithms.RankedShortestPath;
 using System.Windows.Data;
@@ -21,7 +21,7 @@ using System.Threading;
 using AForge;
 using AForge.Genetic;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     
     /// <summary>
@@ -55,7 +55,7 @@ namespace TrafficManagement.WPF.Pages
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             UpdateEgde(edgeAfter);
-            TrafficManagement.WPF.Pages.EditorGraph graph = new Pages.EditorGraph();
+            EditorGraph graph = new Pages.EditorGraph();
             graph.edgeSelected = edgeAfter;         
             Close();
         }

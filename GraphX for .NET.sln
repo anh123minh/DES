@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphX.WPF.Controls", "Grap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphX.PCL.Common", "GraphX.PCL.Common\GraphX.PCL.Common.csproj", "{3644D44B-DEC0-4B65-BBA0-C68E34821AAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Traffic Management", "Examples\ShowcaseApp.WPF\Traffic Management.csproj", "{C054C423-7284-46A6-9738-B82E2237E9C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulation", "Examples\ShowcaseApp.WPF\Simulation.csproj", "{C054C423-7284-46A6-9738-B82E2237E9C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphX.PCL.Logic", "GraphX.PCL.Logic\GraphX.PCL.Logic.csproj", "{A30D218B-AAA4-483A-99F7-EAEB1B8B4610}"
 EndProject

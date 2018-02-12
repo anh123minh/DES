@@ -11,7 +11,7 @@ using QuickGraph;
  Also shows how to use internal algorithms inside the external one.
  
  */
-namespace TrafficManagement.WPF
+namespace Simulation.WPF
 {
     public class ExampleExternalLayoutAlgorithm: IExternalLayout<DataVertex, DataEdge>
     {

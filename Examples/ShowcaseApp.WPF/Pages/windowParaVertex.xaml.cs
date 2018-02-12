@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for windowParaVertex.xaml
@@ -39,7 +39,7 @@ namespace TrafficManagement.WPF.Pages
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             UpdateVertex();
-            TrafficManagement.WPF.Pages.EditorGraph graph = new Pages.EditorGraph();
+            EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
             Close();
         }

@@ -1,6 +1,6 @@
 using QuickGraph;
 
-namespace TrafficManagement.WPF
+namespace Simulation.WPF
 {
     public class GraphExample : BidirectionalGraph<DataVertex, DataEdge>
     { 

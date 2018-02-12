@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace TrafficManagement.WPF.Models
+namespace Simulation.WPF.Models
 {
     /// <summary>
     /// Contains helpful attached properties for VertexControl class

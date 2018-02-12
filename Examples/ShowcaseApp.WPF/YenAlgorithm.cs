@@ -5,7 +5,7 @@ using QuickGraph;
 using QuickGraph.Algorithms.ShortestPath;
 using System;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     public class YenAlgorithm
     {

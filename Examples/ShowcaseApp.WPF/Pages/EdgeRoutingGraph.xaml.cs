@@ -11,10 +11,11 @@ using GraphX.PCL.Logic.Algorithms.EdgeRouting;
 using GraphX.Controls;
 using GraphX.Controls.Models;
 using GraphX.PCL.Logic.Algorithms.LayoutAlgorithms;
-using TrafficManagement.WPF.Models;
+using Simulation.WPF.Models;
+using Simulation.WPF.Models;
 using Rect = GraphX.Measure.Rect;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for EdgeRoutingGraph.xaml

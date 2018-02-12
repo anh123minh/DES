@@ -7,15 +7,17 @@ using System.Windows.Input;
 using GraphX.PCL.Common.Enums;
 using GraphX.Controls;
 using GraphX.Controls.Models;
-using TrafficManagement.WPF.Models;
+using Simulation.WPF.Models;
 using Microsoft.Win32;
-using TrafficManagement.WPF.FileSerialization;
+using Simulation.WPF.FileSerialization;
 using QuickGraph.Algorithms.RankedShortestPath;
 using System.Threading;
 using AForge.Genetic;
 using QuickGraph;
+using Simulation.WPF.FileSerialization;
+using Simulation.WPF.Models;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for DynamicGraph.xaml

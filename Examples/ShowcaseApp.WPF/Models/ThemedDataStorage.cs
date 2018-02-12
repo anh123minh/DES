@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
-namespace TrafficManagement.WPF.Models
+namespace Simulation.WPF.Models
 {
     public static class ThemedDataStorage
     {

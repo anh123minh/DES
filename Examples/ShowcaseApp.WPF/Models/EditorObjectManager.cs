@@ -6,7 +6,7 @@ using GraphX;
 using GraphX.Controls;
 using GraphX.Controls.Models;
 
-namespace TrafficManagement.WPF.Models
+namespace Simulation.WPF.Models
 {
     public class EditorObjectManager: IDisposable
     {

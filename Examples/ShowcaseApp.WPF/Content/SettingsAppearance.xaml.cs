@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace TrafficManagement.WPF.Content
+namespace Simulation.WPF.Content
 {
     /// <summary>
     /// Interaction logic for SettingsAppearance.xaml

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TrafficManagement.WPF.Properties {
+namespace Simulation.WPF.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TrafficManagement.WPF.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TrafficManagement.WPF.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Simulation.WPF.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -79,12 +79,12 @@ namespace TrafficManagement.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;TrafficManagement.WPF.Pages.Mini.EdgesParallel&quot;
+        ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Simulation.WPF.Pages.Mini.EdgesParallel&quot;
         ///             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
         ///             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
         ///             xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot; 
         ///             xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
-        ///             xmlns:wpf=&quot;clr-namespace:TrafficManagement.WPF&quot;
+        ///             xmlns:wpf=&quot;clr-namespace:Simulation.WPF&quot;
         ///             xmlns:controls=&quot;http://schemas.panthernet.ru/graphx/&quot;
         ///         [rest of string was truncated]&quot;;.
         /// </summary>
@@ -117,12 +117,12 @@ namespace TrafficManagement.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;TrafficManagement.WPF.Pages.Mini.LayoutVCP&quot;
+        ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Simulation.WPF.Pages.Mini.LayoutVCP&quot;
         ///             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
         ///             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
         ///             xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot; 
         ///             xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
-        ///             xmlns:wpf=&quot;clr-namespace:TrafficManagement.WPF&quot;
+        ///             xmlns:wpf=&quot;clr-namespace:Simulation.WPF&quot;
         ///             xmlns:controls=&quot;http://schemas.panthernet.ru/graphx/&quot;
         ///             [rest of string was truncated]&quot;;.
         /// </summary>

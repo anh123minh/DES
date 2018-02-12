@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GraphX.Measure;
 using GraphX.PCL.Common.Interfaces;
 
-namespace TrafficManagement.WPF
+namespace Simulation.WPF
 {
     public class ExampleExternalEdgeRoutingAlgorithm<TVertex, TEdge> : IExternalEdgeRouting<TVertex, TEdge>
     {

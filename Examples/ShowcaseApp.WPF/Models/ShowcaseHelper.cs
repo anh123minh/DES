@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using QuickGraph;
 
-namespace TrafficManagement.WPF.Models
+namespace Simulation.WPF.Models
 {
     public static class ShowcaseHelper
     {

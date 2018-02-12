@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TrafficManagement.WPF.Models
+namespace Simulation.WPF.Models
 {
     public class SimpleCommand : ICommand
    {

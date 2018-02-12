@@ -9,11 +9,13 @@ using GraphX.Controls.Models;
 using GraphX.PCL.Logic.Algorithms.LayoutAlgorithms;
 using Microsoft.Win32;
 using QuickGraph;
-using TrafficManagement.WPF.FileSerialization;
-using TrafficManagement.WPF.Models;
+using Simulation.WPF.FileSerialization;
+using Simulation.WPF.Models;
+using Simulation.WPF.FileSerialization;
+using Simulation.WPF.Models;
 using Rect = GraphX.Measure.Rect;
 
-namespace TrafficManagement.WPF.Pages
+namespace Simulation.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for GeneralGraph.xaml

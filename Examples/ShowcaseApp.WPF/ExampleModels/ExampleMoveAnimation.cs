@@ -1,7 +1,7 @@
 ﻿using System;
 using GraphX.Controls.Animations;
 
-namespace TrafficManagement.WPF
+namespace Simulation.WPF
 {
     public class ExampleMoveAnimation: MoveAnimationBase
     {

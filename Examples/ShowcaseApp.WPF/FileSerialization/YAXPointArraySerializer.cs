@@ -4,7 +4,7 @@ using System.Text;
 using GraphX.Measure;
 using YAXLib;
 
-namespace TrafficManagement.WPF.FileSerialization
+namespace Simulation.WPF.FileSerialization
 {
     public sealed class YAXPointArraySerializer : ICustomSerializer<Point[]>
     {

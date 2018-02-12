@@ -1,4 +1,4 @@
-﻿namespace TrafficManagement.WPF.Models
+﻿namespace Simulation.WPF.Models
 {
     public enum EditorOperationMode
     {
