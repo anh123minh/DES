@@ -85,8 +85,8 @@ namespace Simulation.WPF.Pages
             butSelect.Checked += ToolbarButton_Checked;
             BtnCreate.Checked += ToolbarButton_Checked;
             BtnQueue.Checked += ToolbarButton_Checked;
-            butRouter.Checked += ToolbarButton_Checked;
-            butIP.Checked += ToolbarButton_Checked;
+            BtnTerminate.Checked += ToolbarButton_Checked;
+            BtnAccumulate.Checked += ToolbarButton_Checked;
             butDraw.Checked += ToolbarButton_Checked;
             butSelect.IsChecked = true;
             Loaded += GG_Loaded;
@@ -257,7 +257,6 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
-
         #region Xu ly cac su kien chon bieu tuong
         // Обработка событий щелчка мышкой на кнопке главного панела
         void ToolbarButton_Checked(object sender, RoutedEventArgs e)
@@ -266,8 +265,8 @@ namespace Simulation.WPF.Pages
             {
                 BtnCreate.IsChecked = false;
                 BtnQueue.IsChecked = false;
-                butRouter.IsChecked = false;
-                butIP.IsChecked = false;
+                BtnTerminate.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
                 butSelect.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Arrow;
@@ -281,8 +280,8 @@ namespace Simulation.WPF.Pages
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
                 BtnQueue.IsChecked = false;
-                butRouter.IsChecked = false;
-                butIP.IsChecked = false;
+                BtnTerminate.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
@@ -295,8 +294,8 @@ namespace Simulation.WPF.Pages
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
                 BtnCreate.IsChecked = false;
-                butRouter.IsChecked = false;
-                butIP.IsChecked = false;
+                BtnTerminate.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
@@ -304,13 +303,13 @@ namespace Simulation.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (butRouter.IsChecked == true && sender == butRouter)
+            if (BtnTerminate.IsChecked == true && sender == BtnTerminate)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
                 BtnQueue.IsChecked = false;
                 BtnCreate.IsChecked = false;
-                butIP.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
@@ -318,12 +317,12 @@ namespace Simulation.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (butIP.IsChecked == true && sender == butIP)
+            if (BtnAccumulate.IsChecked == true && sender == BtnAccumulate)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
                 BtnQueue.IsChecked = false;
-                butRouter.IsChecked = false;
+                BtnTerminate.IsChecked = false;
                 BtnCreate.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
@@ -336,8 +335,8 @@ namespace Simulation.WPF.Pages
             {
                 BtnCreate.IsChecked = false;
                 BtnQueue.IsChecked = false;
-                butRouter.IsChecked = false;
-                butIP.IsChecked = false;
+                BtnTerminate.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
                 butDelete.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Hand;
@@ -351,9 +350,9 @@ namespace Simulation.WPF.Pages
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
                 BtnQueue.IsChecked = false;
-                butRouter.IsChecked = false;
+                BtnTerminate.IsChecked = false;
                 BtnCreate.IsChecked = false;
-                butIP.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddEdge;
                 ClearSelectMode();
@@ -433,7 +432,6 @@ namespace Simulation.WPF.Pages
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
             _ecFrom = null;
             _editorManager.DestroyVirtualEdge();
-
         }
         #endregion
 
@@ -441,10 +439,12 @@ namespace Simulation.WPF.Pages
         // Метод для удаления элемента из сети передачи данных
         private void SafeRemoveVertex(VertexControl vc)
         {
+            //remove vertex and all adjacent edges from layout and data graph
             graphArea.RemoveVertexAndEdges(vc.Vertex as DataVertex);
         }
         #endregion
 
+        #region Phương pháp gỡ bỏ và đặt lại các tài nguyên không được quản lý
         // Метод для удаления и сброса неуправляемых ресурсов
         public void Dispose()
         {
@@ -453,6 +453,8 @@ namespace Simulation.WPF.Pages
             if (graphArea != null)
                 graphArea.Dispose();
         }
+        #endregion
+
         void GG_Loaded(object sender, RoutedEventArgs e)
         {
             GG_RegisterCommands();
@@ -558,10 +560,10 @@ namespace Simulation.WPF.Pages
             gg_loadState.Command = LoadStateCommand;
 
             CommandBindings.Add(new CommandBinding(SaveLayoutCommand, SaveLayoutCommandExecute, SaveLayoutCommandCanExecute));
-            gg_saveLayout.Command = SaveLayoutCommand;
+            GgSaveLayout.Command = SaveLayoutCommand;
             btnSaveGA.Command = SaveLayoutCommand;
             CommandBindings.Add(new CommandBinding(LoadLayoutCommand, LoadLayoutCommandExecute, LoadLayoutCommandCanExecute));
-            gg_loadLayout.Command = LoadLayoutCommand;
+            GgLoadLayout.Command = LoadLayoutCommand;
 
         }
 
@@ -733,8 +735,10 @@ namespace Simulation.WPF.Pages
         {
             graphArea.ExportAsImageDialog(ImageType.PNG, true, 96D, 100);
         }
+
+        #region Tao du an moi
         // Создание нового проекта
-        private void btnNew_Click(object sender, RoutedEventArgs e)
+        private void BtnNew_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Сохранить файл ?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             switch (result)
@@ -749,7 +753,8 @@ namespace Simulation.WPF.Pages
                         }
                         Title.Text = dlg.FileName;
                     }
-                    graphArea.LogicCore.Graph.Clear();
+                    //graphArea.LogicCore.Graph.Clear();
+                    graphArea.LogicCore.Graph?.Clear();
                     graphArea.ClearLayout();
                     break;
                 case MessageBoxResult.No:
@@ -761,6 +766,8 @@ namespace Simulation.WPF.Pages
                     break;
             }
         }
+        #endregion
+
         // Печать схему компоновки элементов сети передачи данных
         private void gg_printlay_Click(object sender, RoutedEventArgs e)
         {

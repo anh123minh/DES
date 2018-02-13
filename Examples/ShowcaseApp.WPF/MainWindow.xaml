@@ -3,12 +3,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-        Title="Сеть передачи данных для проведения летных испытаний изделий"
+        Title="Simulation"
         IsTitleVisible="True"
         TextOptions.TextFormattingMode ="Ideal"
         UseLayoutRounding="False"
         ContentSource="/Pages/EditorGraph.xaml"
-        MinWidth="640" MinHeight="480"
+        MinWidth="640" MinHeight="560"
+        WindowStartupLocation="CenterScreen"
         Height="720" Width="1280">
 
     <mui:ModernWindow.TitleLinks>

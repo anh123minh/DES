@@ -141,12 +141,12 @@ namespace Simulation.WPF.Models
 
         static ThemedDataStorage()
         {
-            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/female.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/male.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMCreate.jpg", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMQueue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMTerminate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Traffic Management;component/Assets/AMAccumulate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation;component/Assets/female.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation;component/Assets/male.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation;component/Assets/AMCreate.jpg", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation;component/Assets/AMQueue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation;component/Assets/AMTerminate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation;component/Assets/AMAccumulate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
 
         }
 

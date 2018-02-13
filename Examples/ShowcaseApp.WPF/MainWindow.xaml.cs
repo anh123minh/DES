@@ -3,6 +3,8 @@ using System.Windows.Input;
 using FirstFloor.ModernUI.Windows.Controls;
 using Simulation.WPF.Controls;
 using Simulation.WPF.Models;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Simulation.WPF
 {
@@ -14,7 +16,7 @@ namespace Simulation.WPF
         public MainWindow()
         {
             InitializeComponent();
-            Title = "Проектирование сетей передачи данных для проведения летных испытаний изделий " ;
+            Title = "Simulation v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 /*
 #if DEBUG
             var lg = new LinkGroup {DisplayName = "Debug"};
@@ -26,12 +28,13 @@ namespace Simulation.WPF
 
         }
 
+        #region Nghien cuu xoa
         private void OnShowMiniSpecialDialog(object sender, ExecutedRoutedEventArgs e)
         {
             var dlg = new ModernDialog
             {
                 Title = "Help & code window",
-                Content = new SpecialWindowControl(e.Parameter),               
+                Content = new SpecialWindowControl(e.Parameter),
                 ResizeMode = ResizeMode.CanResize,
                 MaxWidth = 1920,
                 MaxHeight = 1080,
@@ -40,7 +43,7 @@ namespace Simulation.WPF
                 Width = 700,
                 Height = 500,
                 SizeToContent = SizeToContent.Manual,
-                
+
             };
             dlg.OkButton.Content = "OK";
             dlg.OkButton.VerticalContentAlignment = VerticalAlignment.Center;
@@ -53,5 +56,7 @@ namespace Simulation.WPF
         {
             e.CanExecute = true;
         }
+        #endregion
+
     }
 }

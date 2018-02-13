@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="clr-namespace:Simulation.WPF"    
              xmlns:controls1="http://schemas.panthernet.ru/graphx/"
-             xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=Accordion" x:Class="Simulation.WPF.Pages.EditorGraph"
+             xmlns:controls="clr-namespace:System.Windows.Controls;assembly=Accordion" x:Class="Simulation.WPF.Pages.EditorGraph"
              mc:Ignorable="d" 
-             d:DesignHeight="380" d:DesignWidth="600">
+             d:DesignHeight="480" d:DesignWidth="600">
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>
@@ -46,7 +46,7 @@
         <TabControl x:Name="TabControl" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" Height="Auto" Width="260" HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Главный">
                 <DockPanel LastChildFill="False" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3">
-                    <TextBlock Text="Главный панел" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+                    <TextBlock Text="Главный панел" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource toggleButtonModernStyle}">
@@ -57,17 +57,17 @@
                         </StackPanel.Resources>
                         <ToggleButton x:Name="butSelect" ToolTip="Режим выбора: перемещать элемент, Ctrl+Click для группирования элементов" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/pointer.png"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/pointer.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="butDraw" ToolTip="Режим рисования канала" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/draw arrow.png"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/draw arrow.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="butDelete" ToolTip="Режима удаления: нажмите элементы и каналы, чтобы удалить их" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/delete.png"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/delete.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>
@@ -81,39 +81,73 @@
                         </StackPanel.Resources>
                         <ToggleButton x:Name="BtnCreate"  ToolTip="Режим редактирования: нажмите, чтобы поместить центр сбора, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/AMCreate.jpg"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/AMCreate.jpg"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить VLB сеть, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/AMQueue.png"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/AMQueue.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="butRouter" ToolTip="Режим редактирования: нажмите, чтобы поместить маршрутизатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnTerminate" ToolTip="Режим редактирования: нажмите, чтобы поместить маршрутизатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/AMTerminate.png"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/AMTerminate.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
 
-                        <ToggleButton x:Name="butIP" ToolTip="Режим редактирования: нажмите, чтобы поместить измерительный пункт, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnAccumulate" ToolTip="Режим редактирования: нажмите, чтобы поместить измерительный пункт, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Traffic Management;component/Assets/AMAccumulate.png"/>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/AMAccumulate.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>
+                    <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                        <DockPanel Name="ItemFile" DockPanel.Dock="Top">
+                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center">Файл</TextBlock>
+                            <DockPanel LastChildFill="false">
+                                <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+                                    <Button Margin="3" DockPanel.Dock="Left" Width="70" Content="Создать" x:Name="BtnNew" Click="BtnNew_Click" />
+                                    <Button Margin="3" DockPanel.Dock="Left" Width="70" Content="Окрыть" x:Name="GgLoadLayout"/>
+                                    <Button Margin="3" DockPanel.Dock="Left" Width="70" Content="Сохранить" x:Name="GgSaveLayout"/>
+                                </DockPanel>
+                            </DockPanel>
+                        </DockPanel>
 
-                    <Controls:Accordion  DockPanel.Dock="Top" HorizontalAlignment="Stretch">
-                        <Controls:Accordion.Items>
-                            <Controls:AccordionItem Name="ItemFile" Header="Файл" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" >
+                        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center">Файл</TextBlock>
+                            <DockPanel LastChildFill="False" HorizontalAlignment="Center">
+                                <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Старт" />
+                                <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сборс" />
+                            </DockPanel>
+                        </DockPanel>
+                        <DockPanel Name="ItemPara" DockPanel.Dock="Top">
+                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center">Экспорт, Импорт и Печать</TextBlock>
+                            <DockPanel LastChildFill="false">
+                                <TextBlock Text="Управление состоянием" DockPanel.Dock="Top" HorizontalAlignment="Center"/>
+                                <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+                                    <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Сохранить" x:Name="gg_saveState"/>
+                                    <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Обновление" x:Name="gg_loadState"/>
+                                </DockPanel>
+                                <TextBlock Text="Изображение и печать" DockPanel.Dock="Top" HorizontalAlignment="Center"/>
+                                <DockPanel DockPanel.Dock="Top">
+                                    <Button Margin="3" DockPanel.Dock="Left" Content="Сохранить в PNG" Click="gg_saveAsPngImage_Click"/>
+                                    <Button Margin="3" DockPanel.Dock="Right" Content="Печать" Click="gg_printlay_Click" />
+                                </DockPanel>
+                            </DockPanel>
+                        </DockPanel>
+                    </DockPanel>
+                    <!--<controls:Accordion  DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                        <controls:Accordion.Items>
+                            <controls:AccordionItem Name="ItemFile" Header="Файл" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" >
                                 <DockPanel LastChildFill="false">
                                     <DockPanel DockPanel.Dock="Top">
-                                        <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Создать" x:Name="btnNew" Click="btnNew_Click" />
-                                        <Button Margin="3" DockPanel.Dock="Top" Width="80" Content="Окрыть" x:Name="gg_loadLayout"/>
-                                        <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сохранить" x:Name="gg_saveLayout"/>
+                                        <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Создать" x:Name="BtnNew" Click="BtnNew_Click" />
+                                        <Button Margin="3" DockPanel.Dock="Top" Width="80" Content="Окрыть" x:Name="GgLoadLayout"/>
+                                        <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сохранить" x:Name="GgSaveLayout"/>
                                     </DockPanel>
                                 </DockPanel>
-                            </Controls:AccordionItem>
-                            <Controls:AccordionItem Name="ItemPara" Header="Экспорт, Импорт и Печать" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" >
+                            </controls:AccordionItem>
+                            <controls:AccordionItem Name="ItemPara" Header="Экспорт, Импорт и Печать" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" >
                                 <DockPanel LastChildFill="false">
                                     <TextBlock Text="Управление состоянием" DockPanel.Dock="Top" HorizontalAlignment="Center"/>
                                     <DockPanel DockPanel.Dock="Top">
@@ -126,22 +160,50 @@
                                         <Button Margin="3" DockPanel.Dock="Right" Content="Печать" Click="gg_printlay_Click" />
                                     </DockPanel>
                                 </DockPanel>
-                            </Controls:AccordionItem>
-                        </Controls:Accordion.Items>
-                    </Controls:Accordion>
-
-
-
+                            </controls:AccordionItem>
+                        </controls:Accordion.Items>
+                    </controls:Accordion>-->
                 </DockPanel>
             </TabItem>
 
             <TabItem Header="Поиск маршрутов" Name="TabFindPath">
                 <DockPanel LastChildFill="False" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="3">
                     <DockPanel LastChildFill="False" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                        <DockPanel Name="ItemParameter" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="10" DockPanel.Dock="Top" FontSize="18" HorizontalAlignment="Center" FontWeight="Bold">Параметры</TextBlock>
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False" HorizontalAlignment="Stretch" >
+                                <DockPanel DockPanel.Dock="Top" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                                    <Label   Content="Источник:" DockPanel.Dock="Left" VerticalContentAlignment="Center"></Label>
+                                    <TextBox x:Name="_tBxRoot"  Text="ИП 1"  DockPanel.Dock="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="2"/>
+                                    <ComboBox Name="cbxRoot" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" IsEditable="True" Margin="3,0,0,0" />
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Top" Margin="2" HorizontalAlignment="Stretch">
+                                    <Label Content="Назначение:" DockPanel.Dock="Left" VerticalAlignment="Center" ></Label>
+                                    <TextBox Text="Центр сбора 1" DockPanel.Dock="Right" VerticalContentAlignment="Center" Margin="2" x:Name="_tBxGoal"></TextBox>
+                                    <ComboBox Name="cbxGoal" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" IsEditable="True" Margin="3,0,0,0" ></ComboBox>
 
-                        <Controls:Accordion  DockPanel.Dock="Top" HorizontalAlignment="Stretch">
-                            <Controls:Accordion.Items>
-                                <Controls:AccordionItem Name="ItemParameter" Header="Параметры" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Top" Margin=" 2" HorizontalAlignment="Stretch">
+                                    <Label DockPanel.Dock="Left" HorizontalContentAlignment="Center" Content="Число кратчайших маршрутов:" Margin="2" ToolTip="Максимальное число кратчайших маршрутов для поиска">
+                                    </Label>
+                                    <TextBox DockPanel.Dock="Right" VerticalContentAlignment="Center" Text="10" Margin="2" x:Name="_tBxPathCount" MinWidth="30"></TextBox>
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Top" Margin="2" HorizontalAlignment="Stretch">
+                                    <Label DockPanel.Dock="Left" HorizontalContentAlignment="Center" Content="Алгоритм поиска:"></Label>
+                                    <ComboBox Name="cbxAlgorithm" DockPanel.Dock="Right" Margin="3,2,2,2" Width="125" >
+                                        <ComboBoxItem Content="Hoffman and Pavley" IsSelected="True" ></ComboBoxItem>
+                                        <ComboBoxItem Content="Yen"></ComboBoxItem>
+                                    </ComboBox>
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3">
+                                    <Button DockPanel.Dock="Left" Content="Поиск"  Margin="20,3,3,3" Width="80" Height="30" x:Name="_btnFindPath" Click="btnFindPath_Click" ></Button>
+                                    <Button DockPanel.Dock="Right" Content="Сброс"  Margin="3" Width="80" Height="30" x:Name="btnResetFindPath" Click="ResetGraph_Click" BorderThickness="1"  ></Button>
+                                </DockPanel>
+                            </DockPanel>
+                        </DockPanel>
+                        <!--<controls:Accordion  DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                            <controls:Accordion.Items>
+                                <controls:AccordionItem Name="ItemParameter" Header="Параметры" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
                                     <DockPanel LastChildFill="False" HorizontalAlignment="Stretch" >
                                         <DockPanel DockPanel.Dock="Top" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
                                             <Label   Content="Источник:" DockPanel.Dock="Left" VerticalContentAlignment="Center"></Label>
@@ -171,10 +233,10 @@
                                             <Button DockPanel.Dock="Right" Content="Сброс"  Margin="3" Width="80" Height="30" x:Name="btnResetFindPath" Click="ResetGraph_Click" BorderThickness="1"  ></Button>
                                         </DockPanel>
                                     </DockPanel>
-                                </Controls:AccordionItem>
-                            </Controls:Accordion.Items>
-                        </Controls:Accordion>
-
+                                    
+                                </controls:AccordionItem>
+                            </controls:Accordion.Items>
+                        </controls:Accordion>-->
                     </DockPanel>
                     <DockPanel LastChildFill="False" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  DockPanel.Dock="Top">
                         <ListView x:Name="PathList" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Top"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
@@ -197,31 +259,103 @@
                 <DockPanel HorizontalAlignment="Stretch" >
 
                     <DockPanel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
-                        <Controls:Accordion DockPanel.Dock="Top" HorizontalAlignment="Stretch">
-                            <Controls:AccordionItem Name="ItemGA1" Header="Параметры алгоритма" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="1">
+                        <DockPanel Name="ItemGa1" HorizontalAlignment="Stretch" Margin="1">
+                            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" FontSize="16" FontWeight="Bold" TextAlignment="Center">Параметры алгоритма</TextBlock>
+
+                            <DockPanel HorizontalAlignment="Stretch" Margin="1">
+
+                                <DockPanel  DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Алгоритм: " VerticalContentAlignment="Center"></Label>
+                                    <ComboBox Name="cbxHybridAlgorithm" Margin="3,0,0,0" SelectionChanged="cbxHybridAlgorithm_SelectionChanged" >
+                                        <ComboBoxItem Content="Хоффмана и ГА"></ComboBoxItem>
+                                        <ComboBoxItem Content="Йена и ГА" ></ComboBoxItem>
+                                        <ComboBoxItem Content="Классический ГА" ></ComboBoxItem>
+                                    </ComboBox>
+                                </DockPanel>
+
+                                <DockPanel DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Центр приема: " VerticalContentAlignment="Center"></Label>
+                                    <ComboBox Name="cbxCenter" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" IsEditable="True" Margin="3,0,0,0" ></ComboBox>
+                                </DockPanel>
+
+                                <DockPanel  DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Размер популяции: "></Label>
+                                    <TextBox x:Name="populationSizeBox" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="40" HorizontalContentAlignment="Center"></TextBox>
+                                </DockPanel>
+
+                                <DockPanel  DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Число кратчайших маршрутов: "></Label>
+                                    <TextBox x:Name="tbxMaxValue" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="8" HorizontalContentAlignment="Center" MinWidth="30"></TextBox>
+                                </DockPanel>
+
+                                <DockPanel DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Метод селекции: "></Label>
+                                    <ComboBox x:Name="selectionBox" >
+                                        <ComboBoxItem Content="Элитарная"></ComboBoxItem>
+                                        <ComboBoxItem Content="Ранговая"></ComboBoxItem>
+                                        <ComboBoxItem Content="Колеса рулетки "></ComboBoxItem>
+                                    </ComboBox>
+                                </DockPanel>
+
+                                <DockPanel  DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Коэффициент мутации: "></Label>
+                                    <TextBox DockPanel.Dock="Right" x:Name="tBxMutationRate" HorizontalAlignment="Right" Text="0.1" HorizontalContentAlignment="Center"></TextBox>
+                                </DockPanel>
+
+                                <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left"  Content="Коэффициент скрещивания: "></Label>
+                                    <TextBox  DockPanel.Dock="Right" x:Name="tBxCrossoverRate" Text="0.75" HorizontalContentAlignment="Center"></TextBox>
+                                </DockPanel>
+
+                                <DockPanel  DockPanel.Dock="Top" Margin="3">
+                                    <Label DockPanel.Dock="Left" Content="Число итерации: "></Label>
+                                    <TextBox x:Name="iterationsBox" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="150" HorizontalContentAlignment="Center"></TextBox>
+                                </DockPanel>
+
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1">
+                                    <Button  HorizontalAlignment="Center"  Margin="3" Content="Старт" Width="100" Height="30" x:Name="startButton" Click="startButton_Click_1" ></Button>
+                                    <Button HorizontalAlignment="Center" Width="100" Height="30" x:Name="ResetGraph" Content="Сброс" Click="ResetGraph_Click"></Button>
+                                </StackPanel>
+
+                                <Button DockPanel.Dock="Top" HorizontalAlignment="Center" Width="100" Height="30" x:Name="btnSaveGA" Content="Сохранить" ToolTip="Сохранить проект" IsEnabled="False"></Button>
+
+                            </DockPanel>
+                        </DockPanel>
+
+                        <!--<controls:Accordion DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                            <controls:AccordionItem Name="ItemGA1" Header="Параметры алгоритма" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="1">
                                 <DockPanel HorizontalAlignment="Stretch" Margin="1">
+                                    
                                     <DockPanel  DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left" Content="Алгоритм: " VerticalContentAlignment="Center"></Label>
-                                        <!--TextBox x:Name="tBxCenter" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="Центр сбора 1" HorizontalContentAlignment="Center"></-->
+                                        -->
+                        <!--TextBox x:Name="tBxCenter" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="Центр сбора 1" HorizontalContentAlignment="Center"></-->
+                        <!--
                                         <ComboBox Name="cbxHybridAlgorithm" Margin="3,0,0,0" SelectionChanged="cbxHybridAlgorithm_SelectionChanged" >
                                             <ComboBoxItem Content="Хоффмана и ГА"></ComboBoxItem>
                                             <ComboBoxItem Content="Йена и ГА" ></ComboBoxItem>
                                             <ComboBoxItem Content="Классический ГА" ></ComboBoxItem>
                                         </ComboBox>
                                     </DockPanel>
+                                    
                                     <DockPanel DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left" Content="Центр приема: " VerticalContentAlignment="Center"></Label>
-                                        <!--TextBox x:Name="tBxCenter" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="Центр сбора 1" HorizontalContentAlignment="Center"></-->
+                                        -->
+                        <!--TextBox x:Name="tBxCenter" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="Центр сбора 1" HorizontalContentAlignment="Center"></-->
+                        <!--
                                         <ComboBox Name="cbxCenter" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" IsEditable="True" Margin="3,0,0,0" ></ComboBox>
                                     </DockPanel>
+                                    
                                     <DockPanel  DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left" Content="Размер популяции: "></Label>
                                         <TextBox x:Name="populationSizeBox" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="40" HorizontalContentAlignment="Center"></TextBox>
                                     </DockPanel>
+                                    
                                     <DockPanel  DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left" Content="Число кратчайших маршрутов: "></Label>
                                         <TextBox x:Name="tbxMaxValue" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="8" HorizontalContentAlignment="Center" MinWidth="30"></TextBox>
                                     </DockPanel>
+                                    
                                     <DockPanel DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left" Content="Метод селекции: "></Label>
                                         <ComboBox x:Name="selectionBox" >
@@ -235,29 +369,28 @@
                                         <Label DockPanel.Dock="Left" Content="Коэффициент мутации: "></Label>
                                         <TextBox DockPanel.Dock="Right" x:Name="tBxMutationRate" HorizontalAlignment="Right" Text="0.1" HorizontalContentAlignment="Center"></TextBox>
                                     </DockPanel>
+                                    
                                     <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left"  Content="Коэффициент скрещивания: "></Label>
                                         <TextBox  DockPanel.Dock="Right" x:Name="tBxCrossoverRate" Text="0.75" HorizontalContentAlignment="Center"></TextBox>
                                     </DockPanel>
+                                    
                                     <DockPanel  DockPanel.Dock="Top" Margin="3">
                                         <Label DockPanel.Dock="Left" Content="Число итерации: "></Label>
                                         <TextBox x:Name="iterationsBox" DockPanel.Dock="Right" HorizontalAlignment="Right" Text="150" HorizontalContentAlignment="Center"></TextBox>
                                     </DockPanel>
 
-
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1">
                                         <Button  HorizontalAlignment="Center"  Margin="3" Content="Старт" Width="100" Height="30" x:Name="startButton" Click="startButton_Click_1" ></Button>
                                         <Button HorizontalAlignment="Center" Width="100" Height="30" x:Name="ResetGraph" Content="Сброс" Click="ResetGraph_Click"></Button>
-
                                     </StackPanel>
+                                    
                                     <Button DockPanel.Dock="Top" HorizontalAlignment="Center" Width="100" Height="30" x:Name="btnSaveGA" Content="Сохранить" ToolTip="Сохранить проект" IsEnabled="False"></Button>
-
-
-
+                                    
                                 </DockPanel>
-                            </Controls:AccordionItem>
+                            </controls:AccordionItem>
 
-                        </Controls:Accordion>
+                        </controls:Accordion>-->
 
                     </DockPanel>
 
