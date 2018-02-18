@@ -361,6 +361,7 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
+        #region Xữ lý các sự kiện thoát các chế độ chọn
         // Метод для снятия режима выбора 
         private void ClearSelectMode(bool soft = false)
         {
@@ -382,6 +383,7 @@ namespace Simulation.WPF.Pages
             _editorManager.DestroyVirtualEdge();
             _ecFrom = null;
         }
+        #endregion
 
         #region Tao cac Vertex
         // Метод для создания элемента сети передачи данных       
@@ -411,6 +413,16 @@ namespace Simulation.WPF.Pages
             vc.SetPosition(position);
             graphArea.AddVertexAndData(data, vc, true);
             return vc;
+        }
+
+        // Метод для вычисления количества элементов (VLB, маршрутизатор, ИП, центр сбора) сети передачи данных
+        private int CountElement(string Type)
+        {
+            if (graphArea.LogicCore.Graph == null) return 0;
+            int cout = 0;
+            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
+                if (vtx.TypeOfVertex == Type) cout++;
+            return cout;
         }
         #endregion
 
@@ -568,6 +580,8 @@ namespace Simulation.WPF.Pages
         }
 
         #endregion
+
+        #region Su kien nhan nut tim kiem
         // Обработчик события нажатия на кнопке "Поиск"
         private void btnFindPath_Click(object sender, RoutedEventArgs e)
         {
@@ -674,6 +688,9 @@ namespace Simulation.WPF.Pages
             }
 
         }
+        #endregion
+
+        #region khong dung
         // Метод для получения названия маршрута по алгоритму Йена
         private string PathToString(IEnumerable<TaggedEquatableEdge<DataVertex, double>> NameOfPath)
         {
@@ -717,6 +734,10 @@ namespace Simulation.WPF.Pages
             }
             return BiGraph;
         }
+
+
+        #endregion
+
         // Метод для получения названия маршрута
         private string PathToString(IEnumerable<DataEdge> NameOfPath)
         {
@@ -986,6 +1007,8 @@ namespace Simulation.WPF.Pages
         {
             RefreshGraph();
         }
+
+        #region Su kien thay doi tab
         // Обработчик события смены Tab
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1021,12 +1044,26 @@ namespace Simulation.WPF.Pages
             }
 
         }
-        // Обновление элемента формы
-        private void UpdateSettings()
-        {
-            populationSizeBox.Text = populationSize.ToString();
-            iterationsBox.Text = iterations.ToString();
-        }
+        #endregion
+
+        
+
+        #region Su kien nhan nut Start
+        //// Параметры генетического алгоритма
+        //private int populationSize = 40;
+        //private int iterations = 100;
+        //private int selectionMethod = 0;
+        //private int hybridAlgorithm = 0;
+        //private double mutationRate;
+        //private double crossoverRate;
+        //public int maxValue = 0;
+        //public ushort[] bestchromosome = null;
+        //public Thread workerThread = null;
+        //public volatile bool needToStop = false;
+        //private windowResults windowResult;
+        //private windowDiagramAlpha _windowDiagramAlpha;
+        //private windowDiagramLoad _windowDiagramLoad;
+
         // Обрабочик события нажатия на кнопке "Старт"
         private void startButton_Click_1(object sender, RoutedEventArgs e)
         {
@@ -1077,9 +1114,9 @@ namespace Simulation.WPF.Pages
                 mutationRate = 0.1;
             }
             // Обновление элемента формы
-            UpdateSettings();
-            selectionMethod = selectionBox.SelectedIndex;
-            hybridAlgorithm = cbxHybridAlgorithm.SelectedIndex;
+            UpdateSettings();// Thể hiện giá trị mới lên màn hình
+            selectionMethod = selectionBox.SelectedIndex;//Thiết lập method được chọn
+            hybridAlgorithm = cbxHybridAlgorithm.SelectedIndex;//Thiết lập algorit được chọn
             // Генерация данных о возможных вариантах построения сети
             string center = null;
             try
@@ -1123,6 +1160,16 @@ namespace Simulation.WPF.Pages
 
             }
         }
+
+        // Обновление элемента формы
+        private void UpdateSettings()
+        {
+            populationSizeBox.Text = populationSize.ToString();
+            iterationsBox.Text = iterations.ToString();
+        }
+        #endregion
+
+        #region cac su kien ben cua so Result
         // Открывает окно диаграммы нагрузки канала
         private void BtnDiagramLoad_Click(object sender, RoutedEventArgs e)
         {
@@ -1183,6 +1230,8 @@ namespace Simulation.WPF.Pages
                 workerThread = null;
             }
         }
+        #endregion
+
         // Метод для поиска оптимального результата с помощью генетического алгоритма
         void SearchSolution()
         {
@@ -1218,6 +1267,8 @@ namespace Simulation.WPF.Pages
                     break;
             }
         }
+
+        #region Phuong thuc chon thuat toan de giai
         private void cbxHybridAlgorithm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source is ComboBox)
@@ -1227,6 +1278,8 @@ namespace Simulation.WPF.Pages
             }
 
         }
+        #endregion
+
         //Метод для изменения цвета канала 
         private void UpdateGraph(GraphAreaExample graphArea, List<DataVertex> ListVertex, ushort[] path)
         {
@@ -1283,15 +1336,7 @@ namespace Simulation.WPF.Pages
             graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
             graphArea.StateStorage.LoadState("exampleState");
         }
-        // Метод для вычисления количества элементов (VLB, маршрутизатор, ИП, центр сбора) сети передачи данных
-        private int CountElement(string Type)
-        {
-            if (graphArea.LogicCore.Graph == null) return 0;
-            int cout = 0;
-            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
-                if (vtx.TypeOfVertex == Type) cout++;
-            return cout;
-        }
+        
     }
 }
 
