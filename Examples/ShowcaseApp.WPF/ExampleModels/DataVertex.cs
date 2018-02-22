@@ -4,30 +4,31 @@ namespace Simulation.WPF
 {
     public class DataVertex: VertexBase
     {
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
-        private string _text;
-        public string Name { get; set; }
-        public string Profession { get; set; }
-        public string Gender { get; set; }
-        public int Age { get; set; }
-        public int ImageId { get; set; }
-        private string _type="";
+        private string _type = "";
         public string TypeOfVertex // Center or VLB or Router or IP
         {
             get { return _type; }
             set { _type = value; }
         }
+        public string Text { get; set; }//Tên của Vertex 
+        public int Number { get; set; }// Порядковый номер элемента
+        public List<IEnumerable<DataEdge>> ListPath { get; set; } = null;//Danh sách gán theo Vertex, có thế là danh sách các Edge
+        public double Traffic { get; set; } = 0;//Traffic của Vertex 
+
+        
+
+        public string Name { get; set; }
+        public string Profession { get; set; }
+        public string Gender { get; set; }
+        public int Age { get; set; }
+        public int ImageId { get; set; }
+        
         public bool IsBlue { get; set; }
-        private int _number;
-        public int Number  // Порядковый номер элемента
-        {
-            get { return _number ; }
-            set { _number = value; }
-        }
+
+        public CreateClass CreateType { get; set; }
+        public QueueClass QueueType { get; set; }
+        public TerminateClass TerminateType { get; set; }
+        public AccumulateClass Anew { get; set; }
 
         #region Calculated or static props
 
@@ -54,24 +55,39 @@ namespace Simulation.WPF
             Text = string.IsNullOrEmpty(text) ? "New Vertex" : text;
             TypeOfVertex = string.IsNullOrEmpty(type) ? "No type" : type;
         }
-        private List<IEnumerable<DataEdge>> _listpath = null;
-        public List<IEnumerable<DataEdge>> ListPath
-        {
-            get { return _listpath; }
-            set { _listpath = value; }
-        }
-        private double _traffic=0;
-        public double Traffic
-        {
-            get { return _traffic; }
-            set { _traffic = value; }
-        }
-        
-      //  private int[,] _matrixload ;
+
+        //  private int[,] _matrixload ;
       //  public int[,] MatrixLoad { get; set; }
       //  {
      //      get { return _matrixload; }
       //     set { _matrixload = value; }
       //  }
     }
+
+    public class CreateClass
+    {
+        public int FirstTime { get; set; }
+        public int Interval { get; set; }
+        public int LengthOfFile { get; set; }
+        public int Priority { get; set; }
+        public int FileType { get; set; }
+
+    }
+    public class QueueClass
+    {
+        public int QueueCapacity { get; set; }
+        public int Priority { get; set; }
+        public int FileType { get; set; }
+    }
+    public class TerminateClass
+    {
+        public int OutputCounter { get; set; }
+        public int StoppingTime { get; set; }
+    }
+    public class AccumulateClass
+    {
+        public int Acc1 { get; set; }
+        public int Acc2 { get; set; }
+    }
+
 }

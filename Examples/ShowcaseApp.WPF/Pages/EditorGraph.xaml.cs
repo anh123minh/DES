@@ -29,7 +29,7 @@ namespace Simulation.WPF.Pages
         private VertexControl _ecFrom;
         private readonly EditorObjectManager _editorManager;
         public List<IEnumerable<DataEdge>> _allRoute;
-        private IEnumerable<IEnumerable<DataEdge>> PathEnum;
+        private IEnumerable<IEnumerable<DataEdge>> PathEnum;//Tập hợp các tập hợp của các Edge
         private IEnumerable<IEnumerable<TaggedEquatableEdge<DataVertex, double>>> PathYen;
         public IEnumerable<DataEdge> EdgeStore;
         public IEnumerable<DataVertex> VertexStore;
@@ -38,7 +38,7 @@ namespace Simulation.WPF.Pages
         public DataVertex vertexSelected;
         private DataVertex vertexBefore;
         private bool overLoad = false;
-        private enum VertexType
+        private enum VertexType//các kiểu của các element
         {
             Center = 0,
             VLB,
@@ -56,7 +56,7 @@ namespace Simulation.WPF.Pages
         public int maxValue = 0;
         public ushort[] bestchromosome = null;
         public Thread workerThread = null;
-        public volatile bool needToStop = false;
+        public volatile bool needToStop = false;//volatile - từ khóa khai báo biến được dùng cho nhiều Thread 
         private windowResults windowResult;
         private windowDiagramAlpha _windowDiagramAlpha;
         private windowDiagramLoad _windowDiagramLoad;
@@ -93,171 +93,13 @@ namespace Simulation.WPF.Pages
             selectionBox.SelectedIndex = selectionMethod;
             cbxHybridAlgorithm.SelectedIndex = hybridAlgorithm;
             Title.Text = "noname.xml";
+
+            //Moi them vao 22/02/2018
+            graphArea.ShowAllEdgesLabels();
+            //vertexSelected.Cnew.Cre1
         }
 
-        #region Su kien khi 1 Edge duoc chon
-        // Обработчик события выбора канала
-        void graphArea_EdgeSelected(object sender, EdgeSelectedEventArgs args)
-        {
-            HighlightBehaviour.SetHighlighted(args.EdgeControl, true);
-            if (args.MouseArgs.LeftButton == MouseButtonState.Pressed && _opMode == EditorOperationMode.Delete)
-                graphArea.RemoveEdge(args.EdgeControl.Edge as DataEdge, true);
-            if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)
-            {
-                edgeSelected = (DataEdge)args.EdgeControl.Edge;
-                args.EdgeControl.ContextMenu = new System.Windows.Controls.ContextMenu();
-                var miEdge = new System.Windows.Controls.MenuItem() { Header = "Параметры", Tag = args.EdgeControl };
-                miEdge.Click += MiEdge_Click;
-                args.EdgeControl.ContextMenu.Items.Add(miEdge);
-                args.EdgeControl.ContextMenu.IsOpen = true;
-            }
-        }
-        #endregion
-
-        #region Chuot phai vao Edge
-        // Обработчик события выбора меню "Параметр" канала
-        private void MiEdge_Click(object sender, RoutedEventArgs e)
-        {
-            windowParaEdge frmChanel = new windowParaEdge();
-            frmChanel.SetValueControl(edgeSelected);
-            frmChanel.Closed += FrmChanel_Closed;
-            frmChanel.Show();
-        }
-        #endregion
-
-        #region Su kien sau khi dong cua so chuot phai Edge thi luu lai gia tri moi
-        // Обработчик события закрытия окна настройки параметров канала
-        private void FrmChanel_Closed(object sender, EventArgs e)
-        {
-            GetParameterEdge(edgeSelected);
-        }
-        #endregion
-
-        #region Xu ly su kien sau khi dong cua so chuot phai Edge thi luu lai gia tri moi
-        // Метод для получения и обновления параметров канала из окна настройки
-        public void GetParameterEdge(DataEdge edge)
-        {
-            foreach (DataEdge edg in graphArea.LogicCore.Graph.Edges)
-            {
-                if ((edg.Source == edge.Target && edg.Target == edge.Source) || (edg.Source == edge.Source && edg.Target == edge.Target))
-                {
-                    edg.Capacity = edge.Capacity;
-                    edg.Weight = edge.Weight;
-                }
-            }
-            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
-            graphArea.StateStorage.LoadState("exampleState");
-        }
-        #endregion
-
-        #region Su kien khi 1 Vertex duoc chon
-        // Обработчик события выбора элемента
-        void graphArea_VertexSelected(object sender, VertexSelectedEventArgs args)
-        {
-            if (args.MouseArgs.LeftButton == MouseButtonState.Pressed)//Chon bang chuot Left
-            {
-                if (_opMode == EditorOperationMode.AddEdge)//Che do them Edge moi
-                    CreateEdgeControl(args.VertexControl);//Tao Edge moi
-                else if (_opMode == EditorOperationMode.Delete)//Che do Delete
-                    SafeRemoveVertex(args.VertexControl);//Xoa Vertex duoc chon
-                else if (_opMode == EditorOperationMode.Select && args.Modifiers == ModifierKeys.Control)//Che do Select va giu phim Control de chon cung luc nhieu icon
-                    SelectVertex(args.VertexControl);//Lam noi bat or lam chim icon duoc chon (khi ket hop Control chon cung luc nhieu icon)
-            }
-
-            if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)//Chon bang chuot Right
-            {
-                //Tao 1 object de chon
-                vertexSelected = (DataVertex)args.VertexControl.Vertex;
-                vertexBefore = (DataVertex)args.VertexControl.Vertex;
-                args.VertexControl.ContextMenu = new System.Windows.Controls.ContextMenu();
-                var miVertex = new MenuItem { Header = "Параметры", Tag = args.VertexControl };
-                miVertex.Click += MiVertex_Click;
-                args.VertexControl.ContextMenu.Items.Add(miVertex);
-                args.VertexControl.ContextMenu.IsOpen = true;
-            }
-        }
-        #endregion
-
-        #region Chuot phai vao Vertex
-        // Обработчик события выбора меню "Параметр" элемента
-        private void MiVertex_Click(object sender, RoutedEventArgs e)
-        {
-            windowParaVertex frmVertex = new windowParaVertex();
-            frmVertex.SetValueControl(vertexSelected);
-            frmVertex.Closed += FrmVertex_Closed;
-            frmVertex.Show();
-
-        }
-        #endregion
-
-        #region Su kien sau khi dong cua so chuot phai Vertex thi luu lai gia tri moi
-        // Обработчик события закрытия окна настройки параметров элемента
-        private void FrmVertex_Closed(object sender, EventArgs e)
-        {
-            GetPameterVertex(vertexSelected);
-        }
-        #endregion
-
-        #region Xu ly su kien sau khi dong cua so chuot phai Vertex thi luu lai gia tri moi
-        // Получение параметров элемента из окна настройки 
-        private void GetPameterVertex(DataVertex vertex)
-        {
-            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
-            {
-                if (vtx.Text == vertexBefore.Text)
-                {
-                    vtx.Text = vertex.Text;
-                    vtx.Traffic = vertex.Traffic;
-                }
-            }
-            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
-            graphArea.StateStorage.LoadState("exampleState");
-        }
-        #endregion
-
-        #region Lam noi bat or lam chim icon duoc chon (khi ket hop Control chon cung luc nhieu icon)
-        // Метод для создание подсветки элемента 
-        private static void SelectVertex(DependencyObject vc)
-        {
-            if (DragBehaviour.GetIsTagged(vc))
-            {
-                HighlightBehaviour.SetHighlighted(vc, false);
-                DragBehaviour.SetIsTagged(vc, false);
-            }
-            else
-            {
-                HighlightBehaviour.SetHighlighted(vc, true);
-                DragBehaviour.SetIsTagged(vc, true);
-            }
-        }
-        #endregion
-
-        #region Su kien khi nhan chuot
-        // Обработка событий щелчка мышкой
-        void zoomCtrl_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                if (_opMode == EditorOperationMode.AddVertex)
-                {
-                    var pos = zoomCtrl.TranslatePoint(e.GetPosition(zoomCtrl), graphArea);
-                    pos.Offset(-22.5, -22.5);
-                    var vc = CreateVertexControl(pos);//Tao cac Vertex
-                }
-                if (_opMode == EditorOperationMode.Select)
-                {
-                    ClearSelectMode(true);
-                }
-            }
-            if (e.RightButton == MouseButtonState.Pressed)
-            {
-                if (_opMode == EditorOperationMode.AddEdge)
-                    ClearEditMode();
-            }
-        }
-        #endregion
-
-        #region Xu ly cac su kien chon bieu tuong
+        #region ToolbarButton_Checked - Sự kiện khi nhấn chuột vào 1 biểu tượng bất kì và thiết lập các tham số: _opMode - các mode xử lý,_vertextype - mặc định là Center
         // Обработка событий щелчка мышкой на кнопке главного панела
         void ToolbarButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -342,7 +184,7 @@ namespace Simulation.WPF.Pages
                 zoomCtrl.Cursor = Cursors.Hand;
                 _opMode = EditorOperationMode.Select;
                 ClearEditMode();
-                graphArea.SetVerticesDrag(true, true);
+                graphArea.SetVerticesDrag(true, true);//Khi biểu tượng lá Select thì có thể kéo thả Vertex
                 return;
             }
             if (butDraw.IsChecked == true && sender == butDraw)
@@ -361,7 +203,75 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
-        #region Xữ lý các sự kiện thoát các chế độ chọn
+        #region zoomCtrl_MouseDown - Sự kiện khi nhấn chuột xuống
+        // Обработка событий щелчка мышкой
+        void zoomCtrl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)//Khi nhấn chuột trái xuống
+            {
+                if (_opMode == EditorOperationMode.AddVertex)//Nếu là mode thêm Vertex thì sinh 1 position rồi gọi method tạo Vertex
+                {
+                    var pos = zoomCtrl.TranslatePoint(e.GetPosition(zoomCtrl), graphArea);
+                    pos.Offset(-22.5, -22.5);
+                    var vc = CreateVertexControl(pos);//Tao cac Vertex
+                }
+                if (_opMode == EditorOperationMode.Select)//Nếu là mode chọn 1 Vertex trên khung làm việc thì call method xóa mode chọn
+                {
+                    ClearSelectMode(true);
+                }
+            }
+            if (e.RightButton == MouseButtonState.Pressed)//Khi nhấn chuột phải xuống
+            {
+                if (_opMode == EditorOperationMode.AddEdge)
+                    ClearEditMode();
+            }
+        }
+        #endregion
+
+        #region CreateVertexControl - Method tạo mới Vertex(vị trí)
+        // Метод для создания элемента сети передачи данных       
+        private VertexControl CreateVertexControl(System.Windows.Point position)
+        {
+            var data = new DataVertex();//Tạo mới 1 Vertex 
+            switch (_vertextype)
+            {
+                case VertexType.Center:
+                    //Set mới 1 Vertex với pros: Text+số thứ tự, Type bằng Constructor và pro ImageId
+                    data = new DataVertex("Центр сбора " + (CountElement("Center") + 1), "Center") { ImageId = 0 };
+                    break;
+                case VertexType.VLB:
+                    data = new DataVertex("VLB " + (CountElement("VLB") + 1), "VLB") { ImageId = 1 };
+                    break;
+                case VertexType.Router:
+                    data = new DataVertex("Маршрутизатор " + (CountElement("Router") + 1), "Router") { ImageId = 2 };
+                    break;
+                case VertexType.IP:
+                    data = new DataVertex("ИП " + (CountElement("IP") + 1), "IP") { ImageId = 3, Traffic = 20 };
+                    break;
+                default:
+                    MessageBox.Show("Тип узлы не определен!");
+                    break;
+            }
+            var vc = new VertexControl(data);//Tạo mới 1 Control
+            vc.SetPosition(position);//Set position cho Control tren màn hình
+            graphArea.AddVertexAndData(data, vc, true);//Thêm data Vertex vào graph + thể hiện Control lên màn hình
+            return vc;
+        }
+
+        #region CountElement - Method đếm số lượng Element
+        // Метод для вычисления количества элементов (VLB, маршрутизатор, ИП, центр сбора) сети передачи данных
+        private int CountElement(string Type)
+        {
+            if (graphArea.LogicCore.Graph == null) return 0;
+            int cout = 0;
+            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
+                if (vtx.TypeOfVertex == Type) cout++;
+            return cout;
+        }
+        #endregion
+        #endregion
+
+        #region ClearSelectMode + ClearEditMode - Methods xử lý các sự kiện thoát các chế độ chọn
         // Метод для снятия режима выбора 
         private void ClearSelectMode(bool soft = false)
         {
@@ -385,48 +295,81 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
-        #region Tao cac Vertex
-        // Метод для создания элемента сети передачи данных       
-        private VertexControl CreateVertexControl(System.Windows.Point position)
+        #region graphArea_VertexSelected - Sự kiện khi 1 Vertex được chọn bằng chuột trái hoặc phải
+        // Обработчик события выбора элемента
+        void graphArea_VertexSelected(object sender, VertexSelectedEventArgs args)
         {
-            var data = new DataVertex();
-            switch (_vertextype)
+            if (args.MouseArgs.LeftButton == MouseButtonState.Pressed)//Chon bang chuot Left
             {
-                case VertexType.Center:
-
-                    data = new DataVertex("Центр сбора " + (CountElement("Center") + 1), "Center") { ImageId = 0 };
-                    break;
-                case VertexType.VLB:
-                    data = new DataVertex("VLB " + (CountElement("VLB") + 1), "VLB") { ImageId = 1 };
-                    break;
-                case VertexType.Router:
-                    data = new DataVertex("Маршрутизатор " + (CountElement("Router") + 1), "Router") { ImageId = 2 };
-                    break;
-                case VertexType.IP:
-                    data = new DataVertex("ИП " + (CountElement("IP") + 1), "IP") { ImageId = 3, Traffic = 20 };
-                    break;
-                default:
-                    MessageBox.Show("Тип узлы не определен!");
-                    break;
+                //So sánh với các mode được thiết lập tại ToolbarButton_Checked
+                if (_opMode == EditorOperationMode.AddEdge)//Che do them Edge moi
+                    CreateEdgeControl(args.VertexControl);//Tao Edge moi
+                else if (_opMode == EditorOperationMode.Delete)//Che do Delete
+                    SafeRemoveVertex(args.VertexControl);//Xoa Vertex duoc chon
+                else if (_opMode == EditorOperationMode.Select && args.Modifiers == ModifierKeys.Control)//Che do Select va giu phim Control de chon cung luc nhieu icon
+                    SelectVertex(args.VertexControl);//Lam noi bat or lam chim icon duoc chon (khi ket hop Control chon cung luc nhieu icon)
             }
-            var vc = new VertexControl(data);
-            vc.SetPosition(position);
-            graphArea.AddVertexAndData(data, vc, true);
-            return vc;
+
+            if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)//Chon bang chuot Right
+            {
+                //Tao 1 menu chuột phải để chọn
+                vertexSelected = (DataVertex)args.VertexControl.Vertex;//Lưu Vertex được chọn vào 2 biến,
+                vertexBefore = (DataVertex)args.VertexControl.Vertex;// để sau nếu có thay đổi tham số nào thì có thể lấy cái mới(selected) update vào cái cũ(before)
+                args.VertexControl.ContextMenu = new System.Windows.Controls.ContextMenu();//Tạo mới 1 menu chuột phải
+                var miVertex = new MenuItem { Header = "Параметры", Tag = args.VertexControl };//Tạo mới 1 MenuItem
+                miVertex.Click += MiVertex_Click;//call method -> tạo mới 1 windowParaVertex 
+                args.VertexControl.ContextMenu.Items.Add(miVertex);//Thêm vào 1 item
+                args.VertexControl.ContextMenu.IsOpen = true;
+            }
         }
 
-        // Метод для вычисления количества элементов (VLB, маршрутизатор, ИП, центр сбора) сети передачи данных
-        private int CountElement(string Type)
+        #region SafeRemoveVertex - Xóa Vertex được chọn
+        // Метод для удаления элемента из сети передачи данных
+        private void SafeRemoveVertex(VertexControl vc)
         {
-            if (graphArea.LogicCore.Graph == null) return 0;
-            int cout = 0;
-            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
-                if (vtx.TypeOfVertex == Type) cout++;
-            return cout;
+            //remove vertex and all adjacent edges from layout and data graph
+            graphArea.RemoveVertexAndEdges(vc.Vertex as DataVertex);
         }
         #endregion
 
-        #region Tao Edge moi
+        #region MiVertex_Click - Sự kiện sau chuột phải vào Vertex và nhấn chọn mở windowParaVertex mới
+        // Обработчик события выбора меню "Параметр" элемента
+        private void MiVertex_Click(object sender, RoutedEventArgs e)
+        {
+            windowParaVertex frmVertex = new windowParaVertex();//Tạo mới một window
+            frmVertex.SetValueControl(vertexSelected);//Thể hiện các giá trị của Vertex được chọn lên của sổ
+            frmVertex.Closed += FrmVertex_Closed;
+            frmVertex.Show();
+        }
+
+        #region FrmVertex_Closed - Sự kiện đóng của sổ chuột phải Vertex thì lưu lại giá trị mới
+        // Обработчик события закрытия окна настройки параметров элемента
+        private void FrmVertex_Closed(object sender, EventArgs e)
+        {
+            GetPameterVertex(vertexSelected);
+        }
+
+        #region GetPameterVertex - Method xử lý Sự kiện đóng của sổ chuột phải Vertex thì lưu lại giá trị mới
+        // Получение параметров элемента из окна настройки 
+        private void GetPameterVertex(DataVertex vertex)
+        {
+            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)//Duyệt qua tất cả Vertex 
+            {
+                if (vtx.Text == vertexBefore.Text)//So sánh với chính nó các giá trị củ và update các giá trị mới
+                {
+                    vtx.Text = vertex.Text;
+                    vtx.Traffic = vertex.Traffic;
+                }
+            }
+            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");//Save or Update lại toạn bộ giá trị của các Element
+            graphArea.StateStorage.LoadState("exampleState");//Load lại trạng thái/giá trị của các Element ra màn hình
+        }
+        #endregion
+        #endregion
+        #endregion
+        #endregion        
+
+        #region CreateEdgeControl - Method tạo Edge mới
         // Метод для создания канала сети передачи данных       
         private void CreateEdgeControl(VertexControl vc)
         {
@@ -440,63 +383,125 @@ namespace Simulation.WPF.Pages
             if (_ecFrom == vc) return;
             var data = new DataEdge((DataVertex)_ecFrom.Vertex, (DataVertex)vc.Vertex);
             var ec = new EdgeControl(_ecFrom, vc, data);
-            graphArea.InsertEdgeAndData(data, ec, 0, true);
+            graphArea.InsertEdgeAndData(data, ec, 0, true);//Chèn mới 1 Edge tại vị trí nhất định và thêm data Edge vào CSDL
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
             _ecFrom = null;
             _editorManager.DestroyVirtualEdge();
         }
         #endregion
 
-        #region Xoa Vertex duoc chon
-        // Метод для удаления элемента из сети передачи данных
-        private void SafeRemoveVertex(VertexControl vc)
+        #region graphArea_EdgeSelected - Sự kiện khi 1 Edge được chọn bằng chuột trái hoặc phải
+        // Обработчик события выбора канала
+        void graphArea_EdgeSelected(object sender, EdgeSelectedEventArgs args)
         {
-            //remove vertex and all adjacent edges from layout and data graph
-            graphArea.RemoveVertexAndEdges(vc.Vertex as DataVertex);
+            HighlightBehaviour.SetHighlighted(args.EdgeControl, true);
+            if (args.MouseArgs.LeftButton == MouseButtonState.Pressed && _opMode == EditorOperationMode.Delete)//Chuột trái và mode Delete
+                graphArea.RemoveEdge(args.EdgeControl.Edge as DataEdge, true);//Call method remove
+            if (args.MouseArgs.RightButton == System.Windows.Input.MouseButtonState.Pressed)//Chuột phải thì gọi menu chuột phải
+            {
+                edgeSelected = (DataEdge)args.EdgeControl.Edge;//Lưu Edge được chọn
+                args.EdgeControl.ContextMenu = new System.Windows.Controls.ContextMenu();//tạo mới 1 menu chuột phải
+                var miEdge = new System.Windows.Controls.MenuItem() { Header = "Параметры", Tag = args.EdgeControl };//Tạo mói 1 MenuItem
+                miEdge.Click += MiEdge_Click;//call method -> tạo mới 1 windowParaEdge
+                args.EdgeControl.ContextMenu.Items.Add(miEdge);
+                args.EdgeControl.ContextMenu.IsOpen = true;
+            }
+        }
+
+        #region MiEdge_Click - Sự kiện sau chuột phải vào Edge và nhấn chọn mở windowParaEdge mới
+        // Обработчик события выбора меню "Параметр" канала
+        private void MiEdge_Click(object sender, RoutedEventArgs e)
+        {
+            windowParaEdge frmChanel = new windowParaEdge();//Tạo mới một window
+            frmChanel.SetValueControl(edgeSelected);//Thể hiện các giá trị của Edge được chọn lên của sổ
+            frmChanel.Closed += FrmChanel_Closed;
+            frmChanel.Show();
+        }
+
+        #region FrmChanel_Closed - Sự kiện khi đóng cửa sổ chuột phải Edge thì lưu giá trị mới
+        // Обработчик события закрытия окна настройки параметров канала
+        private void FrmChanel_Closed(object sender, EventArgs e)
+        {
+            GetParameterEdge(edgeSelected);
+        }
+
+        #region GetParameterEdge - Method xử lý Sự kiện đóng của sổ chuột phải Edge thì lưu lại giá trị mới
+        // Метод для получения и обновления параметров канала из окна настройки
+        public void GetParameterEdge(DataEdge edge)
+        {
+            foreach (DataEdge edg in graphArea.LogicCore.Graph.Edges)//Duyệt qua tất cả Edge
+            {//So sánh với chính nó các giá trị cũ và update giá trị mới
+                if ((edg.Source == edge.Target && edg.Target == edge.Source) || (edg.Source == edge.Source && edg.Target == edge.Target))
+                {
+                    edg.Capacity = edge.Capacity;
+                    edg.Weight = edge.Weight;
+                }
+            }
+            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");//Save or Update lại toạn bộ giá trị của các Element
+            graphArea.StateStorage.LoadState("exampleState");//Load lại trạng thái/giá trị của các Element ra màn hình
+        }
+        #endregion
+        #endregion
+        #endregion
+        #endregion
+
+        #region SelectVertex - Method làm nổi bật or làm chìm Element được chọn (khi kết hợp Control chọn cùng lúc nhiều Element)
+        // Метод для создание подсветки элемента 
+        private static void SelectVertex(DependencyObject vc)
+        {
+            if (DragBehaviour.GetIsTagged(vc))
+            {
+                HighlightBehaviour.SetHighlighted(vc, false);
+                DragBehaviour.SetIsTagged(vc, false);
+            }
+            else
+            {
+                HighlightBehaviour.SetHighlighted(vc, true);
+                DragBehaviour.SetIsTagged(vc, true);
+            }
         }
         #endregion
 
-        #region Phương pháp gỡ bỏ và đặt lại các tài nguyên không được quản lý
-        // Метод для удаления и сброса неуправляемых ресурсов
-        public void Dispose()
-        {
-            if (_editorManager != null)
-                _editorManager.Dispose();
-            if (graphArea != null)
-                graphArea.Dispose();
-        }
-        #endregion
 
+        #region GG_Loaded - Sự kiện Load lại App
         void GG_Loaded(object sender, RoutedEventArgs e)
         {
             GG_RegisterCommands();
         }
+
         #region Commands
+        //Các lệnh Commands
+        void GG_RegisterCommands()
+        {//CommandBinding constructor : 1 object ICommand, 1 method thực thi, 1 method xác thực cho thực thi
+            gg_saveState.Command = SaveStateCommand;//Khi nhấn nút Save trong khung Xuất, Nhập, In
+            CommandBindings.Add(new CommandBinding(SaveStateCommand, SaveStateCommandExecute, SaveStateCommandCanExecute));
+            CommandBindings.Add(new CommandBinding(LoadStateCommand, LoadStateCommandExecute, LoadStateCommandCanExecute));
+            gg_loadState.Command = LoadStateCommand;//Khi nhấn nút Load trong khung Xuất, Nhập, In
 
-        #region GGRelayoutCommand
+            CommandBindings.Add(new CommandBinding(SaveLayoutCommand, SaveLayoutCommandExecute, SaveLayoutCommandCanExecute));
+            GgSaveLayout.Command = SaveLayoutCommand;//Khi nhấn nút Save trong khung File
+            btnSaveGA.Command = SaveLayoutCommand;//Khi nhấn nút Save bên tab 3
+            CommandBindings.Add(new CommandBinding(LoadLayoutCommand, LoadLayoutCommandExecute, LoadLayoutCommandCanExecute));
+            GgLoadLayout.Command = LoadLayoutCommand;//Khi nhấn nút Open trong khung File
 
-        private bool GGRelayoutCommandCanExecute(object sender)
-        {
-            return true;
         }
 
-        #endregion
-        // Сохранение данных элементов в память
+        // Сохранение данных элементов в память//Lưu data Element vào bộ nhớ
         #region SaveStateCommand
         private static readonly RoutedCommand SaveStateCommand = new RoutedCommand();
         private void SaveStateCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = graphArea.LogicCore.Graph != null && graphArea.VertexList.Count > 0;
+            e.CanExecute = graphArea.LogicCore.Graph != null && graphArea.VertexList.Count > 0;//Khi có Element trên màn hình thì có thể Save
         }
 
         private void SaveStateCommandExecute(object sender, ExecutedRoutedEventArgs e)
         {
-            if (graphArea.StateStorage.ContainsState("exampleState"))
-                graphArea.StateStorage.RemoveState("exampleState");
-            graphArea.StateStorage.SaveState("exampleState", "My example state");
+            if (graphArea.StateStorage.ContainsState("exampleState"))//Kiểm tra xem có chứa ID cho trước k
+                graphArea.StateStorage.RemoveState("exampleState");//Đúng thì xóa ID đó
+            graphArea.StateStorage.SaveState("exampleState", "My example state");//Sau đó Lưu ID hiện tại vào danh sách
         }
         #endregion
-        // Получение состояния сети из памяти 
+        // Получение состояния сети из памяти //Lấy data/trạng thái of mạng/hệ thống từ bộ nhớ
         #region LoadStateCommand
         private static readonly RoutedCommand LoadStateCommand = new RoutedCommand();
         private void LoadStateCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -510,17 +515,17 @@ namespace Simulation.WPF.Pages
                 graphArea.StateStorage.LoadState("exampleState");
         }
         #endregion
-        // Сохранение схемы компоновки элементов
+        // Сохранение схемы компоновки элементов//Lưu sơ đồ bố trí các Element vào file XML
         #region SaveLayoutCommand
         private static readonly RoutedCommand SaveLayoutCommand = new RoutedCommand();
-        private void SaveLayoutCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void SaveLayoutCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)//Method xác thực cho thực thi
         {
             e.CanExecute = graphArea.LogicCore.Graph != null && graphArea.VertexList.Count > 0;
         }
 
-        private void SaveLayoutCommandExecute(object sender, ExecutedRoutedEventArgs e)
+        private void SaveLayoutCommandExecute(object sender, ExecutedRoutedEventArgs e)//Method thực thi
         {
-            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
+            foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)//Duyệt qua all Vertex trong danh sách Vertex 
             {
                 vtx.ListPath = null;
             }
@@ -532,7 +537,7 @@ namespace Simulation.WPF.Pages
             Title.Text = dlg.FileName;
         }
         #endregion
-        // Получение схемы компоновки элементов
+        // Получение схемы компоновки элементов//Mở sơ đồ/file có sẵn
         #region LoadLayoutCommand
 
         private static readonly RoutedCommand LoadLayoutCommand = new RoutedCommand();
@@ -564,24 +569,189 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
-        void GG_RegisterCommands()
+        #region GGRelayoutCommand
+
+        private bool GGRelayoutCommandCanExecute(object sender)
         {
-            CommandBindings.Add(new CommandBinding(SaveStateCommand, SaveStateCommandExecute, SaveStateCommandCanExecute));
-            gg_saveState.Command = SaveStateCommand;
-            CommandBindings.Add(new CommandBinding(LoadStateCommand, LoadStateCommandExecute, LoadStateCommandCanExecute));
-            gg_loadState.Command = LoadStateCommand;
-
-            CommandBindings.Add(new CommandBinding(SaveLayoutCommand, SaveLayoutCommandExecute, SaveLayoutCommandCanExecute));
-            GgSaveLayout.Command = SaveLayoutCommand;
-            btnSaveGA.Command = SaveLayoutCommand;
-            CommandBindings.Add(new CommandBinding(LoadLayoutCommand, LoadLayoutCommandExecute, LoadLayoutCommandCanExecute));
-            GgLoadLayout.Command = LoadLayoutCommand;
-
+            return true;
         }
 
         #endregion
 
-        #region Su kien nhan nut tim kiem
+        #endregion
+        #endregion
+
+
+        // Объявления делегатов для включения асинхронного вызова к установке свойств элементов управления
+        private delegate void SetTextCallback(System.Windows.Controls.TextBox control, string text);
+        private void SetText(System.Windows.Controls.TextBox control, string text)
+        {
+            if (Dispatcher.CheckAccess())
+            {
+                control.Text = text;
+            }
+            else
+            {
+                SetTextCallback d = new SetTextCallback(SetText);
+                Dispatcher.Invoke(d, new object[] { control, text });
+            }
+        }
+        private delegate void SetTextCallbackListView(System.Windows.Controls.ListView control, string text);
+        private void SetTextListView(System.Windows.Controls.ListView control, string text)
+        {
+            if (Dispatcher.CheckAccess())
+            {
+                control.Items.Add(text);
+            }
+            else
+            {
+                SetTextCallbackListView d = new SetTextCallbackListView(SetTextListView);
+                Dispatcher.Invoke(d, new object[] { control, text });
+            }
+        }
+        private delegate void SetGraphColor(GraphAreaExample graph, ushort[] chromosome);
+        private void SetColor(GraphAreaExample graph, ushort[] chromosome)
+        {
+            if (Dispatcher.CheckAccess())
+            {
+                UpdateGraph(graphArea, ListVertex, chromosome);
+            }
+            else
+            {
+                SetGraphColor d = new SetGraphColor(SetColor);
+                Dispatcher.Invoke(d, new object[] { graph, chromosome });
+            }
+        }
+        private delegate void UpdatewindowResults(windowResults windowResult, string chromosome, int iteration, double alpha);
+        private void UpdateResults(windowResults windowResult, string chromosome, int iteration, double alpha)
+        {
+            string str = "Итерация № " + iteration.ToString();
+            if (Dispatcher.CheckAccess())//Xác định xem tiểu trình đang gọi là gắn liền với Dispatcher này.
+            {//Dispatcher - Provides services for managing the queue of work items for a thread.
+                windowResult.progressBar.Value = iteration;
+                windowResult.ListBestChromosome.Items.Add(str);
+                windowResult.ListBestChromosome.Items.Add(chromosome);
+                windowResult.UpdateLineSeries(iteration, alpha);
+            }
+            else
+            {
+                UpdatewindowResults d = new UpdatewindowResults(UpdateResults);
+                Dispatcher.Invoke(d, new object[] { windowResult, chromosome, iteration, alpha });
+            }
+        }
+
+
+
+        #region ResetGraph_Click - Sự kiện nhấn nút Clear
+        private void ResetGraph_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshGraph();
+        }
+
+        #region RefreshGraph - Method đưa màu sắc Edge trở lại mặc định
+        // Метод для получения цвета каналов по умольчанию
+        private void RefreshGraph()
+        {
+            PathList.Items.Clear();
+            foreach (DataEdge ed in graphArea.LogicCore.Graph.Edges)
+            {
+                ed.Load = 0;
+                ed.Alpha = 0;
+                ed.Color = "Green";
+            }
+            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
+            graphArea.StateStorage.LoadState("exampleState");
+        }
+        #endregion
+        #endregion
+
+        #region gg_saveAsPngImage_Click - Sự kiện nhấn nút Save dạng PNG
+        // Сохрание схемы компоновки элементов сети в виде изображения 
+        private void gg_saveAsPngImage_Click(object sender, RoutedEventArgs e)
+        {
+            graphArea.ExportAsImageDialog(ImageType.PNG, true, 96D, 100);
+        }
+        #endregion
+
+        #region gg_printlay_Click - Sự kiện nhấn nút In
+        // Печать схему компоновки элементов сети передачи данных
+        private void gg_printlay_Click(object sender, RoutedEventArgs e)
+        {
+            graphArea.PrintDialog("Печать");
+        }
+        #endregion
+
+        #region BtnNew_Click - Sự kiện tạo dự án mới
+        // Создание нового проекта
+        private void BtnNew_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Сохранить файл ?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    if (graphArea.LogicCore.Graph != null && graphArea.VertexList.Count > 0)
+                    {
+                        var dlg = new SaveFileDialog { Filter = "Файл проекта|*.xml", Title = "Сохранить проект", FileName = ".xml" };
+                        if (dlg.ShowDialog() == true)
+                        {
+                            FileServiceProviderWpf.SerializeDataToFile(dlg.FileName, graphArea.ExtractSerializationData());
+                        }
+                        Title.Text = dlg.FileName;
+                    }
+                    //graphArea.LogicCore.Graph.Clear();
+                    graphArea.LogicCore.Graph?.Clear();
+                    graphArea.ClearLayout();
+                    break;
+                case MessageBoxResult.No:
+                    graphArea.LogicCore.Graph.Clear();
+                    graphArea.ClearLayout();
+                    Title.Text = "noname.xml";
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+        #endregion
+
+        #region TabControl_SelectionChanged - Sự kiện thay đổi tab
+        // Обработчик события смены Tab
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl)
+            {
+                zoomCtrl.Cursor = Cursors.Arrow;
+                _opMode = EditorOperationMode.Select;
+                ClearEditMode();
+                graphArea.SetVerticesDrag(true, true);
+                if (TabControl.SelectedItem == TabFindPath)
+                {
+                    cbxGoal.Items.Clear();
+                    cbxRoot.Items.Clear();
+                    foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
+                    {
+                        cbxRoot.Items.Add(vtx.Text);
+                        cbxGoal.Items.Add(vtx.Text);
+                    }
+                    cbxRoot.SelectedIndex = cbxRoot.Items.Count - 1;
+                    cbxGoal.SelectedIndex = 0;
+                }
+                if (TabControl.SelectedItem == TabGA)
+                {
+                    cbxCenter.Items.Clear();
+                    foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
+                    {
+                        if (vtx.TypeOfVertex == "Center")
+                            cbxCenter.Items.Add(vtx.Text);
+
+                    }
+                    cbxCenter.SelectedIndex = 0;
+                }
+            }
+
+        }
+        #endregion
+
+        #region btnFindPath_Click - Sự kiện nhấn nút Tìm kiếm
         // Обработчик события нажатия на кнопке "Поиск"
         private void btnFindPath_Click(object sender, RoutedEventArgs e)
         {
@@ -591,12 +761,12 @@ namespace Simulation.WPF.Pages
             int iPathCount;
             string goalID = null, rootID = null;
             PathEnum = null;
-            PathList.Items.Clear();
-            PathList.Items.Add("Список маршрутов:");
-            iPathCount = int.Parse(_tBxPathCount.Text);
+            PathList.Items.Clear();//Xóa sạch các items cũ
+            PathList.Items.Add("Список маршрутов:");//Thêm vào dòng mới
+            iPathCount = int.Parse(_tBxPathCount.Text);//Truyền vào tham số từ giao diện và lưu vào biến iPathCount
             try
             {
-                goalID = cbxGoal.SelectedItem.ToString();
+                goalID = cbxGoal.SelectedItem.ToString();//Truyền data
             }
             catch (NullReferenceException)
             {
@@ -605,19 +775,19 @@ namespace Simulation.WPF.Pages
             }
             try
             {
-                rootID = cbxRoot.SelectedItem.ToString();
+                rootID = cbxRoot.SelectedItem.ToString();//Truyền data
             }
             catch (NullReferenceException)
             {
                 MessageBox.Show("Источник не существует !", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
+            //Duyệt qua toàn bộ danh sách các Vertex 
             foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
             {
                 if (vt.Text == goalID)
                 {
-                    flaggoal = true;
+                    flaggoal = true;//Nếu có Vertex trùng khớp thì set true
                 }
                 if (vt.Text == rootID)
                 {
@@ -635,6 +805,8 @@ namespace Simulation.WPF.Pages
                 MessageBox.Show("Источник не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
                 return;
             }
+
+            //Khi flaggoal=true && flagroot=true thì tiến hành thực hiện theo algorithm được chọn
             // Поиск по алгоритму Гоффман и Павлеи
             if (cbxAlgorithm.SelectedIndex == 0)
             {
@@ -688,56 +860,8 @@ namespace Simulation.WPF.Pages
             }
 
         }
-        #endregion
 
-        #region khong dung
-        // Метод для получения названия маршрута по алгоритму Йена
-        private string PathToString(IEnumerable<TaggedEquatableEdge<DataVertex, double>> NameOfPath)
-        {
-            string path = "";
-            foreach (TaggedEquatableEdge<DataVertex, double> edge in NameOfPath)
-            {
-                path = edge.Source.ToString();
-                break;
-            }
-            foreach (TaggedEquatableEdge<DataVertex, double> edge in NameOfPath)
-                path = path + "->" + edge.Target.ToString();
-            return path;
-        }
-        // Метод преобразования BidirectionalGraph в AdjacencyGraph
-        private AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>> ToAdjacencyGraph(BidirectionalGraph<DataVertex, DataEdge> BiGraph)
-        {
-            var adjGraph = new AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>>();
-            foreach (DataVertex vtx in BiGraph.Vertices)
-            {
-                adjGraph.AddVertex(vtx);
-            }
-            foreach (DataEdge edge in BiGraph.Edges)
-            {
-                var ed = new TaggedEquatableEdge<DataVertex, double>(edge.Source, edge.Target, edge.Weight);
-                adjGraph.AddEdge(ed);
-            }
-            return adjGraph;
-        }
-        // Метод преобразования AdjacencyGraph в BidirectionalGraph 
-        private BidirectionalGraph<DataVertex, DataEdge> ToBidirectionalGraph(AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>> AdjGraph)
-        {
-            var BiGraph = new BidirectionalGraph<DataVertex, DataEdge>();
-            foreach (DataVertex vtx in AdjGraph.Vertices)
-            {
-                BiGraph.AddVertex(vtx);
-            }
-            foreach (TaggedEquatableEdge<DataVertex, double> edge in AdjGraph.Edges)
-            {
-                var ed = new DataEdge(edge.Source, edge.Target, edge.Tag);
-                BiGraph.AddEdge(ed);
-            }
-            return BiGraph;
-        }
-
-
-        #endregion
-
+        #region Method nối tên các Vertex từ root tới goal
         // Метод для получения названия маршрута
         private string PathToString(IEnumerable<DataEdge> NameOfPath)
         {
@@ -751,319 +875,10 @@ namespace Simulation.WPF.Pages
                 path = path + "->" + edge.Target.ToString();
             return path;
         }
-        // Сохрание схемы компоновки элементов сети в виде изображения 
-        private void gg_saveAsPngImage_Click(object sender, RoutedEventArgs e)
-        {
-            graphArea.ExportAsImageDialog(ImageType.PNG, true, 96D, 100);
-        }
-
-        #region Tao du an moi
-        // Создание нового проекта
-        private void BtnNew_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show("Сохранить файл ?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    if (graphArea.LogicCore.Graph != null && graphArea.VertexList.Count > 0)
-                    {
-                        var dlg = new SaveFileDialog { Filter = "Файл проекта|*.xml", Title = "Сохранить проект", FileName = ".xml" };
-                        if (dlg.ShowDialog() == true)
-                        {
-                            FileServiceProviderWpf.SerializeDataToFile(dlg.FileName, graphArea.ExtractSerializationData());
-                        }
-                        Title.Text = dlg.FileName;
-                    }
-                    //graphArea.LogicCore.Graph.Clear();
-                    graphArea.LogicCore.Graph?.Clear();
-                    graphArea.ClearLayout();
-                    break;
-                case MessageBoxResult.No:
-                    graphArea.LogicCore.Graph.Clear();
-                    graphArea.ClearLayout();
-                    Title.Text = "noname.xml";
-                    break;
-                case MessageBoxResult.Cancel:
-                    break;
-            }
-        }
         #endregion
-
-        // Печать схему компоновки элементов сети передачи данных
-        private void gg_printlay_Click(object sender, RoutedEventArgs e)
-        {
-            graphArea.PrintDialog("Печать");
-        }
-        // Отображение выбранного канала на экране     
-        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            IEnumerable<DataEdge> listpath = null;
-            var item = sender as ListViewItem;
-            if (item != null && item.IsSelected)
-            {
-                foreach (IEnumerable<DataEdge> path in PathEnum)
-                {
-                    string NameOfPath = PathToString(path);
-
-                    if (NameOfPath == item.Content.ToString())
-                    {
-                        listpath = path;
-                        break;
-                    }
-                }
-                foreach (DataEdge ed in graphArea.LogicCore.Graph.Edges)
-                {
-                    ed.Color = "Green";
-                    foreach (DataEdge edge in listpath)
-                        if ((edge == ed) || (edge.Source == ed.Target && edge.Target == ed.Source)) ed.Color = "Gold";
-                }
-                graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
-                graphArea.StateStorage.LoadState("exampleState");
-            }
-        }
-        // Метод для поиска всех виртуальных каналов для измерителных пунктов
-        private void FindAllPath(string Center, int hybridAlgorithm)
-        {
-            IPCout = 0;
-            bool flag = false;
-            maxValuePath = int.Parse(tbxMaxValue.Text);
-            _allRoute = null;
-            var goal = new DataVertex();
-            // поиск центр сбора в графе
-            VertexStore = graphArea.LogicCore.Graph.Vertices;
-            ListVertex = graphArea.LogicCore.Graph.Vertices.ToList();
-            foreach (DataVertex vt in ListVertex)
-            {
-                if (vt.Text == Center)
-                {
-                    goal = vt;
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag != true) MessageBox.Show("Назначение не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-            // поиск ИП и все маршрут из этого ИП в центр сбора
-            foreach (DataVertex vt in ListVertex)
-                if (vt.TypeOfVertex == "IP")
-                {
-                    IPCout++;
-                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);
-                    vt.ListPath = _allRoute;
-                }
-
-            ChannelCout = graphArea.LogicCore.Graph.EdgeCount;
-            ElementCout = graphArea.LogicCore.Graph.VertexCount;
-            EdgeStore = graphArea.LogicCore.Graph.Edges;
-
-        }
-        // Метод для поиска маршрутов для определенного источника и сохранения результата в двумерный массив
-        private void FindPath(DataVertex root, DataVertex goal, int numberOfPath, ref List<IEnumerable<DataEdge>> allpath, int hybridAlgorithm)
-        {
-            bool flaggoal = false;
-            bool flagroot = false;
-            foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
-            {
-                if (vt.Text == goal.Text)
-                {
-                    flaggoal = true;
-                }
-                if (vt.Text == root.Text)
-                {
-                    flagroot = true;
-                }
-            }
-            if (flaggoal != true) MessageBox.Show("Не правильно задавать параметр в поле: Назначение", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-            if (flagroot != true) MessageBox.Show("Не правильно задавать параметр в поле: Источник", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-
-            if (graphArea.LogicCore.Graph.VertexCount != 0 && flaggoal == true && flagroot == true)
-            {
-                if (hybridAlgorithm == 0)
-                {
-                    Func<DataEdge, double> edgeWeights = E => E.Weight;
-                    var rank = new HoffmanPavleyRankedShortestPathAlgorithm<DataVertex, DataEdge>(graphArea.LogicCore.Graph, edgeWeights);
-                    rank.ShortestPathCount = numberOfPath;
-                    rank.SetRootVertex(root);
-                    rank.Compute(root, goal);
-                    allpath = rank.ComputedShortestPaths.ToList();
-                    // В случае, если заданное число кратчайших маршрутов больше чем фактическое
-                    // то нужно добавлять еще маршруты
-                    if (numberOfPath > allpath.Count)
-                    {
-                        int i = numberOfPath - allpath.Count;
-                        var shortestPath = allpath[0];
-                        while (i != 0)
-                        {
-                            allpath.Add(shortestPath);
-                            i--;
-                        }
-
-                    }
-                }
-
-                if (hybridAlgorithm == 1)
-                {
-                    Func<DataEdge, double> edgeWeights = E => E.Weight;
-                    var Yen = new YenAlgorithm(graphArea.LogicCore.Graph, root, goal, numberOfPath);
-                    allpath = Yen.Execute().ToList();
-                    // В случае, если заданное число кратчайших маршрутов больше чем фактическое
-                    // то нужно добавлять еще маршруты
-                    if (numberOfPath > allpath.Count)
-                    {
-                        int i = numberOfPath - allpath.Count;
-                        var shortestPath = allpath[0];
-                        while (i != 0)
-                        {
-                            allpath.Add(shortestPath);
-                            i--;
-                        }
-
-                    }
-                }
-                if (hybridAlgorithm == 2)
-                {
-                    numberOfPath = 200;
-                    Func<DataEdge, double> edgeWeights = E => E.Weight;
-                    var rank = new HoffmanPavleyRankedShortestPathAlgorithm<DataVertex, DataEdge>(graphArea.LogicCore.Graph, edgeWeights);
-                    rank.ShortestPathCount = numberOfPath;
-                    rank.SetRootVertex(root);
-                    rank.Compute(root, goal);
-                    allpath = rank.ComputedShortestPaths.ToList();
-                    // В случае, если заданное число кратчайших маршрутов больше чем фактическое
-                    // то нужно добавлять еще маршруты
-                    if (numberOfPath > allpath.Count)
-                    {
-                        int i = numberOfPath - allpath.Count;
-                        var shortestPath = allpath[0];
-                        while (i != 0)
-                        {
-                            allpath.Add(shortestPath);
-                            i--;
-                        }
-
-                    }
-                }
-
-            }
-            else MessageBox.Show("Маршрут не найден!");
-        }
-        // Объявления делегатов для включения асинхронного вызова к установке свойств элементов управления
-        private delegate void SetTextCallback(System.Windows.Controls.TextBox control, string text);
-        private void SetText(System.Windows.Controls.TextBox control, string text)
-        {
-            if (Dispatcher.CheckAccess())
-            {
-                control.Text = text;
-            }
-            else
-            {
-                SetTextCallback d = new SetTextCallback(SetText);
-                Dispatcher.Invoke(d, new object[] { control, text });
-            }
-        }
-        private delegate void SetTextCallbackListView(System.Windows.Controls.ListView control, string text);
-        private void SetTextListView(System.Windows.Controls.ListView control, string text)
-        {
-            if (Dispatcher.CheckAccess())
-            {
-                control.Items.Add(text);
-            }
-            else
-            {
-                SetTextCallbackListView d = new SetTextCallbackListView(SetTextListView);
-                Dispatcher.Invoke(d, new object[] { control, text });
-            }
-        }
-        private delegate void SetGraphColor(GraphAreaExample graph, ushort[] chromosome);
-        private void SetColor(GraphAreaExample graph, ushort[] chromosome)
-        {
-            if (Dispatcher.CheckAccess())
-            {
-                UpdateGraph(graphArea, ListVertex, chromosome);
-            }
-            else
-            {
-                SetGraphColor d = new SetGraphColor(SetColor);
-                Dispatcher.Invoke(d, new object[] { graph, chromosome });
-            }
-        }
-        private delegate void UpdatewindowResults(windowResults windowResult, string chromosome, int iteration, double alpha);
-        private void UpdateResults(windowResults windowResult, string chromosome, int iteration, double alpha)
-        {
-            string str = "Итерация № " + iteration.ToString();
-            if (Dispatcher.CheckAccess())
-            {
-                windowResult.progressBar.Value = iteration;
-                windowResult.ListBestChromosome.Items.Add(str);
-                windowResult.ListBestChromosome.Items.Add(chromosome);
-                windowResult.UpdateLineSeries(iteration, alpha);
-            }
-            else
-            {
-                UpdatewindowResults d = new UpdatewindowResults(UpdateResults);
-                Dispatcher.Invoke(d, new object[] { windowResult, chromosome, iteration, alpha });
-            }
-        }
-        private void ResetGraph_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshGraph();
-        }
-
-        #region Su kien thay doi tab
-        // Обработчик события смены Tab
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.Source is TabControl)
-            {
-                zoomCtrl.Cursor = Cursors.Arrow;
-                _opMode = EditorOperationMode.Select;
-                ClearEditMode();
-                graphArea.SetVerticesDrag(true, true);
-                if (TabControl.SelectedItem == TabFindPath)
-                {
-                    cbxGoal.Items.Clear();
-                    cbxRoot.Items.Clear();
-                    foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
-                    {
-                        cbxRoot.Items.Add(vtx.Text);
-                        cbxGoal.Items.Add(vtx.Text);
-                    }
-                    cbxRoot.SelectedIndex = cbxRoot.Items.Count - 1;
-                    cbxGoal.SelectedIndex = 0;
-                }
-                if (TabControl.SelectedItem == TabGA)
-                {
-                    cbxCenter.Items.Clear();
-                    foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
-                    {
-                        if (vtx.TypeOfVertex == "Center")
-                            cbxCenter.Items.Add(vtx.Text);
-
-                    }
-                    cbxCenter.SelectedIndex = 0;
-                }
-            }
-
-        }
         #endregion
-
-        
-
-        #region Su kien nhan nut Start
-        //// Параметры генетического алгоритма
-        //private int populationSize = 40;
-        //private int iterations = 100;
-        //private int selectionMethod = 0;
-        //private int hybridAlgorithm = 0;
-        //private double mutationRate;
-        //private double crossoverRate;
-        //public int maxValue = 0;
-        //public ushort[] bestchromosome = null;
-        //public Thread workerThread = null;
-        //public volatile bool needToStop = false;
-        //private windowResults windowResult;
-        //private windowDiagramAlpha _windowDiagramAlpha;
-        //private windowDiagramLoad _windowDiagramLoad;
-
+       
+        #region startButton_Click_1 - Sự kiện nhấn nút Start
         // Обрабочик события нажатия на кнопке "Старт"
         private void startButton_Click_1(object sender, RoutedEventArgs e)
         {
@@ -1161,6 +976,7 @@ namespace Simulation.WPF.Pages
             }
         }
 
+        #region Method làm mới lại các thể hiện trong khung 
         // Обновление элемента формы
         private void UpdateSettings()
         {
@@ -1169,7 +985,141 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
-        #region cac su kien ben cua so Result
+        #region Method tìm tất cả các đường từ IP về Center đã chọn
+        // Метод для поиска всех виртуальных каналов для измерителных пунктов
+        private void FindAllPath(string Center, int hybridAlgorithm)
+        {
+            IPCout = 0;
+            bool flag = false;
+            maxValuePath = int.Parse(tbxMaxValue.Text);
+            _allRoute = null;
+            var goal = new DataVertex();
+            // поиск центр сбора в графе - Tìm Center trùng với Center trong combobox
+            VertexStore = graphArea.LogicCore.Graph.Vertices;
+            ListVertex = graphArea.LogicCore.Graph.Vertices.ToList();
+            foreach (DataVertex vt in ListVertex)
+            {
+                if (vt.Text == Center)//so sánh xem trùng k, trùng thì thoát
+                {
+                    goal = vt;
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag != true) MessageBox.Show("Назначение не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            // поиск ИП и все маршрут из этого ИП в центр сбора - tìm IP và tất cả các đường từ IP đến Center ở trên
+            foreach (DataVertex vt in ListVertex)
+                if (vt.TypeOfVertex == "IP")
+                {
+                    IPCout++;
+                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);//Gọi method FindPath với vt là từng IP trong danh sách các Vertex, goal - Center được chọn, maxValuePath -tham số, _allRoute - , hybridA - Algorithm được chọn
+                    vt.ListPath = _allRoute;//gán tâp hợp các Edge tạo thành đường ngắn nhất cho từng IP
+                }
+
+            ChannelCout = graphArea.LogicCore.Graph.EdgeCount;
+            ElementCout = graphArea.LogicCore.Graph.VertexCount;
+            EdgeStore = graphArea.LogicCore.Graph.Edges;
+        }
+
+        #region FindPath - Method trả ra tâp hợp các Edge tạo thành đường ngắn nhất
+        // Метод для поиска маршрутов для определенного источника и сохранения результата в двумерный массив
+        private void FindPath(DataVertex root, DataVertex goal, int numberOfPath, ref List<IEnumerable<DataEdge>> allpath, int hybridAlgorithm)
+        {
+            bool flaggoal = false;
+            bool flagroot = false;
+            foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
+            {
+                if (vt.Text == goal.Text)//so sánh với tên Center truyền vào, nếu dúng set 2 cờ true, sai - xuất thông báo
+                {
+                    flaggoal = true;
+                }
+                if (vt.Text == root.Text)
+                {
+                    flagroot = true;
+                }
+            }
+            if (flaggoal != true) MessageBox.Show("Не правильно задавать параметр в поле: Назначение", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            if (flagroot != true) MessageBox.Show("Не правильно задавать параметр в поле: Источник", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            //Khi số Vertex khác 0 và 2 cờ đều true, băt đầu chọn Algorithm để tính toán
+            if (graphArea.LogicCore.Graph.VertexCount != 0 && flaggoal == true && flagroot == true)
+            {
+                if (hybridAlgorithm == 0)
+                {
+                    Func<DataEdge, double> edgeWeights = E => E.Weight;
+                    var rank = new HoffmanPavleyRankedShortestPathAlgorithm<DataVertex, DataEdge>(graphArea.LogicCore.Graph, edgeWeights);
+                    rank.ShortestPathCount = numberOfPath;
+                    rank.SetRootVertex(root);
+                    rank.Compute(root, goal);
+                    allpath = rank.ComputedShortestPaths.ToList();//Method trả ra tâp hợp các Edge tạo thành đường ngắn nhất
+                    // В случае, если заданное число кратчайших маршрутов больше чем фактическое
+                    // то нужно добавлять еще маршруты
+                    if (numberOfPath > allpath.Count)
+                    {
+                        int i = numberOfPath - allpath.Count;
+                        var shortestPath = allpath[0];
+                        while (i != 0)
+                        {
+                            allpath.Add(shortestPath);
+                            i--;
+                        }
+
+                    }
+                }
+
+                if (hybridAlgorithm == 1)
+                {
+                    Func<DataEdge, double> edgeWeights = E => E.Weight;
+                    var Yen = new YenAlgorithm(graphArea.LogicCore.Graph, root, goal, numberOfPath);
+                    allpath = Yen.Execute().ToList();
+                    // В случае, если заданное число кратчайших маршрутов больше чем фактическое
+                    // то нужно добавлять еще маршруты
+                    if (numberOfPath > allpath.Count)
+                    {
+                        int i = numberOfPath - allpath.Count;
+                        var shortestPath = allpath[0];
+                        while (i != 0)
+                        {
+                            allpath.Add(shortestPath);
+                            i--;
+                        }
+
+                    }
+                }
+                if (hybridAlgorithm == 2)
+                {
+                    numberOfPath = 200;
+                    Func<DataEdge, double> edgeWeights = E => E.Weight;
+                    var rank = new HoffmanPavleyRankedShortestPathAlgorithm<DataVertex, DataEdge>(graphArea.LogicCore.Graph, edgeWeights);
+                    rank.ShortestPathCount = numberOfPath;
+                    rank.SetRootVertex(root);
+                    rank.Compute(root, goal);
+                    allpath = rank.ComputedShortestPaths.ToList();
+                    // В случае, если заданное число кратчайших маршрутов больше чем фактическое
+                    // то нужно добавлять еще маршруты
+                    if (numberOfPath > allpath.Count)
+                    {
+                        int i = numberOfPath - allpath.Count;
+                        var shortestPath = allpath[0];
+                        while (i != 0)
+                        {
+                            allpath.Add(shortestPath);
+                            i--;
+                        }
+
+                    }
+                }
+
+            }
+            else MessageBox.Show("Маршрут не найден!");
+        }
+        #endregion
+        #endregion
+
+
+
+        #endregion
+
+        #region Events trên của sổ Result 
         // Открывает окно диаграммы нагрузки канала
         private void BtnDiagramLoad_Click(object sender, RoutedEventArgs e)
         {
@@ -1220,18 +1170,66 @@ namespace Simulation.WPF.Pages
             }
 
         }
+
+        #region Sự kiện bắt buộc dừng khi nhấn Stop
         // Обработчик события нажатия на кнопке "Стоп" в окне windowResult
         private void windowResult_btnStop_click(object sender, RoutedEventArgs e)
         {
             if (workerThread != null)
             {
                 needToStop = true;
-                workerThread.Join(100);
+                workerThread.Join(100);//Join - method khóa luồng hiện tại tới khi đối tượng luồng chấm dứt hoạt động
                 workerThread = null;
             }
         }
         #endregion
+        #endregion        
 
+        #region cbxHybridAlgorithm_SelectionChanged - Sự kiện chọn thuật toán để giải
+        private void cbxHybridAlgorithm_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is ComboBox)
+            {
+                if (cbxHybridAlgorithm.SelectedIndex == 2) tbxMaxValue.IsEnabled = false;
+                else tbxMaxValue.IsEnabled = true;
+            }
+
+        }
+        #endregion
+
+        #region ListViewItem_PreviewMouseLeftButtonDown - Sự kiện xem trước chuột trái thả xuống(làm nỗi bật các đường được chọn theo kết quả sau khi nhấn nút Tìm kiếm)
+        // Отображение выбранного канала на экране     
+        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            IEnumerable<DataEdge> listpath = null;
+            var item = sender as ListViewItem;
+            if (item != null && item.IsSelected)
+            {
+                foreach (IEnumerable<DataEdge> path in PathEnum)
+                {
+                    string NameOfPath = PathToString(path);
+
+                    if (NameOfPath == item.Content.ToString())
+                    {
+                        listpath = path;
+                        break;
+                    }
+                }
+                foreach (DataEdge ed in graphArea.LogicCore.Graph.Edges)
+                {
+                    ed.Color = "Green";
+                    foreach (DataEdge edge in listpath)
+                        if ((edge == ed) || (edge.Source == ed.Target && edge.Target == ed.Source)) ed.Color = "Gold";
+                }
+                graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
+                graphArea.StateStorage.LoadState("exampleState");
+            }
+        }
+        #endregion        
+
+
+
+        #region SearchSolution- Method tìm kết quả tối ưu với sự hỗ trợ của Giải thuật di truyền
         // Метод для поиска оптимального результата с помощью генетического алгоритма
         void SearchSolution()
         {
@@ -1239,9 +1237,9 @@ namespace Simulation.WPF.Pages
             Population population = new Population(populationSize,
                 new ShortArrayChromosome(IPCout, maxValuePath - 1), fitnessFunction,
                 (selectionMethod == 0) ? (ISelectionMethod)new EliteSelection() :
-                (selectionMethod == 1) ? (ISelectionMethod)new RankSelection() :
-                (ISelectionMethod)new RouletteWheelSelection()
-                );
+                    (selectionMethod == 1) ? (ISelectionMethod)new RankSelection() :
+                        (ISelectionMethod)new RouletteWheelSelection()
+            );
             population.MutationRate = mutationRate;
             population.CrossoverRate = crossoverRate;
             int i = 1;
@@ -1267,19 +1265,9 @@ namespace Simulation.WPF.Pages
                     break;
             }
         }
-
-        #region Phuong thuc chon thuat toan de giai
-        private void cbxHybridAlgorithm_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.Source is ComboBox)
-            {
-                if (cbxHybridAlgorithm.SelectedIndex == 2) tbxMaxValue.IsEnabled = false;
-                else tbxMaxValue.IsEnabled = true;
-            }
-
-        }
         #endregion
 
+        #region UpdateGraph - Method làm thay đổi màu sắc Edge
         //Метод для изменения цвета канала 
         private void UpdateGraph(GraphAreaExample graphArea, List<DataVertex> ListVertex, ushort[] path)
         {
@@ -1296,11 +1284,11 @@ namespace Simulation.WPF.Pages
                     if (vertex.Text == nameIP)
                     {
                         foreach (DataEdge ed in vertex.ListPath[path[i]])
-                            foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
-                                if ((ed.Source == channel.Source && ed.Target == channel.Target) || (ed.Source == channel.Target && ed.Target == channel.Source))
-                                {
-                                    channel.Load = channel.Load + vertex.Traffic;
-                                }
+                        foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
+                            if ((ed.Source == channel.Source && ed.Target == channel.Target) || (ed.Source == channel.Target && ed.Target == channel.Source))
+                            {
+                                channel.Load = channel.Load + vertex.Traffic;
+                            }
                     }
             }
             foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
@@ -1323,20 +1311,68 @@ namespace Simulation.WPF.Pages
             graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
             graphArea.StateStorage.LoadState("exampleState");
         }
-        // Метод для получения цвета каналов по умольчанию
-        private void RefreshGraph()
+        #endregion       
+
+        #region Dispose - Method gỡ bỏ và đặt lại các tài nguyên không được quản lý
+        // Метод для удаления и сброса неуправляемых ресурсов
+        public void Dispose()
         {
-            PathList.Items.Clear();
-            foreach (DataEdge ed in graphArea.LogicCore.Graph.Edges)
-            {
-                ed.Load = 0;
-                ed.Alpha = 0;
-                ed.Color = "Green";
-            }
-            graphArea.StateStorage.SaveOrUpdateState("exampleState", "My example state");
-            graphArea.StateStorage.LoadState("exampleState");
+            if (_editorManager != null)
+                _editorManager.Dispose();
+            if (graphArea != null)
+                graphArea.Dispose();
         }
-        
+        #endregion
+
+
+
+        #region khong dung
+        // Метод для получения названия маршрута по алгоритму Йена
+        private string PathToString(IEnumerable<TaggedEquatableEdge<DataVertex, double>> NameOfPath)
+        {
+            string path = "";
+            foreach (TaggedEquatableEdge<DataVertex, double> edge in NameOfPath)
+            {
+                path = edge.Source.ToString();
+                break;
+            }
+            foreach (TaggedEquatableEdge<DataVertex, double> edge in NameOfPath)
+                path = path + "->" + edge.Target.ToString();
+            return path;
+        }
+        // Метод преобразования BidirectionalGraph в AdjacencyGraph
+        private AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>> ToAdjacencyGraph(BidirectionalGraph<DataVertex, DataEdge> BiGraph)
+        {
+            var adjGraph = new AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>>();
+            foreach (DataVertex vtx in BiGraph.Vertices)
+            {
+                adjGraph.AddVertex(vtx);
+            }
+            foreach (DataEdge edge in BiGraph.Edges)
+            {
+                var ed = new TaggedEquatableEdge<DataVertex, double>(edge.Source, edge.Target, edge.Weight);
+                adjGraph.AddEdge(ed);
+            }
+            return adjGraph;
+        }
+        // Метод преобразования AdjacencyGraph в BidirectionalGraph 
+        private BidirectionalGraph<DataVertex, DataEdge> ToBidirectionalGraph(AdjacencyGraph<DataVertex, TaggedEquatableEdge<DataVertex, double>> AdjGraph)
+        {
+            var BiGraph = new BidirectionalGraph<DataVertex, DataEdge>();
+            foreach (DataVertex vtx in AdjGraph.Vertices)
+            {
+                BiGraph.AddVertex(vtx);
+            }
+            foreach (TaggedEquatableEdge<DataVertex, double> edge in AdjGraph.Edges)
+            {
+                var ed = new DataEdge(edge.Source, edge.Target, edge.Tag);
+                BiGraph.AddEdge(ed);
+            }
+            return BiGraph;
+        }
+
+
+        #endregion
     }
 }
 
