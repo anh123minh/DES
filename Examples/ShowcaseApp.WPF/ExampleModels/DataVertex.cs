@@ -66,22 +66,22 @@ namespace Simulation.WPF
 
     public class CreateClass
     {
-        public int FirstTime { get; set; }
-        public int Interval { get; set; }
-        public int LengthOfFile { get; set; }
-        public int Priority { get; set; }
-        public int FileType { get; set; }
+        public int FirstTime { get; set; } = 0;
+        public int Interval { get; set; } = 1;
+        public int LengthOfFile { get; set; } = 100;
+        public int Priority { get; set; } = 0;
+        public int FileType { get; set; } = 0;
 
     }
     public class QueueClass
     {
-        public int QueueCapacity { get; set; }
-        public int Priority { get; set; }
-        public int FileType { get; set; }
+        public int QueueCapacity { get; set; } = 100;
+        public int Priority { get; set; } = 0;
+        public int FileType { get; set; } = 0;
     }
     public class TerminateClass
     {
-        public int OutputCounter { get; set; }
+        public int OutputCounter { get; set; } = 100;
         public int StoppingTime { get; set; }
     }
     public class AccumulateClass

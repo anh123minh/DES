@@ -65,6 +65,11 @@
                                 <ImageBrush ImageSource="/Simulation;component/Assets/draw arrow.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
+                        <ToggleButton x:Name="butAMDraw" ToolTip="Режим рисования канала" x:FieldModifier="private">
+                            <ToggleButton.Background>
+                                <ImageBrush ImageSource="/Simulation;component/Assets/AMdraw arrow.png"/>
+                            </ToggleButton.Background>
+                        </ToggleButton>
                         <ToggleButton x:Name="butDelete" ToolTip="Режима удаления: нажмите элементы и каналы, чтобы удалить их" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/Simulation;component/Assets/delete.png"/>
@@ -79,17 +84,17 @@
                                 <Setter Property="Height" Value="45"/>
                             </Style>
                         </StackPanel.Resources>
-                        <ToggleButton x:Name="BtnCreate"  ToolTip="Режим редактирования: нажмите, чтобы поместить центр сбора, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnCreate"  ToolTip="Режим редактирования: нажмите, чтобы поместить Генератор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/Simulation;component/Assets/AMCreate.jpg"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить VLB сеть, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить Очередь, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/Simulation;component/Assets/AMQueue.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="BtnTerminate" ToolTip="Режим редактирования: нажмите, чтобы поместить маршрутизатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnTerminate" ToolTip="Режим редактирования: нажмите, чтобы поместить Терминатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/Simulation;component/Assets/AMTerminate.png"/>
                             </ToggleButton.Background>
@@ -179,7 +184,7 @@
                                 </DockPanel>
                                 <DockPanel DockPanel.Dock="Top" Margin="2" HorizontalAlignment="Stretch">
                                     <Label Content="Назначение:" DockPanel.Dock="Left" VerticalAlignment="Center" ></Label>
-                                    <TextBox Text="Центр сбора 1" DockPanel.Dock="Right" VerticalContentAlignment="Center" Margin="2" x:Name="_tBxGoal"></TextBox>
+                                    <TextBox Text="Генератор 1" DockPanel.Dock="Right" VerticalContentAlignment="Center" Margin="2" x:Name="_tBxGoal"></TextBox>
                                     <ComboBox Name="cbxGoal" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" IsEditable="True" Margin="3,0,0,0" ></ComboBox>
 
                                 </DockPanel>

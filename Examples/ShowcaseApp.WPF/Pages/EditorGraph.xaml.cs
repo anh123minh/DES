@@ -40,12 +40,18 @@ namespace Simulation.WPF.Pages
         private bool overLoad = false;
         private enum VertexType//các kiểu của các element
         {
-            Center = 0,
-            VLB,
-            Router,
+            AMCreate = 0,
+            AMQueue,
+            AMTerminate,
             IP
         }
-        private VertexType _vertextype = VertexType.Center;
+        private enum EdgeType
+        {
+            AMArc = 0,
+            AMDirection
+        }
+        private VertexType _vertextype = VertexType.AMCreate;
+        private EdgeType _edgetype = EdgeType.AMArc;
         // Параметры генетического алгоритма
         private int populationSize = 40;
         private int iterations = 100;
@@ -99,7 +105,7 @@ namespace Simulation.WPF.Pages
             //vertexSelected.Cnew.Cre1
         }
 
-        #region ToolbarButton_Checked - Sự kiện khi nhấn chuột vào 1 biểu tượng bất kì và thiết lập các tham số: _opMode - các mode xử lý,_vertextype - mặc định là Center
+        #region ToolbarButton_Checked - Sự kiện khi nhấn chuột vào 1 biểu tượng bất kì và thiết lập các tham số: _opMode - các mode xử lý,_vertextype - mặc định là AMCreate
         // Обработка событий щелчка мышкой на кнопке главного панела
         void ToolbarButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -125,9 +131,10 @@ namespace Simulation.WPF.Pages
                 BtnTerminate.IsChecked = false;
                 BtnAccumulate.IsChecked = false;
                 butDraw.IsChecked = false;
+                butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.Center;
+                _vertextype = VertexType.AMCreate;
                 ClearSelectMode();
                 return;
             }
@@ -139,9 +146,10 @@ namespace Simulation.WPF.Pages
                 BtnTerminate.IsChecked = false;
                 BtnAccumulate.IsChecked = false;
                 butDraw.IsChecked = false;
+                butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.VLB;
+                _vertextype = VertexType.AMQueue;
                 ClearSelectMode();
                 return;
             }
@@ -153,9 +161,10 @@ namespace Simulation.WPF.Pages
                 BtnCreate.IsChecked = false;
                 BtnAccumulate.IsChecked = false;
                 butDraw.IsChecked = false;
+                butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.Router;
+                _vertextype = VertexType.AMTerminate;
                 ClearSelectMode();
                 return;
             }
@@ -167,6 +176,7 @@ namespace Simulation.WPF.Pages
                 BtnTerminate.IsChecked = false;
                 BtnCreate.IsChecked = false;
                 butDraw.IsChecked = false;
+                butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
                 _vertextype = VertexType.IP;
@@ -181,6 +191,7 @@ namespace Simulation.WPF.Pages
                 BtnAccumulate.IsChecked = false;
                 butDelete.IsChecked = false;
                 butDraw.IsChecked = false;
+                butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Hand;
                 _opMode = EditorOperationMode.Select;
                 ClearEditMode();
@@ -195,7 +206,24 @@ namespace Simulation.WPF.Pages
                 BtnTerminate.IsChecked = false;
                 BtnCreate.IsChecked = false;
                 BtnAccumulate.IsChecked = false;
+                butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
+                _edgetype = EdgeType.AMArc;
+                _opMode = EditorOperationMode.AddEdge;
+                ClearSelectMode();
+                return;
+            }
+            if (butAMDraw.IsChecked == true && sender == butDraw)
+            {
+                butDelete.IsChecked = false;
+                butSelect.IsChecked = false;
+                BtnQueue.IsChecked = false;
+                BtnTerminate.IsChecked = false;
+                BtnCreate.IsChecked = false;
+                BtnAccumulate.IsChecked = false;
+                butDraw.IsChecked = false;
+                zoomCtrl.Cursor = Cursors.Pen;
+                _edgetype = EdgeType.AMDirection;
                 _opMode = EditorOperationMode.AddEdge;
                 ClearSelectMode();
                 return;
@@ -235,15 +263,15 @@ namespace Simulation.WPF.Pages
             var data = new DataVertex();//Tạo mới 1 Vertex 
             switch (_vertextype)
             {
-                case VertexType.Center:
+                case VertexType.AMCreate:
                     //Set mới 1 Vertex với pros: Text+số thứ tự, Type bằng Constructor và pro ImageId
-                    data = new DataVertex("Центр сбора " + (CountElement("Center") + 1), "Center") { ImageId = 0 };
+                    data = new DataVertex("Генератор " + (CountElement("AMCreate") + 1), "AMCreate") { ImageId = 0, CreateType = new CreateClass()};
                     break;
-                case VertexType.VLB:
-                    data = new DataVertex("VLB " + (CountElement("VLB") + 1), "VLB") { ImageId = 1 };
+                case VertexType.AMQueue:
+                    data = new DataVertex("Очередь " + (CountElement("AMQueue") + 1), "AMQueue") { ImageId = 1, QueueType = new QueueClass()};
                     break;
-                case VertexType.Router:
-                    data = new DataVertex("Маршрутизатор " + (CountElement("Router") + 1), "Router") { ImageId = 2 };
+                case VertexType.AMTerminate:
+                    data = new DataVertex("Терминатор " + (CountElement("AMTerminate") + 1), "AMTerminate") { ImageId = 2, TerminateType = new TerminateClass()};
                     break;
                 case VertexType.IP:
                     data = new DataVertex("ИП " + (CountElement("IP") + 1), "IP") { ImageId = 3, Traffic = 20 };
@@ -259,7 +287,7 @@ namespace Simulation.WPF.Pages
         }
 
         #region CountElement - Method đếm số lượng Element
-        // Метод для вычисления количества элементов (VLB, маршрутизатор, ИП, центр сбора) сети передачи данных
+        // Метод для вычисления количества элементов (Очередь, Терминатор, ИП, Генератор) сети передачи данных
         private int CountElement(string Type)
         {
             if (graphArea.LogicCore.Graph == null) return 0;
@@ -740,7 +768,7 @@ namespace Simulation.WPF.Pages
                     cbxCenter.Items.Clear();
                     foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
                     {
-                        if (vtx.TypeOfVertex == "Center")
+                        if (vtx.TypeOfVertex == "AMCreate")
                             cbxCenter.Items.Add(vtx.Text);
 
                     }
@@ -940,7 +968,7 @@ namespace Simulation.WPF.Pages
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Центр сбора не существует !", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Генератор не существует !", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
@@ -985,7 +1013,7 @@ namespace Simulation.WPF.Pages
         }
         #endregion
 
-        #region Method tìm tất cả các đường từ IP về Center đã chọn
+        #region Method tìm tất cả các đường từ IP về AMCreate đã chọn
         // Метод для поиска всех виртуальных каналов для измерителных пунктов
         private void FindAllPath(string Center, int hybridAlgorithm)
         {
@@ -994,7 +1022,7 @@ namespace Simulation.WPF.Pages
             maxValuePath = int.Parse(tbxMaxValue.Text);
             _allRoute = null;
             var goal = new DataVertex();
-            // поиск центр сбора в графе - Tìm Center trùng với Center trong combobox
+            // поиск Генератор в графе - Tìm AMCreate trùng với AMCreate trong combobox
             VertexStore = graphArea.LogicCore.Graph.Vertices;
             ListVertex = graphArea.LogicCore.Graph.Vertices.ToList();
             foreach (DataVertex vt in ListVertex)
@@ -1007,12 +1035,12 @@ namespace Simulation.WPF.Pages
                 }
             }
             if (flag != true) MessageBox.Show("Назначение не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-            // поиск ИП и все маршрут из этого ИП в центр сбора - tìm IP và tất cả các đường từ IP đến Center ở trên
+            // поиск ИП и все маршрут из этого ИП в Генератор - tìm IP và tất cả các đường từ IP đến AMCreate ở trên
             foreach (DataVertex vt in ListVertex)
                 if (vt.TypeOfVertex == "IP")
                 {
                     IPCout++;
-                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);//Gọi method FindPath với vt là từng IP trong danh sách các Vertex, goal - Center được chọn, maxValuePath -tham số, _allRoute - , hybridA - Algorithm được chọn
+                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);//Gọi method FindPath với vt là từng IP trong danh sách các Vertex, goal - AMCreate được chọn, maxValuePath -tham số, _allRoute - , hybridA - Algorithm được chọn
                     vt.ListPath = _allRoute;//gán tâp hợp các Edge tạo thành đường ngắn nhất cho từng IP
                 }
 
@@ -1029,7 +1057,7 @@ namespace Simulation.WPF.Pages
             bool flagroot = false;
             foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
             {
-                if (vt.Text == goal.Text)//so sánh với tên Center truyền vào, nếu dúng set 2 cờ true, sai - xuất thông báo
+                if (vt.Text == goal.Text)//so sánh với tên AMCreate truyền vào, nếu dúng set 2 cờ true, sai - xuất thông báo
                 {
                     flaggoal = true;
                 }

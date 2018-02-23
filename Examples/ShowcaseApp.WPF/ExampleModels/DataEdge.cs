@@ -67,6 +67,10 @@ namespace Simulation.WPF
             get { return (Load/Capacity)*100; }
             set { _alpha = value; }
         }
+        //AM
+        public string TypeOfEdge { get; set; } = "";
+        public int Probability { get; set; } = 0;
+        public int Delay { get; set; } = 0;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string name)

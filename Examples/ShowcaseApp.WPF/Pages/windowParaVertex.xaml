@@ -5,14 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulation.WPF.Pages"
         mc:Ignorable="d"
-        Title="Параметры" Height="180" Width="250" WindowStartupLocation="CenterScreen">
+        Title="Параметры" Height="320" Width="250" WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel HorizontalAlignment="Stretch" Margin="3,10,3,3">
-            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="5">
                 <TextBox x:Name="tBxName" DockPanel.Dock="Top" HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center" Margin="3"></TextBox>
-                <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" >
-                    <Label Content="Трафик (Мб/с):" DockPanel.Dock="Left" Margin="3"></Label>
+                <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <Label Content="Трафик (Мб/с):" DockPanel.Dock="Left" Margin="10,3"></Label>
                     <TextBox x:Name="tBxTraffic" DockPanel.Dock="Right" Margin="3" Width="90"></TextBox>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" >
+                    <Label x:Name="Label1"  DockPanel.Dock="Left" Margin="3"></Label>
+                    <TextBox x:Name="tBx1" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
+                    <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <Label x:Name="Label3"  DockPanel.Dock="Left" Margin="3"></Label>
+                    <TextBox x:Name="tBx3" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
                 </DockPanel>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">

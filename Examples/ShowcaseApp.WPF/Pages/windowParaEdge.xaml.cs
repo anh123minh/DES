@@ -23,27 +23,48 @@ using AForge.Genetic;
 
 namespace Simulation.WPF.Pages
 {
-    
+
     /// <summary>
     /// Interaction logic for windowParaEdge.xaml
     /// </summary>
     public partial class windowParaEdge : Window
     {
-        
+
         public delegate void SetValueForm(DataEdge ed);
         public SetValueForm SetValueControl;
         private DataEdge edgeBefore;
         private DataEdge edgeAfter;
-        
+
         public windowParaEdge()
         {
             InitializeComponent();
             SetValueControl = new SetValueForm(GetValueControl);
-            
+
         }
-        
-    private void GetValueControl(DataEdge ed)
-    {
+
+        private void GetValueControl(DataEdge ed)
+        {
+            //edgeBefore = ed;
+            //edgeAfter = ed;
+            //tBxName.Text = ed.Source.Text + "-" + ed.Target.Text;
+            //tBxCapacity.Text = ed.Capacity.ToString();
+            //tBxWeight.Text = ed.Weight.ToString();
+            //Label1.Content = "Вероятность выполнения:";
+            //tBx1.Text = ed.Probability.ToString();
+            //switch (edgeBefore.TypeOfEdge)
+            //{
+            //    case "AMArc":
+
+            //        Label2.Content = "Задержка:";
+            //        tBx2.Text = ed.Delay.ToString();
+            //        break;
+            //    case "AMDirection":
+
+            //        break;
+            //    default:
+            //        MessageBox.Show("Тип узлы не определен!");
+            //        break;
+            //}
             edgeBefore = new DataEdge();
             edgeAfter = new DataEdge();
             tBxName.Text = ed.Source.Text + "-" + ed.Target.Text;
@@ -56,12 +77,12 @@ namespace Simulation.WPF.Pages
         {
             UpdateEgde(edgeAfter);
             EditorGraph graph = new Pages.EditorGraph();
-            graph.edgeSelected = edgeAfter;         
+            graph.edgeSelected = edgeAfter;
             Close();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             tBxCapacity.Text = edgeBefore.Capacity.ToString();
         }
         private void UpdateEgde(DataEdge ed)
@@ -70,6 +91,6 @@ namespace Simulation.WPF.Pages
             ed.Weight = double.Parse(tBxWeight.Text);
         }
 
-       
+
     }
 }
