@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using QuickGraph;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     public static class ShowcaseHelper
     {

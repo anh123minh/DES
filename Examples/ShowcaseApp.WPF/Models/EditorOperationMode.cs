@@ -1,4 +1,4 @@
-﻿namespace Simulation.WPF.Models
+﻿namespace SimulationV1.WPF.Models
 {
     public enum EditorOperationMode
     {

@@ -5,7 +5,7 @@ using GraphX.PCL.Common.Interfaces;
 using GraphX.PCL.Logic.Algorithms.EdgeRouting;
 using QuickGraph;
 
-namespace Simulation.WPF.ExampleModels
+namespace SimulationV1.WPF.ExampleModels
 {
     public class OrthEr<TVertex, TEdge, TGraph> : EdgeRoutingAlgorithmBase<TVertex, TEdge, TGraph>
         where TGraph : class, IMutableBidirectionalGraph<TVertex, TEdge>

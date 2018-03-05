@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for Settings.xaml

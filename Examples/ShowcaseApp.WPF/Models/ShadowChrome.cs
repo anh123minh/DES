@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     public class ShadowChrome : Decorator
     {

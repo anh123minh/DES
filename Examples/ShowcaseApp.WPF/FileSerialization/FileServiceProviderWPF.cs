@@ -3,7 +3,7 @@ using System.IO;
 using GraphX.PCL.Common.Models;
 using YAXLib;
 
-namespace Simulation.WPF.FileSerialization
+namespace SimulationV1.WPF.FileSerialization
 {
     /// <summary>
     /// WPF implementation of file serialization and deserialization

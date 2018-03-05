@@ -3,7 +3,7 @@ using System.Management.Instrumentation;
 using QuickGraph.Algorithms.Observers;
 using QuickGraph;
 using QuickGraph.Algorithms.ShortestPath;
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
     public class YenShortestsPathAlgorithm<TVertex>
     {

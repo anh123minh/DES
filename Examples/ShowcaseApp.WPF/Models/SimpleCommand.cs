@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     public class SimpleCommand : ICommand
    {

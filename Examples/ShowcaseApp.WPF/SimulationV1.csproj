@@ -7,8 +7,8 @@
     <ProjectGuid>{C054C423-7284-46A6-9738-B82E2237E9C7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simulation.WPF</RootNamespace>
-    <AssemblyName>Simulation</AssemblyName>
+    <RootNamespace>SimulationV1.WPF</RootNamespace>
+    <AssemblyName>SimulationV1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -101,6 +101,9 @@
     <Reference Include="QuickGraph.Serialization">
       <HintPath>..\..\packages\QuickGraphPCL.3.6.61114.2\lib\net40-client\QuickGraph.Serialization.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="React.NET">
+      <HintPath>..\..\..\..\Магистратура\Simulation\React.NET\React.NET-0.6.0\examples\bin\React.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
-using Simulation.WPF.Controls;
+using SimulationV1.WPF.Controls;
 
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for MiniContentPage.xaml

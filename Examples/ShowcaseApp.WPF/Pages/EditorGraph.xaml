@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:wpf="clr-namespace:Simulation.WPF"    
+             xmlns:wpf="clr-namespace:SimulationV1.WPF"    
              xmlns:controls1="http://schemas.panthernet.ru/graphx/"
-             xmlns:controls="clr-namespace:System.Windows.Controls;assembly=Accordion" x:Class="Simulation.WPF.Pages.EditorGraph"
+             xmlns:controls="clr-namespace:System.Windows.Controls;assembly=Accordion" x:Class="SimulationV1.WPF.Pages.EditorGraph"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="600">
     <Grid>
@@ -57,22 +57,22 @@
                         </StackPanel.Resources>
                         <ToggleButton x:Name="butSelect" ToolTip="Режим выбора: перемещать элемент, Ctrl+Click для группирования элементов" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/pointer.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/pointer.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="butDraw" ToolTip="Режим рисования канала" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/draw arrow.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/draw arrow.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="butAMDraw" ToolTip="Режим рисования канала" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/AMdraw arrow.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMdraw arrow.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="butDelete" ToolTip="Режима удаления: нажмите элементы и каналы, чтобы удалить их" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/delete.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/delete.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>
@@ -86,23 +86,23 @@
                         </StackPanel.Resources>
                         <ToggleButton x:Name="BtnCreate"  ToolTip="Режим редактирования: нажмите, чтобы поместить Генератор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/AMCreate.jpg"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMCreate.jpg"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить Очередь, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/AMQueue.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMQueue.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="BtnTerminate" ToolTip="Режим редактирования: нажмите, чтобы поместить Терминатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/AMTerminate.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMTerminate.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
 
                         <ToggleButton x:Name="BtnAccumulate" ToolTip="Режим редактирования: нажмите, чтобы поместить измерительный пункт, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/Simulation;component/Assets/AMAccumulate.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMAccumulate.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>

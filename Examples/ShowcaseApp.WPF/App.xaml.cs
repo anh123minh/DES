@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Simulation.WPF
+namespace SimulationV1.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

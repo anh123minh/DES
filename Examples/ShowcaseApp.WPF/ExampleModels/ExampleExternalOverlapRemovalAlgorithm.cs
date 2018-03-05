@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using GraphX.Measure;
 using GraphX.PCL.Common.Interfaces;
 
-namespace Simulation.WPF
+namespace SimulationV1.WPF
 {
     public class ExampleExternalOverlapRemovalAlgorithm: IExternalOverlapRemoval<DataVertex>
     {

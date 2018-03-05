@@ -3,12 +3,11 @@ using GraphX;
 using System;
 using GraphX.Measure;
 using GraphX.PCL.Common.Models;
-using Simulation.WPF.FileSerialization;
 using YAXLib;
 using System.Windows.Media;
-using Simulation.WPF.FileSerialization;
+using SimulationV1.WPF.FileSerialization;
 
-namespace Simulation.WPF
+namespace SimulationV1.WPF
 {
     [Serializable]
     public class DataEdge : EdgeBase<DataVertex>, INotifyPropertyChanged

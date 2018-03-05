@@ -1,6 +1,6 @@
 ﻿using GraphX.PCL.Common.Models;
 using System.Collections.Generic;
-namespace Simulation.WPF
+namespace SimulationV1.WPF
 {
     public class DataVertex: VertexBase
     {

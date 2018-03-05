@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for windowDiagramLoad.xaml

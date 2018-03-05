@@ -6,7 +6,7 @@ using GraphX;
 using GraphX.Controls;
 using GraphX.Controls.Models;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     public class EditorObjectManager: IDisposable
     {
@@ -22,7 +22,7 @@ namespace Simulation.WPF.Models
             _zoomControl.MouseMove += _zoomControl_MouseMove;
             _rd = new ResourceDictionary
             {
-                Source = new Uri("/Traffic Management;component/Templates/EditorGraphXTemplates.xaml",
+                Source = new Uri("/SimulationV1;component/Templates/EditorGraphXTemplates.xaml",
                     UriKind.RelativeOrAbsolute)
             };
         }

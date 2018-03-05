@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Media;
 
-namespace Simulation.WPF.Content
+namespace SimulationV1.WPF.Content
 {
     /// <summary>
     /// A simple view model for configuring theme, font and accent colors.
@@ -69,7 +69,7 @@ namespace Simulation.WPF.Content
             this.themes.Add(new Link { DisplayName = "светлый", Source = AppearanceManager.LightThemeSource });
 
             // add additional themes
-            this.themes.Add(new Link { DisplayName = "snowflakes", Source = new Uri("/Simulation.WPF;component/Assets/ModernUI.Snowflakes.xaml", UriKind.Relative) });
+            this.themes.Add(new Link { DisplayName = "snowflakes", Source = new Uri("/SimulationV1.WPF;component/Assets/ModernUI.Snowflakes.xaml", UriKind.Relative) });
 
             this.SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
             SyncThemeAndColor();

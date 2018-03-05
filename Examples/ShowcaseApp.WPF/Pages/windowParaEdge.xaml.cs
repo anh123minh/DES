@@ -7,11 +7,11 @@ using System.Windows.Input;
 using GraphX.PCL.Common.Enums;
 using GraphX.Controls;
 using GraphX.Controls.Models;
-using Simulation.WPF.Models;
+using SimulationV1.WPF.Models;
 using GraphX.PCL.Logic.Algorithms.LayoutAlgorithms;
 using Microsoft.Win32;
 using QuickGraph;
-using Simulation.WPF.FileSerialization;
+using SimulationV1.WPF.FileSerialization;
 using Rect = GraphX.Measure.Rect;
 using QuickGraph.Algorithms.RankedShortestPath;
 using System.Windows.Data;
@@ -21,7 +21,7 @@ using System.Threading;
 using AForge;
 using AForge.Genetic;
 
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
 
     /// <summary>

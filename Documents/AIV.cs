@@ -1,6 +1,6 @@
 using System.Reflection;
 
-[assembly: AssemblyDescription("Simulation (TM)")]
+[assembly: AssemblyDescription("SimulationV1 (TM)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ryazan State RadioEngeneering University (RSREU)")]
 [assembly: AssemblyProduct("")]

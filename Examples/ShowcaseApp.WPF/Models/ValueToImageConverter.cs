@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Simulation.WPF.Models;
 using System.Windows.Media;
-using Simulation.WPF.Models;
+using SimulationV1.WPF.Models;
 
-namespace Simulation.WPF
+namespace SimulationV1.WPF
 {
     
     public sealed class ValueToImageConverter : IValueConverter

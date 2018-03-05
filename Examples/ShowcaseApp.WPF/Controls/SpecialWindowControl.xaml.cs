@@ -5,10 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using FirstFloor.ModernUI;
 using FirstFloor.ModernUI.Windows;
-using Simulation.WPF.Models;
-using Simulation.WPF.Models;
+using SimulationV1.WPF.Models;
 
-namespace Simulation.WPF.Controls
+namespace SimulationV1.WPF.Controls
 {
     /// <summary>
     /// Interaction logic for SpecialWindowControl.xaml

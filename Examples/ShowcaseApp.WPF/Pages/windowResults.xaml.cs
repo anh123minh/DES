@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for windowResults.xaml

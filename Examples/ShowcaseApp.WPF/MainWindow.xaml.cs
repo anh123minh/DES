@@ -1,12 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using FirstFloor.ModernUI.Windows.Controls;
-using Simulation.WPF.Controls;
-using Simulation.WPF.Models;
 using System.Diagnostics;
 using System.Reflection;
+using SimulationV1.WPF.Controls;
+using SimulationV1.WPF.Models;
 
-namespace Simulation.WPF
+namespace SimulationV1.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

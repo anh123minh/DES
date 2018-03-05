@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     public class ColorModel
     {

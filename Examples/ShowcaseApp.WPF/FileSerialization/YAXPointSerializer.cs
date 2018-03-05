@@ -2,7 +2,7 @@
 using GraphX.Measure;
 using YAXLib;
 
-namespace Simulation.WPF.FileSerialization
+namespace SimulationV1.WPF.FileSerialization
 {
     public sealed class YAXPointSerializer: ICustomSerializer<Point>
     {

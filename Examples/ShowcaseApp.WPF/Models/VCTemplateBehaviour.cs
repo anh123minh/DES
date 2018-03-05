@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     /// <summary>
     /// Contains helpful attached properties for VertexControl class

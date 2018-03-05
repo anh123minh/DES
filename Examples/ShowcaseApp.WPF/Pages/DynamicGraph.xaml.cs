@@ -10,10 +10,9 @@ using GraphX.PCL.Common.Enums;
 using GraphX.Controls;
 using GraphX.Controls.Animations;
 using GraphX.Controls.Models;
-using Simulation.WPF.Models;
-using Simulation.WPF.Models;
+using SimulationV1.WPF.Models;
 
-namespace Simulation.WPF.Pages
+namespace SimulationV1.WPF.Pages
 {
     /// <summary>
     /// Interaction logic for DynamicGraph.xaml

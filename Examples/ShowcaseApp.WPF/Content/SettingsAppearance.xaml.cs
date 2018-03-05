@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Simulation.WPF.Content
+namespace SimulationV1.WPF.Content
 {
     /// <summary>
     /// Interaction logic for SettingsAppearance.xaml

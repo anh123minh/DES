@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
-namespace Simulation.WPF.Models
+namespace SimulationV1.WPF.Models
 {
     public static class ImageLoader
     {
@@ -10,9 +10,9 @@ namespace Simulation.WPF.Models
 
         static ImageLoader()
         {
-            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation.WPF;component/Assets/circle_red.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation.WPF;component/Assets/circle_blue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/Simulation.WPF;component/Assets/circle_green.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1.WPF;component/Assets/circle_red.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1.WPF;component/Assets/circle_blue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1.WPF;component/Assets/circle_green.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
         }
 
         public static BitmapImage GetImageById(int id)
