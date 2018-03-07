@@ -35,13 +35,16 @@ namespace SimulationV1.WPF.Pages
             VertexAfter = vtx;
             switch (VertexBefore.TypeOfVertex)
             {
-                case "AMCreate":              
+                case "AMCreate":   
+                    DPDistribution.Visibility = Visibility.Visible;
+                    cbbDistribution.SelectedIndex = (int)VertexBefore.CreateType.TypeDistribuion;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     Label1.Content = "Начало:";
                     tBx1.Text = VertexBefore.CreateType.FirstTime.ToString();
                     Label2.Content = "Интервал:";
                     tBx2.Text = VertexBefore.CreateType.Interval.ToString();
+                    DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Длина файла:";
                     tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
                     break;
@@ -52,6 +55,7 @@ namespace SimulationV1.WPF.Pages
                     tBx1.Text = VertexBefore.QueueType.QueueCapacity.ToString();
                     Label2.Content = "Приоритет:";
                     tBx2.Text = VertexBefore.QueueType.Priority.ToString();
+                    DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Тип файла:";
                     tBx3.Text = VertexBefore.QueueType.FileType.ToString();
                     break;
@@ -87,11 +91,75 @@ namespace SimulationV1.WPF.Pages
         {
             tBxName.Text = VertexBefore.Text;
             tBxTraffic.Text = VertexBefore.Traffic.ToString();
+
+            switch (VertexBefore.TypeOfVertex)
+            {
+                case "AMCreate":
+                    tBx1.Text = VertexBefore.CreateType.FirstTime.ToString();
+                    tBx2.Text = VertexBefore.CreateType.Interval.ToString();
+                    tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
+                    switch (VertexBefore.CreateType.TypeDistribuion)
+                    {
+                        case CreateClass.Distribution.NormalDis:
+                            cbbDistribution.SelectedIndex = 0;
+                            break;
+                        case CreateClass.Distribution.ExponentialDis:
+                            cbbDistribution.SelectedIndex = 1;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "AMQueue":
+                    tBx1.Text = VertexBefore.QueueType.QueueCapacity.ToString();
+                    tBx2.Text = VertexBefore.QueueType.Priority.ToString();
+                    tBx3.Text = VertexBefore.QueueType.FileType.ToString();
+                    break;
+                case "AMTerminate":
+                    tBx1.Text = VertexBefore.TerminateType.OutputCounter.ToString();
+                    tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
+                    break;
+                default:
+                    break;
+            }
+            Close();
         }
         private void UpdateVertex()
         {
             VertexAfter.Text = tBxName.Text;
             VertexAfter.Traffic = double.Parse(tBxTraffic.Text);
+            switch (VertexBefore.TypeOfVertex)
+            {
+                case "AMCreate":                                      
+                    VertexAfter.CreateType.FirstTime = int.Parse(tBx1.Text);
+                    VertexAfter.CreateType.Interval = int.Parse(tBx2.Text);
+                    VertexAfter.CreateType.LengthOfFile = int.Parse(tBx3.Text);
+                    switch (cbbDistribution.SelectedIndex)
+                    {
+                        case 0:
+                            VertexAfter.CreateType.TypeDistribuion = CreateClass.Distribution.NormalDis;
+                            break;
+                        case 1:
+                            VertexAfter.CreateType.TypeDistribuion = CreateClass.Distribution.ExponentialDis;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "AMQueue":
+                    VertexAfter.QueueType.QueueCapacity = int.Parse(tBx1.Text);
+                    VertexAfter.QueueType.Priority = int.Parse(tBx2.Text);
+                    VertexAfter.QueueType.FileType = int.Parse(tBx3.Text);
+                    break;
+                case "AMTerminate":
+                    VertexAfter.TerminateType.OutputCounter = int.Parse(tBx1.Text);
+                    VertexAfter.TerminateType.StoppingTime = int.Parse(tBx2.Text);
+                    break;
+                default:
+                    break;
+            }
+            
+
         }
     }
 }

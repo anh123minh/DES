@@ -70,6 +70,8 @@ namespace SimulationV1.WPF
         public string TypeOfEdge { get; set; } = "";
         public int Probability { get; set; } = 0;
         public int Delay { get; set; } = 0;
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string name)

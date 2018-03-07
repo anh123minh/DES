@@ -121,8 +121,8 @@
                         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                             <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center">Файл</TextBlock>
                             <DockPanel LastChildFill="False" HorizontalAlignment="Center">
-                                <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Старт" />
-                                <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сборс" />
+                                <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Старт" x:Name="BtnStart" Click="BtnStart_OnClick"/>
+                                <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сборс" x:Name="BtnClear" Click="BtnClear_OnClick"/>
                             </DockPanel>
                         </DockPanel>
                         <DockPanel Name="ItemPara" DockPanel.Dock="Top">

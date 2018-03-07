@@ -1,5 +1,11 @@
 ﻿using GraphX.PCL.Common.Models;
 using System.Collections.Generic;
+using React;
+using React.Distribution;
+using SimulationV1.WPF.ExampleModels;
+using System;
+using System.Windows;
+
 namespace SimulationV1.WPF
 {
     public class DataVertex: VertexBase
@@ -56,33 +62,105 @@ namespace SimulationV1.WPF
             TypeOfVertex = string.IsNullOrEmpty(type) ? "No type" : type;
         }
 
-        //  private int[,] _matrixload ;
-      //  public int[,] MatrixLoad { get; set; }
-      //  {
-     //      get { return _matrixload; }
-      //     set { _matrixload = value; }
-      //  }
+
     }
 
-    public class CreateClass
+    public class CreateClass : Simulation
     {
-        public int FirstTime { get; set; } = 0;
-        public int Interval { get; set; } = 1;
-        public int LengthOfFile { get; set; } = 100;
-        public int Priority { get; set; } = 0;
-        public int FileType { get; set; } = 0;
+        private NonUniform TypeDis { get; set; }//Kieu Distribution
+        public enum Distribution
+        {
+            NormalDis,
+            ExponentialDis
+        }
+        //Nhung tham so set tu giao dien duoc
+        public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
+        public double Interval { get; set; } = 5;//Khoang lamda
+        public int LengthOfFile { get; set; } = 40;//số Customer tối đa       
+        public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
+
+        public List<Point> Points { get; set; }
+                        
+        public int Priority { get; set; } = 0;//Thứ tự ưu tiên
+        public int FileType { get; set; } = 0;//dạng ưu tiên
+        public Resource ABarbers { get; set; }//Khai báo các máy phục vụ
+        
+        //Nhung tham so set tu cac Vertex khac
+        public int QueueCapacity { get; set; } = 500;// = QueueCapacity
+        public long EndingTime { get; set; } = 240;//Thời gian kết thúc, sau sẽ được truyện vào từ Terminate 
+        
+        //Method sinh Cus
+        public IEnumerator<Task> Generator(Process p, object data)
+        {
+            Console.WriteLine(this.Now + @" The barber shop is opening for business...");
+            //Resource barbers = CreateBarbers();
+            ABarbers = Resource.Create(new List<Barber>() { new Barber(this, "Minh"), new Barber(this, "Anh") });
+            int i = 0;
+            switch (TypeDistribuion)
+            {
+                case Distribution.NormalDis:
+                    TypeDis = new Normal(Interval, 1.0);
+                    break;
+                case Distribution.ExponentialDis:
+                    TypeDis = new Exponential(Interval);
+                    break;
+                default:
+                    Console.WriteLine("k tim thay");
+                    break;
+            }
+
+            do
+            {
+                long d;
+                do
+                {
+                    d = (long)TypeDis.NextDouble();
+                } while (d <= 0L);
+                if (FirstTime != 0 && Now == 0)
+                {
+                    yield return p.Delay(FirstTime);
+                    //Console.WriteLine(this.Now + " The barber shop is opening for business...");
+                    i++;
+                    Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
+                    Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
+                    c.Activate(null, 0L, ABarbers);
+                    Console.WriteLine(this.Now + " The customer " + c.Name + " come");
+                }
+                else
+                {
+                    yield return p.Delay(d);
+                    i++;
+                    Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
+                    Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
+                    c.Activate(null, 0L, ABarbers);
+                    Console.WriteLine(this.Now + " The customer " + c.Name + " come");
+                    //Points.Add(new Point(3,4));
+                }
+
+            } while (Now < EndingTime && i < LengthOfFile);
+
+            Console.WriteLine(@"======================================================");
+            Console.WriteLine(@"The barber shop is closed for the day.");
+
+            if (ABarbers.BlockCount > 0)
+            {
+                Console.WriteLine(@"The barbers have to work late today.");
+            }
+
+            yield break;
+        }
 
     }
     public class QueueClass
     {
-        public int QueueCapacity { get; set; } = 100;
+        public int QueueCapacity { get; set; } = 500;//Cần tìm thuộc tính liên quan đến số Customer có thể chứa trong hàng đợi
         public int Priority { get; set; } = 0;
         public int FileType { get; set; } = 0;
     }
     public class TerminateClass
     {
-        public int OutputCounter { get; set; } = 100;
-        public int StoppingTime { get; set; }
+        public int OutputCounter { get; set; } = 100;//Số Customer xử lý được là dừng, trường hợp này chưa xem xét tới
+        public int StoppingTime { get; set; }//bằng với EndingTime trong CreateClass
     }
     public class AccumulateClass
     {

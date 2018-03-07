@@ -12,8 +12,10 @@ using QuickGraph.Algorithms.RankedShortestPath;
 using System.Threading;
 using AForge.Genetic;
 using QuickGraph;
+using React;
 using SimulationV1.WPF.FileSerialization;
 using SimulationV1.WPF.Models;
+using SimulationV1.WPF.ExampleModels;
 
 namespace SimulationV1.WPF.Pages
 {
@@ -36,6 +38,7 @@ namespace SimulationV1.WPF.Pages
         public DataVertex vertexSelected;
         private DataVertex vertexBefore;
         private bool overLoad = false;
+        //Khai bao tham so
         private enum VertexType//các kiểu của các element
         {
             AMCreate = 0,
@@ -50,6 +53,10 @@ namespace SimulationV1.WPF.Pages
         }
         private VertexType _vertextype = VertexType.AMCreate;
         private EdgeType _edgetype = EdgeType.AMArc;
+
+        private Resource _ambarbers;
+        //private List<Barber> _ambarbers = new List<Barber>();
+
         // Параметры генетического алгоритма
         private int populationSize = 40;
         private int iterations = 100;
@@ -1399,6 +1406,22 @@ namespace SimulationV1.WPF.Pages
 
 
         #endregion
+
+        private void BtnStart_OnClick(object sender, RoutedEventArgs e)
+        {
+            var create = new CreateClass();
+            Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
+            create.Run(generator);
+            //var amresult = new AMResult();
+            //amresult.Show();
+            //Console.ReadKey();
+        }
+
+        private void BtnClear_OnClick(object sender, RoutedEventArgs e)
+        {
+            var amresult = new AMResult();
+            amresult.Show();
+        }
     }
 }
 
