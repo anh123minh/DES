@@ -1412,15 +1412,15 @@ namespace SimulationV1.WPF.Pages
             var create = new CreateClass();
             Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
             create.Run(generator);
-            //var amresult = new AMResult();
-            //amresult.Show();
+            var amresult = new AMResult(create.Points);
+            amresult.Show();
             //Console.ReadKey();
         }
 
         private void BtnClear_OnClick(object sender, RoutedEventArgs e)
         {
-            var amresult = new AMResult();
-            amresult.Show();
+            //var amresult = new AMResult();
+            //amresult.Show();
         }
     }
 }

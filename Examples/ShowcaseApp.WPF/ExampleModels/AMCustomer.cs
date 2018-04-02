@@ -22,7 +22,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using React;
+using System.Windows.Media;
 
 namespace SimulationV1.WPF.ExampleModels
 {
@@ -41,6 +43,8 @@ namespace SimulationV1.WPF.ExampleModels
         public long TimeIn { get; set; }
         public long TimeOut { get; set; }
         public int QueueCapacity { get; set; } = 500;
+        public PointCollection Points { get; set; } = new PointCollection() { new Point(0, 0) };
+
         internal Customer(Simulation sim) : base(sim)
         {
         }
@@ -64,6 +68,7 @@ namespace SimulationV1.WPF.ExampleModels
             Console.WriteLine("M         so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
             if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
             {
+                
                 yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
             }
             else
@@ -75,6 +80,7 @@ namespace SimulationV1.WPF.ExampleModels
             System.Diagnostics.Debug.Assert(barbers == Activator);
             System.Diagnostics.Debug.Assert(ActivationData != null);
             Barber barber = (Barber)ActivationData;
+            Points.Add(new Point(Now, barber.BlockCount));
             Console.WriteLine("H  H      so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
 
             TimeIn = this.Now;
@@ -84,6 +90,7 @@ namespace SimulationV1.WPF.ExampleModels
             yield return Suspend();
             // HINT: The above two lines of code can be shortened to
             //          yield return barber;
+            
             Console.WriteLine("NN  NN    so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
 
             TimeOut = this.Now;

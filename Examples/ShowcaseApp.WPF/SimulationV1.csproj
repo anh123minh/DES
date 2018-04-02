@@ -122,6 +122,9 @@
       <HintPath>..\..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit">
+      <HintPath>..\..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -156,6 +159,7 @@
     <Compile Include="Pages\AMResult.xaml.cs">
       <DependentUpon>AMResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\StepLineSeries.cs" />
     <Compile Include="Pages\windowDiagramAlpha.xaml.cs">
       <DependentUpon>windowDiagramAlpha.xaml</DependentUpon>
     </Compile>

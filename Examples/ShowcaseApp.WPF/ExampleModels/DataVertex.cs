@@ -5,6 +5,8 @@ using React.Distribution;
 using SimulationV1.WPF.ExampleModels;
 using System;
 using System.Windows;
+using System.Windows.Media;
+using AForge.Math.Geometry;
 
 namespace SimulationV1.WPF
 {
@@ -79,7 +81,9 @@ namespace SimulationV1.WPF
         public int LengthOfFile { get; set; } = 40;//số Customer tối đa       
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
 
-        public List<Point> Points { get; set; }
+        public PointCollection Points { get; set; } = new PointCollection(){new Point(0,0)};
+
+        //public Point point { get; set; }
                         
         public int Priority { get; set; } = 0;//Thứ tự ưu tiên
         public int FileType { get; set; } = 0;//dạng ưu tiên
@@ -119,7 +123,7 @@ namespace SimulationV1.WPF
                 if (FirstTime != 0 && Now == 0)
                 {
                     yield return p.Delay(FirstTime);
-                    //Console.WriteLine(this.Now + " The barber shop is opening for business...");
+ 
                     i++;
                     Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
                     Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
@@ -134,7 +138,8 @@ namespace SimulationV1.WPF
                     Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
                     c.Activate(null, 0L, ABarbers);
                     Console.WriteLine(this.Now + " The customer " + c.Name + " come");
-                    //Points.Add(new Point(3,4));
+                    //point = new Point(Now, ABarbers.BlockCount);
+                    Points.Add(new Point(Now, ABarbers.BlockCount));
                 }
 
             } while (Now < EndingTime && i < LengthOfFile);

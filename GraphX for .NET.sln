@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1", "C:\Users\ANHMINH\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIT", "..\..\Магистратура\Конференции\2016.11.17 НИТ\НИТ\HIT\HIT\HIT\HIT.csproj", "{71F316AD-6D0C-4CB7-8BE9-2C017EB80730}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepLineChart", "StepLineChart\StepLineChart.csproj", "{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,22 @@ Global
 		{71F316AD-6D0C-4CB7-8BE9-2C017EB80730}.Release|x64.ActiveCfg = Release|x86
 		{71F316AD-6D0C-4CB7-8BE9-2C017EB80730}.Release|x86.ActiveCfg = Release|x86
 		{71F316AD-6D0C-4CB7-8BE9-2C017EB80730}.Release|x86.Build.0 = Release|x86
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|x64.Build.0 = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Debug|x86.Build.0 = Debug|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|ARM.Build.0 = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|x64.ActiveCfg = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|x64.Build.0 = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB75B22B-32A6-4C8D-ABD3-D4429BB07E8B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
