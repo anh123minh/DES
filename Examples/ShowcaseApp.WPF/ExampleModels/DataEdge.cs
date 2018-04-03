@@ -75,8 +75,11 @@ namespace SimulationV1.WPF
         }
         //AM
         //public string TypeOfEdge { get; set; } = "";
-        public int Probability { get; set; } = 0;
-        public int Delay { get; set; } = 0;
+        public double Probability { get; set; } = 0;
+        public double Delay { get; set; } = 0;
+        public double Number { get; set; } = 1;
+
+        
 
         public ArcClass ArcType { get; set; }
         public DirectionClass DirectionType { get; set; }
@@ -97,5 +100,10 @@ namespace SimulationV1.WPF
 
     public class ArcClass
     {
+        public enum Distribution
+        {
+            NormalDis,
+            ExponentialDis
+        }
     }
 }

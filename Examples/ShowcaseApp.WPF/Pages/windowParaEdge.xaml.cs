@@ -54,11 +54,15 @@ namespace SimulationV1.WPF.Pages
             switch (edgeBefore.Color)
             {
                 case "Orange":
+                    //DPDistribution.Visibility = Visibility.Visible;
+                    DP2.Visibility = Visibility.Visible;
                     Label2.Content = "Задержка:";
                     tBx2.Text = ed.Delay.ToString();
+                    DP3.Visibility = Visibility.Visible;
+                    Label3.Content = "Number of edge";
+                    tBx3.Text = ed.Number.ToString();
                     break;
-                case "Red":
-
+                case "Red":                   
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -83,12 +87,43 @@ namespace SimulationV1.WPF.Pages
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             tBxCapacity.Text = edgeBefore.Capacity.ToString();
+
+            tBx1.Text = edgeBefore.Probability.ToString();
+            switch (edgeBefore.Color)
+            {
+                case "Orange":
+                    tBx2.Text = edgeBefore.Delay.ToString();
+                    tBx3.Text = edgeBefore.Number.ToString();
+                    break;
+                case "Red":
+                    break;
+                default:
+                    MessageBox.Show("Тип узлы не определен!");
+                    break;
+            }
             Close();
         }
         private void UpdateEgde(DataEdge ed)
         {
-            ed.Capacity = double.Parse(tBxCapacity.Text);
-            ed.Weight = double.Parse(tBxWeight.Text);
+            //ed.Capacity = double.Parse(tBxCapacity.Text);
+            //ed.Weight = double.Parse(tBxWeight.Text);
+
+            edgeAfter.Text = tBxName.Text;
+            edgeAfter.Capacity = double.Parse(tBxCapacity.Text);
+            edgeAfter.Weight = double.Parse(tBxWeight.Text);
+            edgeAfter.Probability = double.Parse(tBx1.Text);
+            switch (edgeBefore.Color)
+            {
+                case "Orange":
+                    edgeAfter.Delay = double.Parse(tBx2.Text);
+                    edgeAfter.Number = double.Parse(tBx3.Text);
+                    break;
+                case "Red":
+                    break;
+                default:
+                    MessageBox.Show("Тип узлы не определен!");
+                    break;
+            }
         }
 
 

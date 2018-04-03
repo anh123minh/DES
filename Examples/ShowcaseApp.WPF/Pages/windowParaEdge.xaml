@@ -24,9 +24,24 @@
                 <Label x:Name="Label1"  DockPanel.Dock="Left" Margin="3"></Label>
                 <TextBox x:Name="tBx1" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
             </DockPanel>
-            <DockPanel DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+            <!--<DockPanel x:Name="DPDistribution" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
+                <Label Content="Distribution:" DockPanel.Dock="Left" Margin="10,3"></Label>
+                <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Right" Margin="3" Width="90">
+                    <ComboBoxItem Content="Normal" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Exponential"></ComboBoxItem>
+                </ComboBox>
+            </DockPanel>-->
+            <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
                 <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
+                <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="90">
+                    <ComboBoxItem Content="Normal" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Exponential"></ComboBoxItem>
+                </ComboBox>
                 <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
+            </DockPanel>
+            <DockPanel x:Name="DP3"  DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
+                <Label x:Name="Label3"  DockPanel.Dock="Left" Margin="3"></Label>
+                <TextBox x:Name="tBx3" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="3">
                 <Button x:Name="btnOK" Content="OK" DockPanel.Dock="Left" Margin="50,0,0,0" Width="60" Height="30" Click="btnOK_Click" ></Button>
