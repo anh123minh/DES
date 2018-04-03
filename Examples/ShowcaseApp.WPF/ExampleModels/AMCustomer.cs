@@ -69,7 +69,7 @@ namespace SimulationV1.WPF.ExampleModels
             if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
             {
                 
-                yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
+                yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi// busy or not?//chiem lay cus moi
             }
             else
             {
@@ -84,7 +84,7 @@ namespace SimulationV1.WPF.ExampleModels
             Console.WriteLine("H  H      so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
 
             TimeIn = this.Now;
-            Console.WriteLine(this.Now + " ? " + barber.Name + " begins cutting hair of customer " + this.Name);
+            //Console.WriteLine(this.Now + " ? " + barber.Name + " begins cutting hair of customer " + this.Name);
 
             WaitOnTask(barber);
             yield return Suspend();

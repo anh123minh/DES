@@ -99,6 +99,7 @@ namespace SimulationV1.WPF.Pages
             BtnTerminate.Checked += ToolbarButton_Checked;
             BtnAccumulate.Checked += ToolbarButton_Checked;
             butDraw.Checked += ToolbarButton_Checked;
+            butAMDraw.Checked += ToolbarButton_Checked;
             butSelect.IsChecked = true;
             Loaded += GG_Loaded;
             selectionBox.SelectedIndex = selectionMethod;
@@ -218,7 +219,7 @@ namespace SimulationV1.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (butAMDraw.IsChecked == true && sender == butDraw)
+            if (butAMDraw.IsChecked == true && sender == butAMDraw)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
@@ -414,7 +415,21 @@ namespace SimulationV1.WPF.Pages
                 return;
             }
             if (_ecFrom == vc) return;
-            var data = new DataEdge((DataVertex)_ecFrom.Vertex, (DataVertex)vc.Vertex);
+            var data = new DataEdge();
+            switch (_edgetype)
+            {
+                case EdgeType.AMArc:
+                    data = new DataEdge((DataVertex) _ecFrom.Vertex, (DataVertex) vc.Vertex, 1, "Orange"); //{ ArcType = new ArcClass()};
+                    //data.Color = "Orange";
+                    break;
+                case EdgeType.AMDirection:
+                    data = new DataEdge((DataVertex) _ecFrom.Vertex, (DataVertex) vc.Vertex, 1, "Red"); //{ DirectionType = new DirectionClass()};
+                    //data.Color = "Red";
+                    break;
+                default:
+                    MessageBox.Show("k tim thay edge!");
+                    break;
+            }            
             var ec = new EdgeControl(_ecFrom, vc, data);
             graphArea.InsertEdgeAndData(data, ec, 0, true);//Chèn mới 1 Edge tại vị trí nhất định và thêm data Edge vào CSDL
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
@@ -616,6 +631,8 @@ namespace SimulationV1.WPF.Pages
 
 
         // Объявления делегатов для включения асинхронного вызова к установке свойств элементов управления
+
+        #region MyRegion
         private delegate void SetTextCallback(System.Windows.Controls.TextBox control, string text);
         private void SetText(System.Windows.Controls.TextBox control, string text)
         {
@@ -655,6 +672,9 @@ namespace SimulationV1.WPF.Pages
                 Dispatcher.Invoke(d, new object[] { graph, chromosome });
             }
         }
+
+
+        #endregion
         private delegate void UpdatewindowResults(windowResults windowResult, string chromosome, int iteration, double alpha);
         private void UpdateResults(windowResults windowResult, string chromosome, int iteration, double alpha)
         {

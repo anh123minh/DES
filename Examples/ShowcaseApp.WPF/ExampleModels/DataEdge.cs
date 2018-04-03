@@ -21,6 +21,13 @@ namespace SimulationV1.WPF
             Angle = 90;
 		}
 
+        public DataEdge(DataVertex source, DataVertex target, double weight, string color)
+            : base(source, target, weight)
+        {
+            Angle = 90;
+            Color = color;
+        }
+
         public DataEdge()
             : base(null, null, 1)
         {
@@ -67,9 +74,12 @@ namespace SimulationV1.WPF
             set { _alpha = value; }
         }
         //AM
-        public string TypeOfEdge { get; set; } = "";
+        //public string TypeOfEdge { get; set; } = "";
         public int Probability { get; set; } = 0;
         public int Delay { get; set; } = 0;
+
+        public ArcClass ArcType { get; set; }
+        public DirectionClass DirectionType { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -79,5 +89,13 @@ namespace SimulationV1.WPF
             if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
         }
+    }
+
+    public class DirectionClass
+    {
+    }
+
+    public class ArcClass
+    {
     }
 }

@@ -123,18 +123,17 @@ namespace SimulationV1.WPF
                 if (FirstTime != 0 && Now == 0)
                 {
                     yield return p.Delay(FirstTime);
- 
                     i++;
-                    Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
+                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
                     Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
                     c.Activate(null, 0L, ABarbers);
                     Console.WriteLine(this.Now + " The customer " + c.Name + " come");
                 }
                 else
                 {
-                    yield return p.Delay(d);
+                    yield return p.Delay(d);                   
+                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
                     i++;
-                    Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
                     Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
                     c.Activate(null, 0L, ABarbers);
                     Console.WriteLine(this.Now + " The customer " + c.Name + " come");

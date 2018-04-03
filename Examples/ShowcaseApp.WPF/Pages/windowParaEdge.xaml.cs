@@ -44,34 +44,33 @@ namespace SimulationV1.WPF.Pages
 
         private void GetValueControl(DataEdge ed)
         {
-            //edgeBefore = ed;
-            //edgeAfter = ed;
-            //tBxName.Text = ed.Source.Text + "-" + ed.Target.Text;
-            //tBxCapacity.Text = ed.Capacity.ToString();
-            //tBxWeight.Text = ed.Weight.ToString();
-            //Label1.Content = "Вероятность выполнения:";
-            //tBx1.Text = ed.Probability.ToString();
-            //switch (edgeBefore.TypeOfEdge)
-            //{
-            //    case "AMArc":
-
-            //        Label2.Content = "Задержка:";
-            //        tBx2.Text = ed.Delay.ToString();
-            //        break;
-            //    case "AMDirection":
-
-            //        break;
-            //    default:
-            //        MessageBox.Show("Тип узлы не определен!");
-            //        break;
-            //}
-            edgeBefore = new DataEdge();
-            edgeAfter = new DataEdge();
+            edgeBefore = ed;
+            edgeAfter = ed;
             tBxName.Text = ed.Source.Text + "-" + ed.Target.Text;
             tBxCapacity.Text = ed.Capacity.ToString();
             tBxWeight.Text = ed.Weight.ToString();
-            edgeBefore = ed;
-            edgeAfter = ed;
+            Label1.Content = "Вероятность выполнения:";
+            tBx1.Text = ed.Probability.ToString();
+            switch (edgeBefore.Color)
+            {
+                case "Orange":
+                    Label2.Content = "Задержка:";
+                    tBx2.Text = ed.Delay.ToString();
+                    break;
+                case "Red":
+
+                    break;
+                default:
+                    MessageBox.Show("Тип узлы не определен!");
+                    break;
+            }
+            //edgeBefore = new DataEdge();
+            //edgeAfter = new DataEdge();
+            //tBxName.Text = ed.Source.Text + "-" + ed.Target.Text;
+            //tBxCapacity.Text = ed.Capacity.ToString();
+            //tBxWeight.Text = ed.Weight.ToString();
+            //edgeBefore = ed;
+            //edgeAfter = ed;
         }
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
@@ -84,6 +83,7 @@ namespace SimulationV1.WPF.Pages
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             tBxCapacity.Text = edgeBefore.Capacity.ToString();
+            Close();
         }
         private void UpdateEgde(DataEdge ed)
         {
