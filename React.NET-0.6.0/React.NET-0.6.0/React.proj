@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ *
+ * $Id: React.proj 135 2006-01-22 16:33:14Z Eric Roe $
+ *
+ * Top-level MSBuild project file for React.NET, a discrete event simulation
+ * library for the .NET Framework.
+ *
+ * Build targets are:
+ *
+ *      Build : Build the React.NET library. [default target]
+ *      BuildAll : Build all libraries and executables.
+ *      BuildExamples : Build the React.NET example programs.
+ *      BuildDistributions : Build binary and source distributions.
+ *      BuildSite : Build React.NET web site.
+ *      BuildTests : Build the NUnit tests for React.NET.
+ *      Clean : Delete generated files from build directory.
+ *      RunTests : Run the NUnit tests for React.NET.
+ *
+ * Any targets not listed above should be considered for internal use only.
+ *
+ *                             - * - * - * -
+ *
+ * Copyright © 2005 Eric K. Roe.  All rights reserved.
+ *
+ * React.NET is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.
+ *
+ * React.NET is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with React.NET; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ -->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+	     DefaultTargets="Build">
+
+	<!-- ================================================================= -->
+	<!-- ==== Import common build properties.                         ==== -->
+	<!-- ================================================================= -->
+	<Import Project="Build.properties" />
+	     
+	<!-- ================================================================= -->
+	<!-- ==== Project source and output paths.                        ==== -->
+	<!-- ================================================================= -->
+
+	<!-- Source paths. -->
+	<PropertyGroup>
+		<SourcePath>$(MSBuildProjectDirectory)\src\</SourcePath>
+		<ExamplesSourcePath>$(MSBuildProjectDirectory)\examples\</ExamplesSourcePath>
+		<SiteSourcePath>$(MSBuildProjectDirectory)\www\</SiteSourcePath>
+	</PropertyGroup>
+
+	<!-- Output paths. -->
+	<PropertyGroup>
+		<OutputPath>$(MSBuildProjectDirectory)\build\</OutputPath>
+		<LibraryOutputPath>$(OutputPath)lib\</LibraryOutputPath>
+		<ExamplesOutputPath>$(OutputPath)examples\</ExamplesOutputPath>
+		<ExamplesOutputBinPath>$(ExamplesOutputPath)bin\</ExamplesOutputBinPath>
+		<SiteOutputPath>$(OutputPath)www\</SiteOutputPath>
+	</PropertyGroup>
+
+	<!-- ================================================================= -->
+	<!-- ==== All MSBuild sub-project files.                          ==== -->
+	<!-- ================================================================= -->
+
+	<ItemGroup>
+		<SiteProject Include="$(SiteSourcePath)Website.proj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<AllProjects Include="$(SourcePath)**\*.proj" />
+		<EngineProject Include="$(SourcePath)engine\Engine.proj" />
+		<TestProject Include="$(SourcePath)tests\Tests.proj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Examples Include="$(ExamplesSourcePath)**\*.proj" />
+	</ItemGroup>
+	
+	<!-- ================================================================= -->
+	<!-- ==== Available targets (internal and external).              ==== -->
+	<!-- ================================================================= -->
+
+	<!-- :::::::::::::::::  TARGET: CreateOutputRootDir  ::::::::::::::::: -->
+	<Target Name="CreateOutputRootDir">
+		<MakeDir Directories="$(OutputPath)"
+				 Condition="!Exists($(OutputPath))" />
+	</Target>
+
+	<!-- :::::::::::::::  TARGET: CreateExampleOutputDirs  ::::::::::::::: -->
+	<Target Name="CreateExampleOutputDirs" DependsOnTargets="CreateOutputRootDir">
+		<MakeDir Directories="$(ExamplesOutputPath)"
+				 Condition="!Exists($(ExamplesOutputPath))" />
+		<MakeDir Directories="$(ExamplesOutputBinPath)"
+				 Condition="!Exists($(ExamplesOutputBinPath))" />
+	</Target>
+
+	<!-- ::::::::::::::::::::::::  TARGET: Build  :::::::::::::::::::::::: -->
+	<Target Name="Build" DependsOnTargets="CreateOutputRootDir">
+		<MSBuild Projects="@(EngineProject)"
+				 Properties="OutputPath=$(LibraryOutputPath)"
+				 Targets="Build">
+			<Output TaskParameter="TargetOutputs" ItemName="EngineAssembly" />
+		</MSBuild>
+	</Target>
+
+	<!-- ::::::::::::::::::  TARGET: CheckHasNUnit  ::::::::::::::::::: -->
+	<PropertyGroup>
+		<MissingNUnitMsg>
+It appears you don't have $(NUnitConsole).
+The React.NET unit tests cannot be built or executed without this program.
+
+You can get a copy of NUnit from:
+
+    http://www.nunit.org
+
+After installing NUnit, set the full path to nunit-console.exe in the
+&lt;NUnitConsole&gt; property located in the 'Build.properties' file.
+		</MissingNUnitMsg>
+	</PropertyGroup>
+	<Target Name="CheckHasNUnit"
+		Condition="!Exists('$(NUnitConsole)')">
+	    <Message Text="$(MissingNUnitMsg)" Importance="high" />
+	    <Error Text="Can't find nunit-console.exe." />
+	</Target>
+	
+	<!-- :::::::::::::::::::::  TARGET: BuildTests  :::::::::::::::::::::: -->
+	<Target Name="BuildTests" DependsOnTargets="CheckHasNUnit;Build">
+		<MSBuild Projects="@(TestProject)"
+				 Properties="OutputPath=$(LibraryOutputPath)"
+				 Targets="Build">
+			<Output TaskParameter="TargetOutputs" ItemName="TestAssembly" />
+		</MSBuild>
+	</Target>
+
+	<!-- ::::::::::::::::::::::  TARGET: RunTests  ::::::::::::::::::::::: -->
+	<Target Name="RunTests" DependsOnTargets="BuildTests">
+		<Exec Command='"$(NUnitConsole)" /labels /nologo "@(TestAssembly)"' />
+	</Target>
+
+	<!-- ::::::::::::::::::::::  TARGET: BuildSite  :::::::::::::::::::::: -->
+	<Target Name="BuildSite" DependsOnTargets="CreateOutputRootDir">
+		<MSBuild Projects="@(SiteProject)"
+				 Properties="OutputPath=$(OutputPath)"
+				 Targets="Build" />
+	</Target>
+
+	<!-- ::::::::::::::::::::  TARGET: BuildExamples  :::::::::::::::::::: -->
+	<PropertyGroup>
+		<ExampleDependencies>
+			CreateExampleOutputDirs;
+			Build;
+			CopyLibsForExamples
+		</ExampleDependencies>
+		<ExampleProperties>
+			OutputPath=$(ExamplesOutputBinPath);
+			@(EngineAssembly -> 'EngineAssembly=%(Identity)');
+		</ExampleProperties>
+	</PropertyGroup>
+	<Target Name="BuildExamples" DependsOnTargets="$(ExampleDependencies)">
+		<MSBuild Projects="@(Examples)"
+				 Properties="$(ExampleProperties)"
+				 Targets="Build" />
+	</Target>
+
+	<!-- :::::::::::::::::  TARGET: CopyLibsForExamples  ::::::::::::::::: -->
+	<Target Name="CopyLibsForExamples" DependsOnTargets="CreateExampleOutputDirs;Build"
+			Inputs="@(EngineAssembly)"
+			Outputs="@(EngineAssembly -> '$(ExamplesOutputBinPath)%(FileName)%(Extension)')">
+		<Copy SourceFiles="@(EngineAssembly)"
+			  DestinationFolder="$(ExamplesOutputBinPath)" />
+	</Target>
+
+	<!-- ::::::::::::::::::::::  TARGET: BuildAll  ::::::::::::::::::::::: -->
+	<PropertyGroup>
+		<BuildAllDeps>
+			Build;
+			BuildExamples;
+			BuildSite;
+		</BuildAllDeps>
+	</PropertyGroup>
+	<Target Name="BuildAll" DependsOnTargets="$(BuildAllDeps)" />
+	
+	<!-- ::::::::::::::::::  TARGET: BuildSourceDist  :::::::::::::::::::: -->
+	<Target Name="BuildSourceDist" DependsOnTargets="BuildExamples;BuildSite">
+		<Message Text="TARGET: BuildSourceDist" />
+	</Target>
+
+	<!-- ::::::::::::::::::  TARGET: BuildBinaryDist  :::::::::::::::::::: -->
+	<Target Name="BuildBinaryDist" DependsOnTargets="BuildExamples;BuildSite">
+		<Message Text="TARGET: BuildBinaryDist" />
+	</Target>
+	
+	<!-- ::::::::::::::::  TARGET: BuildDistributions  ::::::::::::::::::: -->
+	<PropertyGroup>
+		<DistributionDeps>
+			BuildSourceDist;
+			BuildBinaryDist;
+		</DistributionDeps>
+	</PropertyGroup>
+	<Target Name="BuildDistributions" DependsOnTargets="$(DistributionDeps)" />
+
+	<!-- :::::::::::::::::::::::  TARGET: Clean  ::::::::::::::::::::::::: -->
+	<Target Name="Clean">
+		<MSBuild Projects="@(AllProjects)"
+				 Properties="OutputPath=$(LibraryOutputPath)\"
+				 Targets="Clean" />
+		<RemoveDir Directories="$(OutputPath)"
+				   Condition="Exists($(OutputPath))" />
+		<Delete Files="TestResult.xml" />
+	</Target>
+	
+	
+
+</Project>
+

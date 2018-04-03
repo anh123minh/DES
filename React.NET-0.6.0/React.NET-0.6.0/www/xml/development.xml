@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!--
+
+    $Id: development.xml 110 2005-11-20 20:40:31Z Eric Roe $
+
+   	React.NET Web Site Page.
+    Copyright © 2005 Eric K. Roe.  All rights reserved.
+ 
+-->
+
+<web-page title="Development">
+<!-- ======================================================================= -->
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="overview"></a>Overview</h1>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="status"></a>Current Status</h1>
+<h2>Development Version</h2>
+<p>
+	The current development version is v0.5.0.
+</p>
+<h2>Stable Version</h2>
+<p>
+	There has been no stable release.
+</p>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="dowload"></a>Downloads</h1>
+<p>
+	A list of all available <react/> downloads is available at the
+	project download page.
+</p>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="todo"></a>To-do List</h1>
+
+
+<!-- ======================================================================= -->
+</web-page>
