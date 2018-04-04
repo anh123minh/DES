@@ -42,8 +42,8 @@ namespace SimulationV1.WPF.ExampleModels
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
-            Console.WriteLine(this.Now + " - " + Name + " begins cutting customer's hair ...");
-            yield return Delay(18);
+            //Console.WriteLine(this.Now + " - " + Name + " begins cutting customer's hair ...");
+            yield return Delay(0);//18
             //Console.WriteLine(this.Now + "-" + Name + " finishes cutting customer's hair.");
             yield break;
         }

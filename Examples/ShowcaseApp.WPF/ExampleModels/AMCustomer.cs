@@ -44,6 +44,7 @@ namespace SimulationV1.WPF.ExampleModels
         public long TimeOut { get; set; }
         public int QueueCapacity { get; set; } = 500;
         public PointCollection Points { get; set; } = new PointCollection() { new Point(0, 0) };
+        private long Condition { get; set; } = 4;
 
         internal Customer(Simulation sim) : base(sim)
         {
@@ -63,35 +64,87 @@ namespace SimulationV1.WPF.ExampleModels
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
-            Resource barbers = (Resource)ActivationData;
-            //NewResource barbers = (NewResource)ActivationData;
-            Console.WriteLine("M         so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+            //Resource barbers = (Resource)ActivationData;
+            TrackedResource barbers = (TrackedResource)ActivationData;
+            if (barbers.BlockCount < 2)
+            {
+                Console.WriteLine("1         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
+                barbers.OutOfService = 2;
+                Console.WriteLine("2         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
+            }
+            else
+            {
+                Console.WriteLine("3         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
+                barbers.OutOfService = 0;
+                Console.WriteLine("4         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
+            }
+
+            Console.WriteLine("M         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
             if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
             {
-                
+                Console.WriteLine("5         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
                 yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi// busy or not?//chiem lay cus moi
+                Console.WriteLine("6         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
             }
             else
             {
                 yield break;
             }
-
+            
+            ////Mo ra neu doan if tren co van de
+            //Console.WriteLine("M         so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+            //if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
+            ////if (barbers.BlockCount < 4)
+            //{
+                
+            //    yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi// busy or not?//chiem lay cus moi
+            //    Console.WriteLine("222         so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+            //}
+            //else
+            //{
+            //    yield break;
+            //}
 
             System.Diagnostics.Debug.Assert(barbers == Activator);
             System.Diagnostics.Debug.Assert(ActivationData != null);
+            //if (barbers.BlockCount > 4)
+            //{
+            //    Barber barber = (Barber)ActivationData;
+            //    Points.Add(new Point(Now, barber.BlockCount));
+            //    Console.WriteLine("H  H      so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+
+            //    TimeIn = this.Now;
+            //    //Console.WriteLine(this.Now + " ? " + barber.Name + " begins cutting hair of customer " + this.Name);
+
+            //    WaitOnTask(barber);
+            //    yield return Suspend();
+            //    // HINT: The above two lines of code can be shortened to
+            //    //          yield return barber;
+
+            //    Console.WriteLine("NN  NN    so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+
+            //    TimeOut = this.Now;
+            //    Console.WriteLine(this.Now + " x Customer " + Name + " pays {0} for the haircut.",
+            //        barber.Name);
+            //    Console.WriteLine($"thoi gian trong hang doi {TimeIn - this.TimeCome}" +
+            //                      $" --- thoi gian trong he thong {TimeOut - this.TimeCome}");
+
+            //    yield return barbers.Release(this);//giai phong bo nho
+            //}
+
             Barber barber = (Barber)ActivationData;
             Points.Add(new Point(Now, barber.BlockCount));
-            Console.WriteLine("H  H      so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+            Console.WriteLine(@"H  H      BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
 
             TimeIn = this.Now;
-            //Console.WriteLine(this.Now + " ? " + barber.Name + " begins cutting hair of customer " + this.Name);
+            Console.WriteLine(this.Now + " ? " + barber.Name + " begins cutting hair of customer " + this.Name);
 
             WaitOnTask(barber);
             yield return Suspend();
             // HINT: The above two lines of code can be shortened to
             //          yield return barber;
-            
-            Console.WriteLine("NN  NN    so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+
+            Console.WriteLine(@"NN  NN    BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved + "- Now - " + Now);
 
             TimeOut = this.Now;
             Console.WriteLine(this.Now + " x Customer " + Name + " pays {0} for the haircut.",

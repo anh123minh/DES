@@ -63,20 +63,31 @@ namespace BarberShop
         //internal Customer(Simulation sim) : base(sim)
         //{
         //}
+        private long Condition { get; set; } = 4;
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
             Resource barbers = (Resource)ActivationData;
             //NewResource barbers = (NewResource)ActivationData;
             Console.WriteLine("M         so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
-            if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
-            {
+            //if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
+            //{
 
-                yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
-            }
-            else
+            //    yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
+            //}
+            //else
+            //{
+            //    yield break;
+            //}
+
+            if (barbers.BlockCount < Condition)//max so Cus trong hang doi
             {
                 yield break;
+
+            }
+            else
+            {               
+                yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
             }
 
 

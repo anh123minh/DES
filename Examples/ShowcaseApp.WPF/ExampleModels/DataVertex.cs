@@ -78,7 +78,7 @@ namespace SimulationV1.WPF
         //Nhung tham so set tu giao dien duoc
         public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
         public double Interval { get; set; } = 5;//Khoang lamda
-        public int LengthOfFile { get; set; } = 40;//số Customer tối đa       
+        public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
 
         public PointCollection Points { get; set; } = new PointCollection(){new Point(0,0)};
@@ -132,11 +132,12 @@ namespace SimulationV1.WPF
                 else
                 {
                     yield return p.Delay(d);                   
-                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
+                    Console.WriteLine(@"xxx         BlockCount - " + ABarbers.BlockCount + "- OutOfService - " + ABarbers.OutOfService + "- Reserved - " + ABarbers.Reserved + "- Now - " + Now);
                     i++;
                     Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
                     c.Activate(null, 0L, ABarbers);
                     Console.WriteLine(this.Now + " The customer " + c.Name + " come");
+                    Console.WriteLine(@"yyy         BlockCount - " + ABarbers.BlockCount + "- OutOfService - " + ABarbers.OutOfService + "- Reserved - " + ABarbers.Reserved + "- Now - " + Now);
                     //point = new Point(Now, ABarbers.BlockCount);
                     Points.Add(new Point(Now, ABarbers.BlockCount));
                 }
