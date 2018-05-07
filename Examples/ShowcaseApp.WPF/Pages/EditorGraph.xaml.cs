@@ -1441,6 +1441,8 @@ namespace SimulationV1.WPF.Pages
         {
             //var amresult = new AMResult();
             //amresult.Show();
+            var vertexf = new DataVertex();
+            var aa = vertexf.CreateType;
         }
     }
 }
