@@ -36,7 +36,7 @@ namespace SimulationV1.WPF
         public CreateClass CreateType { get; set; }
         public QueueClass QueueType { get; set; }
         public TerminateClass TerminateType { get; set; }
-        public AccumulateClass Anew { get; set; }
+        public AndClass AndType { get; set; }
 
         #region Calculated or static props
 
@@ -67,20 +67,22 @@ namespace SimulationV1.WPF
 
     }
 
-    public class CreateClass : Simulation
+    public class CreateClass //: Simulation
     {
-        private NonUniform TypeDis { get; set; }//Kieu Distribution
+        //private NonUniform TypeDis { get; set; }//Kieu Distribution
         public enum Distribution
         {
             NormalDis,
             ExponentialDis
         }
-        //Nhung tham so set tu giao dien duoc
+        //Nhung Bien set tu giao dien duoc
         public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
         public double Interval { get; set; } = 5;//Khoang lamda
         public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
+        //---------------------------
 
+        /*
         public PointCollection Points { get; set; } = new PointCollection(){new Point(0,0)};
 
         //public Point point { get; set; }
@@ -92,6 +94,7 @@ namespace SimulationV1.WPF
         //Nhung tham so set tu cac Vertex khac
         public int QueueCapacity { get; set; } = 500;// = QueueCapacity
         public long EndingTime { get; set; } = 240;//Thời gian kết thúc, sau sẽ được truyện vào từ Terminate 
+        
         
         //Method sinh Cus
         public IEnumerator<Task> Generator(Process p, object data)
@@ -154,23 +157,29 @@ namespace SimulationV1.WPF
 
             yield break;
         }
+        */
 
     }
     public class QueueClass
     {
+        //Bien truyen tu ngoai vao
         public int QueueCapacity { get; set; } = 500;//Cần tìm thuộc tính liên quan đến số Customer có thể chứa trong hàng đợi
         public int Priority { get; set; } = 0;
         public int FileType { get; set; } = 0;
+
+        //Bien dung trong tinh toan
+        public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
     }
     public class TerminateClass
     {
         public int OutputCounter { get; set; } = 100;//Số Customer xử lý được là dừng, trường hợp này chưa xem xét tới
         public int StoppingTime { get; set; }//bằng với EndingTime trong CreateClass
     }
-    public class AccumulateClass
+    public class AndClass : CreateClass
     {
-        public int Acc1 { get; set; }
-        public int Acc2 { get; set; }
+        public int NumberEdgesIn { get; set; } = 0;
+        public int NumberEdgesOut { get; set; } = 0;
+        public bool AllReady { get; set; } = false;
     }
 
 }

@@ -102,7 +102,7 @@
 
                         <ToggleButton x:Name="BtnAccumulate" ToolTip="Режим редактирования: нажмите, чтобы поместить измерительный пункт, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMAccumulate.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMAnd.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>

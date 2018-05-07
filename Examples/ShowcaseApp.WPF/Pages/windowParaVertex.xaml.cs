@@ -35,8 +35,9 @@ namespace SimulationV1.WPF.Pages
             VertexAfter = vtx;
             switch (VertexBefore.TypeOfVertex)
             {
-                case "AMCreate":   
-                    DPDistribution.Visibility = Visibility.Visible;
+                case "AMCreate":
+                    //DPDistribution.Visibility = Visibility.Visible;
+                    cbbDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.SelectedIndex = (int)VertexBefore.CreateType.TypeDistribuion;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
@@ -66,6 +67,20 @@ namespace SimulationV1.WPF.Pages
                     tBx1.Text = VertexBefore.TerminateType.OutputCounter.ToString();
                     Label2.Content = "Момент остоновки:";
                     tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
+                    break;
+                case "AMAnd":
+                    //DPDistribution.Visibility = Visibility.Visible;
+                    cbbDistribution.Visibility = Visibility.Visible;
+                    cbbDistribution.SelectedIndex = (int)VertexBefore.AndType.TypeDistribuion;
+                    tBxName.Text = VertexBefore.Text;
+                    tBxTraffic.Text = VertexBefore.Traffic.ToString();
+                    Label1.Content = "Начало:";
+                    tBx1.Text = VertexBefore.AndType.FirstTime.ToString();
+                    Label2.Content = "Интервал:";
+                    tBx2.Text = VertexBefore.AndType.Interval.ToString();
+                    DP3.Visibility = Visibility.Visible;
+                    Label3.Content = "Длина файла:";
+                    tBx3.Text = VertexBefore.AndType.LengthOfFile.ToString();
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -119,6 +134,22 @@ namespace SimulationV1.WPF.Pages
                     tBx1.Text = VertexBefore.TerminateType.OutputCounter.ToString();
                     tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
                     break;
+                case "AMAnd":
+                    tBx1.Text = VertexBefore.AndType.FirstTime.ToString();
+                    tBx2.Text = VertexBefore.AndType.Interval.ToString();
+                    tBx3.Text = VertexBefore.AndType.LengthOfFile.ToString();
+                    switch (VertexBefore.AndType.TypeDistribuion)
+                    {
+                        case CreateClass.Distribution.NormalDis:
+                            cbbDistribution.SelectedIndex = 0;
+                            break;
+                        case CreateClass.Distribution.ExponentialDis:
+                            cbbDistribution.SelectedIndex = 1;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -154,6 +185,22 @@ namespace SimulationV1.WPF.Pages
                 case "AMTerminate":
                     VertexAfter.TerminateType.OutputCounter = int.Parse(tBx1.Text);
                     VertexAfter.TerminateType.StoppingTime = int.Parse(tBx2.Text);
+                    break;
+                case "AMAnd":
+                    VertexAfter.AndType.FirstTime = int.Parse(tBx1.Text);
+                    VertexAfter.AndType.Interval = int.Parse(tBx2.Text);
+                    VertexAfter.AndType.LengthOfFile = int.Parse(tBx3.Text);
+                    switch (cbbDistribution.SelectedIndex)
+                    {
+                        case 0:
+                            VertexAfter.AndType.TypeDistribuion = CreateClass.Distribution.NormalDis;
+                            break;
+                        case 1:
+                            VertexAfter.AndType.TypeDistribuion = CreateClass.Distribution.ExponentialDis;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;

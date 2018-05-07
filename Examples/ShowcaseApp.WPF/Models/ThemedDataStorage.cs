@@ -146,7 +146,7 @@ namespace SimulationV1.WPF.Models
             EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMCreate.jpg", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMQueue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMTerminate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMAccumulate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMAnd.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
 
         }
 

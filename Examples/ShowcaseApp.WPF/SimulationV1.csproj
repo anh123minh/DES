@@ -625,7 +625,7 @@
     <Resource Include="Assets\center.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\AMAccumulate.png" />
+    <Resource Include="Assets\AMAnd.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\AMdraw arrow.png" />

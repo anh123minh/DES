@@ -44,6 +44,7 @@ namespace SimulationV1.WPF.Pages
             AMCreate = 0,
             AMQueue,
             AMTerminate,
+            AMAnd,
             IP
         }
         private enum EdgeType
@@ -185,7 +186,7 @@ namespace SimulationV1.WPF.Pages
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.IP;
+                _vertextype = VertexType.AMAnd;
                 ClearSelectMode();
                 return;
             }
@@ -279,8 +280,8 @@ namespace SimulationV1.WPF.Pages
                 case VertexType.AMTerminate:
                     data = new DataVertex("Терминатор " + (CountElement("AMTerminate") + 1), "AMTerminate") { ImageId = 2, TerminateType = new TerminateClass()};
                     break;
-                case VertexType.IP:
-                    data = new DataVertex("ИП " + (CountElement("IP") + 1), "IP") { ImageId = 3, Traffic = 20 };
+                case VertexType.AMAnd:
+                    data = new DataVertex("Конъюнкция " + (CountElement("AMAnd") + 1), "AMAnd") { ImageId = 3, AndType = new AndClass()};
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -1429,12 +1430,12 @@ namespace SimulationV1.WPF.Pages
 
         private void BtnStart_OnClick(object sender, RoutedEventArgs e)
         {
-            var create = new CreateClass();
-            Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
-            create.Run(generator);
-            //var amresult = new AMResult(create.Points);
-            //amresult.Show();
-            //Console.ReadKey();
+            //var create = new CreateClass();
+            //Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
+            //create.Run(generator);
+            ////var amresult = new AMResult(create.Points);
+            ////amresult.Show();
+            ////Console.ReadKey();
         }
 
         private void BtnClear_OnClick(object sender, RoutedEventArgs e)
