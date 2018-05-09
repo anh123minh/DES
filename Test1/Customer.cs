@@ -45,6 +45,9 @@ namespace BarberShop
         public int QueueCapacity { get; set; } = 500;
         public PointCollection Points { get; set; } = new PointCollection() { new Point(0, 0) };
 
+        //Bien dung trong tinh toan
+        public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
+
         internal Customer(Simulation sim) : base(sim)
         {
         }
@@ -60,42 +63,50 @@ namespace BarberShop
             this.TimeCome = timecome;
             this.QueueCapacity = maxque;
         }
-        //internal Customer(Simulation sim) : base(sim)
-        //{
-        //}
+
         private long Condition { get; set; } = 4;
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
-            Resource barbers = (Resource)ActivationData;
-            //NewResource barbers = (NewResource)ActivationData;
-            Console.WriteLine("M         so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
-            //if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
-            //{
-
-            //    yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
-            //}
-            //else
-            //{
-            //    yield break;
-            //}
-
-            if (barbers.BlockCount < Condition)//max so Cus trong hang doi
+            TrackedResource barbers = (TrackedResource)ActivationData;
+            if (barbers.BlockCount < 1)
             {
-                yield break;
-
+                if (barbers.Free != 0)
+                {
+                    Console.WriteLine("Now - " + Now + " 1         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                    barbers.OutOfService = 2;
+                    Console.WriteLine("Now - " + Now + " 2         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                }
             }
             else
-            {               
-                yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi
+            {
+                IsReady = true;
+                if (barbers.OutOfService != 0)
+                {
+                    Console.WriteLine("Now - " + Now + " 3         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                    barbers.OutOfService = 0;
+                    Console.WriteLine("Now - " + Now + " 4         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                }
             }
 
+            Console.WriteLine("Now - " + Now + " M         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+            if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
+            {
+                Console.WriteLine("Now - " + Now + " 5         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi// busy or not?//chiem lay cus moi
+                Console.WriteLine("Now - " + Now + " 6         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+            }
+            else
+            {
+                yield break;
+            }
 
             System.Diagnostics.Debug.Assert(barbers == Activator);
             System.Diagnostics.Debug.Assert(ActivationData != null);
+
             Barber barber = (Barber)ActivationData;
             Points.Add(new Point(Now, barber.BlockCount));
-            Console.WriteLine("H  H      so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+            Console.WriteLine("Now - " + Now + " H  H      BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeIn = this.Now;
             Console.WriteLine(this.Now + " ? " + barber.Name + " begins cutting hair of customer " + this.Name);
@@ -105,7 +116,7 @@ namespace BarberShop
             // HINT: The above two lines of code can be shortened to
             //          yield return barber;
 
-            Console.WriteLine("NN  NN    so Cus trong hang doi = " + barbers.BlockCount + " " + Now);
+            Console.WriteLine("Now - " + Now + " NN  NN    BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeOut = this.Now;
             Console.WriteLine(this.Now + " x Customer " + Name + " pays {0} for the haircut.",
@@ -114,23 +125,6 @@ namespace BarberShop
                               $" --- thoi gian trong he thong {TimeOut - this.TimeCome}");
 
             yield return barbers.Release(this);//giai phong bo nho
-
-            //Resource barbers = (Resource)ActivationData;
-            //yield return barbers.Acquire(this);
-
-            //System.Diagnostics.Debug.Assert(barbers == Activator);
-            //System.Diagnostics.Debug.Assert(ActivationData != null);
-            //Barber barber = (Barber)ActivationData;
-
-            //WaitOnTask(barber);
-            //yield return Suspend();
-            //// HINT: The above two lines of code can be shortened to
-            ////          yield return barber;
-
-            //Console.WriteLine("Customer pays {0} for the haircut.",
-            //    barber.Name);
-
-            //yield return barbers.Release(this);
         }
     }
 }

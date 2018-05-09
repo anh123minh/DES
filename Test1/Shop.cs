@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //=  $Id: Shop.cs 128 2005-12-04 20:12:00Z Eric Roe $
 //=
 //=  React.NET: A discrete-event simulation library for the .NET Framework.
@@ -48,6 +48,22 @@ namespace BarberShop
     public class Shop : Simulation
     {
         private const long ClosingTime = 4 * 60;
+        private NonUniform TypeDis { get; set; }//Kieu Distribution
+        public enum Distribution
+        {
+            NormalDis,
+            ExponentialDis
+        }
+        //Nhung Bien set tu giao dien duoc
+        public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
+        public double Interval { get; set; } = 5;//Khoang lamda
+        public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
+        public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
+
+        public int QueueCapacity { get; set; } = 500;
+
+        //Bien dung trong tinh toan
+        public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
 
         public Shop()
         {
@@ -58,22 +74,46 @@ namespace BarberShop
             Console.WriteLine(@"The barber shop is opening for business...");
             Resource barbers = CreateBarbers();
             int i = 0;
-            Normal n = new Normal(5.0, 1.0);
+            switch (TypeDistribuion)
+            {
+                case Distribution.NormalDis:
+                    TypeDis = new Normal(Interval, 1.0);
+                    break;
+                case Distribution.ExponentialDis:
+                    TypeDis = new Exponential(Interval);
+                    break;
+                default:
+                    Console.WriteLine("k tim thay");
+                    break;
+            }
 
             do
             {
                 long d;
                 do
                 {
-                    d = (long)n.NextDouble();
+                    d = (long)TypeDis.NextDouble();
                 } while (d <= 0L);
+                if (FirstTime != 0 && Now == 0)
+                {
+                    yield return p.Delay(FirstTime);
+                    i++;
+                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
+                    Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
+                    c.Activate(null, 0L, barbers);
+                    Console.WriteLine(this.Now + " The customer " + c.Name + " come");
+                }
+                else
+                {
+                    yield return p.Delay(d);
+                    Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                    i++;
+                    Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
+                    c.Activate(null, 0L, barbers);
+                    Console.WriteLine("Now - " + this.Now + " The customer " + c.Name + " come");
+                    Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
-                yield return p.Delay(d);
-                i++;
-
-                Customer c = new Customer(this, i.ToString(), this.Now);
-                c.Activate(null, 0L, barbers);
-                Console.WriteLine(this.Now + " The customer " + c.Name + " come");
+                }
 
             } while (Now < ClosingTime);
 

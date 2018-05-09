@@ -48,6 +48,7 @@ namespace SimulationV1.WPF.Pages
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Длина файла:";
                     tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
+                    btnGraph.Visibility = Visibility.Visible;
                     break;
                 case "AMQueue":
                     tBxName.Text = VertexBefore.Text;
@@ -81,6 +82,7 @@ namespace SimulationV1.WPF.Pages
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Длина файла:";
                     tBx3.Text = VertexBefore.AndType.LengthOfFile.ToString();
+                    btnGraph.Visibility = Visibility.Visible;
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -207,6 +209,12 @@ namespace SimulationV1.WPF.Pages
             }
             
 
+        }
+
+        private void btnGraph_Click(object sender, RoutedEventArgs e)
+        {
+            var amGraph = new AMGraph(VertexAfter);
+            amGraph.Show();
         }
     }
 }

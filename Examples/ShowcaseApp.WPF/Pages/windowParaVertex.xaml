@@ -44,9 +44,8 @@
             </DockPanel>
             <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">
                 <Button x:Name="btnOK" Content="OK" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnOK_Click"></Button>
-                <Button x:Name="btnCancel" Content="Отмена" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCancel_Click">
-                </Button>
-
+                <Button x:Name="btnCancel" Content="Отмена" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCancel_Click"></Button>
+                <Button x:Name="btnGraph" Content="Граф" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnGraph_Click" Visibility="Collapsed"></Button>
             </DockPanel>
         </DockPanel>
     </Grid>

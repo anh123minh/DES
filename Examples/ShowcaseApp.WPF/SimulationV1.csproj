@@ -156,6 +156,9 @@
     <Compile Include="ExampleModels\AMBarber.cs" />
     <Compile Include="ExampleModels\AMCustomer.cs" />
     <Compile Include="ExampleModels\AMShop.cs" />
+    <Compile Include="Pages\AMGraph.xaml.cs">
+      <DependentUpon>AMGraph.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AMResult.xaml.cs">
       <DependentUpon>AMResult.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AMGraph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AMResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
