@@ -6,11 +6,20 @@
         xmlns:local="clr-namespace:SimulationV1.WPF.Pages"
         xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="AMGraph" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="AMGraph" Height="450" Width="600" WindowStartupLocation="CenterScreen">
     <Grid>
-        <GroupBox Header="The customer come" Margin="3" DockPanel.Dock="Top" >
+        <GroupBox Margin="3" DockPanel.Dock="Top" >
             <DockPanel Margin="0">
-                <chartingToolkit:Chart  DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="320" Padding="0" BorderBrush="White" >
+                <DockPanel x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible">
+                    <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="False" MaxHeight="300">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="X" Binding="{Binding Path=x}" MinWidth="50" Width="*" />
+                            <DataGridTextColumn Header="PDF" Binding="{Binding Path=y}" MinWidth="50" Width="*"/>
+                            <DataGridTextColumn Header="CDF" Binding="{Binding Path=z}" MinWidth="50" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+                <chartingToolkit:Chart x:Name="Chart" DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="320" Padding="0" BorderBrush="White" Visibility="Collapsed">
                     <chartingToolkit:LineSeries x:Name="DoThi" DependentValuePath="Y" IndependentValuePath="X" ItemsSource="{Binding}" VerticalContentAlignment="Stretch">
 
                         <chartingToolkit:LineSeries.DataPointStyle>
@@ -31,14 +40,16 @@
                     </chartingToolkit:Chart.LegendStyle>
                     <chartingToolkit:Chart.Axes>
                         <chartingToolkit:LinearAxis
-                            Orientation="Y" Minimum="0" Maximum="1" Title="The customer come" ShowGridLines="True"/>
+                            Orientation="Y" Minimum="0" Title="The customer come" ShowGridLines="True"/>
                         <chartingToolkit:LinearAxis
                             Orientation="X" Title="Time" ShowGridLines="True"/>
                     </chartingToolkit:Chart.Axes>
                 </chartingToolkit:Chart>
 
-                <DockPanel DockPanel.Dock="Bottom"  HorizontalAlignment="Center" Margin="321,3" Height="40">
+                <DockPanel DockPanel.Dock="Bottom"  HorizontalAlignment="Center" Height="40">
+                    <Button x:Name="btnTable" Content="Table" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnTable_Click"></Button>
                     <Button x:Name="btnPDF" Content="PDF" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnPDF_Click"></Button>
+                    <Button x:Name="btnClose" Content="Close" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnClose_Click"></Button>
                     <Button x:Name="btnCDF" Content="CDF" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCDF_Click"></Button>
                 </DockPanel>
             </DockPanel>

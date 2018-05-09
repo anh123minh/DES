@@ -28,7 +28,11 @@
                 <!--<DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
                     <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
                     <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
-                </DockPanel>-->
+                </DockPanel>-->                
+                <DockPanel x:Name="DP3"  DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
+                    <Label x:Name="Label3"  DockPanel.Dock="Left" Margin="3"></Label>
+                    <TextBox x:Name="tBx3" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                </DockPanel>
                 <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
                     <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
                     <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed">
@@ -37,15 +41,16 @@
                     </ComboBox>
                     <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                 </DockPanel>
-                <DockPanel x:Name="DP3"  DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
-                    <Label x:Name="Label3"  DockPanel.Dock="Left" Margin="3"></Label>
-                    <TextBox x:Name="tBx3" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
-                </DockPanel>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">
-                <Button x:Name="btnOK" Content="OK" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnOK_Click"></Button>
-                <Button x:Name="btnCancel" Content="Отмена" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCancel_Click"></Button>
-                <Button x:Name="btnGraph" Content="Граф" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnGraph_Click" Visibility="Collapsed"></Button>
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button x:Name="btnGraph" Content="Граф" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnGraph_Click" Visibility="Collapsed"></Button>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Button x:Name="btnOK" Content="Save" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnOK_Click"></Button>
+                    <Button x:Name="btnClose" Content="Close" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnClose_Click"></Button>
+                    <Button x:Name="btnCancel" Content="Отмена" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCancel_Click"></Button>
+                </DockPanel>
             </DockPanel>
         </DockPanel>
     </Grid>

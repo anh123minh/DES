@@ -101,7 +101,7 @@ namespace SimulationV1.WPF.Pages
             UpdateVertex();
             EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
-            Close();
+            MessageBox.Show("Saved!");
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -216,5 +216,11 @@ namespace SimulationV1.WPF.Pages
             var amGraph = new AMGraph(VertexAfter);
             amGraph.Show();
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+       
     }
 }
