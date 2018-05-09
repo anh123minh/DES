@@ -41,22 +41,23 @@ namespace SimulationV1.WPF.Pages
         public List<TablePoint> Table_Exp(double m)
         {
             List<TablePoint> pointcoll = new List<TablePoint>();
-            for (double i = 0.001; i < 5; i += 0.1)
+            for (double i = 0.001; i < 5; i += 0.01)
             {
                 var pdf = m * Math.Exp(-m * i);
                 var cdf = 1 - Math.Exp(-m * i);
-                pointcoll.Add(new TablePoint(){ x = i, y = pdf, z = cdf});
+                pointcoll.Add(new TablePoint(){ x = Math.Round(i, 3), y = pdf, z = cdf});
             }
             return pointcoll;
         }
-        public List<TablePoint> Table_Normal(double deviation, double m = 0)
+        public List<TablePoint> Table_Normal(double variance)
         {
             List<TablePoint> pointcoll = new List<TablePoint>();
+            NormalDist dist = new NormalDist(0, variance);
             for (double i = -15; i < 15; i += 0.1)
             {
-                var pdf = 1 / (Math.Pow(2 * Math.PI * Math.Pow(deviation, 2), 0.5)) * Math.Exp(-(Math.Pow(i - m, 2)) / (2 * Math.Pow(deviation, 2)));
-                var cdf = 1 - Math.Exp(-m * i);
-                pointcoll.Add(new TablePoint() { x = i, y = pdf, z = cdf });
+                var pdf = dist.PDF(i);
+                var cdf = dist.CDF(i);
+                pointcoll.Add(new TablePoint() { x = Math.Round(i,2), y = pdf, z = cdf });
             }
             return pointcoll;
         }
@@ -64,7 +65,7 @@ namespace SimulationV1.WPF.Pages
         public PointCollection ExponentialDistribution_PDF(double m)
         {
             PointCollection pointcoll = new PointCollection();
-            for (double i = 0.001; i < 5; i+=0.1)
+            for (double i = 0.001; i < 5; i+=0.01)
             {
                 var y = m * Math.Exp(-m * i);
                 pointcoll.Add(new Point(i, y));
@@ -75,7 +76,7 @@ namespace SimulationV1.WPF.Pages
         public PointCollection ExponentialDistribution_CDF(double m)
         {
             PointCollection pointcoll = new PointCollection();
-            for (double i = 0.001; i < 5; i += 0.1)
+            for (double i = 0.001; i < 5; i += 0.01)
             {
                 var y = 1 - Math.Exp(-m * i);
                 pointcoll.Add(new Point(i, y));
@@ -83,25 +84,27 @@ namespace SimulationV1.WPF.Pages
             return pointcoll;
         }
 
-        public PointCollection NormallDistribution_PDF(double deviation, double m = 0)
+        public PointCollection NormallDistribution_PDF(double variance)
         {
             PointCollection pointcoll = new PointCollection();
+            NormalDist dist = new NormalDist(0, variance);
             for (double i = -15; i < 15; i += 0.1)
             {
-                var y = 1/(Math.Pow(2*Math.PI*Math.Pow(deviation,2),0.5))*Math.Exp(-(Math.Pow(i-m,2))/(2* Math.Pow(deviation, 2)));
+                var y = dist.PDF(i);
                 pointcoll.Add(new Point(i, y));
             }
             return pointcoll;
         }
 
-        public PointCollection NormalDistribution_CDF(double m)
+        public PointCollection NormalDistribution_CDF(double variance)
         {
             PointCollection pointcoll = new PointCollection();
-            //for (double i = 0.5; i < 5; i += 0.25)
-            //{
-            //    var y = 1 - Math.Exp(-m * i);
-            //    pointcoll.Add(new Point(i, y));
-            //}
+            NormalDist dist = new NormalDist(0, variance);
+            for (double i = -15; i < 15; i += 0.1)
+            {
+                var y = dist.CDF(i);
+                pointcoll.Add(new Point(i, y));
+            }
             return pointcoll;
         }
 

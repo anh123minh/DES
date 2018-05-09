@@ -162,6 +162,7 @@
     <Compile Include="Pages\AMResult.xaml.cs">
       <DependentUpon>AMResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NormalDist.cs" />
     <Compile Include="Pages\StepLineSeries.cs" />
     <Compile Include="Pages\windowDiagramAlpha.xaml.cs">
       <DependentUpon>windowDiagramAlpha.xaml</DependentUpon>

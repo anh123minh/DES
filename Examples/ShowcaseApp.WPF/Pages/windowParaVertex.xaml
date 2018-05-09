@@ -36,8 +36,8 @@
                 <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
                     <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
                     <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed">
-                        <ComboBoxItem Content="Normal" IsSelected="True"></ComboBoxItem>
-                        <ComboBoxItem Content="Exponential"></ComboBoxItem>
+                        <ComboBoxItem Content="Normal" IsSelected="True" ToolTip="Variance"></ComboBoxItem>
+                        <ComboBoxItem Content="Exponential" ToolTip="Lamda"></ComboBoxItem>
                     </ComboBox>
                     <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                 </DockPanel>
