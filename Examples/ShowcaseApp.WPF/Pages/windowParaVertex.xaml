@@ -17,7 +17,7 @@
                         <ComboBoxItem Content="Exponential"></ComboBoxItem>
                     </ComboBox>
                 </DockPanel>-->
-                <DockPanel x:Name="DP0" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+                <DockPanel x:Name="DP0" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Collapsed">
                     <Label Content="Трафик (Мб/с):" DockPanel.Dock="Left" Margin="10,3"></Label>
                     <TextBox x:Name="tBxTraffic" DockPanel.Dock="Right" Margin="3" Width="90"></TextBox>
                 </DockPanel>
