@@ -33,9 +33,9 @@ namespace BarberShop
     /// Each <see cref="Barber"/> is a member of a <see cref="TrackedResource"/>
     /// and, when activated, cuts a <see cref="Customer"/> object's hair.
     /// </remarks>
-    internal class Barber : Process
+    internal class Barber1 : Process
     {
-        internal Barber(Simulation sim, string name) : base(sim)
+        internal Barber1(Simulation sim, string name) : base(sim)
         {
             this.Name = name;
         }
@@ -47,7 +47,7 @@ namespace BarberShop
             //Console.WriteLine(Name + " finishes cutting customer's hair.");
             //yield break;
 
-            //Console.WriteLine(this.Now + " - " + Name + " begins cutting customer's hair ... Shop 0");
+            //Console.WriteLine(this.Now + " - " + Name + " Shop 1 begins cutting customer's hair ... Shop 1");
             yield return Delay(0);
             //Console.WriteLine(this.Now + "-" + Name + " finishes cutting customer's hair.");
             yield break;

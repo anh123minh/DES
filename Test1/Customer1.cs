@@ -37,7 +37,7 @@ namespace BarberShop
     /// <see cref="Barber"/>, they activate the <see cref="Barber"/> process
     /// to simulate cutting hair.
     /// </remarks>
-    internal class Customer : Process
+    internal class Customer1 : Process
     {
         public long TimeCome { get; set; }
         public long TimeIn { get; set; }
@@ -48,16 +48,16 @@ namespace BarberShop
         //Bien dung trong tinh toan
         public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
 
-        internal Customer(Simulation sim) : base(sim)
+        internal Customer1(Simulation sim) : base(sim)
         {
         }
 
-        internal Customer(Simulation sim, string name, long timecome) : base(sim)
+        internal Customer1(Simulation sim, string name, long timecome) : base(sim)
         {
             this.Name = name;
             this.TimeCome = timecome;
         }
-        internal Customer(Simulation sim, string name, long timecome, int maxque) : base(sim)
+        internal Customer1(Simulation sim, string name, long timecome, int maxque) : base(sim)
         {
             this.Name = name;
             this.TimeCome = timecome;
@@ -104,12 +104,12 @@ namespace BarberShop
             System.Diagnostics.Debug.Assert(barbers == Activator);
             System.Diagnostics.Debug.Assert(ActivationData != null);
 
-            Barber barber = (Barber)ActivationData;
+            Barber1 barber = (Barber1)ActivationData;
             Points.Add(new Point(Now, barber.BlockCount));
             //Console.WriteLine("Now - " + Now + " H  H      BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeIn = this.Now;
-            Console.WriteLine(this.Now + " CusIn  Customer " + this.Name + " Shop 0 " + barber.Name + " begins cutting hair of");
+            Console.WriteLine(this.Now + " CusIn  Customer " + this.Name + " Shop 1 " + barber.Name + " begins cutting hair of");
 
             WaitOnTask(barber);
             yield return Suspend();
@@ -119,7 +119,7 @@ namespace BarberShop
             //Console.WriteLine("Now - " + Now + " NN  NN    BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeOut = this.Now;
-            Console.Write(this.Now + " CusOut Customer " + Name + " Shop 0 pays {0} for the haircut.",
+            Console.Write(this.Now + " CusOut Customer " + Name + " Shop 1 pays {0} for the haircut.",
                 barber.Name);
             Console.WriteLine($"   thoi gian trong hang doi {TimeIn - this.TimeCome}" +
                               $" --- thoi gian trong he thong {TimeOut - this.TimeCome}");

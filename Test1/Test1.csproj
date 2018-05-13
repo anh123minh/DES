@@ -47,7 +47,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Barber1.cs" />
     <Compile Include="Barber.cs" />
+    <Compile Include="Customer1.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
