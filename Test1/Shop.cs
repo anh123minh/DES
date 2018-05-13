@@ -47,6 +47,7 @@ namespace BarberShop
     /// </remarks>
     public class Shop : Simulation
     {
+        //public Nut nut = new Nut();
         private const long ClosingTime = 4 * 60;
         private NonUniform TypeDis { get; set; }//Kieu Distribution
         public enum Distribution
@@ -188,84 +189,66 @@ namespace BarberShop
             yield break;
         }
 
-        //private IEnumerable<Task> SinhCus(Process p, object data, Nut nut)
-        //{
-        //    Console.WriteLine(@"The barber shop is opening for business...");
-        //    Resource barbers = CreateBarbers();
-        //    int i = 0;
-        //    switch (nut.TypeDistribuion)
-        //    {
-        //        case Nut.Distribution.NormalDis:
-        //            nut.TypeDis = new Normal(nut.Interval, 1.0);
-        //            break;
-        //        case Nut.Distribution.ExponentialDis:
-        //            nut.TypeDis = new Exponential(nut.Interval);
-        //            break;
-        //        default:
-        //            Console.WriteLine("k tim thay");
-        //            break;
-        //    }
+        public IEnumerator<Task> SinhCus(Process p, object data)
+        {
+            Nut nut = data as Nut;
+            Console.WriteLine(@"The barber shop is opening for business...");
+            Resource barbers = CreateBarbers();
+            int i = 0;
+            switch (nut.TypeDistribuion)
+            {
+                case Nut.Distribution.NormalDis:
+                    nut.TypeDis = new Normal(nut.Interval, 1.0);
+                    break;
+                case Nut.Distribution.ExponentialDis:
+                    nut.TypeDis = new Exponential(nut.Interval);
+                    break;
+                default:
+                    Console.WriteLine("k tim thay");
+                    break;
+            }
 
-        //    do
-        //    {
-        //        long d;
-        //        do
-        //        {
-        //            d = (long)nut.TypeDis.NextDouble();
-        //        } while (d <= 0L);
-        //        if (nut.FirstTime != 0 && Now == 0)
-        //        {
-        //            yield return p.Delay(nut.FirstTime);
-        //            i++;
-        //            //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
-        //            Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity);
-        //            c.Activate(null, 0L, barbers);
-        //            Console.WriteLine(this.Now + " The customer " + c.Name + " come");
-        //        }
-        //        else
-        //        {
-        //            yield return p.Delay(d);
-        //            Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
-        //            i++;
-        //            Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity);
-        //            c.Activate(null, 0L, barbers);
-        //            Console.WriteLine("Now - " + this.Now + " The customer " + c.Name + " come");
-        //            Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+            do
+            {
+                long d;
+                do
+                {
+                    d = (long)nut.TypeDis.NextDouble();
+                } while (d <= 0L);
+                if (nut.FirstTime != 0 && Now == 0)
+                {
+                    yield return p.Delay(nut.FirstTime);
+                    i++;
+                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
+                    Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name);
+                    c.Activate(null, 0L, barbers);
+                    Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
+                }
+                else
+                {
+                    yield return p.Delay(d);
+                    //Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                    i++;
+                    Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name);
+                    c.Activate(null, 0L, barbers);
+                    Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
+                    //Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
-        //        }
+                }
 
-        //    } while (Now < Nut.ClosingTime);
+            } while (Now < Nut.ClosingTime);
 
-        //    Console.WriteLine(@"======================================================");
-        //    Console.WriteLine(@"The barber shop is closed for the day.");
+            Console.WriteLine(@"======================================================");
+            Console.WriteLine(@"The barber shop is closed for the day.");
 
-        //    if (barbers.BlockCount > 0)
-        //    {
-        //        Console.WriteLine(@"The barbers have to work late today.");
-        //    }
+            if (barbers.BlockCount > 0)
+            {
+                Console.WriteLine(@"The barbers have to work late today.");
+            }
 
-        //    yield break;
-        //}
-        //public class Nut
-        //{
-        //    public const long ClosingTime = 4 * 60;
-        //    public NonUniform TypeDis { get; set; }//Kieu Distribution
-        //    public enum Distribution
-        //    {
-        //        NormalDis,
-        //        ExponentialDis
-        //    }
-        //    //Nhung Bien set tu giao dien duoc
-        //    public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
-        //    public double Interval { get; set; } = 5;//Khoang lamda
-        //    public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
-        //    public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
-
-        //    public int QueueCapacity { get; set; } = 500;
-
-        //    //Bien dung trong tinh toan
-        //    public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
-        //}
+            yield break;
+        }
+        
         private Resource CreateBarbers()
         {
             //Barber[] barbers = new Barber[4];
@@ -343,5 +326,26 @@ namespace BarberShop
         //    Task generator = new Process(shop, shop.Generator);
         //    shop.Run(generator);
         //}
+    }
+    public class Nut
+    {
+        public string Name { get; set; } = "";
+        public const long ClosingTime = 4 * 60;
+        public NonUniform TypeDis { get; set; }//Kieu Distribution
+        public enum Distribution
+        {
+            NormalDis,
+            ExponentialDis
+        }
+        //Nhung Bien set tu giao dien duoc
+        public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
+        public double Interval { get; set; } = 5;//Khoang lamda
+        public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
+        public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
+
+        public int QueueCapacity { get; set; } = 500;
+
+        //Bien dung trong tinh toan
+        public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
     }
 }

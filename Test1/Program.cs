@@ -22,30 +22,10 @@ namespace Test1
             //{
             //    genTasks[i] = new Process(shop1, shop1.Generator,nut);
             //}
-            genTasks[0] = new Process(shop1, shop1.Generator);
-            genTasks[1] = new Process(shop1, shop1.Generator1);
+            genTasks[0] = new Process(shop1, shop1.SinhCus, new Nut() { Interval = 5, Name = "0", TypeDistribuion = Nut.Distribution.NormalDis});
+            genTasks[1] = new Process(shop1, shop1.SinhCus, new Nut() { Interval = 10, Name = "1", TypeDistribuion = Nut.Distribution.ExponentialDis});
             shop1.Run(genTasks);
             Console.ReadKey();
-        }
-        public class Nut
-        {
-            public const long ClosingTime = 4 * 60;
-            //public NonUniform TypeDis { get; set; }//Kieu Distribution
-            public enum Distribution
-            {
-                NormalDis,
-                ExponentialDis
-            }
-            //Nhung Bien set tu giao dien duoc
-            public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
-            public double Interval { get; set; } = 5;//Khoang lamda
-            public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
-            public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
-
-            public int QueueCapacity { get; set; } = 500;
-
-            //Bien dung trong tinh toan
-            public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
         }
     }
 }

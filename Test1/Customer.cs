@@ -43,6 +43,7 @@ namespace BarberShop
         public long TimeIn { get; set; }
         public long TimeOut { get; set; }
         public int QueueCapacity { get; set; } = 500;
+        public string ShopName { get; set; } = "";
         public PointCollection Points { get; set; } = new PointCollection() { new Point(0, 0) };
 
         //Bien dung trong tinh toan
@@ -62,6 +63,13 @@ namespace BarberShop
             this.Name = name;
             this.TimeCome = timecome;
             this.QueueCapacity = maxque;
+        }
+        internal Customer(Simulation sim, string name, long timecome, int maxque, string shopname) : base(sim)
+        {
+            this.Name = name;
+            this.TimeCome = timecome;
+            this.QueueCapacity = maxque;
+            this.ShopName = shopname;
         }
 
         private long Condition { get; set; } = 4;
@@ -104,12 +112,12 @@ namespace BarberShop
             System.Diagnostics.Debug.Assert(barbers == Activator);
             System.Diagnostics.Debug.Assert(ActivationData != null);
 
-            Barber barber = (Barber)ActivationData;
+            Barber barber = ActivationData as Barber;
             Points.Add(new Point(Now, barber.BlockCount));
             //Console.WriteLine("Now - " + Now + " H  H      BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeIn = this.Now;
-            Console.WriteLine(this.Now + " CusIn  Customer " + this.Name + " Shop 0 " + barber.Name + " begins cutting hair of");
+            Console.WriteLine(this.Now + " CusIn  Customer " + this.Name + " Shop " + this.ShopName + " " + barber.Name + " begins cutting hair of");
 
             WaitOnTask(barber);
             yield return Suspend();
@@ -119,8 +127,7 @@ namespace BarberShop
             //Console.WriteLine("Now - " + Now + " NN  NN    BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeOut = this.Now;
-            Console.Write(this.Now + " CusOut Customer " + Name + " Shop 0 pays {0} for the haircut.",
-                barber.Name);
+            Console.Write(this.Now + " CusOut Customer " + Name + " Shop  " + this.ShopName + " " + "pays {0} for the haircut.", barber.Name);
             Console.WriteLine($"   thoi gian trong hang doi {TimeIn - this.TimeCome}" +
                               $" --- thoi gian trong he thong {TimeOut - this.TimeCome}");
 
