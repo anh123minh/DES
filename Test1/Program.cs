@@ -22,8 +22,8 @@ namespace Test1
             //{
             //    genTasks[i] = new Process(shop1, shop1.Generator,nut);
             //}
-            genTasks[0] = new Process(shop1, shop1.SinhCus, new Nut() { Interval = 5, Name = "0", TypeDistribuion = Nut.Distribution.NormalDis});
-            genTasks[1] = new Process(shop1, shop1.SinhCus, new Nut() { Interval = 10, Name = "1", TypeDistribuion = Nut.Distribution.ExponentialDis});
+            genTasks[0] = new Process(shop1, shop1.SinhCus, new Nut() { Interval = 5, Name = "0", TypeDistribuion = Nut.Distribution.NormalDis, NumBarbers = 3});
+            genTasks[1] = new Process(shop1, shop1.SinhCus, new Nut() { Interval = 10, Name = "1", TypeDistribuion = Nut.Distribution.ExponentialDis, NumBarbers = 2});
             shop1.Run(genTasks);
             Console.ReadKey();
         }

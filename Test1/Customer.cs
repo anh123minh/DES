@@ -44,6 +44,7 @@ namespace BarberShop
         public long TimeOut { get; set; }
         public int QueueCapacity { get; set; } = 500;
         public string ShopName { get; set; } = "";
+        public int NumBarbers { get; set; } = 1;
         public PointCollection Points { get; set; } = new PointCollection() { new Point(0, 0) };
 
         //Bien dung trong tinh toan
@@ -71,18 +72,26 @@ namespace BarberShop
             this.QueueCapacity = maxque;
             this.ShopName = shopname;
         }
+        internal Customer(Simulation sim, string name, long timecome, int maxque, string shopname, int numbarbers) : base(sim)
+        {
+            this.Name = name;
+            this.TimeCome = timecome;
+            this.QueueCapacity = maxque;
+            this.ShopName = shopname;
+            this.NumBarbers = numbarbers;
+        }
 
         private long Condition { get; set; } = 4;
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
-            TrackedResource barbers = (TrackedResource)ActivationData;
-            if (barbers.BlockCount < 1)
+            TrackedResource barbers = (TrackedResource)ActivationData;//data of Custumer = c.Activate(null, 0L, barbers) => barbers;
+            if (barbers.BlockCount < NumBarbers-1)
             {
                 if (barbers.Free != 0)
                 {
                     //Console.WriteLine("Now - " + Now + " 1         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
-                    barbers.OutOfService = 2;
+                    barbers.OutOfService = NumBarbers;
                     //Console.WriteLine("Now - " + Now + " 2         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                 }
             }
@@ -112,7 +121,7 @@ namespace BarberShop
             System.Diagnostics.Debug.Assert(barbers == Activator);
             System.Diagnostics.Debug.Assert(ActivationData != null);
 
-            Barber barber = ActivationData as Barber;
+            Barber barber = ActivationData as Barber;//data of Barber = barbers.Acquire(this) => acquired from barbers
             Points.Add(new Point(Now, barber.BlockCount));
             //Console.WriteLine("Now - " + Now + " H  H      BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
