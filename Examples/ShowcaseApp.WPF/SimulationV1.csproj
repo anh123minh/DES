@@ -108,8 +108,9 @@
       <HintPath>..\..\packages\QuickGraphPCL.3.6.61114.2\lib\net40-client\QuickGraph.Serialization.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="React.NET">
-      <HintPath>..\..\React.NET-0.6.0\React.NET-0.6.0\lib\React.NET.dll</HintPath>
+    <Reference Include="React.NET, Version=0.6.0.34129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\React.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

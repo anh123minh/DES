@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Text;
 using React;
 using React.Distribution;
+using Test1;
 
 namespace BarberShop
 {
@@ -62,12 +63,26 @@ namespace BarberShop
         //public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
 
         //public int QueueCapacity { get; set; } = 500;
+        public int NumberShop { get; set; } = 1;
 
+        private bool[] AllIsReady;
         //Bien dung trong tinh toan
+
         public bool AllReady { get; set; } = false;//San sang de thuc thi hay chua
 
         public Shop()
         {
+        }
+
+        public Shop(int numshop)
+        {
+            NumberShop = numshop;
+            bool[] aIsReady = new bool[numshop];
+            for (int i = 0; i < numshop; i++)
+            {
+                aIsReady[i] = false;
+            }
+            AllIsReady = aIsReady;
         }
 
         //public IEnumerator<Task> Generator(Process p, object data)
@@ -194,7 +209,9 @@ namespace BarberShop
             Nut nut = data as Nut;
             Console.WriteLine(@"The barber shop is opening for business...");
             ////Resource barbers = CreateBarbers();
-            var barbers = nut.CreateResource(this);
+            //var barbers1 = nut.CreateResource(this);
+            var barbers1 = nut.SubTracked(this);
+            //SubTrackedResource aaa = new SubTrackedResource();
             int i = 0;
             switch (nut.TypeDistribuion)
             {
@@ -227,13 +244,26 @@ namespace BarberShop
                 }
                 else
                 {
-
+                    AllIsReady[Int32.Parse(nut.Name)] = barbers1.IsReady;
+                    var aa = true;
+                    foreach (var a in AllIsReady)
+                    {
+                        aa = aa && a;
+                    }
+                    if (aa)
+                    {
+                        barbers1.AllReady = true;
+                    }
+                    else
+                    {
+                        barbers1.AllReady = false;
+                    }
                     yield return p.Delay(d);
                     //Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + nut.Barbers.BlockCount + "- OutOfService - " + nut.Barbers.OutOfService + "- Reserved - " + nut.Barbers.Reserved);
                     i++;                    
                     Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers);
-                    //c.Activate(null, 0L, barbers);
-                    c.Activate(null, 0L, nut);
+                    c.Activate(null, 0L, barbers1);
+
                     Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
                     //Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + nut.Barbers.BlockCount + "- OutOfService - " + nut.Barbers.OutOfService + "- Reserved - " + nut.Barbers.Reserved);
 
@@ -345,7 +375,7 @@ namespace BarberShop
         public double Interval { get; set; } = 5;//Khoang lamda
         public int LengthOfFile { get; set; } = 15;//số Customer tối đa       
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
-        public int NumBarbers { get; set; } = 1;
+        public int NumBarbers { get; set; } = 1;//So luong may phuc vu
 
         public int QueueCapacity { get; set; } = 500;
 
@@ -373,6 +403,16 @@ namespace BarberShop
                 }
                 return Resource.Create(barbers);
             }
+        }
+
+        public SubTrackedResource SubTracked(Simulation sim)
+        {
+            List<Barber> barbers = new List<Barber>();
+            for (int i = 0; i < NumBarbers; i++)
+            {
+                barbers.Add(new Barber(sim, "Shop " + Name + " Barber " + i.ToString()));
+            }
+            return new SubTrackedResource(barbers);
         }
         public Simulation Sim { get; set; }
         public object Acti { get; set; }

@@ -25,6 +25,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using React;
+using Test1;
 
 namespace BarberShop
 {
@@ -45,6 +46,7 @@ namespace BarberShop
         public int QueueCapacity { get; set; } = 500;
         public string ShopName { get; set; } = "";
         public int NumBarbers { get; set; } = 1;
+        public Simulation Sim { get; set; }
         public PointCollection Points { get; set; } = new PointCollection() { new Point(0, 0) };
 
         //Bien dung trong tinh toan
@@ -79,29 +81,32 @@ namespace BarberShop
             this.QueueCapacity = maxque;
             this.ShopName = shopname;
             this.NumBarbers = numbarbers;
+            this.Sim = sim;
         }
+        
 
         private long Condition { get; set; } = 4;
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
             //TrackedResource barbers = (TrackedResource)ActivationData;//data of Custumer = c.Activate(null, 0L, barbers) => barbers;
-            var newnut = ActivationData as Nut;
-            TrackedResource barbers = newnut.Barbers as TrackedResource; 
+            SubTrackedResource barbers = (SubTrackedResource)ActivationData;//data of Custumer = c.Activate(null, 0L, barbers) => barbers;
+            //TrackedResource barbers = (TrackedResource)((Nut)ActivationData).Barbers ;
+            //Nut barbers = (Nut)ActivationData; 
             if (barbers.BlockCount < NumBarbers-1)
             {
-                IsReady = false;
+
                 if (barbers.Free != 0)
                 {
                     //Console.WriteLine("Now - " + Now + " 1         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                     barbers.OutOfService = NumBarbers;
-                   // Console.WriteLine("Now - " + Now + " 2         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+
+                    // Console.WriteLine("Now - " + Now + " 2         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                 }
             }
             else
             {
-                IsReady = true;
-                if (barbers.OutOfService != 0)
+                if (barbers.OutOfService != 0 && barbers.AllReady)
                 {
                     //Console.WriteLine("Now - " + Now + " 3         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                     barbers.OutOfService = 0;
@@ -112,10 +117,14 @@ namespace BarberShop
             //Console.WriteLine("Now - " + Now + " M         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
             if (barbers.BlockCount < QueueCapacity)//max so Cus trong hang doi
             {
-                //if (barbers.BlockCount >= NumBarbers - 1)
-                //{
-                //    newnut.IsReady = true;
-                //}
+                if (barbers.BlockCount >= NumBarbers - 2)
+                {
+                    barbers.IsReady = true;
+                }
+                else
+                {
+                    barbers.IsReady = false;
+                }
                 //Console.WriteLine("Now - " + Now + " 5         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                 yield return barbers.Acquire(this);//?o?n n?y s? nh?y sang Barber ?? th?c hi?n, khi th?c hi?n xong s? nh?y v? 2//Sau doan nay Cus se luu vao hang doi// busy or not?//chiem lay cus moi
                 //Console.WriteLine("Now - " + Now + " 6         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
@@ -130,7 +139,7 @@ namespace BarberShop
 
             //Barber barber = ActivationData as Barber;//data of Barber = barbers.Acquire(this) => acquired from barbers
             Barber barber = ActivationData as Barber;
-            Points.Add(new Point(Now, barber.BlockCount));
+            //Points.Add(new Point(Now, barber.BlockCount));
             //Console.WriteLine("Now - " + Now + " H  H      BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeIn = this.Now;
