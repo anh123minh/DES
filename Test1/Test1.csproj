@@ -33,8 +33,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
-    <Reference Include="React.NET">
-      <HintPath>..\React.NET-0.6.0\React.NET-0.6.0\lib\React.NET.dll</HintPath>
+    <Reference Include="React.NET, Version=0.6.0.34129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Examples\ShowcaseApp.WPF\React.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

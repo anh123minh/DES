@@ -63,8 +63,8 @@ namespace BarberShop
 
         //public int QueueCapacity { get; set; } = 500;
 
-        ////Bien dung trong tinh toan
-        //public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
+        //Bien dung trong tinh toan
+        public bool AllReady { get; set; } = false;//San sang de thuc thi hay chua
 
         public Shop()
         {
@@ -193,7 +193,7 @@ namespace BarberShop
         {
             Nut nut = data as Nut;
             Console.WriteLine(@"The barber shop is opening for business...");
-            //Resource barbers = CreateBarbers();
+            ////Resource barbers = CreateBarbers();
             var barbers = nut.CreateResource(this);
             int i = 0;
             switch (nut.TypeDistribuion)
@@ -222,18 +222,20 @@ namespace BarberShop
                     i++;
                     //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
                     Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers);
-                    c.Activate(null, 0L, barbers);
+                    //c.Activate(null, 0L, barbers);
                     Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
                 }
                 else
                 {
+
                     yield return p.Delay(d);
-                    //Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
-                    i++;
+                    //Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + nut.Barbers.BlockCount + "- OutOfService - " + nut.Barbers.OutOfService + "- Reserved - " + nut.Barbers.Reserved);
+                    i++;                    
                     Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers);
-                    c.Activate(null, 0L, barbers);
+                    //c.Activate(null, 0L, barbers);
+                    c.Activate(null, 0L, nut);
                     Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
-                    //Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                    //Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + nut.Barbers.BlockCount + "- OutOfService - " + nut.Barbers.OutOfService + "- Reserved - " + nut.Barbers.Reserved);
 
                 }
 
@@ -242,7 +244,7 @@ namespace BarberShop
             Console.WriteLine(@"======================================================");
             Console.WriteLine(@"The barber shop is closed for the day.");
 
-            if (barbers.BlockCount > 0)
+            if (nut.CreateResource(this).BlockCount > 0)//
             {
                 Console.WriteLine(@"The barbers have to work late today.");
             }
@@ -359,5 +361,20 @@ namespace BarberShop
             }
             return Resource.Create(barbers);
         }
+
+        public Resource Barbers
+        {
+            get
+            {
+                List<Barber> barbers = new List<Barber>();
+                for (int i = 0; i < NumBarbers; i++)
+                {
+                    barbers.Add(new Barber(Sim, "Shop " + Name + " Barber " + i.ToString()));
+                }
+                return Resource.Create(barbers);
+            }
+        }
+        public Simulation Sim { get; set; }
+        public object Acti { get; set; }
     }
 }
