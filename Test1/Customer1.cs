@@ -21,20 +21,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using React;
 
-namespace BarberShop
+namespace Test1
 {
     /// <summary>
     /// The customer <see cref="Process"/>.
     /// </summary>
     /// <remarks>
-    /// Each <see cref="Customer"/> waits to acquire a <see cref="Barber"/> from
-    /// a <see cref="TrackedResource"/>.  Once having obtained a
-    /// <see cref="Barber"/>, they activate the <see cref="Barber"/> process
+    /// Each <see cref="Barber"/> waits to acquire a <see cref="TrackedResource"/> from
+    /// a <see cref="Barber"/>.  Once having obtained a
+    /// <see cref="Barber"/>, they activate the <see cref="Customer"/> process
     /// to simulate cutting hair.
     /// </remarks>
     internal class Customer1 : Process

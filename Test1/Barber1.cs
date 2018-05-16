@@ -19,12 +19,10 @@
 //=  51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //=============================================================================
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using React;
 
-namespace BarberShop
+namespace Test1
 {
     /// <summary>
     /// The barber <see cref="Process"/>.

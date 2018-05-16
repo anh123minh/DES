@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using React;
 
-namespace Test1
+namespace TestDES
 {
-    public class SubTrackedResource: TrackedResource
+    public class SubTrackedResource : TrackedResource
     {
         public bool IsReady { get; set; } = false;
         public bool AllReady { get; set; } = false;

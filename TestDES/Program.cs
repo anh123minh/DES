@@ -1,7 +1,7 @@
 ﻿using System;
 using React;
 
-namespace Test1
+namespace TestDES
 {
     class Program
     {

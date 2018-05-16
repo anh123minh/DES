@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //=  $Id: Barber.cs 128 2005-12-04 20:12:00Z Eric Roe $
 //=
 //=  React.NET: A discrete-event simulation library for the .NET Framework.
@@ -22,7 +22,7 @@
 using System.Collections.Generic;
 using React;
 
-namespace Test1
+namespace TestDES
 {
     /// <summary>
     /// The barber <see cref="Process"/>.
@@ -40,11 +40,6 @@ namespace Test1
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
-            //Console.WriteLine(Name + " begins cutting customer's hair ...");
-            //yield return Delay(22);
-            //Console.WriteLine(Name + " finishes cutting customer's hair.");
-            //yield break;
-
             //Console.WriteLine(this.Now + " - " + Name + " begins cutting customer's hair ... Shop 0");
             yield return Delay(0);
             //Console.WriteLine(this.Now + "-" + Name + " finishes cutting customer's hair.");

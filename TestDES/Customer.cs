@@ -1,3 +1,4 @@
+﻿
 //=============================================================================
 //=  $Id: Customer.cs 128 2005-12-04 20:12:00Z Eric Roe $
 //=
@@ -25,7 +26,7 @@ using System.Windows;
 using System.Windows.Media;
 using React;
 
-namespace Test1
+namespace TestDES
 {
     /// <summary>
     /// The customer <see cref="Process"/>.
@@ -81,17 +82,15 @@ namespace Test1
             this.NumBarbers = numbarbers;
             this.Sim = sim;
         }
-        
+
 
         private long Condition { get; set; } = 4;
 
         protected override IEnumerator<Task> GetProcessSteps()
         {
-            //TrackedResource barbers = (TrackedResource)ActivationData;//data of Custumer = c.Activate(null, 0L, barbers) => barbers;
             SubTrackedResource barbers = (SubTrackedResource)ActivationData;//data of Custumer = c.Activate(null, 0L, barbers) => barbers;
-            //TrackedResource barbers = (TrackedResource)((Nut)ActivationData).Barbers ;
-            //Nut barbers = (Nut)ActivationData; 
-            if (barbers.BlockCount < NumBarbers-1)
+
+            if (barbers.BlockCount < NumBarbers - 1)
             {
 
                 if (barbers.Free != 0)
@@ -108,7 +107,7 @@ namespace Test1
                 {
                     //Console.WriteLine("Now - " + Now + " 3         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                     barbers.OutOfService = 0;
-                   // Console.WriteLine("Now - " + Now + " 4         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+                    // Console.WriteLine("Now - " + Now + " 4         BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
                 }
             }
 
@@ -148,7 +147,7 @@ namespace Test1
             // HINT: The above two lines of code can be shortened to
             //          yield return barber;
 
-           // Console.WriteLine("Now - " + Now + " NN  NN    BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
+            // Console.WriteLine("Now - " + Now + " NN  NN    BlockCount - " + barbers.BlockCount + "- OutOfService - " + barbers.OutOfService + "- Reserved - " + barbers.Reserved);
 
             TimeOut = this.Now;
             Console.Write(this.Now + " CusOut Customer " + Name + " Shop  " + this.ShopName + " " + "pays {0} for the haircut.", barber.Name);

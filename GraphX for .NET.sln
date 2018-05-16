@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepLineChart", "StepLineCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1", "Test1\Test1.csproj", "{FB120CD3-CF06-4BC4-8936-A34C3CDF7017}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDES", "TestDES\TestDES.csproj", "{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,22 @@ Global
 		{FB120CD3-CF06-4BC4-8936-A34C3CDF7017}.Release|x64.Build.0 = Release|Any CPU
 		{FB120CD3-CF06-4BC4-8936-A34C3CDF7017}.Release|x86.ActiveCfg = Release|Any CPU
 		{FB120CD3-CF06-4BC4-8936-A34C3CDF7017}.Release|x86.Build.0 = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|x64.Build.0 = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|ARM.Build.0 = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|x64.Build.0 = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B2CFE70-7F92-4F9C-82E2-FEC3F2CE115A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,7 +157,7 @@ Global
 		{C054C423-7284-46A6-9738-B82E2237E9C7} = {D9664367-2C2C-46B2-81A6-26CDCD087B29}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {DF923477-E16B-442A-84BD-9294DC9C756A}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

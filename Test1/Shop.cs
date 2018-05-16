@@ -21,12 +21,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using React;
 using React.Distribution;
-using Test1;
 
-namespace BarberShop
+namespace Test1
 {
     /// <summary>
     /// The Barber Shop demonstration simulation.
