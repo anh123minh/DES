@@ -639,6 +639,15 @@
   <ItemGroup>
     <Resource Include="Assets\AMdraw arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\AMGenerator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\AMPlace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\AMTransition.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

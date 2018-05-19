@@ -41,10 +41,10 @@ namespace SimulationV1.WPF.Pages
         //Khai bao tham so
         private enum VertexType//các kiểu của các element
         {
-            AMCreate = 0,
-            AMQueue,
+            AMGenerator = 0,
+            AMPlace,
             AMTerminate,
-            AMAnd,
+            AMTransition,
             IP
         }
         private enum EdgeType
@@ -52,7 +52,7 @@ namespace SimulationV1.WPF.Pages
             AMArc = 0,
             AMDirection
         }
-        private VertexType _vertextype = VertexType.AMCreate;
+        private VertexType _vertextype = VertexType.AMGenerator;
         private EdgeType _edgetype = EdgeType.AMArc;
 
         private Resource _ambarbers;
@@ -112,7 +112,7 @@ namespace SimulationV1.WPF.Pages
             //vertexSelected.Cnew.Cre1
         }
 
-        #region ToolbarButton_Checked - Sự kiện khi nhấn chuột vào 1 biểu tượng bất kì và thiết lập các tham số: _opMode - các mode xử lý,_vertextype - mặc định là AMCreate
+        #region ToolbarButton_Checked - Sự kiện khi nhấn chuột vào 1 biểu tượng bất kì và thiết lập các tham số: _opMode - các mode xử lý,_vertextype - mặc định là AMGenerator
         // Обработка событий щелчка мышкой на кнопке главного панела
         void ToolbarButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -141,7 +141,7 @@ namespace SimulationV1.WPF.Pages
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.AMCreate;
+                _vertextype = VertexType.AMGenerator;
                 ClearSelectMode();
                 return;
             }
@@ -156,7 +156,7 @@ namespace SimulationV1.WPF.Pages
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.AMQueue;
+                _vertextype = VertexType.AMPlace;
                 ClearSelectMode();
                 return;
             }
@@ -186,7 +186,7 @@ namespace SimulationV1.WPF.Pages
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _opMode = EditorOperationMode.AddVertex;
-                _vertextype = VertexType.AMAnd;
+                _vertextype = VertexType.AMTransition;
                 ClearSelectMode();
                 return;
             }
@@ -270,18 +270,18 @@ namespace SimulationV1.WPF.Pages
             var data = new DataVertex();//Tạo mới 1 Vertex 
             switch (_vertextype)
             {
-                case VertexType.AMCreate:
+                case VertexType.AMGenerator:
                     //Set mới 1 Vertex với pros: Text+số thứ tự, Type bằng Constructor và pro ImageId
-                    data = new DataVertex("Генератор " + (CountElement("AMCreate") + 1), "AMCreate") { ImageId = 0, CreateType = new CreateClass()};
+                    data = new DataVertex("Генератор " + (CountElement("AMGenerator") + 1), "AMGenerator") { ImageId = 0, CreateType = new CreateClass()};
                     break;
-                case VertexType.AMQueue:
-                    data = new DataVertex("Очередь " + (CountElement("AMQueue") + 1), "AMQueue") { ImageId = 1, QueueType = new QueueClass()};
+                case VertexType.AMPlace:
+                    data = new DataVertex("Позиция " + (CountElement("AMPlace") + 1), "AMPlace") { ImageId = 1, QueueType = new QueueClass()};
                     break;
                 case VertexType.AMTerminate:
                     data = new DataVertex("Терминатор " + (CountElement("AMTerminate") + 1), "AMTerminate") { ImageId = 2, TerminateType = new TerminateClass()};
                     break;
-                case VertexType.AMAnd:
-                    data = new DataVertex("Конъюнкция " + (CountElement("AMAnd") + 1), "AMAnd") { ImageId = 3, AndType = new AndClass()};
+                case VertexType.AMTransition:
+                    data = new DataVertex("Переход " + (CountElement("AMTransition") + 1), "AMTransition") { ImageId = 3, AndType = new AndClass()};
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -294,7 +294,7 @@ namespace SimulationV1.WPF.Pages
         }
 
         #region CountElement - Method đếm số lượng Element
-        // Метод для вычисления количества элементов (Очередь, Терминатор, ИП, Генератор) сети передачи данных
+        // Метод для вычисления количества элементов (Позиция, Терминатор, ИП, Генератор) сети передачи данных
         private int CountElement(string Type)
         {
             if (graphArea.LogicCore.Graph == null) return 0;
@@ -794,7 +794,7 @@ namespace SimulationV1.WPF.Pages
                     cbxCenter.Items.Clear();
                     foreach (DataVertex vtx in graphArea.LogicCore.Graph.Vertices)
                     {
-                        if (vtx.TypeOfVertex == "AMCreate")
+                        if (vtx.TypeOfVertex == "AMGenerator")
                             cbxCenter.Items.Add(vtx.Text);
 
                     }
@@ -1039,7 +1039,7 @@ namespace SimulationV1.WPF.Pages
         }
         #endregion
 
-        #region Method tìm tất cả các đường từ IP về AMCreate đã chọn
+        #region Method tìm tất cả các đường từ IP về AMGenerator đã chọn
         // Метод для поиска всех виртуальных каналов для измерителных пунктов
         private void FindAllPath(string Center, int hybridAlgorithm)
         {
@@ -1048,7 +1048,7 @@ namespace SimulationV1.WPF.Pages
             maxValuePath = int.Parse(tbxMaxValue.Text);
             _allRoute = null;
             var goal = new DataVertex();
-            // поиск Генератор в графе - Tìm AMCreate trùng với AMCreate trong combobox
+            // поиск Генератор в графе - Tìm AMGenerator trùng với AMGenerator trong combobox
             VertexStore = graphArea.LogicCore.Graph.Vertices;
             ListVertex = graphArea.LogicCore.Graph.Vertices.ToList();
             foreach (DataVertex vt in ListVertex)
@@ -1061,12 +1061,12 @@ namespace SimulationV1.WPF.Pages
                 }
             }
             if (flag != true) MessageBox.Show("Назначение не найден", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-            // поиск ИП и все маршрут из этого ИП в Генератор - tìm IP và tất cả các đường từ IP đến AMCreate ở trên
+            // поиск ИП и все маршрут из этого ИП в Генератор - tìm IP và tất cả các đường từ IP đến AMGenerator ở trên
             foreach (DataVertex vt in ListVertex)
                 if (vt.TypeOfVertex == "IP")
                 {
                     IPCout++;
-                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);//Gọi method FindPath với vt là từng IP trong danh sách các Vertex, goal - AMCreate được chọn, maxValuePath -tham số, _allRoute - , hybridA - Algorithm được chọn
+                    FindPath(vt, goal, maxValuePath, ref _allRoute, hybridAlgorithm);//Gọi method FindPath với vt là từng IP trong danh sách các Vertex, goal - AMGenerator được chọn, maxValuePath -tham số, _allRoute - , hybridA - Algorithm được chọn
                     vt.ListPath = _allRoute;//gán tâp hợp các Edge tạo thành đường ngắn nhất cho từng IP
                 }
 
@@ -1083,7 +1083,7 @@ namespace SimulationV1.WPF.Pages
             bool flagroot = false;
             foreach (DataVertex vt in graphArea.LogicCore.Graph.Vertices)
             {
-                if (vt.Text == goal.Text)//so sánh với tên AMCreate truyền vào, nếu dúng set 2 cờ true, sai - xuất thông báo
+                if (vt.Text == goal.Text)//so sánh với tên AMGenerator truyền vào, nếu dúng set 2 cờ true, sai - xuất thông báo
                 {
                     flaggoal = true;
                 }

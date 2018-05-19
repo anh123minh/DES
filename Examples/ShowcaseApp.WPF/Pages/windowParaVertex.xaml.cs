@@ -35,7 +35,7 @@ namespace SimulationV1.WPF.Pages
             VertexAfter = vtx;
             switch (VertexBefore.TypeOfVertex)
             {
-                case "AMCreate":
+                case "AMGenerator":
                     //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.SelectedIndex = (int)VertexBefore.CreateType.TypeDistribuion;
@@ -50,7 +50,7 @@ namespace SimulationV1.WPF.Pages
                     tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
                     break;
-                case "AMQueue":
+                case "AMPlace":
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     Label1.Content = "Ёмкость очереди:";
@@ -69,7 +69,7 @@ namespace SimulationV1.WPF.Pages
                     Label2.Content = "Момент остоновки:";
                     tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
                     break;
-                case "AMAnd":
+                case "AMTransition":
                     //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.SelectedIndex = (int)VertexBefore.AndType.TypeDistribuion;
@@ -111,7 +111,7 @@ namespace SimulationV1.WPF.Pages
 
             switch (VertexBefore.TypeOfVertex)
             {
-                case "AMCreate":
+                case "AMGenerator":
                     tBx1.Text = VertexBefore.CreateType.FirstTime.ToString();
                     tBx2.Text = VertexBefore.CreateType.Interval.ToString();
                     tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
@@ -127,7 +127,7 @@ namespace SimulationV1.WPF.Pages
                             break;
                     }
                     break;
-                case "AMQueue":
+                case "AMPlace":
                     tBx1.Text = VertexBefore.QueueType.QueueCapacity.ToString();
                     tBx2.Text = VertexBefore.QueueType.Priority.ToString();
                     tBx3.Text = VertexBefore.QueueType.FileType.ToString();
@@ -136,7 +136,7 @@ namespace SimulationV1.WPF.Pages
                     tBx1.Text = VertexBefore.TerminateType.OutputCounter.ToString();
                     tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
                     break;
-                case "AMAnd":
+                case "AMTransition":
                     tBx1.Text = VertexBefore.AndType.FirstTime.ToString();
                     tBx2.Text = VertexBefore.AndType.Interval.ToString();
                     tBx3.Text = VertexBefore.AndType.LengthOfFile.ToString();
@@ -163,7 +163,7 @@ namespace SimulationV1.WPF.Pages
             VertexAfter.Traffic = double.Parse(tBxTraffic.Text);
             switch (VertexBefore.TypeOfVertex)
             {
-                case "AMCreate":                                      
+                case "AMGenerator":                                      
                     VertexAfter.CreateType.FirstTime = int.Parse(tBx1.Text);
                     VertexAfter.CreateType.Interval = int.Parse(tBx2.Text);
                     VertexAfter.CreateType.LengthOfFile = int.Parse(tBx3.Text);
@@ -179,7 +179,7 @@ namespace SimulationV1.WPF.Pages
                             break;
                     }
                     break;
-                case "AMQueue":
+                case "AMPlace":
                     VertexAfter.QueueType.QueueCapacity = int.Parse(tBx1.Text);
                     VertexAfter.QueueType.Priority = int.Parse(tBx2.Text);
                     VertexAfter.QueueType.FileType = int.Parse(tBx3.Text);
@@ -188,7 +188,7 @@ namespace SimulationV1.WPF.Pages
                     VertexAfter.TerminateType.OutputCounter = int.Parse(tBx1.Text);
                     VertexAfter.TerminateType.StoppingTime = int.Parse(tBx2.Text);
                     break;
-                case "AMAnd":
+                case "AMTransition":
                     VertexAfter.AndType.FirstTime = int.Parse(tBx1.Text);
                     VertexAfter.AndType.Interval = int.Parse(tBx2.Text);
                     VertexAfter.AndType.LengthOfFile = int.Parse(tBx3.Text);

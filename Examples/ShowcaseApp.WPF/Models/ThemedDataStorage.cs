@@ -143,10 +143,10 @@ namespace SimulationV1.WPF.Models
         {
             Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/female.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             Images.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/male.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMCreate.jpg", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMQueue.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMGenerator.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMPlace.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
             EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMTerminate.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
-            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMAnd.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
+            EditorImages.Add(new BitmapImage(new Uri(@"pack://application:,,,/SimulationV1;component/Assets/AMTransition.png", UriKind.Absolute)) { CacheOption = BitmapCacheOption.OnLoad });
 
         }
 

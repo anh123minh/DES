@@ -86,12 +86,12 @@
                         </StackPanel.Resources>
                         <ToggleButton x:Name="BtnCreate"  ToolTip="Режим редактирования: нажмите, чтобы поместить Генератор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMCreate.jpg"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMGenerator.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить Очередь, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить Позиция, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMQueue.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMPlace.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="BtnTerminate" ToolTip="Режим редактирования: нажмите, чтобы поместить Терминатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
@@ -102,7 +102,7 @@
 
                         <ToggleButton x:Name="BtnAccumulate" ToolTip="Режим редактирования: нажмите, чтобы поместить измерительный пункт, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
                             <ToggleButton.Background>
-                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMAnd.png"/>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMTransition.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>

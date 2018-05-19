@@ -13,6 +13,8 @@ namespace Test2
         public int SoCungVao { get; set; } = 3;
         public int SoCungRa { get; set; } = 3;
         public int EndingTime { get; set; }
+        public List<List<int>> Phantich { get; set; }
+        //public List<Point> Points { get; set; }
 
         public Transition(int endingtime)
         {
@@ -26,6 +28,8 @@ namespace Test2
                 var TimeKH = 0;
                 var TimeNow = 0;
                 var TimeNowNext = 0;
+
+                List<Queue<int>> analis = new List<Queue<int>>();
 
                 var SumCung = SoCungVao + SoCungRa;
 
@@ -87,12 +91,13 @@ namespace Test2
                     if (listKH.Count != 0)
                     {
                         TimeNow = FindMinTimePlan(listKH);
-                        Console.WriteLine(TimeNow);
+                        //Console.WriteLine(TimeNow);
                     }
                     else
                     {
-                        TimeNow+=EndingTime;
-                        Console.WriteLine(TimeNow);
+                        break;
+                        //TimeNow+=EndingTime;
+                        //Console.WriteLine(TimeNow);
                     }
                     var listequaltimenow = listKH.FindAll(x => x.TimePlan == TimeNow);
                     listKH = listKH.FindAll(x => x.TimePlan != TimeNow);
@@ -103,6 +108,14 @@ namespace Test2
                         var aa = cus.Name;
                         arrayHD[Int32.Parse(aa)].Enqueue(new Customer(){Name = cus.Name, TimePlan = cus.TimePlan});
                     }
+                    Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
+                    var lis = new Queue<int>();
+                    foreach (var arr in arrayHD)
+                    {
+                        lis.Enqueue(arr.Count);
+                    }
+                    analis.Add(lis);
+                    
                     if (AlReady(arrayHD, arrayDKCung))
                     {
                         for (int i = 0; i < SoCungVao; i++)
@@ -122,8 +135,18 @@ namespace Test2
                             }
                         }
                     }
+                    //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
                 } while (TimeNow < EndingTime);
 
+                Phantich = ChuyenHang2Cot(analis);
+                foreach (var dc in Phantich)
+                {
+                    foreach (var vf in dc)
+                    {
+                        Console.Write(vf + " ");
+                    }
+                    Console.WriteLine();
+                }
                 foreach (var a in arrayHD)
                 {
                     Console.WriteLine(a.Count);
@@ -136,7 +159,44 @@ namespace Test2
 
         }
 
-             
+        public List<List<int>> ChuyenHang2Cot(List<Queue<int>> list)
+        {
+            int mm = list.FirstOrDefault().Count;
+            
+            var aa = new List<List<int>>();
+            for (int i = 0; i < mm; i++)
+            {
+                var nn = new List<int>();
+                foreach (var m in list)
+                {
+                    nn.Add(m.Dequeue());
+                }
+                aa.Add(nn);
+            }            
+            return aa;
+        }
+        private string BLockCount(Queue<Customer>[] listCustomers)
+        {
+            var str = "";
+            foreach (var c in listCustomers)
+            {
+                str = str + c.Count + "-";
+            }
+            return str;
+        }
+        private string BLockCount(List<List<int>> anaList)
+        {
+            var str = "";
+            foreach (var c in anaList)
+            {
+                foreach (var b in c)
+                {
+                    str += b.ToString();
+                }                
+            }
+            return str;
+        }
+
 
         public Customer SinhMotCus(int timenow)
         {

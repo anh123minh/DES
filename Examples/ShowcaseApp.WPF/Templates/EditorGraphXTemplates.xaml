@@ -149,6 +149,10 @@
                             <TextBlock MinWidth="70" Text="Уровень использования(%): " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Alpha}" Margin="3" VerticalAlignment="Center"/>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="Number of edges: " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding Number}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </Setter.Value>

@@ -112,7 +112,7 @@ namespace SimulationV1.WPF.Pages
         {
             Bang.Visibility = Visibility.Collapsed;
             Chart.Visibility = Visibility.Visible;
-            if (vertex.TypeOfVertex == "AMCreate")
+            if (vertex.TypeOfVertex == "AMGenerator")
             {
                 if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
                 {
@@ -125,7 +125,7 @@ namespace SimulationV1.WPF.Pages
                     result = NormallDistribution_PDF(mean);
                 }
             }
-            else if (vertex.TypeOfVertex == "AMAnd")
+            else if (vertex.TypeOfVertex == "AMTransition")
             {
                 if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
                 {
@@ -145,7 +145,7 @@ namespace SimulationV1.WPF.Pages
         {
             Bang.Visibility = Visibility.Collapsed;
             Chart.Visibility = Visibility.Visible;
-            if (vertex.TypeOfVertex == "AMCreate")
+            if (vertex.TypeOfVertex == "AMGenerator")
             {
                 if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
                 {
@@ -159,7 +159,7 @@ namespace SimulationV1.WPF.Pages
                 }
 
             }
-            else if (vertex.TypeOfVertex == "AMAnd")
+            else if (vertex.TypeOfVertex == "AMTransition")
             {
                 if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
                 {
@@ -180,7 +180,7 @@ namespace SimulationV1.WPF.Pages
         {
             Bang.Visibility = Visibility.Visible;
             Chart.Visibility = Visibility.Collapsed;
-            if (vertex.TypeOfVertex == "AMCreate")
+            if (vertex.TypeOfVertex == "AMGenerator")
             {
                 if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
                 {
@@ -193,7 +193,7 @@ namespace SimulationV1.WPF.Pages
                     tablePoint = Table_Normal(mean);
                 }
             }
-            else if (vertex.TypeOfVertex == "AMAnd")
+            else if (vertex.TypeOfVertex == "AMTransition")
             {
                 if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
                 {
