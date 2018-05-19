@@ -50,7 +50,8 @@ namespace TestDES
 
         public int NumberShop { get; set; } = 1;
 
-        private bool[] AllIsReady;
+        public bool[] AllIsReady;
+        public bool[] AllAllReady;
         //Bien dung trong tinh toan
 
         public bool AllReady { get; set; } = false;//San sang de thuc thi hay chua
@@ -68,14 +69,14 @@ namespace TestDES
                 aIsReady[i] = false;
             }
             AllIsReady = aIsReady;
+            AllAllReady = aIsReady;
         }
-        
-
         public IEnumerator<Task> SinhCus(Process p, object data)
         {
             Nut nut = data as Nut;
-            Console.WriteLine(@"The barber shop is opening for business...");
+            Console.WriteLine(@"The barber shop " + nut.Name + " is opening for business...");
             var barbers1 = nut.SubTracked(this);
+            AllAllReady[Int32.Parse(nut.Name)] = barbers1.AllReady;
 
             int i = 0;
             switch (nut.TypeDistribuion)
@@ -93,16 +94,16 @@ namespace TestDES
 
             do
             {
-                long d;
-                do
-                {
-                    d = (long)nut.TypeDis.NextDouble();
-                } while (d <= 0L);
+                //long d;
+                //do
+                //{
+                //    d = (long)nut.TypeDis.NextDouble();
+                //} while (d <= 0L);
+                long d = nut.Hang;
                 if (nut.FirstTime != 0 && Now == 0)
                 {
                     yield return p.Delay(nut.FirstTime);
                     i++;
-                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
                     Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers);
                     //c.Activate(null, 0L, barbers);
                     Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
@@ -118,20 +119,29 @@ namespace TestDES
                     if (aa)
                     {
                         barbers1.AllReady = true;
+
                     }
-                    else
-                    {
-                        barbers1.AllReady = false;
-                    }
-                    yield return p.Delay(d);
-                    //Console.WriteLine("Now - " + Now + " xxx         BlockCount - " + nut.Barbers.BlockCount + "- OutOfService - " + nut.Barbers.OutOfService + "- Reserved - " + nut.Barbers.Reserved);
+                    else { barbers1.AllReady = false; }
                     i++;
-                    Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers);
-                    c.Activate(null, 0L, barbers1);
+                    Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers, this);
+                    c.Activate(null, d, barbers1);
+                    yield return p.Delay(d);
+                    AllIsReady[Int32.Parse(nut.Name)] = barbers1.IsReady;
+                    var bb = true;
+                    foreach (var a in AllIsReady)
+                    {
+                        bb = bb && a;
+                    }
+                    if (bb)
+                    {
+                        barbers1.AllReady = true;
 
+                    }
+
+                    //i++;
+                    //Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers, this);
+                    //c.Activate(nut.Acti, 0L, barbers1);
                     Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
-                    //Console.WriteLine("Now - " + Now + " yyy         BlockCount - " + nut.Barbers.BlockCount + "- OutOfService - " + nut.Barbers.OutOfService + "- Reserved - " + nut.Barbers.Reserved);
-
                 }
 
             } while (Now < Nut.ClosingTime);
@@ -146,11 +156,78 @@ namespace TestDES
 
             yield break;
         }
-      
+
+        //public IEnumerator<Task> SinhCus(Process p, object data)
+        //{
+        //    Nut nut = data as Nut;
+        //    Console.WriteLine(@"The barber shop " + nut.Name + " is opening for business...");
+        //    var barbers = nut.SubTracked(this);
+
+        //    int i = 0;
+        //    switch (nut.TypeDistribuion)
+        //    {
+        //        case Nut.Distribution.NormalDis:
+        //            nut.TypeDis = new Normal(nut.Interval, 1.0);
+        //            break;
+        //        case Nut.Distribution.ExponentialDis:
+        //            nut.TypeDis = new Exponential(nut.Interval);
+        //            break;
+        //        default:
+        //            Console.WriteLine("k tim thay");
+        //            break;
+        //    }
+
+        //    do
+        //    {
+        //        //long d;
+        //        //do
+        //        //{
+        //        //    d = (long)nut.TypeDis.NextDouble();
+        //        //} while (d <= 0L);
+        //        long d = nut.Hang;
+        //        if (nut.FirstTime != 0 && Now == 0)
+        //        {
+        //            yield return p.Delay(nut.FirstTime);
+        //            i++;
+        //            Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers);
+        //            //c.Activate(null, 0L, barbers);
+        //            Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
+        //        }
+        //        else
+        //        {
+        //            i++;
+        //            Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers, this);
+        //            c.Activate(p, d, barbers);
+        //            p.WaitOnTask(c);
+        //            yield return p.Suspend();
+
+        //            //yield return p.Delay(0);
+
+        //            //i++;
+        //            //Customer c = new Customer(this, i.ToString(), this.Now, nut.QueueCapacity, nut.Name, nut.NumBarbers, this);
+        //            //c.Activate(nut.Acti, 0L, barbers);
+        //            Console.WriteLine(this.Now + " CusCome customer " + c.Name + " Shop " + nut.Name);
+        //        }
+
+        //    } while (Now < Nut.ClosingTime);
+
+        //    Console.WriteLine(@"======================================================");
+        //    Console.WriteLine(@"The barber shop is closed for the day.");
+
+        //    if (nut.CreateResource(this).BlockCount > 0)//
+        //    {
+        //        Console.WriteLine(@"The barbers have to work late today.");
+        //    }
+
+        //    yield break;
+        //}
+
 
     }
+
     public class Nut
     {
+        public long Hang { get; set; } = 1;//Hang so 
         public string Name { get; set; } = "";//Name of Shop
         public const long ClosingTime = 4 * 60;
         public NonUniform TypeDis { get; set; }//Kieu Distribution
@@ -206,4 +283,6 @@ namespace TestDES
         public Simulation Sim { get; set; }
         public object Acti { get; set; }
     }
+
+    
 }
