@@ -38,28 +38,30 @@ namespace SimulationV1.WPF.Pages
                 case "AMGenerator":
                     //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
-                    cbbDistribution.SelectedIndex = (int)VertexBefore.CreateType.TypeDistribuion;
+                    cbbDistribution.SelectedIndex = (int)VertexBefore.GeneratorType.TypeDistribuion;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
+                    DP1.Visibility = Visibility.Visible;
                     Label1.Content = "Начало:";
-                    tBx1.Text = VertexBefore.CreateType.FirstTime.ToString();
+                    tBx1.Text = VertexBefore.GeneratorType.FirstTime.ToString();
                     Label2.Content = "Интервал:";
-                    tBx2.Text = VertexBefore.CreateType.Interval.ToString();
+                    tBx2.Text = VertexBefore.GeneratorType.Interval.ToString();
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Длина файла:";
-                    tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
+                    tBx3.Text = VertexBefore.GeneratorType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
                     break;
                 case "AMPlace":
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
+                    DP1.Visibility = Visibility.Visible;
                     Label1.Content = "Ёмкость очереди:";
-                    tBx1.Text = VertexBefore.QueueType.QueueCapacity.ToString();
+                    tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
                     Label2.Content = "Приоритет:";
-                    tBx2.Text = VertexBefore.QueueType.Priority.ToString();
+                    tBx2.Text = VertexBefore.PlaceType.Priority.ToString();
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Тип файла:";
-                    tBx3.Text = VertexBefore.QueueType.FileType.ToString();
+                    tBx3.Text = VertexBefore.PlaceType.FileType.ToString();
                     break;
                 case "AMTerminate":
                     tBxName.Text = VertexBefore.Text;
@@ -72,16 +74,16 @@ namespace SimulationV1.WPF.Pages
                 case "AMTransition":
                     //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
-                    cbbDistribution.SelectedIndex = (int)VertexBefore.AndType.TypeDistribuion;
+                    cbbDistribution.SelectedIndex = (int)VertexBefore.TransitionType.TypeDistribuion;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
-                    Label1.Content = "Начало:";
-                    tBx1.Text = VertexBefore.AndType.FirstTime.ToString();
+                    //Label1.Content = "Начало:";
+                    //tBx1.Text = VertexBefore.TransitionType.FirstTime.ToString();
                     Label2.Content = "Интервал:";
-                    tBx2.Text = VertexBefore.AndType.Interval.ToString();
-                    DP3.Visibility = Visibility.Visible;
-                    Label3.Content = "Длина файла:";
-                    tBx3.Text = VertexBefore.AndType.LengthOfFile.ToString();
+                    tBx2.Text = VertexBefore.TransitionType.Interval.ToString();
+                    //DP3.Visibility = Visibility.Visible;
+                    //Label3.Content = "Длина файла:";
+                    //tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
                     break;
                 default:
@@ -112,15 +114,15 @@ namespace SimulationV1.WPF.Pages
             switch (VertexBefore.TypeOfVertex)
             {
                 case "AMGenerator":
-                    tBx1.Text = VertexBefore.CreateType.FirstTime.ToString();
-                    tBx2.Text = VertexBefore.CreateType.Interval.ToString();
-                    tBx3.Text = VertexBefore.CreateType.LengthOfFile.ToString();
-                    switch (VertexBefore.CreateType.TypeDistribuion)
+                    tBx1.Text = VertexBefore.GeneratorType.FirstTime.ToString();
+                    tBx2.Text = VertexBefore.GeneratorType.Interval.ToString();
+                    tBx3.Text = VertexBefore.GeneratorType.LengthOfFile.ToString();
+                    switch (VertexBefore.GeneratorType.TypeDistribuion)
                     {
-                        case CreateClass.Distribution.NormalDis:
+                        case GeneratorClass.Distribution.NormalDis:
                             cbbDistribution.SelectedIndex = 0;
                             break;
-                        case CreateClass.Distribution.ExponentialDis:
+                        case GeneratorClass.Distribution.ExponentialDis:
                             cbbDistribution.SelectedIndex = 1;
                             break;
                         default:
@@ -128,24 +130,24 @@ namespace SimulationV1.WPF.Pages
                     }
                     break;
                 case "AMPlace":
-                    tBx1.Text = VertexBefore.QueueType.QueueCapacity.ToString();
-                    tBx2.Text = VertexBefore.QueueType.Priority.ToString();
-                    tBx3.Text = VertexBefore.QueueType.FileType.ToString();
+                    tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
+                    tBx2.Text = VertexBefore.PlaceType.Priority.ToString();
+                    tBx3.Text = VertexBefore.PlaceType.FileType.ToString();
                     break;
                 case "AMTerminate":
                     tBx1.Text = VertexBefore.TerminateType.OutputCounter.ToString();
                     tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
                     break;
                 case "AMTransition":
-                    tBx1.Text = VertexBefore.AndType.FirstTime.ToString();
-                    tBx2.Text = VertexBefore.AndType.Interval.ToString();
-                    tBx3.Text = VertexBefore.AndType.LengthOfFile.ToString();
-                    switch (VertexBefore.AndType.TypeDistribuion)
+                    tBx1.Text = VertexBefore.TransitionType.FirstTime.ToString();
+                    tBx2.Text = VertexBefore.TransitionType.Interval.ToString();
+                    tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
+                    switch (VertexBefore.TransitionType.TypeDistribuion)
                     {
-                        case CreateClass.Distribution.NormalDis:
+                        case GeneratorClass.Distribution.NormalDis:
                             cbbDistribution.SelectedIndex = 0;
                             break;
-                        case CreateClass.Distribution.ExponentialDis:
+                        case GeneratorClass.Distribution.ExponentialDis:
                             cbbDistribution.SelectedIndex = 1;
                             break;
                         default:
@@ -166,41 +168,41 @@ namespace SimulationV1.WPF.Pages
                 switch (VertexBefore.TypeOfVertex)
                 {
                     case "AMGenerator":
-                        VertexAfter.CreateType.FirstTime = int.Parse(tBx1.Text);
-                        VertexAfter.CreateType.Interval = double.Parse(tBx2.Text);
-                        VertexAfter.CreateType.LengthOfFile = int.Parse(tBx3.Text);
+                        VertexAfter.GeneratorType.FirstTime = int.Parse(tBx1.Text);
+                        VertexAfter.GeneratorType.Interval = double.Parse(tBx2.Text);
+                        VertexAfter.GeneratorType.LengthOfFile = int.Parse(tBx3.Text);
                         switch (cbbDistribution.SelectedIndex)
                         {
                             case 0:
-                                VertexAfter.CreateType.TypeDistribuion = CreateClass.Distribution.NormalDis;
+                                VertexAfter.GeneratorType.TypeDistribuion = GeneratorClass.Distribution.NormalDis;
                                 break;
                             case 1:
-                                VertexAfter.CreateType.TypeDistribuion = CreateClass.Distribution.ExponentialDis;
+                                VertexAfter.GeneratorType.TypeDistribuion = GeneratorClass.Distribution.ExponentialDis;
                                 break;
                             default:
                                 break;
                         }
                         break;
                     case "AMPlace":
-                        VertexAfter.QueueType.QueueCapacity = int.Parse(tBx1.Text);
-                        VertexAfter.QueueType.Priority = int.Parse(tBx2.Text);
-                        VertexAfter.QueueType.FileType = int.Parse(tBx3.Text);
+                        VertexAfter.PlaceType.QueueCapacity = int.Parse(tBx1.Text);
+                        VertexAfter.PlaceType.Priority = int.Parse(tBx2.Text);
+                        VertexAfter.PlaceType.FileType = int.Parse(tBx3.Text);
                         break;
                     case "AMTerminate":
                         VertexAfter.TerminateType.OutputCounter = int.Parse(tBx1.Text);
                         VertexAfter.TerminateType.StoppingTime = int.Parse(tBx2.Text);
                         break;
                     case "AMTransition":
-                        VertexAfter.AndType.FirstTime = int.Parse(tBx1.Text);
-                        VertexAfter.AndType.Interval = double.Parse(tBx2.Text);
-                        VertexAfter.AndType.LengthOfFile = int.Parse(tBx3.Text);
+                        //VertexAfter.TransitionType.FirstTime = int.Parse(tBx1.Text);
+                        //VertexAfter.TransitionType.Interval = double.Parse(tBx2.Text);
+                        VertexAfter.TransitionType.LengthOfFile = int.Parse(tBx3.Text);
                         switch (cbbDistribution.SelectedIndex)
                         {
                             case 0:
-                                VertexAfter.AndType.TypeDistribuion = CreateClass.Distribution.NormalDis;
+                                VertexAfter.TransitionType.TypeDistribuion = GeneratorClass.Distribution.NormalDis;
                                 break;
                             case 1:
-                                VertexAfter.AndType.TypeDistribuion = CreateClass.Distribution.ExponentialDis;
+                                VertexAfter.TransitionType.TypeDistribuion = GeneratorClass.Distribution.ExponentialDis;
                                 break;
                             default:
                                 break;
@@ -225,10 +227,10 @@ namespace SimulationV1.WPF.Pages
             amGraph.Show();
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        //private void btnClose_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Close();
+        //}
        
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StepLineChart"
         xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel Margin="0">
             <chartingToolkit:Chart Height="320" VerticalAlignment="Top">

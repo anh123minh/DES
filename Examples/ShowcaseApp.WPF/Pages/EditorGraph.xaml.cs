@@ -96,10 +96,10 @@ namespace SimulationV1.WPF.Pages
             zoomCtrl.MouseDown += zoomCtrl_MouseDown;
             butDelete.Checked += ToolbarButton_Checked;
             butSelect.Checked += ToolbarButton_Checked;
-            BtnCreate.Checked += ToolbarButton_Checked;
-            BtnQueue.Checked += ToolbarButton_Checked;
+            BtnGenerator.Checked += ToolbarButton_Checked;
+            BtnPlace.Checked += ToolbarButton_Checked;
             BtnTerminate.Checked += ToolbarButton_Checked;
-            BtnAccumulate.Checked += ToolbarButton_Checked;
+            BtnTransition.Checked += ToolbarButton_Checked;
             butDraw.Checked += ToolbarButton_Checked;
             butAMDraw.Checked += ToolbarButton_Checked;
             butSelect.IsChecked = true;
@@ -119,10 +119,10 @@ namespace SimulationV1.WPF.Pages
         {
             if (butDelete.IsChecked == true && sender == butDelete)
             {
-                BtnCreate.IsChecked = false;
-                BtnQueue.IsChecked = false;
+                BtnGenerator.IsChecked = false;
+                BtnPlace.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butSelect.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Arrow;
@@ -131,13 +131,13 @@ namespace SimulationV1.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (BtnCreate.IsChecked == true && sender == BtnCreate)
+            if (BtnGenerator.IsChecked == true && sender == BtnGenerator)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                BtnQueue.IsChecked = false;
+                BtnPlace.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butDraw.IsChecked = false;
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
@@ -146,13 +146,13 @@ namespace SimulationV1.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (BtnQueue.IsChecked == true && sender == BtnQueue)
+            if (BtnPlace.IsChecked == true && sender == BtnPlace)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                BtnCreate.IsChecked = false;
+                BtnGenerator.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butDraw.IsChecked = false;
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
@@ -165,9 +165,9 @@ namespace SimulationV1.WPF.Pages
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                BtnQueue.IsChecked = false;
-                BtnCreate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnPlace.IsChecked = false;
+                BtnGenerator.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butDraw.IsChecked = false;
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
@@ -176,13 +176,13 @@ namespace SimulationV1.WPF.Pages
                 ClearSelectMode();
                 return;
             }
-            if (BtnAccumulate.IsChecked == true && sender == BtnAccumulate)
+            if (BtnTransition.IsChecked == true && sender == BtnTransition)
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                BtnQueue.IsChecked = false;
+                BtnPlace.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnCreate.IsChecked = false;
+                BtnGenerator.IsChecked = false;
                 butDraw.IsChecked = false;
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
@@ -193,10 +193,10 @@ namespace SimulationV1.WPF.Pages
             }
             if (butSelect.IsChecked == true && sender == butSelect)
             {
-                BtnCreate.IsChecked = false;
-                BtnQueue.IsChecked = false;
+                BtnGenerator.IsChecked = false;
+                BtnPlace.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butDelete.IsChecked = false;
                 butDraw.IsChecked = false;
                 butAMDraw.IsChecked = false;
@@ -210,10 +210,10 @@ namespace SimulationV1.WPF.Pages
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                BtnQueue.IsChecked = false;
+                BtnPlace.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnCreate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnGenerator.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butAMDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _edgetype = EdgeType.AMArc;
@@ -225,10 +225,10 @@ namespace SimulationV1.WPF.Pages
             {
                 butDelete.IsChecked = false;
                 butSelect.IsChecked = false;
-                BtnQueue.IsChecked = false;
+                BtnPlace.IsChecked = false;
                 BtnTerminate.IsChecked = false;
-                BtnCreate.IsChecked = false;
-                BtnAccumulate.IsChecked = false;
+                BtnGenerator.IsChecked = false;
+                BtnTransition.IsChecked = false;
                 butDraw.IsChecked = false;
                 zoomCtrl.Cursor = Cursors.Pen;
                 _edgetype = EdgeType.AMDirection;
@@ -273,16 +273,16 @@ namespace SimulationV1.WPF.Pages
             {
                 case VertexType.AMGenerator:
                     //Set mới 1 Vertex với pros: Text+số thứ tự, Type bằng Constructor và pro ImageId
-                    data = new DataVertex("Генератор " + (CountElement("AMGenerator") + 1), "AMGenerator") { ImageId = 0, CreateType = new CreateClass()};
+                    data = new DataVertex("Генератор " + (CountElement("AMGenerator") + 1), "AMGenerator") { ImageId = 0, GeneratorType = new GeneratorClass() };
                     break;
                 case VertexType.AMPlace:
-                    data = new DataVertex("Позиция " + (CountElement("AMPlace") + 1), "AMPlace") { ImageId = 1, QueueType = new QueueClass()};
+                    data = new DataVertex("Позиция " + (CountElement("AMPlace") + 1), "AMPlace") { ImageId = 1, PlaceType = new PlaceClass() };
                     break;
                 case VertexType.AMTerminate:
-                    data = new DataVertex("Терминатор " + (CountElement("AMTerminate") + 1), "AMTerminate") { ImageId = 2, TerminateType = new TerminateClass()};
+                    data = new DataVertex("Терминатор " + (CountElement("AMTerminate") + 1), "AMTerminate") { ImageId = 2, TerminateType = new TerminateClass() };
                     break;
                 case VertexType.AMTransition:
-                    data = new DataVertex("Переход " + (CountElement("AMTransition") + 1), "AMTransition") { ImageId = 3, AndType = new AndClass()};
+                    data = new DataVertex("Переход " + (CountElement("AMTransition") + 1), "AMTransition") { ImageId = 3, TransitionType = new TransitionClass() };
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -421,17 +421,17 @@ namespace SimulationV1.WPF.Pages
             switch (_edgetype)
             {
                 case EdgeType.AMArc:
-                    data = new DataEdge((DataVertex) _ecFrom.Vertex, (DataVertex) vc.Vertex, 1, "Orange"); //{ ArcType = new ArcClass()};
+                    data = new DataEdge((DataVertex)_ecFrom.Vertex, (DataVertex)vc.Vertex, 1, "Orange"); //{ ArcType = new ArcClass()};
                     //data.Color = "Orange";
                     break;
                 case EdgeType.AMDirection:
-                    data = new DataEdge((DataVertex) _ecFrom.Vertex, (DataVertex) vc.Vertex, 1, "Red"); //{ DirectionType = new DirectionClass()};
+                    data = new DataEdge((DataVertex)_ecFrom.Vertex, (DataVertex)vc.Vertex, 1, "Red"); //{ DirectionType = new DirectionClass()};
                     //data.Color = "Red";
                     break;
                 default:
                     MessageBox.Show("k tim thay edge!");
                     break;
-            }            
+            }
             var ec = new EdgeControl(_ecFrom, vc, data);
             graphArea.InsertEdgeAndData(data, ec, 0, true);//Chèn mới 1 Edge tại vị trí nhất định và thêm data Edge vào CSDL
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
@@ -932,7 +932,7 @@ namespace SimulationV1.WPF.Pages
         }
         #endregion
         #endregion
-       
+
         #region startButton_Click_1 - Sự kiện nhấn nút Start
         // Обрабочик события нажатия на кнопке "Старт"
         private void startButton_Click_1(object sender, RoutedEventArgs e)
@@ -1339,11 +1339,11 @@ namespace SimulationV1.WPF.Pages
                     if (vertex.Text == nameIP)
                     {
                         foreach (DataEdge ed in vertex.ListPath[path[i]])
-                        foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
-                            if ((ed.Source == channel.Source && ed.Target == channel.Target) || (ed.Source == channel.Target && ed.Target == channel.Source))
-                            {
-                                channel.Load = channel.Load + vertex.Traffic;
-                            }
+                            foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
+                                if ((ed.Source == channel.Source && ed.Target == channel.Target) || (ed.Source == channel.Target && ed.Target == channel.Source))
+                                {
+                                    channel.Load = channel.Load + vertex.Traffic;
+                                }
                     }
             }
             foreach (DataEdge channel in graphArea.LogicCore.Graph.Edges)
@@ -1475,13 +1475,19 @@ namespace SimulationV1.WPF.Pages
                     mangdkdaura[i] = listTransition[0].ListEdgesSorce[i].Number;
                 }
                 //Sau nho sua thanh Nut class
-                CreateClass[] danhsachnguon = new CreateClass[socungdauvao];
+                GeneratorClass[] danhsachnguon = new GeneratorClass[socungdauvao];
                 for (int i = 0; i < listTransition[0].ListEdgesTarget.Count; i++)
                 {
-                    var nut = new CreateClass() { TypeDistribuion = listTransition[0].ListEdgesTarget[i].Source.CreateType.TypeDistribuion, Interval = listTransition[0].ListEdgesTarget[i].Source.CreateType.Interval };
+                    var nut = new GeneratorClass()
+                    {
+                        TypeDistribuion = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.TypeDistribuion,
+                        Interval = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Interval,
+                        LengthOfFile = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.LengthOfFile,
+                        FirstTime = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.FirstTime
+                    };
                     danhsachnguon[i] = nut;
                 }
-                var ntchuyen = new CreateClass() { TypeDistribuion = listTransition[0].CreateType.TypeDistribuion, Interval = listTransition[0].CreateType.Interval };
+                var ntchuyen = new GeneratorClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Interval = listTransition[0].GeneratorType.Interval };
                 var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
                 trans.Run();
                 listTransition[0].ListEdgesTarget.Clear();
@@ -1502,7 +1508,7 @@ namespace SimulationV1.WPF.Pages
                 //    var res = new AMResult(ss);
                 //    res.Show();
                 ////}
-                ////var create = new CreateClass();
+                ////var create = new GeneratorClass();
                 ////Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
                 ////create.Run(generator);
                 //////var amresult = new AMResult(create.Points);
@@ -1520,7 +1526,7 @@ namespace SimulationV1.WPF.Pages
             //////var amresult = new AMResult();
             //////amresult.Show();
             ////var vertexf = new DataVertex();
-            ////var aa = vertexf.CreateType;
+            ////var aa = vertexf.GeneratorType;
 
             //var ammulti = new AMMultiChart();
             //ammulti.Show();

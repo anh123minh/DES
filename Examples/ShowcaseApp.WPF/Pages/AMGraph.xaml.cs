@@ -114,27 +114,27 @@ namespace SimulationV1.WPF.Pages
             Chart.Visibility = Visibility.Visible;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
+                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.CreateType.Interval;
+                    var mean = vertex.GeneratorType.Interval;
                     result = ExponentialDistribution_PDF(mean);
                 }
-                else if(vertex.CreateType.TypeDistribuion == CreateClass.Distribution.NormalDis)
+                else if(vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.CreateType.Interval;
+                    var mean = vertex.GeneratorType.Interval;
                     result = NormallDistribution_PDF(mean);
                 }
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
+                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.AndType.Interval;
+                    var mean = vertex.TransitionType.Interval;
                     result = ExponentialDistribution_PDF(mean);
                 }
-                else if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.NormalDis)
+                else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.AndType.Interval;
+                    var mean = vertex.TransitionType.Interval;
                     result = NormallDistribution_PDF(mean);
                 }
             }
@@ -147,28 +147,28 @@ namespace SimulationV1.WPF.Pages
             Chart.Visibility = Visibility.Visible;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
+                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.CreateType.Interval;
+                    var mean = vertex.GeneratorType.Interval;
                     result = ExponentialDistribution_CDF(mean);
                 }
-                if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.NormalDis)
+                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.CreateType.Interval;
+                    var mean = vertex.GeneratorType.Interval;
                     result = NormalDistribution_CDF(mean);
                 }
 
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
+                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.AndType.Interval;
+                    var mean = vertex.TransitionType.Interval;
                     result = ExponentialDistribution_CDF(mean);
                 }
-                if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.NormalDis)
+                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.AndType.Interval;
+                    var mean = vertex.TransitionType.Interval;
                     result = NormalDistribution_CDF(mean);
                 }
             }
@@ -182,27 +182,27 @@ namespace SimulationV1.WPF.Pages
             Chart.Visibility = Visibility.Collapsed;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
+                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.CreateType.Interval;
+                    var mean = vertex.GeneratorType.Interval;
                     tablePoint = Table_Exp(mean);
                 }
-                else if (vertex.CreateType.TypeDistribuion == CreateClass.Distribution.NormalDis)
+                else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.CreateType.Interval;
+                    var mean = vertex.GeneratorType.Interval;
                     tablePoint = Table_Normal(mean);
                 }
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.ExponentialDis)
+                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.AndType.Interval;
+                    var mean = vertex.TransitionType.Interval;
                     tablePoint = Table_Exp(mean);
                 }
-                else if (vertex.AndType.TypeDistribuion == CreateClass.Distribution.NormalDis)
+                else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.AndType.Interval;
+                    var mean = vertex.TransitionType.Interval;
                     tablePoint = Table_Normal(mean);
                 }
             }

@@ -84,14 +84,9 @@
                                 <Setter Property="Height" Value="45"/>
                             </Style>
                         </StackPanel.Resources>
-                        <ToggleButton x:Name="BtnCreate"  ToolTip="" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnGenerator"  ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMGenerator.png"/>
-                            </ToggleButton.Background>
-                        </ToggleButton>
-                        <ToggleButton x:Name="BtnQueue"  ToolTip="" x:FieldModifier="private">
-                            <ToggleButton.Background>
-                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMPlace.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                         <ToggleButton x:Name="BtnTerminate" ToolTip="" x:FieldModifier="private" Visibility="Collapsed">
@@ -99,10 +94,14 @@
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMTerminate.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-
-                        <ToggleButton x:Name="BtnAccumulate" ToolTip="" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnTransition" ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMTransition.png"/>
+                            </ToggleButton.Background>
+                        </ToggleButton>
+                        <ToggleButton x:Name="BtnPlace"  ToolTip="" x:FieldModifier="private">
+                            <ToggleButton.Background>
+                                <ImageBrush ImageSource="/SimulationV1;component/Assets/AMPlace.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
                     </StackPanel>

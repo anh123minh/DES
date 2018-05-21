@@ -48,10 +48,32 @@ namespace StepLineChart
                 if (i < source.Count - 1)
                 {
                     Point nextValue = source[i + 1];
-                    returnValue.Add(new Point(nextValue.X, currentValue.Y));
+                    if (nextValue.Y <= currentValue.Y)
+                    {
+                        returnValue.Add(new Point(nextValue.X, currentValue.Y));
+                    }
+                    else
+                    {
+                        returnValue.Add(new Point(currentValue.X, nextValue.Y));
+                    }
                 }
             }
             return returnValue;
         }
+        //PointCollection CreateStepLineSeries(PointCollection source)
+        //{
+        //    PointCollection returnValue = new PointCollection();
+        //    for (int i = 0; i < source.Count; i++)
+        //    {
+        //        Point currentValue = source[i];
+        //        returnValue.Add(currentValue);
+        //        if (i < source.Count - 1)
+        //        {
+        //            Point nextValue = source[i + 1];
+        //            returnValue.Add(new Point(nextValue.X, currentValue.Y));
+        //        }
+        //    }
+        //    return returnValue;
+        //}
     }
 }

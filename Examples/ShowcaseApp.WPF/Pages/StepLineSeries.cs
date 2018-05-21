@@ -46,7 +46,14 @@ namespace SimulationV1.WPF.Pages
                 if (i < source.Count - 1)
                 {
                     Point nextValue = source[i + 1];
-                    returnValue.Add(new Point(nextValue.X, currentValue.Y));
+                    if (nextValue.Y <= currentValue.Y)
+                    {
+                        returnValue.Add(new Point(nextValue.X, currentValue.Y));
+                    }
+                    else
+                    {
+                        returnValue.Add(new Point(currentValue.X, nextValue.Y));
+                    }
                 }
             }
             return returnValue;

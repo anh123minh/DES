@@ -54,8 +54,8 @@ namespace SimulationV1.WPF.Pages
             switch (edgeBefore.Color)
             {
                 case "Orange":
-                    //DPDistribution.Visibility = Visibility.Visible;
-                    DP2.Visibility = Visibility.Visible;
+                    ////DPDistribution.Visibility = Visibility.Visible;
+                    //DP2.Visibility = Visibility.Visible;
                     Label2.Content = "Задержка:";
                     tBx2.Text = ed.Delay.ToString();
                     DP3.Visibility = Visibility.Visible;

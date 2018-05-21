@@ -33,10 +33,10 @@ namespace SimulationV1.WPF
         
         public bool IsBlue { get; set; }
 
-        public CreateClass CreateType = new CreateClass();
-        public QueueClass QueueType { get; set; }
+        public GeneratorClass GeneratorType = new GeneratorClass();
+        public PlaceClass PlaceType { get; set; }
         public TerminateClass TerminateType { get; set; }
-        public AndClass AndType { get; set; }
+        public TransitionClass TransitionType { get; set; }
 
         #region Calculated or static props
 
@@ -67,7 +67,7 @@ namespace SimulationV1.WPF
 
     }
 
-    public class CreateClass //: Simulation
+    public class GeneratorClass //: Simulation
     {
         public NonUniform TypeDis { get; set; }//Kieu Distribution
         public enum Distribution
@@ -82,85 +82,9 @@ namespace SimulationV1.WPF
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
         //---------------------------
 
-        /*
-        public PointCollection Points { get; set; } = new PointCollection(){new Point(0,0)};
-
-        //public Point point { get; set; }
-                        
-        public int Priority { get; set; } = 0;//Thứ tự ưu tiên
-        public int FileType { get; set; } = 0;//dạng ưu tiên
-        public Resource ABarbers { get; set; }//Khai báo các máy phục vụ
-        
-        //Nhung tham so set tu cac Vertex khac
-        public int QueueCapacity { get; set; } = 500;// = QueueCapacity
-        public long EndingTime { get; set; } = 240;//Thời gian kết thúc, sau sẽ được truyện vào từ Terminate 
-        
-        
-        //Method sinh Cus
-        public IEnumerator<Task> Generator(Process p, object data)
-        {
-            Console.WriteLine(this.Now + @" The barber shop is opening for business...");
-            //Resource barbers = CreateBarbers();
-            ABarbers = Resource.Create(new List<Barber>() { new Barber(this, "Minh"), new Barber(this, "Anh") });
-            int i = 0;
-            switch (TypeDistribuion)
-            {
-                case Distribution.NormalDis:
-                    TypeDis = new Normal(Interval, 1.0);
-                    break;
-                case Distribution.ExponentialDis:
-                    TypeDis = new Exponential(Interval);
-                    break;
-                default:
-                    Console.WriteLine("k tim thay");
-                    break;
-            }
-
-            do
-            {
-                long d;
-                do
-                {
-                    d = (long)TypeDis.NextDouble();
-                } while (d <= 0L);
-                if (FirstTime != 0 && Now == 0)
-                {
-                    yield return p.Delay(FirstTime);
-                    i++;
-                    //Console.WriteLine(@"xxx         so Cus trong hang doi = " + ABarbers.BlockCount + " " + Now);
-                    Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
-                    c.Activate(null, 0L, ABarbers);
-                    Console.WriteLine(this.Now + " The customer " + c.Name + " come");
-                }
-                else
-                {
-                    yield return p.Delay(d);                   
-                    Console.WriteLine(@"xxx         BlockCount - " + ABarbers.BlockCount + "- OutOfService - " + ABarbers.OutOfService + "- Reserved - " + ABarbers.Reserved + "- Now - " + Now);
-                    i++;
-                    Customer c = new Customer(this, i.ToString(), this.Now, QueueCapacity);
-                    c.Activate(null, 0L, ABarbers);
-                    Console.WriteLine(this.Now + " The customer " + c.Name + " come");
-                    Console.WriteLine(@"yyy         BlockCount - " + ABarbers.BlockCount + "- OutOfService - " + ABarbers.OutOfService + "- Reserved - " + ABarbers.Reserved + "- Now - " + Now);
-                    //point = new Point(Now, ABarbers.BlockCount);
-                    Points.Add(new Point(Now, ABarbers.BlockCount));
-                }
-
-            } while (Now < EndingTime && i < LengthOfFile);
-
-            Console.WriteLine(@"======================================================");
-            Console.WriteLine(@"The barber shop is closed for the day.");
-
-            if (ABarbers.BlockCount > 0)
-            {
-                Console.WriteLine(@"The barbers have to work late today.");
-            }
-
-            yield break;
-        }
-        */
 
     }
-    public class QueueClass
+    public class PlaceClass
     {
         //Bien truyen tu ngoai vao
         public int QueueCapacity { get; set; } = 500;//Cần tìm thuộc tính liên quan đến số Customer có thể chứa trong hàng đợi
@@ -173,13 +97,46 @@ namespace SimulationV1.WPF
     public class TerminateClass
     {
         public int OutputCounter { get; set; } = 100;//Số Customer xử lý được là dừng, trường hợp này chưa xem xét tới
-        public int StoppingTime { get; set; }//bằng với EndingTime trong CreateClass
+        public int StoppingTime { get; set; }//bằng với EndingTime trong GeneratorClass
     }
-    public class AndClass : CreateClass
+    public class TransitionClass : GeneratorClass
     {
+        public Queue<int> ListRandomCome { get; set; } = new Queue<int>();//Danh sach random nhan vao tu bang ngoai
         public int NumberEdgesIn { get; set; } = 0;
         public int NumberEdgesOut { get; set; } = 0;
         public bool AllReady { get; set; } = false;
     }
 
+    public interface IQueueClass
+    {
+        //Bien truyen tu ngoai vao
+        int QueueCapacity { get; set; } //Cần tìm thuộc tính liên quan đến số Customer có thể chứa trong hàng đợi
+        int Priority { get; set; }
+        int FileType { get; set; }
+    }
+    public interface ITerminateClass
+    {
+        int OutputCounter { get; set; }//Số Customer xử lý được là dừng, trường hợp này chưa xem xét tới
+        int StoppingTime { get; set; }//bằng với EndingTime trong GeneratorClass
+    }
+    public interface IAndClass : ICreateClass
+    {
+        int NumberEdgesIn { get; set; }
+        int NumberEdgesOut { get; set; }
+        bool AllReady { get; set; }
+    }
+    public interface ICreateClass
+    {
+        NonUniform TypeDis { get; set; }//Kieu Distribution
+        Distribution TypeDistribuion { get; set; }
+        //Nhung Bien set tu giao dien duoc
+        int FirstTime { get; set; }//Thời điểm bắt đầu mô phỏng
+        double Interval { get; set; }//Khoang lamda
+        int LengthOfFile { get; set; }//số Customer tối đa       
+    }
+    public enum Distribution
+    {
+        NormalDis,
+        ExponentialDis
+    }
 }
