@@ -1484,6 +1484,8 @@ namespace SimulationV1.WPF.Pages
                 var ntchuyen = new CreateClass() { TypeDistribuion = listTransition[0].CreateType.TypeDistribuion, Interval = listTransition[0].CreateType.Interval };
                 var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
                 trans.Run();
+                listTransition[0].ListEdgesTarget.Clear();
+                listTransition[0].ListEdgesSorce.Clear();
                 var nn = trans.Phantich;
                 var mm = trans.ListTimeNow;
                 var asm = new AMMultiChart(mm, nn);

@@ -120,7 +120,7 @@ namespace SimulationV1.WPF.ExampleModels
                         var aa = cus.Name;
                         arrayHD[Int32.Parse(aa)].Enqueue(new Customers(){Name = cus.Name, TimePlan = cus.TimePlan});
                     }
-                    Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
+                    //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
                     var lis = new Queue<int>();
                     foreach (var arr in arrayHD)
                     {
