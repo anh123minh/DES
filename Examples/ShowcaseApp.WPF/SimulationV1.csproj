@@ -157,12 +157,18 @@
     <Compile Include="ExampleModels\AMBarber.cs" />
     <Compile Include="ExampleModels\AMCustomer.cs" />
     <Compile Include="ExampleModels\AMShop.cs" />
+    <Compile Include="ExampleModels\AMTransition.cs" />
+    <Compile Include="ExampleModels\AMCustomers.cs" />
     <Compile Include="Pages\AMGraph.xaml.cs">
       <DependentUpon>AMGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AMMultiChart.xaml.cs">
+      <DependentUpon>AMMultiChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AMResult.xaml.cs">
       <DependentUpon>AMResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MultiChart.cs" />
     <Compile Include="Pages\NormalDist.cs" />
     <Compile Include="Pages\StepLineSeries.cs" />
     <Compile Include="Pages\windowDiagramAlpha.xaml.cs">
@@ -226,6 +232,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AMGraph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AMMultiChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using React.Distribution;
 
-namespace Test2
+namespace SimulationV1.WPF.ExampleModels
 {
     class Transition
     {
@@ -15,45 +13,57 @@ namespace Test2
         public int EndingTime { get; set; }
         public List<int> ListTimeNow { get; set; }
         public List<List<int>> Phantich { get; set; }
+
+        public int[] ArrayDKCungVao;
+        public int[] ArrayDKCungRa;
+        public CreateClass[] ArrayNuts;
+        public CreateClass NutTransition { get; set; }
         //public List<Point> Points { get; set; }
 
-        public Transition(int endingtime)
+        public Transition(int endingtime, int socungvao, int[] arraycungvao, int socungra, int[] arraycungra, CreateClass[] mangnguon, CreateClass nutchuyen)
         {
             EndingTime = endingtime;
+            SoCungVao = socungvao;
+            ArrayDKCungVao = arraycungvao;
+            SoCungRa = socungra;
+            ArrayDKCungRa = arraycungra;
+            ArrayNuts = mangnguon;
+            NutTransition = nutchuyen;
         }
 
         public void Run()
         {
-            //try
-            //{
+            try
+            {
                 var TimeKH = 0;
                 var TimeNow = 0;
                 var TimeNowNext = 0;
                 ListTimeNow = new List<int>();
+                Phantich = new List<List<int>>();
                 List<Queue<int>> analis = new List<Queue<int>>();
 
                 var SumCung = SoCungVao + SoCungRa;
 
-                int[] arrayDKCungVao = new int[SoCungVao];
-                arrayDKCungVao[0] = 3;
-                arrayDKCungVao[1] = 2;
-                arrayDKCungVao[2] = 2;
+                //int[] arrayDKCungVao = new int[SoCungVao];
+                //arrayDKCungVao[0] = 3;
+                //arrayDKCungVao[1] = 2;
+                //arrayDKCungVao[2] = 2;
                 Queue<Customers>[] arrayHDVaoRa = new Queue<Customers>[SoCungVao];
                 for (int i = 0; i < SoCungVao; i++)
                 {
                     arrayHDVaoRa[i] = new Queue<Customers>();
                 }
 
-                int[] arrayDKCungRa = new int[SoCungRa];
-                arrayDKCungRa[0] = 5;
-                arrayDKCungRa[1] = 2;
-                arrayDKCungRa[2] = 3;
+                //int[] arrayDKCungRa = new int[SoCungRa];
+                //arrayDKCungRa[0] = 5;
+                //arrayDKCungRa[1] = 2;
+                //arrayDKCungRa[2] = 3;
                 var listKH = new List<Customers>();
                 var random = new Random();
-                Nut[] arrayNuts = new Nut[SoCungVao];
-                arrayNuts[0] = new Nut() { TypeDistribuion = Nut.Distribution.ExponentialDis, Interval = 1 };
-                arrayNuts[1] = new Nut() { TypeDistribuion = Nut.Distribution.NormalDis, Interval = 2 };
-                arrayNuts[2] = new Nut() { TypeDistribuion = Nut.Distribution.NormalDis, Interval = 3 };
+                //Nut[] arrayNuts = new Nut[SoCungVao];
+                //arrayNuts[0] = new Nut() { TypeDistribuion = Nut.Distribution.ExponentialDis, Interval = 1 };
+                //arrayNuts[1] = new Nut() { TypeDistribuion = Nut.Distribution.NormalDis, Interval = 2 };
+                //arrayNuts[2] = new Nut() { TypeDistribuion = Nut.Distribution.NormalDis, Interval = 3 };
 
                 Queue<Customers>[] arrayHD = new Queue<Customers>[SumCung];
                 for (int i = 0; i < SoCungVao; i++)
@@ -67,11 +77,11 @@ namespace Test2
                 int[] arrayDKCung = new int[SumCung];
                 for (int i = 0; i < SoCungVao; i++)
                 {
-                    arrayDKCung[i] = arrayDKCungVao[i];
+                    arrayDKCung[i] = ArrayDKCungVao[i];
                 }
                 for (int i = SoCungVao; i < SumCung; i++)
                 {
-                    arrayDKCung[i] = arrayDKCungRa[i - SoCungVao];
+                    arrayDKCung[i] = ArrayDKCungRa[i - SoCungVao];
                 }
                 int[] arrayTimeKH = new int[SoCungVao];
                 for (int i = 0; i < SoCungVao; i++)
@@ -84,7 +94,7 @@ namespace Test2
                     //TimeNowNext = FindMinNextTimePlan(listKH);
                     for (int i = 0; i < SoCungVao; i++)
                     {
-                        var cus = SinhMotCusAndName1(i.ToString(), arrayNuts[i], arrayTimeKH[i]);
+                        var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
                             listKH.Add(cus);
                             arrayTimeKH[i] = cus.TimePlan;
                     }
@@ -93,8 +103,8 @@ namespace Test2
                     {
                         TimeNow = FindMinTimePlan(listKH);
                         ListTimeNow.Add(TimeNow);
-                        //Console.WriteLine(TimeNow);
-                    }
+                    //Console.WriteLine(TimeNow);
+                }
                     else
                     {
                         break;
@@ -133,7 +143,8 @@ namespace Test2
                             var ran1 = random.Next(4, 10);
                             for (int j = 0; j < arrayDKCung[i]; j++)
                             {
-                                listKH.Add(SinhMotCusWithName(i.ToString(), TimeNow, ran1));
+                                //listKH.Add(SinhMotCusWithName(i.ToString(), TimeNow, ran1));
+                                listKH.Add(SinhMotCusAndName2(i.ToString(), NutTransition, TimeNow));
                             }
                         }
                     }
@@ -141,27 +152,24 @@ namespace Test2
                 } while (TimeNow < EndingTime);
 
                 Phantich = ChuyenHang2Cot(analis);
-                foreach (var dc in Phantich)
-                {
-                    foreach (var vf in dc)
-                    {
-                        Console.Write(vf + " ");
-                    }
-                    Console.WriteLine();
-                }
-                foreach (var a in arrayHD)
-                {
-                    Console.WriteLine(a.Count);
-                }
-            foreach (var ss in ListTimeNow)
-            {
-                Console.WriteLine(ss);
+                //foreach (var dc in Phantich)
+                //{
+                //    foreach (var vf in dc)
+                //    {
+                //        Console.Write(vf + " ");
+                //    }
+                //    Console.WriteLine();
+                //}
+                //foreach (var a in arrayHD)
+                //{
+                //    Console.WriteLine(a.Count);
+                //}
+
             }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
         }
 
@@ -181,10 +189,10 @@ namespace Test2
             }            
             return aa;
         }
-        private string BLockCount(Queue<Customers>[] listCustomers)
+        private string BLockCount(Queue<Customers>[] listCustomerss)
         {
             var str = "";
-            foreach (var c in listCustomers)
+            foreach (var c in listCustomerss)
             {
                 str = str + c.Count + "-";
             }
@@ -220,7 +228,7 @@ namespace Test2
 
         public Queue<Customers> SinhCus(int endingTime)
         {
-            Queue<Customers> queueCustomers = new Queue<Customers>();
+            Queue<Customers> queueCustomerss = new Queue<Customers>();
             int stt = 1;
             var now = 0;
             var ran = new Random();
@@ -229,10 +237,10 @@ namespace Test2
 
                 now += ran.Next(1, 5);
                 var c = new Customers(stt.ToString(), now);
-                queueCustomers.Enqueue(c);
+                queueCustomerss.Enqueue(c);
                 stt++;
             } while (now < endingTime);
-            return queueCustomers;
+            return queueCustomerss;
         }
 
         public bool AlReady(Queue<Customers> a, Queue<Customers> b, int min1, int min2)
@@ -308,6 +316,30 @@ namespace Test2
                     nut.TypeDis = new Normal(nut.Interval, 1.0);
                     break;
                 case Nut.Distribution.ExponentialDis:
+                    nut.TypeDis = new Exponential(nut.Interval);
+                    break;
+                default:
+                    Console.WriteLine("k tim thay");
+                    break;
+            }
+
+            long d;
+            do
+            {
+                d = (long)nut.TypeDis.NextDouble();
+            } while (d <= 0L);
+            var c = new Customers(name, timenow + (int)d);
+            return c;
+        }
+
+        public Customers SinhMotCusAndName2(string name, CreateClass nut, int timenow)
+        {
+            switch (nut.TypeDistribuion)
+            {
+                case CreateClass.Distribution.NormalDis:
+                    nut.TypeDis = new Normal(nut.Interval, 1.0);
+                    break;
+                case CreateClass.Distribution.ExponentialDis:
                     nut.TypeDis = new Exponential(nut.Interval);
                     break;
                 default:

@@ -12,11 +12,11 @@
                 <Label x:Name="lbName" DockPanel.Dock="Left" Content="Название:" Margin="3"></Label>
                 <TextBox x:Name="tBxName" DockPanel.Dock="Right" Margin="3" FontSize="10" IsReadOnly="True"></TextBox>
             </DockPanel>
-            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" Visibility="Collapsed">
                 <Label x:Name="lbCapacity" DockPanel.Dock="Left" Content="Емкость канала (Мб/с):" Margin="3"></Label>
                 <TextBox x:Name="tBxCapacity" DockPanel.Dock="Right" Margin="3" ></TextBox>
             </DockPanel>
-            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" Visibility="Collapsed">
                 <Label x:Name="lbWeight" DockPanel.Dock="Left" Content="Вес канала:" Margin="3"></Label>
                 <TextBox x:Name="tBxWeight" DockPanel.Dock="Right" Margin="3" ></TextBox>
             </DockPanel>

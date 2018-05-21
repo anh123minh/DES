@@ -65,7 +65,7 @@ namespace SimulationV1.WPF.Pages
                 case "Red":                   
                     break;
                 default:
-                    MessageBox.Show("Тип узлы не определен!");
+                    MessageBox.Show("Тип узлы не определен1!");
                     break;
             }
             //edgeBefore = new DataEdge();
@@ -98,7 +98,7 @@ namespace SimulationV1.WPF.Pages
                 case "Red":
                     break;
                 default:
-                    MessageBox.Show("Тип узлы не определен!");
+                    MessageBox.Show("Тип узлы не определен2!");
                     break;
             }
             Close();
@@ -107,22 +107,29 @@ namespace SimulationV1.WPF.Pages
         {
             //ed.Capacity = double.Parse(tBxCapacity.Text);
             //ed.Weight = double.Parse(tBxWeight.Text);
-
-            edgeAfter.Text = tBxName.Text;
-            edgeAfter.Capacity = double.Parse(tBxCapacity.Text);
-            edgeAfter.Weight = double.Parse(tBxWeight.Text);
-            edgeAfter.Probability = double.Parse(tBx1.Text);
-            switch (edgeBefore.Color)
+            try
             {
-                case "Orange":
-                    edgeAfter.Delay = double.Parse(tBx2.Text);
-                    edgeAfter.Number = double.Parse(tBx3.Text);
-                    break;
-                case "Red":
-                    break;
-                default:
-                    MessageBox.Show("Тип узлы не определен!");
-                    break;
+
+                edgeAfter.Text = tBxName.Text;
+                edgeAfter.Capacity = double.Parse(tBxCapacity.Text);
+                edgeAfter.Weight = double.Parse(tBxWeight.Text);
+                edgeAfter.Probability = double.Parse(tBx1.Text);
+                switch (edgeBefore.Color)
+                {
+                    case "Orange":
+                        edgeAfter.Delay = double.Parse(tBx2.Text);
+                        edgeAfter.Number = int.Parse(tBx3.Text);
+                        break;
+                    case "Red":
+                        break;
+                    default:
+                        MessageBox.Show("Тип узлы не определен3!");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
         }
 

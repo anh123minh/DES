@@ -23,11 +23,11 @@
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
 
-        <mui:LinkGroup DisplayName="О программе">
+        <!--<mui:LinkGroup DisplayName="О программе">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="О программе" Source="/Pages/Introduction.xaml" />
             </mui:LinkGroup.Links>
-        </mui:LinkGroup>
+        </mui:LinkGroup>-->
 
     </mui:ModernWindow.MenuLinkGroups>
 </mui:ModernWindow>

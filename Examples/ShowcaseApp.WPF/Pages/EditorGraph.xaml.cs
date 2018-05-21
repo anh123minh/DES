@@ -10,6 +10,7 @@ using GraphX.Controls.Models;
 using Microsoft.Win32;
 using QuickGraph.Algorithms.RankedShortestPath;
 using System.Threading;
+using System.Windows.Media;
 using AForge.Genetic;
 using QuickGraph;
 using React;
@@ -1430,20 +1431,97 @@ namespace SimulationV1.WPF.Pages
 
         private void BtnStart_OnClick(object sender, RoutedEventArgs e)
         {
-            //var create = new CreateClass();
-            //Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
-            //create.Run(generator);
-            ////var amresult = new AMResult(create.Points);
-            ////amresult.Show();
-            ////Console.ReadKey();
+            try
+            {
+                var end = Int32.Parse(tBxTimeEnd.Text);
+                List<DataVertex> listSource = new List<DataVertex>();
+                List<DataVertex> listTarget = new List<DataVertex>();
+                List<DataVertex> listTransition = new List<DataVertex>();
+
+                //foreach (var st in graphArea.LogicCore.Graph.Edges)
+                //{
+                //    listSource.Add(st.Source);
+                //    listTarget.Add(st.Target);
+                //}
+                foreach (var dd in graphArea.LogicCore.Graph.Vertices)
+                {
+                    if (dd.TypeOfVertex == "AMTransition")
+                    {
+                        listTransition.Add(dd);
+                        foreach (var st in graphArea.LogicCore.Graph.Edges)
+                        {
+                            if (st.Source.Equals(dd))
+                            {
+                                dd.ListEdgesSorce.Add(st);
+                            }
+                            if (st.Target.Equals(dd))
+                            {
+                                dd.ListEdgesTarget.Add(st);
+                            }
+                        }
+                    }
+
+                }
+                var socungdauvao = listTransition[0].ListEdgesTarget.Count;
+                var mangdkdauvao = new int[socungdauvao];
+                for (int i = 0; i < socungdauvao; i++)
+                {
+                    mangdkdauvao[i] = listTransition[0].ListEdgesTarget[i].Number;
+                }
+                var socungdaura = listTransition[0].ListEdgesSorce.Count;
+                var mangdkdaura = new int[socungdaura];
+                for (int i = 0; i < socungdaura; i++)
+                {
+                    mangdkdaura[i] = listTransition[0].ListEdgesSorce[i].Number;
+                }
+                //Sau nho sua thanh Nut class
+                CreateClass[] danhsachnguon = new CreateClass[socungdauvao];
+                for (int i = 0; i < listTransition[0].ListEdgesTarget.Count; i++)
+                {
+                    var nut = new CreateClass() { TypeDistribuion = listTransition[0].ListEdgesTarget[i].Source.CreateType.TypeDistribuion, Interval = listTransition[0].ListEdgesTarget[i].Source.CreateType.Interval };
+                    danhsachnguon[i] = nut;
+                }
+                var ntchuyen = new CreateClass() { TypeDistribuion = listTransition[0].CreateType.TypeDistribuion, Interval = listTransition[0].CreateType.Interval };
+                var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
+                trans.Run();
+                var nn = trans.Phantich;
+                var mm = trans.ListTimeNow;
+                var asm = new AMMultiChart(mm, nn);
+                asm.Show();
+
+                //var ss = new PointCollection();
+
+                ////foreach (var nnn in nn)
+                ////{
+                //    for (int i = 0; i < mm.Count; i++)
+                //    {
+                //        ss.Add(new Point(nn[0][i], mm[i]));
+                //    }
+                //    var res = new AMResult(ss);
+                //    res.Show();
+                ////}
+                ////var create = new CreateClass();
+                ////Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
+                ////create.Run(generator);
+                //////var amresult = new AMResult(create.Points);
+                //////amresult.Show();
+                //////Console.ReadKey();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
 
         private void BtnClear_OnClick(object sender, RoutedEventArgs e)
         {
-            //var amresult = new AMResult();
-            //amresult.Show();
-            var vertexf = new DataVertex();
-            var aa = vertexf.CreateType;
+            //////var amresult = new AMResult();
+            //////amresult.Show();
+            ////var vertexf = new DataVertex();
+            ////var aa = vertexf.CreateType;
+
+            //var ammulti = new AMMultiChart();
+            //ammulti.Show();
         }
     }
 }

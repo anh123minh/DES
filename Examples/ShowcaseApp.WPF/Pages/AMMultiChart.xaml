@@ -1,0 +1,66 @@
+﻿<Window x:Class="SimulationV1.WPF.Pages.AMMultiChart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimulationV1.WPF.Pages"
+        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        mc:Ignorable="d"
+        Title="AMMultiChart" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DockPanel>
+            <DockPanel x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible" HorizontalAlignment="Stretch" MaxHeight="800">
+                <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="False">
+                    <DataGrid.Columns >
+                        <DataGridTextColumn Header="TimeNow" Binding="{Binding Path=[0]}" MinWidth="50" Width="*" />
+                        <DataGridTextColumn Header="Позиция 1" Binding="{Binding Path=[1]}" MinWidth="50" Width="*"/>
+                        <DataGridTextColumn Header="Позиция 2" Binding="{Binding Path=[2]}" MinWidth="50" Width="*"/>
+                        <DataGridTextColumn Header="Позиция 3" Binding="{Binding Path=[3]}" MinWidth="50" Width="*"/>
+                        <DataGridTextColumn Header="Позиция 4" Binding="{Binding Path=[4]}" MinWidth="50" Width="*"/>
+                        <DataGridTextColumn Header="Позиция 5" Binding="{Binding Path=[5]}" MinWidth="50" Width="*"/>
+                        <DataGridTextColumn Header="Позиция 6" Binding="{Binding Path=[6]}" MinWidth="50" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Center" >
+                <DockPanel DockPanel.Dock="Top">
+                    <Button x:Name="btnTable" Content="Table" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnTable_Click"></Button>
+                    <Button x:Name="btnMultiGraph" Content="Graph" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnMultiGraph_Click"></Button>
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Name="Graph"  DockPanel.Dock="Bottom" LastChildFill="True" Visibility="Collapsed">
+                <!-- This chart works -->
+                <local:MultiChart DockPanel.Dock="Top" 
+                                  Title="{Binding ChartData.Title}"
+                                  SeriesSource="{Binding ChartData.DataSeriesList}">
+                    <local:MultiChart.SeriesTemplate>
+                        <DataTemplate>
+                            <local:StepLineSeries
+                                Title="AnhMinh"
+                                ItemsSource="{Binding}"
+                                IndependentValueBinding="{Binding Key}"
+                                DependentValueBinding="{Binding Value}" />
+                        </DataTemplate>
+                    </local:MultiChart.SeriesTemplate>
+                </local:MultiChart>
+            </DockPanel>
+            
+            <!-- End of working chart -->
+
+            <!--<local:MultiChart
+                Title="anhminh"
+                SeriesSource="{Binding ChartDataList}">
+                <local:MultiChart.SeriesTemplate>
+                    <DataTemplate>
+                        <local:StepLineSeries
+                            Title="{Binding ChartData.NameTitle}"
+                            ItemsSource="{Binding}"
+                            IndependentValueBinding="{Binding ChartData.Key}"
+                            DependentValueBinding="{Binding ChartData.Value}" />
+                    </DataTemplate>
+                </local:MultiChart.SeriesTemplate>
+            </local:MultiChart>-->
+
+        </DockPanel>
+    </Grid>
+</Window>

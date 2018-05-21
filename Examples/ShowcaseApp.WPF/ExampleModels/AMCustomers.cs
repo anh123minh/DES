@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Test2
+﻿namespace SimulationV1.WPF.ExampleModels
 {
-    class Customer
+    class Customers
     {
         public string Name { get; set; } = "";
         public int TimePlan { get; set; } = 0;// = TimeCome
@@ -16,23 +10,23 @@ namespace Test2
         public int TimeStayQueue => TimeOut - TimeIn;
         public int TimeStaySystem => TimeOut - TimePlan;
 
-        public Customer()
+        public Customers()
         {
             
         }
 
-        public Customer(int timeplan)
+        public Customers(int timeplan)
         {
             TimePlan = timeplan;
         }
 
-        public Customer(string name, int timeplan)
+        public Customers(string name, int timeplan)
         {
             Name = name;
             TimePlan = timeplan;
         }
 
-        public Customer(int timeplan, int timein, int timeout)
+        public Customers(int timeplan, int timein, int timeout)
         {
             TimePlan = timeplan;
             TimeIn = timein;

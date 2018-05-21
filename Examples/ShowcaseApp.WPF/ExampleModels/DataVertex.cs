@@ -23,8 +23,8 @@ namespace SimulationV1.WPF
         public List<IEnumerable<DataEdge>> ListPath { get; set; } = null;//Danh sách gán theo Vertex, có thế là danh sách các Edge
         public double Traffic { get; set; } = 0;//Traffic của Vertex 
 
-        
-
+        public List<DataEdge> ListEdgesTarget = new List<DataEdge>();//Danh sach cac edge ket thuc la vertex nay
+        public List<DataEdge> ListEdgesSorce = new List<DataEdge>();//Danh sach cac edge bat dau la vertex nay
         public string Name { get; set; }
         public string Profession { get; set; }
         public string Gender { get; set; }
@@ -33,7 +33,7 @@ namespace SimulationV1.WPF
         
         public bool IsBlue { get; set; }
 
-        public CreateClass CreateType { get; set; }
+        public CreateClass CreateType = new CreateClass();
         public QueueClass QueueType { get; set; }
         public TerminateClass TerminateType { get; set; }
         public AndClass AndType { get; set; }
@@ -69,7 +69,7 @@ namespace SimulationV1.WPF
 
     public class CreateClass //: Simulation
     {
-        //private NonUniform TypeDis { get; set; }//Kieu Distribution
+        public NonUniform TypeDis { get; set; }//Kieu Distribution
         public enum Distribution
         {
             NormalDis,

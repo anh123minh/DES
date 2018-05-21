@@ -56,10 +56,10 @@
                 <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Background="{StaticResource NormalBrush}" UseLayoutRounding="True">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Text}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="3">                            
+                        <!--<StackPanel Orientation="Horizontal" Margin="3">                            
                             <TextBlock MinWidth="70" Text="Трафик(Мб/с): " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Traffic}" Margin="3" VerticalAlignment="Center"/>
-                        </StackPanel>
+                        </StackPanel>-->
                         
                     </StackPanel>
                 </Border>
@@ -132,7 +132,7 @@
             <Setter.Value>
                 <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Background="{StaticResource NormalBrush}" UseLayoutRounding="True">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Параметры канала:" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                        <!--<TextBlock Text="Параметры канала:" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                         <StackPanel Orientation="Horizontal" Margin="3">
                             <TextBlock MinWidth="70" Text="Вес канала: " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Weight}" Margin="3" VerticalAlignment="Center"/>
@@ -148,7 +148,7 @@
                         <StackPanel Orientation="Horizontal" Margin="3">
                             <TextBlock MinWidth="70" Text="Уровень использования(%): " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Alpha}" Margin="3" VerticalAlignment="Center"/>
-                        </StackPanel>
+                        </StackPanel>-->
                         <StackPanel Orientation="Horizontal" Margin="3">
                             <TextBlock MinWidth="70" Text="Number of edges: " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Number}" Margin="3" VerticalAlignment="Center"/>

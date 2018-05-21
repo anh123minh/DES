@@ -55,22 +55,22 @@
                                 <Setter Property="Height" Value="45"/>
                             </Style>
                         </StackPanel.Resources>
-                        <ToggleButton x:Name="butSelect" ToolTip="Режим выбора: перемещать элемент, Ctrl+Click для группирования элементов" x:FieldModifier="private">
+                        <ToggleButton x:Name="butSelect" ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/pointer.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="butDraw" ToolTip="Режим рисования канала" x:FieldModifier="private">
+                        <ToggleButton x:Name="butDraw" ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/draw arrow.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="butAMDraw" ToolTip="Режим рисования канала" x:FieldModifier="private">
+                        <ToggleButton x:Name="butAMDraw" ToolTip="" x:FieldModifier="private" Visibility="Collapsed">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMdraw arrow.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="butDelete" ToolTip="Режима удаления: нажмите элементы и каналы, чтобы удалить их" x:FieldModifier="private">
+                        <ToggleButton x:Name="butDelete" ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/delete.png"/>
                             </ToggleButton.Background>
@@ -84,23 +84,23 @@
                                 <Setter Property="Height" Value="45"/>
                             </Style>
                         </StackPanel.Resources>
-                        <ToggleButton x:Name="BtnCreate"  ToolTip="Режим редактирования: нажмите, чтобы поместить Генератор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnCreate"  ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMGenerator.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="BtnQueue"  ToolTip="Режим редактирования: нажмите, чтобы поместить Позиция, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnQueue"  ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMPlace.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
-                        <ToggleButton x:Name="BtnTerminate" ToolTip="Режим редактирования: нажмите, чтобы поместить Терминатор, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnTerminate" ToolTip="" x:FieldModifier="private" Visibility="Collapsed">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMTerminate.png"/>
                             </ToggleButton.Background>
                         </ToggleButton>
 
-                        <ToggleButton x:Name="BtnAccumulate" ToolTip="Режим редактирования: нажмите, чтобы поместить измерительный пункт, нажмите элемент, чтобы добавить канал" x:FieldModifier="private">
+                        <ToggleButton x:Name="BtnAccumulate" ToolTip="" x:FieldModifier="private">
                             <ToggleButton.Background>
                                 <ImageBrush ImageSource="/SimulationV1;component/Assets/AMTransition.png"/>
                             </ToggleButton.Background>
@@ -121,8 +121,10 @@
                         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                             <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center">Файл</TextBlock>
                             <DockPanel LastChildFill="False" HorizontalAlignment="Center">
+                                <Label x:Name="lbName" DockPanel.Dock="Left" Content="TimeEnd:" Margin="3"></Label>
+                                <TextBox x:Name="tBxTimeEnd" DockPanel.Dock="Left" Margin="3" FontSize="16" Width="50">100</TextBox>
                                 <Button Margin="3" DockPanel.Dock="Left" Width="80" Content="Старт" x:Name="BtnStart" Click="BtnStart_OnClick"/>
-                                <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сборс" x:Name="BtnClear" Click="BtnClear_OnClick"/>
+                                <Button Margin="3" DockPanel.Dock="Right" Width="80" Content="Сборс" x:Name="BtnClear" Click="BtnClear_OnClick" Visibility="Collapsed"/>
                             </DockPanel>
                         </DockPanel>
                         <DockPanel Name="ItemPara" DockPanel.Dock="Top">
