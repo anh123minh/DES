@@ -35,11 +35,15 @@
                 </DockPanel>
                 <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
                     <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
-                    <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed">
+                    <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed" SelectionChanged="cbbDistribution_SelectionChanged">
                         <ComboBoxItem Content="Normal" IsSelected="True" ToolTip="Variance"></ComboBoxItem>
                         <ComboBoxItem Content="Exponential" ToolTip="Lamda"></ComboBoxItem>
                     </ComboBox>
                     <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                </DockPanel>
+                <DockPanel x:Name="DPVariance" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Visible">
+                    <Label x:Name="LabelVariance" Content="Дисперсия" DockPanel.Dock="Left" Margin="3"></Label>
+                    <TextBox x:Name="tBxVariance" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                 </DockPanel>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">

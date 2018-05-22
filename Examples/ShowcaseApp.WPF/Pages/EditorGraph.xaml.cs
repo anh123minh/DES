@@ -432,6 +432,10 @@ namespace SimulationV1.WPF.Pages
                     MessageBox.Show("k tim thay edge!");
                     break;
             }
+            var vertexsource = data.Source;
+            vertexsource.ListEdgesSorce.Add(data);
+            var vertextarget = data.Target;
+            vertextarget.ListEdgesTarget.Add(data);
             var ec = new EdgeControl(_ecFrom, vc, data);
             graphArea.InsertEdgeAndData(data, ec, 0, true);//Chèn mới 1 Edge tại vị trí nhất định và thêm data Edge vào CSDL
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
@@ -1434,33 +1438,33 @@ namespace SimulationV1.WPF.Pages
             try
             {
                 var end = Int32.Parse(tBxTimeEnd.Text);
-                List<DataVertex> listSource = new List<DataVertex>();
-                List<DataVertex> listTarget = new List<DataVertex>();
+
                 List<DataVertex> listTransition = new List<DataVertex>();
 
-                //foreach (var st in graphArea.LogicCore.Graph.Edges)
+                //foreach (var dd in graphArea.LogicCore.Graph.Vertices)
                 //{
-                //    listSource.Add(st.Source);
-                //    listTarget.Add(st.Target);
+                //    if (dd.TypeOfVertex == "AMTransition")
+                //    {
+                //        listTransition.Add(dd);
+                //        foreach (var st in graphArea.LogicCore.Graph.Edges)
+                //        {
+                //            if (st.Source.Equals(dd))
+                //            {
+                //                dd.ListEdgesSorce.Add(st);
+                //            }
+                //            if (st.Target.Equals(dd))
+                //            {
+                //                dd.ListEdgesTarget.Add(st);
+                //            }
+                //        }
+                //    }
                 //}
                 foreach (var dd in graphArea.LogicCore.Graph.Vertices)
                 {
                     if (dd.TypeOfVertex == "AMTransition")
                     {
-                        listTransition.Add(dd);
-                        foreach (var st in graphArea.LogicCore.Graph.Edges)
-                        {
-                            if (st.Source.Equals(dd))
-                            {
-                                dd.ListEdgesSorce.Add(st);
-                            }
-                            if (st.Target.Equals(dd))
-                            {
-                                dd.ListEdgesTarget.Add(st);
-                            }
-                        }
+                        listTransition.Add(dd);                       
                     }
-
                 }
                 var socungdauvao = listTransition[0].ListEdgesTarget.Count;
                 var mangdkdauvao = new int[socungdauvao];
@@ -1483,18 +1487,23 @@ namespace SimulationV1.WPF.Pages
                         TypeDistribuion = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.TypeDistribuion,
                         Interval = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Interval,
                         LengthOfFile = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.LengthOfFile,
-                        FirstTime = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.FirstTime
+                        FirstTime = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.FirstTime,
+                        Variance = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Variance
                     };
                     danhsachnguon[i] = nut;
                 }
-                var ntchuyen = new GeneratorClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Interval = listTransition[0].GeneratorType.Interval };
+                var ntchuyen = new GeneratorClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Interval = listTransition[0].GeneratorType.Interval , Variance = listTransition[0].GeneratorType.Variance};
                 var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
                 trans.Run();
-                listTransition[0].ListEdgesTarget.Clear();
-                listTransition[0].ListEdgesSorce.Clear();
-                var nn = trans.Phantich;
-                var mm = trans.ListTimeNow;
-                var asm = new AMMultiChart(mm, nn);
+                //listTransition[0].ListEdgesTarget.Clear();
+                //listTransition[0].ListEdgesSorce.Clear();
+                var tntb = trans.ListTimeNowTable;
+                var pttb = trans.PhantichTable;
+
+                var tng = trans.ListTimeNowGraph;
+                var ptg = trans.PhantichGraph;
+                
+                var asm = new AMMultiChart(tntb, pttb, tng, ptg);
                 asm.Show();
 
                 //var ss = new PointCollection();

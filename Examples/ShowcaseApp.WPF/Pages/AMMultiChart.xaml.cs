@@ -21,13 +21,17 @@ namespace SimulationV1.WPF.Pages
     {
         public ChartData ChartData { get; set; }
         public List<ChartData> ChartDataList { get; set; }
-        private List<int> listtimenow1;
-        private List<List<int>> listblockcount1;
-
-        public AMMultiChart(List<int> listtimenow, List<List<int>> listblockcount)
+        private List<int> listtimenowgraph;
+        private List<List<int>> listblockcountgraph;
+        private List<int> listtimenowtable;
+        private List<List<int>> listblockcounttable;
+        public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb, List<int> listtimenowgr, List<List<int>> listblockcountgr)
         {
-            listtimenow1 = listtimenow;
-            listblockcount1 = listblockcount;
+            listtimenowtable = listtimenowtb;
+            listblockcounttable = listblockcounttb;
+
+            listtimenowgraph = listtimenowgr;
+            listblockcountgraph = listblockcountgr;           
 
             InitializeComponent();
             btnMultiGraph_Click(null, null);
@@ -46,12 +50,12 @@ namespace SimulationV1.WPF.Pages
             ChartData.Title = "Chart Title";
             ChartData.DataSeriesList = new List<Dictionary<int, int>>();
 
-            for (int i = 0; i < listblockcount1.Count; i++)
+            for (int i = 0; i < listblockcountgraph.Count; i++)
             {
                 var dataSeries = new Dictionary<int, int>();
-                for (int j = 0; j < listtimenow1.Count; j++)
+                for (int j = 0; j < listtimenowgraph.Count; j++)
                 {
-                    dataSeries.Add(listtimenow1[j], listblockcount1[i][j]);
+                    dataSeries.Add(listtimenowgraph[j], listblockcountgraph[i][j]);
                 }
                 ChartData.DataSeriesList.Add(dataSeries);
             }
@@ -72,8 +76,8 @@ namespace SimulationV1.WPF.Pages
             
             //var dara = new ObservableCollection<List<int>>();
             var dara = new List<List<int>>();
-            dara.Add(listtimenow1);
-            foreach (var sd in listblockcount1)
+            dara.Add(listtimenowtable);
+            foreach (var sd in listblockcounttable)
             {
                 dara.Add(sd);
             }

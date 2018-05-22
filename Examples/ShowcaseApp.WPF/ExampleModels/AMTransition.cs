@@ -11,8 +11,10 @@ namespace SimulationV1.WPF.ExampleModels
         public int SoCungVao { get; set; } = 3;
         public int SoCungRa { get; set; } = 3;
         public int EndingTime { get; set; }
-        public List<int> ListTimeNow { get; set; }
-        public List<List<int>> Phantich { get; set; }
+        public List<int> ListTimeNowTable { get; set; }
+        public List<List<int>> PhantichTable { get; set; }
+        public List<int> ListTimeNowGraph { get; set; }//dung cho ve do thi
+        public List<List<int>> PhantichGraph { get; set; }
 
         public int[] ArrayDKCungVao;
         public int[] ArrayDKCungRa;
@@ -39,9 +41,13 @@ namespace SimulationV1.WPF.ExampleModels
                 var TimeNow = 0;
                 var TimeNowNext = 0;
                 var SumCung = SoCungVao + SoCungRa;
-                ListTimeNow = new List<int>();
-                Phantich = new List<List<int>>();
+                var LastTime = 0;
+                ListTimeNowTable = new List<int>();
+                PhantichTable = new List<List<int>>();
+                ListTimeNowGraph = new List<int>();
+                PhantichGraph = new List<List<int>>();
                 List<Queue<int>> analis = new List<Queue<int>>();
+                List<Queue<int>> analis1 = new List<Queue<int>>();
 
                 Queue<Customers>[] arrayHDVaoRa = new Queue<Customers>[SoCungVao];
                 for (int i = 0; i < SoCungVao; i++)
@@ -100,40 +106,56 @@ namespace SimulationV1.WPF.ExampleModels
                 #endregion
                 do
                 {
-                    //TimeNowNext = FindMinNextTimePlan(listKH);
-                    if (!AllCusGenerated(arrayboolLengthOfFile))
+                    //////TimeNowNext = FindMinNextTimePlan(listKH);
+                    //if (!AllCusGenerated(arrayboolLengthOfFile))
+                    //{
+                    //    for (int i = 0; i < SoCungVao; i++)
+                    //    {
+                    //        var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
+                    //        arrayLengthOfFile[i]--;
+                    //        if (arrayLengthOfFile[i] > 0)
+                    //        {
+                    //            arrayboolLengthOfFile[i] = false;
+                    //            listKH.Add(cus);
+                    //            arrayTimeKH[i] = cus.TimePlan;
+                    //        }
+                    //        else
+                    //        {
+                    //            arrayboolLengthOfFile[i] = true;
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    break;
+                    //}
+                    ////for (int i = 0; i < SoCungVao; i++)
+                    ////{
+                    ////    var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
+                    ////    listKH.Add(cus);
+                    ////    arrayTimeKH[i] = cus.TimePlan;
+                    ////}
+                    for (int i = 0; i < SoCungVao; i++)
                     {
-                        for (int i = 0; i < SoCungVao; i++)
+                        var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
+                        arrayLengthOfFile[i]--;
+                        if (arrayLengthOfFile[i] > 0)
                         {
-                            var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
-                            arrayLengthOfFile[i]--;
-                            if (arrayLengthOfFile[i] > 0)
-                            {
-                                arrayboolLengthOfFile[i] = false;
-                                listKH.Add(cus);
-                                arrayTimeKH[i] = cus.TimePlan;
-                            }
-                            else
-                            {
-                                arrayboolLengthOfFile[i] = true;
-                            }
+                            arrayboolLengthOfFile[i] = false;
+                            listKH.Add(cus);
+                            arrayTimeKH[i] = cus.TimePlan;
+                        }
+                        else
+                        {
+                            arrayboolLengthOfFile[i] = true;
                         }
                     }
-                    else
-                    {
-                        break;
-                    }
-                    //for (int i = 0; i < SoCungVao; i++)
-                    //{
-                    //    var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
-                    //    listKH.Add(cus);
-                    //    arrayTimeKH[i] = cus.TimePlan;
-                    //}
                     listKH = listKH.FindAll(x => x.TimePlan < EndingTime);
                     if (listKH.Count != 0)
                     {
                         TimeNow = FindMinTimePlan(listKH);
-                        ListTimeNow.Add(TimeNow);
+                        ListTimeNowTable.Add(TimeNow);
+                        ListTimeNowGraph.Add(TimeNow);
                         //Console.WriteLine(TimeNow);
                     }
                     else
@@ -150,7 +172,7 @@ namespace SimulationV1.WPF.ExampleModels
                         var cus = a;
                         var aa = cus.Name;
                         arrayHD[Int32.Parse(aa)].Enqueue(new Customers() { Name = cus.Name, TimePlan = cus.TimePlan });
-                    }
+                    }                   
                     //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
                     var lis = new Queue<int>();
                     foreach (var arr in arrayHD)
@@ -158,7 +180,12 @@ namespace SimulationV1.WPF.ExampleModels
                         lis.Enqueue(arr.Count);
                     }
                     analis.Add(lis);
-
+                    analis1.Add(lis);
+                    //Co Generator nao sinh het chua && TimeNow == LastTime ? break : ;
+                    if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow == LastTime)
+                    {
+                        break;
+                    }
                     if (AlReady(arrayHD, arrayDKCung))
                     {
                         for (int i = 0; i < SoCungVao; i++)
@@ -169,6 +196,15 @@ namespace SimulationV1.WPF.ExampleModels
                                 arrayHDVaoRa[i].Enqueue(new Customers() { Name = cus1.Name, TimeIn = TimeNow, TimeOut = TimeNow, TimePlan = cus1.TimePlan });
                             }
                         }
+                        //------
+                        ListTimeNowGraph.Add(TimeNow);
+                        var lis1 = new Queue<int>();
+                        foreach (var arr in arrayHD)
+                        {
+                            lis1.Enqueue(arr.Count);
+                        }
+                        analis1.Add(lis1);
+                        //------
                         var d = RandomNumberFromTransition(NutTransition);
                         for (int i = SoCungVao; i < SumCung; i++)
                         {
@@ -179,12 +215,14 @@ namespace SimulationV1.WPF.ExampleModels
                                 listKH.Add(Sinh1Customer(i.ToString(), TimeNow + (int)d));
                             }
                         }
+                        LastTime = TimeNow + (int)d;
                     }
                     //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
                 } while (TimeNow < EndingTime);
 
-                Phantich = ChuyenHang2Cot(analis);
-                //foreach (var dc in Phantich)
+                PhantichTable = ChuyenHang2Cot(analis);
+                PhantichGraph = ChuyenHang2Cot(analis1);
+                //foreach (var dc in PhantichTable)
                 //{
                 //    foreach (var vf in dc)
                 //    {
@@ -203,6 +241,18 @@ namespace SimulationV1.WPF.ExampleModels
                 Console.WriteLine(e);
             }
 
+        }
+
+        private bool IsAnyGenEnd(bool[] arrayboolLengthOfFile)
+        {            
+            foreach (var a in arrayboolLengthOfFile)
+            {
+                if (a)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool AllCusGenerated(bool[] arraylengthoffile)
@@ -390,7 +440,7 @@ namespace SimulationV1.WPF.ExampleModels
             switch (nut.TypeDistribuion)
             {
                 case GeneratorClass.Distribution.NormalDis:
-                    nut.TypeDis = new Normal(nut.Interval, 1.0);
+                    nut.TypeDis = new Normal(nut.Interval, Math.Sqrt(nut.Variance));
                     break;
                 case GeneratorClass.Distribution.ExponentialDis:
                     nut.TypeDis = new Exponential(nut.Interval);

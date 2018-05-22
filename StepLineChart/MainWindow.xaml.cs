@@ -29,7 +29,7 @@ namespace StepLineChart
                 new Point(2,2),
                 //new Point(3,2),
                 new Point(3,3),
-                //new Point(5,3),
+                new Point(3,0),
                 //new Point(3,1),
                 new Point(6,1),
                 new Point(8,3),
