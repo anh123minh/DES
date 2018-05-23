@@ -46,8 +46,9 @@ namespace SimulationV1.WPF.ExampleModels
                 PhantichTable = new List<List<int>>();
                 ListTimeNowGraph = new List<int>();
                 PhantichGraph = new List<List<int>>();
-                List<Queue<int>> analis = new List<Queue<int>>();
-                List<Queue<int>> analis1 = new List<Queue<int>>();
+
+                var ana = new List<List<int>>();
+                var ana1 = new List<List<int>>();
 
                 Queue<Customers>[] arrayHDVaoRa = new Queue<Customers>[SoCungVao];
                 for (int i = 0; i < SoCungVao; i++)
@@ -104,37 +105,21 @@ namespace SimulationV1.WPF.ExampleModels
                     arrayLengthOfFile[i] = ArrayNuts[i].LengthOfFile;
                 }
                 #endregion
+
+                #region Thoi diem timenow = 0
+
+                ListTimeNowTable.Add(TimeNow);
+                var firsttimenow = new List<int>();
+                foreach (var sss in arrayHD)
+                {
+                    firsttimenow.Add(sss.Count);
+                }
+                ana.Add(firsttimenow);
+
+                #endregion
+
                 do
                 {
-                    //////TimeNowNext = FindMinNextTimePlan(listKH);
-                    //if (!AllCusGenerated(arrayboolLengthOfFile))
-                    //{
-                    //    for (int i = 0; i < SoCungVao; i++)
-                    //    {
-                    //        var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
-                    //        arrayLengthOfFile[i]--;
-                    //        if (arrayLengthOfFile[i] > 0)
-                    //        {
-                    //            arrayboolLengthOfFile[i] = false;
-                    //            listKH.Add(cus);
-                    //            arrayTimeKH[i] = cus.TimePlan;
-                    //        }
-                    //        else
-                    //        {
-                    //            arrayboolLengthOfFile[i] = true;
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    break;
-                    //}
-                    ////for (int i = 0; i < SoCungVao; i++)
-                    ////{
-                    ////    var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
-                    ////    listKH.Add(cus);
-                    ////    arrayTimeKH[i] = cus.TimePlan;
-                    ////}
                     for (int i = 0; i < SoCungVao; i++)
                     {
                         var cus = SinhMotCusAndName2(i.ToString(), ArrayNuts[i], arrayTimeKH[i]);
@@ -174,13 +159,13 @@ namespace SimulationV1.WPF.ExampleModels
                         arrayHD[Int32.Parse(aa)].Enqueue(new Customers() { Name = cus.Name, TimePlan = cus.TimePlan });
                     }                   
                     //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
-                    var lis = new Queue<int>();
-                    foreach (var arr in arrayHD)
+                    var al = new List<int>();
+                    foreach (var sss in arrayHD)
                     {
-                        lis.Enqueue(arr.Count);
+                        al.Add(sss.Count);
                     }
-                    analis.Add(lis);
-                    analis1.Add(lis);
+                    ana.Add(al);
+                    ana1.Add(al);
                     //Co Generator nao sinh het chua && TimeNow == LastTime ? break : ;
                     if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow == LastTime)
                     {
@@ -198,12 +183,12 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         //------
                         ListTimeNowGraph.Add(TimeNow);
-                        var lis1 = new Queue<int>();
-                        foreach (var arr in arrayHD)
+                        var al1 = new List<int>();
+                        foreach (var sss in arrayHD)
                         {
-                            lis1.Enqueue(arr.Count);
+                            al1.Add(sss.Count);
                         }
-                        analis1.Add(lis1);
+                        ana1.Add(al1);
                         //------
                         var d = RandomNumberFromTransition(NutTransition);
                         for (int i = SoCungVao; i < SumCung; i++)
@@ -219,21 +204,34 @@ namespace SimulationV1.WPF.ExampleModels
                     }
                     //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
                 } while (TimeNow < EndingTime);
-
-                PhantichTable = ChuyenHang2Cot(analis);
-                PhantichGraph = ChuyenHang2Cot(analis1);
-                //foreach (var dc in PhantichTable)
+                //var s = new List<List<int>>();
+                //for (int i = 0; i < 5; i++)
                 //{
-                //    foreach (var vf in dc)
-                //    {
-                //        Console.Write(vf + " ");
+                //    var m = new List<int>();
+                //    for (int j = 0; j < 3; j++)
+                //    {                       
+                //        m.Add(j+i);
                 //    }
-                //    Console.WriteLine();
+                //    s.Add(m);
                 //}
-                //foreach (var a in arrayHD)
-                //{
-                //    Console.WriteLine(a.Count);
-                //}
+                //var mm = ChuyenHang2Cot1(s);
+
+                PhantichTable = ChuyenHang2Cot1(ana);
+                PhantichGraph = ChuyenHang2Cot1(ana1);
+                //PhantichTable = ChuyenHang2Cot(analis);
+                //PhantichGraph = ChuyenHang2Cot(anhminh);
+                ////foreach (var dc in PhantichTable)
+                ////{
+                ////    foreach (var vf in dc)
+                ////    {
+                ////        Console.Write(vf + " ");
+                ////    }
+                ////    Console.WriteLine();
+                ////}
+                ////foreach (var a in arrayHD)
+                ////{
+                ////    Console.WriteLine(a.Count);
+                ////}
 
             }
             catch (Exception e)
@@ -272,15 +270,33 @@ namespace SimulationV1.WPF.ExampleModels
         }
         public List<List<int>> ChuyenHang2Cot(List<Queue<int>> list)
         {
+            var dem = list;
             int mm = list.FirstOrDefault().Count;
 
             var aa = new List<List<int>>();
             for (int i = 0; i < mm; i++)
             {
                 var nn = new List<int>();
-                foreach (var m in list)
+                foreach (var m in dem)
                 {
                     nn.Add(m.Dequeue());
+                }
+                aa.Add(nn);
+            }
+            return aa;
+        }
+        public List<List<int>> ChuyenHang2Cot1(List<List<int>> list)
+        {
+            var dem = list.Count;
+            //int mm = list.FirstOrDefault().Count;
+            int mm = list[0].Count;
+            var aa = new List<List<int>>();
+            for (int i = 0; i < mm; i++)
+            {
+                var nn = new List<int>();
+                for (int j = 0; j < dem; j++)
+                {
+                    nn.Add(list[j][i]);
                 }
                 aa.Add(nn);
             }

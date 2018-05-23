@@ -1441,24 +1441,6 @@ namespace SimulationV1.WPF.Pages
 
                 List<DataVertex> listTransition = new List<DataVertex>();
 
-                //foreach (var dd in graphArea.LogicCore.Graph.Vertices)
-                //{
-                //    if (dd.TypeOfVertex == "AMTransition")
-                //    {
-                //        listTransition.Add(dd);
-                //        foreach (var st in graphArea.LogicCore.Graph.Edges)
-                //        {
-                //            if (st.Source.Equals(dd))
-                //            {
-                //                dd.ListEdgesSorce.Add(st);
-                //            }
-                //            if (st.Target.Equals(dd))
-                //            {
-                //                dd.ListEdgesTarget.Add(st);
-                //            }
-                //        }
-                //    }
-                //}
                 foreach (var dd in graphArea.LogicCore.Graph.Vertices)
                 {
                     if (dd.TypeOfVertex == "AMTransition")
@@ -1495,34 +1477,17 @@ namespace SimulationV1.WPF.Pages
                 var ntchuyen = new GeneratorClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Interval = listTransition[0].GeneratorType.Interval , Variance = listTransition[0].GeneratorType.Variance};
                 var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
                 trans.Run();
-                //listTransition[0].ListEdgesTarget.Clear();
-                //listTransition[0].ListEdgesSorce.Clear();
+
                 var tntb = trans.ListTimeNowTable;
                 var pttb = trans.PhantichTable;
 
                 var tng = trans.ListTimeNowGraph;
                 var ptg = trans.PhantichGraph;
-                
-                var asm = new AMMultiChart(tntb, pttb, tng, ptg);
+
+                var asm = new AMMultiChart(tntb, pttb);
+                //var asm = new AMMultiChart(tntb, pttb, tng, ptg);
                 asm.Show();
 
-                //var ss = new PointCollection();
-
-                ////foreach (var nnn in nn)
-                ////{
-                //    for (int i = 0; i < mm.Count; i++)
-                //    {
-                //        ss.Add(new Point(nn[0][i], mm[i]));
-                //    }
-                //    var res = new AMResult(ss);
-                //    res.Show();
-                ////}
-                ////var create = new GeneratorClass();
-                ////Task generator = new Process(create, create.Generator);//Khai báo 1 nhiệm vụ
-                ////create.Run(generator);
-                //////var amresult = new AMResult(create.Points);
-                //////amresult.Show();
-                //////Console.ReadKey();
             }
             catch (Exception exception)
             {

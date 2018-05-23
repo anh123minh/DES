@@ -39,23 +39,89 @@ namespace SimulationV1.WPF.Pages
 
         }
 
+        public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb)
+        {
+            listtimenowtable = listtimenowtb;
+            listblockcounttable = listblockcounttb;
+
+            InitializeComponent();
+            btnMultiGraph_Click(null, null);
+
+
+        }
+        //private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Bang.Visibility = Visibility.Collapsed;
+        //    //Bang.LastChildFill = false;
+        //    Graph.Visibility = Visibility.Visible;
+        //    //Graph.LastChildFill = true;
+
+        //    ChartData = new ChartData();
+        //    ChartData.Title = "Chart Title";
+        //    ChartData.DataSeriesList = new List<List<int>>();
+
+        //    for (int i = 0; i < listblockcountgraph.Count; i++)
+        //    {
+        //        var dataSeries = new List<int>();
+        //        for (int j = 0; j < listtimenowgraph.Count; j++)
+        //        {
+        //            dataSeries.Add(listtimenowgraph[j]);
+        //            dataSeries.Add(listblockcountgraph[i][j]);
+        //        }
+        //        ChartData.DataSeriesList.Add(dataSeries);
+        //    }
+
+
+        //    ChartDataList = new List<ChartData>();
+        //    ChartDataList.Add(ChartData);
+
+        //    this.DataContext = this;
+        //}
+
+        //private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Bang.Visibility = Visibility.Collapsed;
+        //    //Bang.LastChildFill = false;
+        //    Graph.Visibility = Visibility.Visible;
+        //    //Graph.LastChildFill = true;
+
+        //    ChartData = new ChartData();
+        //    ChartData.Title = "Chart Title";
+        //    ChartData.DataSeriesList = new List<Dictionary<int, int>>();
+
+        //    for (int i = 0; i < listblockcountgraph.Count; i++)
+        //    {
+        //        var dataSeries = new Dictionary<int, int>();
+        //        for (int j = 0; j < listtimenowgraph.Count; j++)
+        //        {
+        //            dataSeries.Add(listtimenowgraph[j], listblockcountgraph[i][j]);
+        //        }
+        //        ChartData.DataSeriesList.Add(dataSeries);
+        //    }
+
+
+        //    ChartDataList = new List<ChartData>();
+        //    ChartDataList.Add(ChartData);
+
+        //    this.DataContext = this;
+        //}
         private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
         {
             Bang.Visibility = Visibility.Collapsed;
             //Bang.LastChildFill = false;
             Graph.Visibility = Visibility.Visible;
             //Graph.LastChildFill = true;
-            
+
             ChartData = new ChartData();
             ChartData.Title = "Chart Title";
             ChartData.DataSeriesList = new List<Dictionary<int, int>>();
 
-            for (int i = 0; i < listblockcountgraph.Count; i++)
+            for (int i = 0; i < listblockcounttable.Count; i++)
             {
                 var dataSeries = new Dictionary<int, int>();
-                for (int j = 0; j < listtimenowgraph.Count; j++)
+                for (int j = 0; j < listtimenowtable.Count; j++)
                 {
-                    dataSeries.Add(listtimenowgraph[j], listblockcountgraph[i][j]);
+                    dataSeries.Add(listtimenowtable[j], listblockcounttable[i][j]);
                 }
                 ChartData.DataSeriesList.Add(dataSeries);
             }
@@ -124,6 +190,12 @@ namespace SimulationV1.WPF.Pages
         public string Title { get; set; }
         public List<Dictionary<int, int>> DataSeriesList { get; set; }
     }
+
+    //public class ChartData
+    //{
+    //    public string Title { get; set; }
+    //    public List<List<int>> DataSeriesList { get; set; }
+    //}
 }
 
 //var dataSeries = new Dictionary<string, int>();
