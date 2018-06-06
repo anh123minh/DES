@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+
+<!--
+  *
+  * $Id: namespace_summary.xml 186 2006-10-15 16:35:30Z eroe $
+  *
+  * Project and namespace summaries used when building the React.NET
+  * API documentation with Microsoft's Sandcastle documentation
+  * compiler.
+  *
+ -->
+
+<doc>
+
+	<members>
+
+		<!-- Description about the React.NET project. -->
+		<member name="R:Project">
+			<summary>
+				React.NET is an open source library for programmatically
+				developing discrete-event simulations implemented on top of
+				the Microsoft&#174;
+				<a href="http://msdn.microsoft.com/netframework/">
+				.NET Framework</a>.
+			</summary>
+		</member>
+
+		<!-- Description of the React namespace. -->
+		<member name="N:React">
+			<summary>
+				The primary classes for the React.NET Discrete-Event Simulation
+				Library.
+			</summary>
+		</member>
+
+		<!-- Description of the React.Distribution namespace. -->
+		<member name="N:React.Distribution">
+			<summary>
+				Classes used to generate uniform and non-uniform random
+				numbers.
+			</summary>
+		</member>
+
+		<!-- Description of the React.Monitoring namespace. -->
+		<member name="N:React.Monitoring">
+			<summary>
+				Classes used to monitor properties during a simulation run and
+				to accumulate statistics.
+			</summary>
+		</member>
+
+		<!-- Description of the React.Queue namespace. -->
+		<member name="N:React.Queue">
+			<summary>
+				Collection classes that provide queuing behavior.
+			</summary>
+		</member>
+
+		<!-- Description of the React.Tasking namespace. -->
+		<member name="N:React.Tasking">
+			<summary>
+				The basic tasking classes upon which more complex processes
+				can be built.
+			</summary>
+		</member>
+
+	</members>
+
+</doc>

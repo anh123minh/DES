@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+
+    $Id: greetings3.xml 110 2005-11-20 20:40:31Z Eric Roe $
+
+   	React.NET Web Site Page.
+    Copyright © 2005 Eric K. Roe.  All rights reserved.
+ 
+-->
+
+<web-page title="Greetings (Delegate version)" preliminary="true" skip-toc="true">
+<!-- ======================================================================= -->
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="overview"></a>Greetings (simulation derivation)</h1>
+
+	<p>
+		This is the third "Hello, world" example program.  This class runs
+		a simple simulation that prints a greeting message to standard output
+		(e.g. the console).  In this example, the main class is derived from
+		the <code>Simulation</code> class.  The <b>SayHello</b> method, which
+		prints the greeting message, is used as the <see cref="ProcessSteps"/>
+		delegate.
+	</p>
+	
+<p>
+	The complete code for this example is shown below and is also available
+	as <b>greetings3.cs</b> in the <b>examples\greetings</b> directory.
+</p>
+	
+<example><![CDATA[
+using System;
+using System.Collections.Generic;
+using React;
+
+public class Greetings : React.Simulation
+{
+    private Greetings()
+    {
+        Process process = new Process(this, SayHello);
+        process.Activate(this);
+    }
+
+    private IEnumerator<Task> SayHello(Process process, object data)
+    {
+        Console.WriteLine("Greetings3 says, Hello there ...");
+        yield break;
+    }
+
+    public static void Main(string [] args)
+    {
+        Greetings greetings = new Greetings();
+        greetings.Run();
+    }
+}]]></example>
+
+	<h1>The Explanation</h1>
+	
+	<p>
+		Start by including references to some of the required namespaces.  The
+		<code>System.Collections.Generic</code> namespace is required for the
+		<code>IEnumerator&lt;Task&gt;</code> class.  The <code>React</code>
+		namespace is required for the <code>Simulation</code>, <code>Task</code>,
+		and <code>Process</code> classes.
+	</p>
+	
+	<example><![CDATA[
+using System;
+using System.Collections.Generic;
+using React;]]></example>
+	
+	<p>
+		The <b>Greetings</b> class is derived from <code>React.Simulation</code> and
+		contains a private constructor to prevent other classes from instantiating
+		it.  The constructor creates a <code>Process</code> that serves as the
+		<em>generator</em> task.  The <code>Process</code> delegates its actual
+		functionality to the <b>SayHello</b> method.
+	</p>
+	
+	<example><![CDATA[
+public class Greetings
+{
+    private Greetings()
+    {
+        Process process = new Process(this, SayHello);
+        process.Activate(this);
+    }
+
+          .
+          .
+          .
+}]]></example>
+
+	<p>
+		The private <b>SayHello</b> method defines the functionality of the
+		Process that will be created in the constructor.  <b>SayHello</b>
+		is the delegate used by the Process to yield its Tasks.  Of course, in
+		this case, all the Process will do is print a message and exit -- no
+		Tasks are returned by <b>SayHello</b>.
+	</p>
+	<p>
+		The <code>yield break;</code> statement must be included or <b>SayHello</b>
+		will not be a valid .NET <em>iterator</em>.
+	</p>
+	<example><![CDATA[
+private IEnumerator<Task> SayHello(Process process, object data)
+{
+    Console.WriteLine("Greetings3 says, Hello there ...");
+    yield break;
+}]]></example>
+	
+	<p>
+		Finally, the <b>Main</b> method instantiates a Greetings object and
+		starts it running.  No generator task is passed to the <b>Run</b> method
+		because the generator was created and activated in the constructor.  When the
+		generator task is executed, the <b>SayHello</b> method will get called and
+		the greetings message printed to the console.
+	</p>
+	<example><![CDATA[
+Greetings greetings = new Greetings();
+greetings.Run();]]></example>
+
+</web-page>

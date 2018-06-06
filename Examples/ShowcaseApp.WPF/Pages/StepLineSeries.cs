@@ -42,6 +42,14 @@ namespace SimulationV1.WPF.Pages
             PointCollection returnValue = new PointCollection();
             var zeroy = source[0].Y;
             var oney = source[0].X;// doi voi nguon
+            //for (int i = 1; i < source.Count - 1; i++)
+            //{
+            //    if (source[i].Y < zeroy)
+            //    {
+            //        oney = source[i].Y;
+            //        break;
+            //    }
+            //}
             foreach (var z in source)
             {
                 if (z.Y < zeroy)
@@ -50,7 +58,6 @@ namespace SimulationV1.WPF.Pages
                     break;
                 }
             }
-             //xac dinh do tu lon nhat
 
             for (int i = 0; i < source.Count; i++)
             {
@@ -66,17 +73,17 @@ namespace SimulationV1.WPF.Pages
                     }
                     else
                     {
-                        if (Math.Abs(nextValue.Y - oney) < 1)
-                        {
-                            returnValue.Add(new Point(currentValue.X, zeroy));
-                            returnValue.Add(new Point(nextValue.X, zeroy));
+                        //if (Math.Abs(nextValue.Y - oney) < 1)
+                        //{
+                        //    returnValue.Add(new Point(currentValue.X, zeroy));
+                        //    returnValue.Add(new Point(nextValue.X, zeroy));
 
-                        }
-                        else
-                        {
-                            returnValue.Add(new Point(currentValue.X, nextValue.Y));
-                        }
-                        
+                        //}
+                        //else
+                        //{
+                        //    returnValue.Add(new Point(currentValue.X, nextValue.Y));
+                        //}
+                        returnValue.Add(new Point(currentValue.X, nextValue.Y));
                     }
                 }
             }

@@ -106,6 +106,17 @@ namespace SimulationV1.WPF.ExampleModels
                 }
                 #endregion
 
+                //#region Them dk cho cung
+
+                //ListTimeNowTable.Add(TimeNow);
+                //var dkcung = new List<int>();
+                //for (int i = 0; i < SumCung; i++)
+                //{
+                //    dkcung.Add(arrayDKCung[i]);
+                //}
+                //ana.Add(dkcung);
+
+                //#endregion
                 #region Thoi diem timenow = 0
 
                 ListTimeNowTable.Add(TimeNow);
@@ -115,7 +126,6 @@ namespace SimulationV1.WPF.ExampleModels
                     firsttimenow.Add(sss.Count);
                 }
                 ana.Add(firsttimenow);
-
                 #endregion
 
                 do

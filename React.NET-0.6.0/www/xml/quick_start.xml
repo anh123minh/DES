@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!--
+
+    $Id: quick_start.xml 110 2005-11-20 20:40:31Z Eric Roe $
+
+   	React.NET Web Site Page.
+    Copyright © 2005 Eric K. Roe.  All rights reserved.
+ 
+-->
+
+<web-page title="Quick Start" preliminary="true">
+<!-- ======================================================================= -->
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="overview"></a>Overview</h1>
+<p>
+	This page provides a brief introduction to discrete-event simulation,
+	an overview of the simulation constructs as implemented in <react/>,
+	and then proceeds to an example simulation program.  The example
+	program simulates a barber shop and demonstrates some, but definitely
+	not all, of the capabilities of <react/>
+</p>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="sim"></a>Discrete Event Simulation</h1>
+<p>
+	If you're reading this, you've probably got a good idea of what
+	<em>discrete-event simulation</em> is all about.  However, just in
+	case you don't, here is a very brief description.  See
+	<a href="index.html#links">Links</a> for a list of other resources
+	that provide more information.
+</p>
+
+<p>
+	Simulation, in general, is an attempt to model some aspect of the real
+	world and gather data about the modeled system.  It's often used when
+	directly observing the real-world system is not possible because: (1) it
+	doesn't exist yet; or (2) it would be too costly or dangerous to test in
+	multiple configurations/scenarios.
+</p>
+<p>
+	There are several common simulation methodologies for example
+	<em>continuous</em>, <em>linear-programming</em>, and
+	<em>discrete-event</em>.  Each has strengths that make it most useful
+	for a particular problem domain.
+</p>
+<p>
+	Continuous simulation describe systems using one or more mathematical
+	equations or <em>models</em>.  These models might be used to help
+	understand a system based on rules of physics or economics.
+</p>
+<p>
+	Linear programming (and non-linear programming) are often used to
+	solve optimization problems that involve several variables.  An
+	example might be maximizing profit on several products based on
+	user demand, production output, production cost, and sales price.
+</p>
+<p>
+	Finally, discrete-event simulations are used to model systems
+	composed of activities that take place at distinct moments in time.
+	Often these activities include random elements and potentially complex
+	interactions with other activities.  Discrete-event simulations
+	are often applicable to modeling business and manufacturing
+	processes.
+</p>
+<p>
+	Discrete-event simulation is especially useful in understanding
+	systems that have <em>demand vs. capacity</em> and <em>queuing</em>
+	aspects.  For example, a bank experiences demand (customers
+	need to see tellers), has a capacity (there are only so many tellers
+	available to service customers), and uses queuing (customers wait in
+	line until they can see a teller).
+</p>
+
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h1><a name="concepts"></a>Basic Concepts</h1>
+<block>
+<p>
+	The following subsections introduce some of the most fundamental classes and
+	concepts used to build <react/> simulations.
+</p>
+
+<h2>The Simulation</h2>
+<p>
+	The <classname>Simulation</classname> serves as the container for 
+	<classname>Task</classname> instances. It also contains the clock used to
+	control the time.  Each <classname>Task</classname> maintains a reference
+	to the <classname>Simulation</classname> under which it runs.  This link
+	is called the <em>simulation context</em> and is available as the
+	<code>Context</code> property.
+</p>
+
+<p>
+	For simple models, a single <classname>Simulation</classname> is used.  For
+	more complex models that might be executed many times (e.g. monte-carlo
+	simulations), multiple <classname>Simulation</classname> instances can be
+	run either sequentially or in parallel using multiple threads.
+</p>
+
+<h3>The Clock</h3>
+<p>
+	Each <classname>Simulation</classname> maintains a <em>clock</em>.  The clock is
+	responsible for keeping the current simulation time.  The clock
+	maintains the time as a <classname>System.Int64</classname> (a C#
+	<classname>long</classname>). The unit of time represented by the clock is up to
+	the programmer.  Because the clock maintains time in integer units, choosing a
+	time unit is important because the clock cannot represent fractional units.  For
+	example, in a simulation that requires sub-second accuracy, one time unit might
+	represent a millisecond; therefore to schedule a <classname>Task</classname> to
+	run two seconds in the future, the program would schedule it to run in 2,000 time
+	units.
+</p>
+
+<h2>Tasks</h2>
+<p>
+	A <classname>Task</classname> is executed by a <classname>Simulation</classname>
+	to carry out some action.  Often one or more <classname>Task</classname>s are used
+	as part of a <classname>Process</classname> (see below). <classname>Task</classname>s
+	can be scheduled to run at a particular simulation time or they can be passed to a
+	<em>blocking object</em> such as a <classname>Resource</classname> or
+	<classname>BoundedBuffer</classname> to be resumed when a particular condition is
+	met during the course of a simulation run.
+</p>
+<p>
+	The work to be carried out by a <classname>Task</classname> is defined by implementing
+	the	<code>ExecuteTask</code> method.
+</p>
+
+<h2>Processes</h2>
+<p>
+	A <classname>Process</classname> consists of a series of <classname>Task</classname>s
+	carried out over time.  A <classname>Process</classname> is, in fact, a type of
+	<classname>Task</classname> that yields (or returns) other <classname>Task</classname>s
+	to carry out certain functions.  Each <classname>Task</classname> that
+	a <classname>Process</classname> returns acts somewhat like a subroutine of the
+	<classname>Process</classname>.  The <classname>Task</classname> runs and eventually
+	when the <classname>Task</classname> completes, the <classname>Process</classname> is
+	resumed (or re-activated).
+</p>
+<p>
+	<classname>Process</classname> classes use the .NET 2.0 feature called an
+	<em>iterator</em> to yield <classname>Task</classname>s.  The iterator, an
+	<classname>IEnumerator&lt;Task&gt;</classname> instance, is
+	returned by the <code>GetProcessSteps()</code> method of the
+	<classname>Process</classname> class.
+</p>
+
+<example><![CDATA[
+protected virtual IEnumerator<Task> GetProcessSteps();
+]]></example>
+
+<p>
+<code>GetProcessSteps()</code> may be overridden by a derived class to implement
+process-specific behavior, or a <code>ProcessSteps</code> delegate may be passed
+to the <classname>Process</classname> constructor to provide process-specific
+behavior without deriving a new class.
+</p>
+
+<note>
+	<p>
+		For most simulations, it is preferable to implement
+		Processes rather than Tasks.
+		One should of course remember that the <classname>Process</classname> class is
+		derived from the <classname>Task</classname> class.
+	</p>
+</note>
+
+<h2>Blocking Objects</h2>
+<p>
+	A <em>blocking object</em> is an object that causes a <classname>Task</classname>
+	or <classname>Process</classname> to suspend it execution until such time as a
+	particular condition has been met.  <react/> includes the following blocking objects.
+</p>
+
+<dl>
+	<dt>Resource</dt>
+	<dd>
+		Represents a collection or <em>pool</em> of items, people, etc. each of which can be
+		used by one <classname>Task</classname> at a time.  To obtain exclusive use of a
+		<em>resource item</em>, a <classname>Task</classname> must <em>acquire</em> the item.
+		When finished using	the resource item, the owning <classname>Task</classname> must
+		<em>release</em> the item back into the pool. If a resource item is not immediately
+		available, the requesting <classname>Task</classname> is blocked until such time as
+		an item becomes available.
+	</dd>
+	
+	<dt>Consumable</dt>
+	<dd>
+		Similar to a <classname>Resource</classname>, a <classname>Consumable</classname>
+		contains consumable items that, once acquired by a <classname>Task</classname>,
+		are never released back into the pool.  Consumables are essentially resources that
+		are "used up" by the acquiring <classname>Task</classname>.  An example of a
+		consumable is fuel.  The <classname>Consumable</classname> class is <b>not</b>
+		derived from <classname>Resource</classname>.
+	</dd>
+	
+	<dt>Condition</dt>
+	<dd>
+		A <classname>Condition</classname> acts as a true/false switch during the
+		simulation run. If the <classname>Condition</classname> is false or <em>reset</em>,
+		any <classname>Task</classname>s can block on the <classname>Condition</classname>.
+		Once the <classname>Condition</classname> becomes true or <em>signalled</em>,
+		blocked <classname>Task</classname>s are re-activated.  The programmer may chose
+		to re-activate all blocked <classname>Task</classname>s or just a single
+		<classname>Task</classname> when the <classname>Condition</classname> becomes
+		signalled.
+	</dd>
+	
+	<dt>BoundedBuffer</dt>
+	<dd>
+		A <classname>BoundedBuffer</classname> is a queue of finite size.  <em>Producer</em>
+		tasks put items into the buffer and <em>consumer</em> tasks take items out of the
+		buffer.  When the buffer is full, any producer tasks attempting to put an item into
+		the buffer will be blocked.  When the buffer is empty, any consumer tasks attempting
+		to get an item from the buffer will be blocked.
+	</dd>
+</dl>
+
+<p>
+	It is also possible to add other blocking objects to the system.
+</p>
+
+<p>
+	Blocking behavior is implemented by methods marked with the <code>BlockingMethod</code>
+	attribute.  All blocking methods return a <classname>Task</classname> instance which
+	contains the functionality to property interact with the blocking object.  The
+	<classname>Task</classname> which called the blocking method blocks on the returned
+	<classname>Task</classname> not on the blocking object itself.  A typical blocking
+	method looks something like what's shown below.
+</p>
+
+<example>
+[BlockingMethod]
+public Task Acquire(Task requestor)
+{
+	.
+	.
+	.
+}
+</example>
+
+<h2>Monitors</h2>
+<p>
+	Monitors serve as <em>observers</em> to the running simulation.  Each time a
+	monitorable property changes, a <classname>Monitor</classname> class will record
+	the new value and the time of the change.  Monitors can aggregate observations
+	into summary statistics (like the Mean) or they can simply record each observation
+	for use at a later time.
+</p>
+<p>
+	Monitors that compute statistics are divided into two types: simple statisics
+	and time-weighted statistics.  Simple statistics are not affected by the time
+	between observations (e.g. the Maximum or Minimum), while time-weighted statistics
+	use the time between observations to weight the observation (e.g. WeightedMean).
+</p>
+</block>
+
+<h1><a name="shop"></a>Barber Shop Example</h1>
+<block>
+<p>
+	This example simulates a small barber shop.  It uses three classes:
+	one represents the shop; one a barber; and one a client or customer.
+	It's operation is quite straightforeward:
+</p>
+<ol>
+	<li>
+		A single generator process creates a new customer (someone who
+		wants a	haircut) about once every five minutes.
+	</li>
+	<li>
+		Each customer enters the shop and attempts to acquire a barber
+		resource.  If no barbers are available, the customer queues to
+		wait for one.
+	</li>
+	<li>
+		When a customer successfully acquires a barber, they activate
+		the associated barber process to do the haircut.
+	</li>
+	<li>
+		When the barber process finishes, the customer process is
+		re-activated.  At this point, the customer pays for the haircut,
+		releases the barber resource, and leaves the shop.
+	</li>
+</ol>
+<p>
+	This code demonstrates using a <classname>TrackedResource</classname>
+	that contains four <classname>Process</classname> instances.  Here, the
+	tracked resource contains four <classname>Barber</classname> processes
+	which are acquired by and service <classname>Customer</classname> processes.
+</p>
+<p>
+	The source files for this example can be found in the
+	<b>examples\BarberShop</b> directory.
+</p>
+</block>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h2>The Shop</h2>
+<block>
+<p>
+	Below is the complete code for the <classname>Shop</classname> class
+	found in <tt>Shop.cs</tt>.
+</p>
+<example><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Text;
+using React;
+using React.Distribution;
+
+namespace BarberShop
+{
+    public class Shop : Simulation
+    {
+        private const long ClosingTime = 8 * 60;
+
+        private Shop() {}
+
+        private IEnumerator<Task> Generator(Process p, object data)
+        {
+            Console.WriteLine("The barber shop is opening for business...");
+            Resource barbers = CreateBarbers();
+
+            Normal n = new Normal(5.0, 1.0);
+
+            do
+            {
+                long d;
+                do
+                {
+                    d = (long)n.NextDouble();
+                } while (d <= 0L);
+
+                yield return p.Delay(d);
+
+                Customer c = new Customer(this);
+                c.Activate(null, 0L, barbers);
+
+            } while (Now < ClosingTime);
+
+            Console.WriteLine("The barber shop is closed for the day.");
+
+            if (barbers.BlockCount > 0)
+            {
+                Console.WriteLine("The barbers have to work late today.");
+            }
+
+            yield break;
+        }
+
+        private Resource CreateBarbers()
+        {
+            Barber[] barbers = new Barber[4];
+            barbers[0] = new Barber(this, "Frank");
+            barbers[1] = new Barber(this, "Tom");
+            barbers[2] = new Barber(this, "Bill");
+            barbers[3] = new Barber(this, "Joe");
+
+            return Resource.Create(barbers);
+        }
+
+        static void Main(string[] args)
+        {
+            Shop shop = new Shop();
+            Task generator = new Process(shop, shop.Generator);
+            shop.Run(generator);
+        }
+    }
+}]]></example>
+
+<p>
+	The <classname>Shop</classname> class is derived from the
+	<classname>Simulation</classname> class and contains the <code>Main</code>
+	method.  <code>Main</code> creates the <classname>Shop</classname>
+	simulation instance and a single <em>generator</em> task.  In this case,
+	the generator task &#8212; conveniently named <code>generator</code> &#8212;
+	is a <classname>Process</classname> instance whose actual functionality is
+	provided by a delegate &#8212; the method <code>Shop.Generator</code>.
+	Finally, <code>Main</code> starts the simulation running with the call to
+	<code>shop.Run(generator)</code>.
+</p>
+	
+<example><![CDATA[
+static void Main(string[] args)
+{
+    Shop shop = new Shop();
+    Task generator = new Process(shop, shop.Generator);
+    shop.Run(generator);
+}]]></example>
+
+<p>
+	The <code>Generator</code> method is used to initialize the shop's
+	resources (e.g. the barbers) and to generate customers.  A
+	<classname>Normal</classname> distribution is used to create a new customer
+	about once every five minutes (it's a very busy barber shop).
+</p>
+	
+<example><![CDATA[
+Console.WriteLine("The barber shop is opening for business...");
+Resource barbers = CreateBarbers();
+Normal n = new Normal(5.0, 1.0);]]></example>
+
+<p>
+	The private method <code>CreateBarbers</code> is used to
+	create and array of <classname>Barber</classname> processes named <em>Frank</em>,
+	<em>Tom</em>, <em>Bill</em>, and <em>Joe</em>.  After creating and filling the
+	<code>barbers</code> array, a <classname>TrackedResource</classname> is
+	obtained by calling <code>Resource.Create(barbers)</code>.  The resource is
+	returned to the caller (the <code>Generator</code> method).
+</p>
+<example><![CDATA[
+private Resource CreateBarbers()
+{
+    Barber[] barbers = new Barber[4];
+    barbers[0] = new Barber(this, "Frank");
+    barbers[1] = new Barber(this, "Tom");
+    barbers[2] = new Barber(this, "Bill");
+    barbers[3] = new Barber(this, "Joe");
+    return Resource.Create(barbers);
+}]]></example>
+
+<p>
+	This is a good time to briefly explain the two types of resources provided
+	by <react/>: <em>anonymous</em> and <em>tracked</em>.  Anonymous resources,
+	provided by the <classname>AnonymousResource</classname> class, represent
+	pools of items using only counts (e.g. there are five "things" in the pool).
+	Tracked resources, on the other hand, "track" actual .NET objects.  When
+	a resource item is acquired from a tracked resource, the task that acquired
+	the resource item gains access to the associated object.
+</p>
+
+<note>
+	<p>
+		The <a href="howtos.html">How-tos</a> page (<em>Resources &amp;
+		Consumables</em>) provides additional information on creating and
+		using the <classname>AnonymousResource</classname> and
+		<classname>TrackedResource</classname> classes.
+	</p>
+</note>
+
+<p>
+	Returning to the <code>Generate</code> method, it is now
+	possible to begin creating <classname>Customer</classname> instances.
+	Customers are continually created and activated until
+	closing time, which is defined as eight hours after the
+	start of the simulation.
+</p>
+<example><![CDATA[
+do
+{
+    long d;
+    do
+    {
+        d = (long)n.NextDouble();
+    } while (d <= 0L);
+
+    yield return p.Delay(d);
+
+    Customer c = new Customer(this);
+    c.Activate(null, 0L, barbers);
+
+} while (Now < ClosingTime);]]></example>
+
+<p>
+	Two things to note about the above code: (1) because
+	a <classname>Normal</classname> distribution can have long tails,
+	we loop until we get an acceptable value; (2) the
+	resource containing the four <classname>Barber</classname> processes is
+	passed to each customer as <em>activation data</em> &#8212; the third
+	parameter in the call to <code>c.Activate(..., <em>barbers</em>)</code>.
+</p>
+
+<p>
+	Finally, once closing time is reached, a message is printed
+	indicating that the shop has closed for the day.  In addition,
+	we check if the barbers have to work late because there are
+	still customers waiting (who arrived before closing time).
+	The <code>yield break;</code> statement signifies the end of
+	the generation process.  Once the generation process terminates,
+	no more customers will be created.
+</p>
+<example><![CDATA[
+Console.WriteLine("The barber shop is closed for the day.");
+
+if (barbers.BlockCount > 0)
+{
+    Console.WriteLine("The barbers have to work late today.");
+}
+
+yield break;]]></example>
+</block>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h2>The Customer</h2>
+<block>
+<p>
+	Below is the complete code for the <classname>Customer</classname> class
+	found in <tt>Customer.cs</tt>.
+</p>
+<example><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Text;
+using React;
+
+namespace BarberShop
+{
+    internal class Customer : Process
+    {
+        internal Customer(Simulation sim) : base(sim) {}
+
+        protected override IEnumerator<Task> GetProcessSteps()
+        {
+            Resource barbers = (Resource)ActivationData;
+            yield return barbers.Acquire(this);
+
+            System.Diagnostics.Debug.Assert(barbers == Activator);
+            System.Diagnostics.Debug.Assert(ActivationData != null);
+            Barber barber = (Barber)ActivationData;
+
+            WaitOnTask(barber);
+            yield return Suspend();
+            // HINT: The above two lines of code can be shortened to
+            //          yield return barber;
+
+            Console.WriteLine("Customer pays {0} for the haircut.", barber.Name);
+
+            yield return barbers.Release(this);
+        }
+    }
+}]]></example>
+
+<p>
+	The <classname>Customer</classname> class is derived from the
+	<classname>Process</classname> class.  The actions of the
+	<classname>Customer</classname> are defined by overloading the
+	<code>GetProcessSteps</code> method.
+</p>
+
+<example><![CDATA[
+protected override IEnumerator<Task> GetProcessSteps()
+{
+    Resource barbers = (Resource)ActivationData;
+    yield return barbers.Acquire(this);
+
+    System.Diagnostics.Debug.Assert(barbers == Activator);
+    System.Diagnostics.Debug.Assert(ActivationData != null);
+    Barber barber = (Barber)ActivationData;
+
+    WaitOnTask(barber);
+    yield return Suspend();
+    // HINT: The above two lines of code can be shortened to
+    //          yield return barber;
+
+    Console.WriteLine("Customer pays {0} for the haircut.", barber.Name);
+
+    yield return barbers.Release(this);
+}]]></example>
+
+<p>
+	The <classname>Customer</classname> process begins by retrieving the
+	<classname>Resource</classname>	containing the four
+	<classname>Barber</classname> objects from the
+	activation data.  It then attempts to acquire a
+	<classname>Barber</classname> from the resource.
+</p>
+
+<example><![CDATA[
+Resource barbers = (Resource)ActivationData;
+yield return barbers.Acquire(this);]]></example>
+
+<p>
+	Upon re-activation, the <classname>Customer</classname> should now have acquired
+	a <classname>Barber</classname>.  A few assertions double check to
+	make sure.  Because we don't have to deal with interrupts,
+	we know that <code>barbers</code> (i.e. the resource) should
+	have been the object that re-activated the client.
+</p>
+<example><![CDATA[
+System.Diagnostics.Debug.Assert(barbers == Activator);
+System.Diagnostics.Debug.Assert(ActivationData != null);
+Barber barber = (Barber)ActivationData;]]></example>
+	
+<note>
+	<p>
+		The <code>ActivationData</code> property will often change with each activation
+		of a <classname>Process</classname>.  The first time the
+		<classname>Customer</classname> was activated, the <code>ActivationData</code>
+		contained a reference to a <classname>Resource</classname>; on the second
+		activation, <code>ActivationData</code> contained a reference to the
+		<classname>Barber</classname> acquired from <code>barbers</code>.
+	</p>
+</note>
+
+<p>
+	The <classname>Customer</classname> can now activate the acquired
+	<classname>Barber</classname> to have his or her hair cut.  Note how one
+	process gets served	by another process.  This is typical of a <em>multi-agent</em>
+	simulation.  As the comment below indicates, the code can be shortened to a single
+	line (<code>yield return barber;</code>).  The more verbose method is shown
+	because it better illustrates exactly what the <classname>Customer</classname>
+	is doing.
+</p>
+
+<example><![CDATA[
+WaitOnTask(barber);
+yield return Suspend();
+
+// HINT: The above two lines of code can be shortened to
+//          yield return barber;]]></example>
+
+<p>
+	Lastly, the <classname>Client</classname> must release the resource.
+</p>
+<example><![CDATA[
+yield return barbers.Release(this);]]></example>
+</block>
+
+<!-- . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . -->
+<h2>The Barber</h2>
+<block>
+	<p>
+		Below is the complete code for the <classname>Barber</classname> class
+		found in <tt>Barber.cs</tt>.
+	</p>
+	<example><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Text;
+using React;
+
+namespace BarberShop
+{
+    internal class Barber : Process
+    {
+        internal Barber(Simulation sim, string name) : base(sim)
+        {
+            this.Name = name;
+        }
+
+        protected override IEnumerator<Task> GetProcessSteps()
+        {
+            Console.WriteLine(Name + " begins cutting customer's hair ...");
+            yield return Delay(22);
+            Console.WriteLine(Name + " finishes cutting customer's hair.");
+            yield break;
+        }
+    }
+}]]></example>
+	
+	<p>
+		The <classname>Barber</classname> class, like the
+		<classname>Customer</classname> class, is also a
+		<classname>Process</classname>.  It's implementation of
+		<code>GetProcessSteps</code> simply delays for twenty-two minutes
+		to simulate the time it takes to cut the customers's hair.
+	</p>
+	<example><![CDATA[
+protected override IEnumerator<Task> GetProcessSteps()
+{
+    Console.WriteLine(Name + " begins cutting client's hair ...");
+    yield return Delay(22);
+    Console.WriteLine(Name + " finishes cutting client's hair.");
+    yield break;
+}]]></example>
+
+	<p>
+		Once the <classname>Barber</classname> process completes the
+		<classname>Customer</classname> that is blocking on the
+		<classname>Barber</classname> is automatically re-activated.
+	</p>
+
+	<annotation label="Try This!" color="#4050ff" background="#ccccff">
+		<p>
+			Try reducing the time it takes for a <classname>Barber</classname>
+			to complete a haircut until they no longer have to work late.
+		</p>
+	</annotation>
+</block>
+
+<!-- ======================================================================= -->
+</web-page>
