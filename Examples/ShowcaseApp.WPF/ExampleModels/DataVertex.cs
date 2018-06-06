@@ -25,6 +25,10 @@ namespace SimulationV1.WPF
 
         public List<DataEdge> ListEdgesTarget = new List<DataEdge>();//Danh sach cac edge ket thuc la vertex nay
         public List<DataEdge> ListEdgesSorce = new List<DataEdge>();//Danh sach cac edge bat dau la vertex nay
+
+        public List<List<double>> ListPointsPDF = new List<List<double>>();//f(x)
+        public List<List<double>> ListPointsCDF = new List<List<double>>();//F(x)
+
         public string Name { get; set; }
         public string Profession { get; set; }
         public string Gender { get; set; }

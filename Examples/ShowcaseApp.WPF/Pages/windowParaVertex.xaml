@@ -8,7 +8,7 @@
         Title="Параметры" Height="320" Width="264" WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel HorizontalAlignment="Stretch" Margin="3,10,3,3">
-            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="5">
+            <DockPanel  DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="5">
                 <TextBox x:Name="tBxName" DockPanel.Dock="Top" HorizontalAlignment="Center" Width="200" HorizontalContentAlignment="Center" Margin="3"></TextBox>
                 <!--<DockPanel x:Name="DPDistribution" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Collapsed">
                     <Label Content="Distribution:" DockPanel.Dock="Left" Margin="10,3"></Label>
@@ -17,34 +17,41 @@
                         <ComboBoxItem Content="Exponential"></ComboBoxItem>
                     </ComboBox>
                 </DockPanel>-->
-                <DockPanel x:Name="DP0" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Collapsed">
-                    <Label Content="Трафик (Мб/с):" DockPanel.Dock="Left" Margin="10,3"></Label>
-                    <TextBox x:Name="tBxTraffic" DockPanel.Dock="Right" Margin="3" Width="90"></TextBox>
-                </DockPanel>
-                <DockPanel x:Name="DP1" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Collapsed">
-                    <Label x:Name="Label1"  DockPanel.Dock="Left" Margin="3"></Label>
-                    <TextBox x:Name="tBx1" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
-                </DockPanel>
-                <!--<DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+                <DockPanel Name="info" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                    <DockPanel x:Name="DP0" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Collapsed">
+                        <Label Content="Трафик (Мб/с):" DockPanel.Dock="Left" Margin="10,3"></Label>
+                        <TextBox x:Name="tBxTraffic" DockPanel.Dock="Right" Margin="3" Width="90"></TextBox>
+                    </DockPanel>
+                    <DockPanel x:Name="DP1" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Collapsed">
+                        <Label x:Name="Label1"  DockPanel.Dock="Left" Margin="3"></Label>
+                        <TextBox x:Name="tBx1" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                    </DockPanel>
+                    <!--<DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
                     <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
                     <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="80"></TextBox>
-                </DockPanel>-->                
-                <DockPanel x:Name="DP3"  DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
-                    <Label x:Name="Label3"  DockPanel.Dock="Left" Margin="3"></Label>
-                    <TextBox x:Name="tBx3" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                </DockPanel>-->
+                    <DockPanel x:Name="DP3"  DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Hidden">
+                        <Label x:Name="Label3"  DockPanel.Dock="Left" Margin="3"></Label>
+                        <TextBox x:Name="tBx3" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                    </DockPanel>
+                    <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
+                        <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
+                        <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed" SelectionChanged="cbbDistribution_SelectionChanged">
+                            <ComboBoxItem Content="Normal" IsSelected="True" ToolTip="Variance"></ComboBoxItem>
+                            <ComboBoxItem Content="Exponential" ToolTip="Lamda"></ComboBoxItem>
+                        </ComboBox>
+                        <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                    </DockPanel>
+                    <DockPanel x:Name="DPVariance" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Visible">
+                        <Label x:Name="LabelVariance" Content="Дисперсия" DockPanel.Dock="Left" Margin="3"></Label>
+                        <TextBox x:Name="tBxVariance" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
+                    </DockPanel>
                 </DockPanel>
-                <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
-                    <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed" SelectionChanged="cbbDistribution_SelectionChanged">
-                        <ComboBoxItem Content="Normal" IsSelected="True" ToolTip="Variance"></ComboBoxItem>
-                        <ComboBoxItem Content="Exponential" ToolTip="Lamda"></ComboBoxItem>
-                    </ComboBox>
-                    <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
-                </DockPanel>
-                <DockPanel x:Name="DPVariance" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Visible">
-                    <Label x:Name="LabelVariance" Content="Дисперсия" DockPanel.Dock="Left" Margin="3"></Label>
-                    <TextBox x:Name="tBxVariance" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
-                </DockPanel>
+                <Label Name="loadfromfile" Content="Loaded data from file!" HorizontalAlignment="Center" Visibility="Collapsed"></Label>
+            </DockPanel>
+            <DockPanel Name="FromFile" DockPanel.Dock="Top" HorizontalAlignment="Center">
+                <Button Name="btnOpenFile" Content="Open File" HorizontalAlignment="Stretch" Width="60" Height="30" Click="btnOpenFile_Click" Margin="3 0"></Button>
+                <Button Name="btnFromWindow" Content="From Window" HorizontalAlignment="Stretch" Width="80" Height="30" Click="btnFromWindow_Click" Margin="3 0" IsEnabled="False"></Button>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">
                 <!--<DockPanel DockPanel.Dock="Bottom">

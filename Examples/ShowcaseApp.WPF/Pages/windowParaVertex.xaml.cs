@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.IO;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.Text.RegularExpressions;
 
 namespace SimulationV1.WPF.Pages
 {
@@ -61,6 +64,7 @@ namespace SimulationV1.WPF.Pages
                     btnGraph.Visibility = Visibility.Visible;
                     break;
                 case "AMPlace":
+                    DPVariance.Visibility = Visibility.Collapsed;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     DP1.Visibility = Visibility.Visible;
@@ -81,6 +85,7 @@ namespace SimulationV1.WPF.Pages
                     tBx2.Text = VertexBefore.TerminateType.StoppingTime.ToString();
                     break;
                 case "AMTransition":
+
                     //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.SelectedIndex = (int)VertexBefore.TransitionType.TypeDistribuion;
@@ -118,7 +123,7 @@ namespace SimulationV1.WPF.Pages
         
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            UpdateVertex();
+            UpdateVertex(false);
             EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
             //MessageBox.Show("Saved!");
@@ -179,7 +184,7 @@ namespace SimulationV1.WPF.Pages
             }
             Close();
         }
-        private void UpdateVertex()
+        private void UpdateVertex(bool fromfile, List<List<double>> lispdf = null, List<List<double>> liscdf = null)
         {
             try
             {
@@ -202,6 +207,11 @@ namespace SimulationV1.WPF.Pages
                                 break;
                             default:
                                 break;
+                        }
+                        if (fromfile)
+                        {
+                            VertexAfter.ListPointsPDF = lispdf;
+                            VertexAfter.ListPointsCDF = liscdf;
                         }
                         break;
                     case "AMPlace":
@@ -228,6 +238,11 @@ namespace SimulationV1.WPF.Pages
                                 break;
                             default:
                                 break;
+                        }
+                        if (fromfile)
+                        {
+                            VertexAfter.ListPointsPDF = lispdf;
+                            VertexAfter.ListPointsCDF = liscdf;
                         }
                         break;
                     default:
@@ -262,10 +277,98 @@ namespace SimulationV1.WPF.Pages
             //}
         }
 
+        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            info.Visibility = Visibility.Hidden;
+            loadfromfile.Visibility = Visibility.Visible;
+            btnFromWindow.IsEnabled = true;
+            List<double> listxpdf = new List<double>();
+            List<double> listypdf = new List<double>();
+            List<double> listxcdf = new List<double>();
+            List<double> listycdf = new List<double>();
+            bool flagdis = false;
+            string s="";
+            string dis = "[Distribution_function]";
+            string patternX = "X=";
+            string patternY = "Y=";
+            string rpatternX = @"^Point_\d{1,3}_X=";            
+            string rpatternY = @"^Point_\d{1,3}_Y=";
+            
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";           
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var ms = Regex.Split(File.ReadAllLines(openFileDialog.FileName).First(x => x.Contains("PointCount")), "PointCount=");
+                var mss = Int32.Parse(ms[1]);
+                //StreamReader file = File.OpenText(openFileDialog.FileName);
+                foreach (var line in File.ReadAllLines(openFileDialog.FileName))
+                {
+                    flagdis = listypdf.Count == mss;
+                    if (!flagdis)
+                    {
+                        if (line.Contains(patternX))
+                        {
+                            var ss = Regex.Split(line, rpatternX);
+                            listxpdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+
+                        }
+
+                        if (line.Contains(patternY))
+                        {
+                            var ss = Regex.Split(line, rpatternY);
+                            listypdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+
+                        }
+                    }
+                    else
+                    {
+                        if (line.Contains(patternX))
+                        {
+                            var ss = Regex.Split(line, rpatternX);
+                            listxcdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+
+                        }
+
+                        if (line.Contains(patternY))
+                        {
+                            var ss = Regex.Split(line, rpatternY);
+                            listycdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+
+                        }
+                    }
+
+                }
+            }
+            var temppdf = SetListPoint(listxpdf, listypdf);
+            var tempcdf = SetListPoint(listxcdf, listycdf);
+            UpdateVertex(true, temppdf, tempcdf);
+        }
+
+        public List<List<double>> SetListPoint(List<double> listx, List<double> listy)
+        {
+            var result = new List<List<double>>();
+            for (int i = 0; i < listx.Count; i++)
+            {
+                var temp = new List<double>();
+                temp.Add(listx[i]);
+                temp.Add(listy[i]);
+                result.Add(temp);
+            }
+            return result;
+        }
+
+        private void btnFromWindow_Click(object sender, RoutedEventArgs e)
+        {
+            info.Visibility = Visibility.Visible;
+            loadfromfile.Visibility = Visibility.Collapsed;
+
+        }
         //private void btnClose_Click(object sender, RoutedEventArgs e)
         //{
         //    Close();
         //}
-
+        //Regex rx = new Regex("^Point_[0-9]{1,3}_X=(-)?[0-9]{1,10}(,.)?[a-zA-Z0-9]{1,20}$");
+        //Regex ry = new Regex("^Point_[0-9]{1,3}_Y=(-)?[0-9]{1,10}(,.)?[a-zA-Z0-9]{1,20}$");
     }
 }
