@@ -81,8 +81,8 @@ namespace SimulationV1.WPF
         }
         //Nhung Bien set tu giao dien duoc
         public int FirstTime { get; set; } = 0;//Thời điểm bắt đầu mô phỏng
-        public double Interval { get; set; } = 2;//Khoang lamda
-        public double Variance { get; set; } = 1;//Normal dung Standard Deviation nen nho can 2
+        public double Mean { get; set; } = 0;//mean --Khoang lamda
+        public double Para { get; set; } = 2;//Lamda or Variance  --Normal dung Standard Deviation nen nho can 2
         public int LengthOfFile { get; set; } = 20;//số Customer tối đa       
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
         //---------------------------

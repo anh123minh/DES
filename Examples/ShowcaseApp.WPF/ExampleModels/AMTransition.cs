@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using React.Distribution;
 
 namespace SimulationV1.WPF.ExampleModels
@@ -19,10 +20,10 @@ namespace SimulationV1.WPF.ExampleModels
         public int[] ArrayDKCungVao;
         public int[] ArrayDKCungRa;
         public GeneratorClass[] ArrayNuts;
-        public GeneratorClass NutTransition { get; set; }
+        public TransitionClass NutTransition { get; set; }
         //public List<Point> Points { get; set; }
 
-        public Transition(int endingtime, int socungvao, int[] arraycungvao, int socungra, int[] arraycungra, GeneratorClass[] mangnguon, GeneratorClass nutchuyen)
+        public Transition(int endingtime, int socungvao, int[] arraycungvao, int socungra, int[] arraycungra, GeneratorClass[] mangnguon, TransitionClass nutchuyen)
         {
             EndingTime = endingtime;
             SoCungVao = socungvao;
@@ -246,7 +247,7 @@ namespace SimulationV1.WPF.ExampleModels
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                MessageBox.Show(e.ToString());
             }
 
         }
@@ -466,10 +467,10 @@ namespace SimulationV1.WPF.ExampleModels
             switch (nut.TypeDistribuion)
             {
                 case GeneratorClass.Distribution.NormalDis:
-                    nut.TypeDis = new Normal(nut.Interval, Math.Sqrt(nut.Variance));
+                    nut.TypeDis = new Normal(nut.Mean, Math.Sqrt(nut.Para));
                     break;
                 case GeneratorClass.Distribution.ExponentialDis:
-                    nut.TypeDis = new Exponential(nut.Interval);
+                    nut.TypeDis = new Exponential(nut.Para);
                     break;
                 default:
                     Console.WriteLine("k tim thay");

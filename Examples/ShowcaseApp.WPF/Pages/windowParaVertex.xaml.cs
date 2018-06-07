@@ -44,12 +44,12 @@ namespace SimulationV1.WPF.Pages
                     cbbDistribution.SelectedIndex = (int)VertexBefore.GeneratorType.TypeDistribuion;
                     //if (VertexBefore.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     //{
-                    //    DPVariance.Visibility = Visibility.Visible;
-                        tBxVariance.Text = VertexBefore.GeneratorType.Variance.ToString();
+                    //    DPPara.Visibility = Visibility.Visible;
+                        tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
                     //}
                     //if (VertexBefore.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     //{
-                    //    DPVariance.Visibility = Visibility.Collapsed;
+                    //    DPPara.Visibility = Visibility.Collapsed;
                     //}
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
@@ -57,14 +57,15 @@ namespace SimulationV1.WPF.Pages
                     Label1.Content = "Начало:";
                     tBx1.Text = VertexBefore.GeneratorType.FirstTime.ToString();
                     Label2.Content = "Интервал:";
-                    tBx2.Text = VertexBefore.GeneratorType.Interval.ToString();                    
+                    tBx2.Text = VertexBefore.GeneratorType.Mean.ToString();                    
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Длина файла:";
                     tBx3.Text = VertexBefore.GeneratorType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
+                    FromFile.Visibility = Visibility.Collapsed;                    
                     break;
                 case "AMPlace":
-                    DPVariance.Visibility = Visibility.Collapsed;
+                    DPPara.Visibility = Visibility.Collapsed;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     DP1.Visibility = Visibility.Visible;
@@ -75,6 +76,7 @@ namespace SimulationV1.WPF.Pages
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Тип файла:";
                     tBx3.Text = VertexBefore.PlaceType.FileType.ToString();
+                    FromFile.Visibility = Visibility.Collapsed;
                     break;
                 case "AMTerminate":
                     tBxName.Text = VertexBefore.Text;
@@ -91,23 +93,24 @@ namespace SimulationV1.WPF.Pages
                     cbbDistribution.SelectedIndex = (int)VertexBefore.TransitionType.TypeDistribuion;
                     //if (VertexBefore.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     //{
-                    //    DPVariance.Visibility = Visibility.Visible;
-                        tBxVariance.Text = VertexBefore.GeneratorType.Variance.ToString();
+                    //    DPPara.Visibility = Visibility.Visible;
+                        tBxPara.Text = VertexBefore.TransitionType.Para.ToString();
                     //}
                     //if (VertexBefore.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     //{
-                    //    DPVariance.Visibility = Visibility.Collapsed;
+                    //    DPPara.Visibility = Visibility.Collapsed;
                     //}
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     //Label1.Content = "Начало:";
                     //tBx1.Text = VertexBefore.TransitionType.FirstTime.ToString();
                     Label2.Content = "Интервал:";
-                    tBx2.Text = VertexBefore.TransitionType.Interval.ToString();
+                    tBx2.Text = VertexBefore.TransitionType.Mean.ToString();
                     //DP3.Visibility = Visibility.Visible;
                     //Label3.Content = "Длина файла:";
                     //tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
+                    FromFile.Visibility = Visibility.Visible;
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -126,7 +129,7 @@ namespace SimulationV1.WPF.Pages
             UpdateVertex(false);
             EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
-            //MessageBox.Show("Saved!");
+            MessageBox.Show("Saved!");
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -138,13 +141,13 @@ namespace SimulationV1.WPF.Pages
             {
                 case "AMGenerator":
                     tBx1.Text = VertexBefore.GeneratorType.FirstTime.ToString();
-                    tBx2.Text = VertexBefore.GeneratorType.Interval.ToString();
+                    tBx2.Text = VertexBefore.GeneratorType.Mean.ToString();
                     tBx3.Text = VertexBefore.GeneratorType.LengthOfFile.ToString();
                     switch (VertexBefore.GeneratorType.TypeDistribuion)
                     {
                         case GeneratorClass.Distribution.NormalDis:
                             cbbDistribution.SelectedIndex = 0;
-                            tBxVariance.Text = VertexBefore.GeneratorType.Variance.ToString();
+                            tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
                             break;
                         case GeneratorClass.Distribution.ExponentialDis:
                             cbbDistribution.SelectedIndex = 1;
@@ -164,13 +167,13 @@ namespace SimulationV1.WPF.Pages
                     break;
                 case "AMTransition":
                     tBx1.Text = VertexBefore.TransitionType.FirstTime.ToString();
-                    tBx2.Text = VertexBefore.TransitionType.Interval.ToString();
+                    tBx2.Text = VertexBefore.TransitionType.Mean.ToString();
                     tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
                     switch (VertexBefore.TransitionType.TypeDistribuion)
                     {
                         case GeneratorClass.Distribution.NormalDis:
                             cbbDistribution.SelectedIndex = 0;
-                            tBxVariance.Text = VertexBefore.GeneratorType.Variance.ToString();
+                            tBxPara.Text = VertexBefore.TransitionType.Para.ToString();
                             break;
                         case GeneratorClass.Distribution.ExponentialDis:
                             cbbDistribution.SelectedIndex = 1;
@@ -194,13 +197,13 @@ namespace SimulationV1.WPF.Pages
                 {
                     case "AMGenerator":
                         VertexAfter.GeneratorType.FirstTime = int.Parse(tBx1.Text);
-                        VertexAfter.GeneratorType.Interval = double.Parse(tBx2.Text);
+                        VertexAfter.GeneratorType.Mean = double.Parse(tBx2.Text);
                         VertexAfter.GeneratorType.LengthOfFile = int.Parse(tBx3.Text);
                         switch (cbbDistribution.SelectedIndex)
                         {
                             case 0:
                                 VertexAfter.GeneratorType.TypeDistribuion = GeneratorClass.Distribution.NormalDis;
-                                VertexAfter.GeneratorType.Variance = double.Parse(tBxVariance.Text);
+                                VertexAfter.GeneratorType.Para = double.Parse(tBxPara.Text);
                                 break;
                             case 1:
                                 VertexAfter.GeneratorType.TypeDistribuion = GeneratorClass.Distribution.ExponentialDis;
@@ -208,11 +211,11 @@ namespace SimulationV1.WPF.Pages
                             default:
                                 break;
                         }
-                        if (fromfile)
-                        {
-                            VertexAfter.ListPointsPDF = lispdf;
-                            VertexAfter.ListPointsCDF = liscdf;
-                        }
+                        //if (fromfile)
+                        //{
+                        //    VertexAfter.ListPointsPDF = lispdf;
+                        //    VertexAfter.ListPointsCDF = liscdf;
+                        //}
                         break;
                     case "AMPlace":
                         VertexAfter.PlaceType.QueueCapacity = int.Parse(tBx1.Text);
@@ -225,13 +228,13 @@ namespace SimulationV1.WPF.Pages
                         break;
                     case "AMTransition":
                         //VertexAfter.TransitionType.FirstTime = int.Parse(tBx1.Text);
-                        VertexAfter.TransitionType.Interval = double.Parse(tBx2.Text);
+                        VertexAfter.TransitionType.Mean = double.Parse(tBx2.Text);
                         //VertexAfter.TransitionType.LengthOfFile = int.Parse(tBx3.Text);
                         switch (cbbDistribution.SelectedIndex)
                         {
                             case 0:
                                 VertexAfter.TransitionType.TypeDistribuion = GeneratorClass.Distribution.NormalDis;
-                                VertexAfter.GeneratorType.Variance = double.Parse(tBxVariance.Text);
+                                VertexAfter.TransitionType.Para = double.Parse(tBxPara.Text);
                                 break;
                             case 1:
                                 VertexAfter.TransitionType.TypeDistribuion = GeneratorClass.Distribution.ExponentialDis;
@@ -244,11 +247,16 @@ namespace SimulationV1.WPF.Pages
                             VertexAfter.ListPointsPDF = lispdf;
                             VertexAfter.ListPointsCDF = liscdf;
                         }
+                        else
+                        {
+                            VertexAfter.ListPointsPDF = null;
+                            VertexAfter.ListPointsCDF = null;
+                        }
                         break;
                     default:
                         break;
                 }
-                MessageBox.Show("Saved!");
+                //MessageBox.Show("Saved!");
             }
             catch (Exception e)
             {
@@ -268,12 +276,12 @@ namespace SimulationV1.WPF.Pages
         {
             //if (cbbDistribution.SelectedIndex == 0)
             //{
-            //    DPVariance.Visibility = Visibility.Visible;
-            //    tBxVariance.Text = VertexBefore.GeneratorType.Variance.ToString();
+            //    DPPara.Visibility = Visibility.Visible;
+            //    tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
             //}
             //if (cbbDistribution.SelectedIndex == 1)
             //{
-            //    DPVariance.Visibility = Visibility.Collapsed;
+            //    DPPara.Visibility = Visibility.Collapsed;
             //}
         }
 
@@ -362,7 +370,7 @@ namespace SimulationV1.WPF.Pages
         {
             info.Visibility = Visibility.Visible;
             loadfromfile.Visibility = Visibility.Collapsed;
-
+            UpdateVertex(false);
         }
         //private void btnClose_Click(object sender, RoutedEventArgs e)
         //{

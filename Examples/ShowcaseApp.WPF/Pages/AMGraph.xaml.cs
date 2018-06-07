@@ -38,22 +38,32 @@ namespace SimulationV1.WPF.Pages
                      
         }
 
-        public List<TablePoint> Table_Exp(double m)
+        public List<TablePoint> Table(List<List<double>> listpdf, List<List<double>> listcdf)
+        {
+            List<TablePoint> pointcoll = new List<TablePoint>();
+
+            for (int i = 0; i < listpdf.Count; i++)
+            {
+                pointcoll.Add(new TablePoint() { x = listpdf[i][0], y = listpdf[i][1], z = listcdf[i][1] });
+            }
+            return pointcoll;
+        }
+        public List<TablePoint> Table_Exp(double lamda)
         {
             List<TablePoint> pointcoll = new List<TablePoint>();
             for (double i = 0.001; i < 5; i += 0.01)
             {
-                var pdf = m * Math.Exp(-m * i);
-                var cdf = 1 - Math.Exp(-m * i);
+                var pdf = lamda * Math.Exp(-lamda * i);
+                var cdf = 1 - Math.Exp(-lamda * i);
                 pointcoll.Add(new TablePoint(){ x = Math.Round(i, 3), y = pdf, z = cdf});
             }
             return pointcoll;
-        }
-        public List<TablePoint> Table_Normal(double variance)
+        }        
+        public List<TablePoint> Table_Normal(double variance, double men)
         {
             List<TablePoint> pointcoll = new List<TablePoint>();
-            NormalDist dist = new NormalDist(0, variance);
-            for (double i = -15; i < 15; i += 0.1)
+            NormalDist dist = new NormalDist(men, variance);
+            for (double i = 0 - Math.Sqrt(variance)*4; i < Math.Sqrt(variance) * 4; i += Math.Sqrt(variance)/20)
             {
                 var pdf = dist.PDF(i);
                 var cdf = dist.CDF(i);
@@ -62,6 +72,15 @@ namespace SimulationV1.WPF.Pages
             return pointcoll;
         }
 
+        public PointCollection PDF(List<List<double>> listpdf)
+        {
+            PointCollection pointcoll = new PointCollection();
+            for (int i = 0; i < listpdf.Count; i++)
+            {
+                pointcoll.Add(new Point(listpdf[i][0], listpdf[i][1]));
+            }
+            return pointcoll;
+        }
         public PointCollection ExponentialDistribution_PDF(double m)
         {
             PointCollection pointcoll = new PointCollection();
@@ -72,7 +91,6 @@ namespace SimulationV1.WPF.Pages
             }           
             return pointcoll;
         }
-
         public PointCollection ExponentialDistribution_CDF(double m)
         {
             PointCollection pointcoll = new PointCollection();
@@ -84,23 +102,31 @@ namespace SimulationV1.WPF.Pages
             return pointcoll;
         }
 
-        public PointCollection NormallDistribution_PDF(double variance)
+        public PointCollection CDF(List<List<double>> listcdf)
         {
             PointCollection pointcoll = new PointCollection();
-            NormalDist dist = new NormalDist(0, variance);
-            for (double i = -15; i < 15; i += 0.1)
+            for (int i = 0; i < listcdf.Count; i++)
+            {
+                pointcoll.Add(new Point(listcdf[i][0], listcdf[i][1]));
+            }
+            return pointcoll;
+        }
+        public PointCollection NormallDistribution_PDF(double variance, double men)
+        {
+            PointCollection pointcoll = new PointCollection();
+            NormalDist dist = new NormalDist(men, variance);
+            for (double i = 0 - Math.Sqrt(variance) * 4; i < Math.Sqrt(variance) * 4; i += Math.Sqrt(variance) / 20)
             {
                 var y = dist.PDF(i);
                 pointcoll.Add(new Point(i, y));
             }
             return pointcoll;
         }
-
-        public PointCollection NormalDistribution_CDF(double variance)
+        public PointCollection NormalDistribution_CDF(double variance, double men)
         {
             PointCollection pointcoll = new PointCollection();
-            NormalDist dist = new NormalDist(0, variance);
-            for (double i = -15; i < 15; i += 0.1)
+            NormalDist dist = new NormalDist(men, variance);
+            for (double i = 0 - Math.Sqrt(variance) * 4; i < Math.Sqrt(variance) * 4; i += Math.Sqrt(variance) / 20)
             {
                 var y = dist.CDF(i);
                 pointcoll.Add(new Point(i, y));
@@ -116,31 +142,39 @@ namespace SimulationV1.WPF.Pages
             {
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.GeneratorType.Interval;
-                    result = ExponentialDistribution_PDF(mean);
+                    var lamda = vertex.GeneratorType.Para;
+                    result = ExponentialDistribution_PDF(lamda);
                 }
                 else if(vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.GeneratorType.Interval;
-                    result = NormallDistribution_PDF(mean);
+                    var varian = vertex.GeneratorType.Para;
+                    var mean = vertex.GeneratorType.Mean;
+                    result = NormallDistribution_PDF(varian, mean);
                 }
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                if (vertex.ListPointsPDF == null || vertex.ListPointsPDF.Count == 0)
                 {
-                    var mean = vertex.TransitionType.Interval;
-                    result = ExponentialDistribution_PDF(mean);
+                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    {
+                        var lamda = vertex.TransitionType.Para;
+                        result = ExponentialDistribution_PDF(lamda);
+                    }
+                    else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    {
+                        var varian = vertex.TransitionType.Para;
+                        var mean = vertex.TransitionType.Mean;
+                        result = NormallDistribution_PDF(varian, mean);
+                    }
                 }
-                else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                else
                 {
-                    var mean = vertex.TransitionType.Interval;
-                    result = NormallDistribution_PDF(mean);
+                    result = PDF(vertex.ListPointsPDF);
                 }
             }
             DoThi.ItemsSource = result;
         }
-
         private void btnCDF_Click(object sender, RoutedEventArgs e)
         {
             Bang.Visibility = Visibility.Collapsed;
@@ -149,33 +183,40 @@ namespace SimulationV1.WPF.Pages
             {
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.GeneratorType.Interval;
-                    result = ExponentialDistribution_CDF(mean);
+                    var lamda = vertex.GeneratorType.Para;
+                    result = ExponentialDistribution_CDF(lamda);
                 }
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.GeneratorType.Interval;
-                    result = NormalDistribution_CDF(mean);
+                    var varian = vertex.GeneratorType.Para;
+                    var mean = vertex.GeneratorType.Mean;
+                    result = NormalDistribution_CDF(varian, mean);
                 }
 
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                if (vertex.ListPointsCDF == null || vertex.ListPointsPDF.Count == 0)
                 {
-                    var mean = vertex.TransitionType.Interval;
-                    result = ExponentialDistribution_CDF(mean);
+                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    {
+                        var lamda = vertex.TransitionType.Para;
+                        result = ExponentialDistribution_CDF(lamda);
+                    }
+                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    {
+                        var varian = vertex.TransitionType.Para;
+                        var mean = vertex.TransitionType.Mean;
+                        result = NormalDistribution_CDF(varian, mean);
+                    }
                 }
-                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                else
                 {
-                    var mean = vertex.TransitionType.Interval;
-                    result = NormalDistribution_CDF(mean);
+                    result = CDF(vertex.ListPointsCDF);
                 }
             }
             DoThi.ItemsSource = result;
         }
-
-
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
             Bang.Visibility = Visibility.Visible;
@@ -184,31 +225,39 @@ namespace SimulationV1.WPF.Pages
             {
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                 {
-                    var mean = vertex.GeneratorType.Interval;
-                    tablePoint = Table_Exp(mean);
+                    var lamda = vertex.GeneratorType.Para;
+                    tablePoint = Table_Exp(lamda);
                 }
                 else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                 {
-                    var mean = vertex.GeneratorType.Interval;
-                    tablePoint = Table_Normal(mean);
+                    var varian = vertex.GeneratorType.Para;
+                    var mean = vertex.GeneratorType.Mean;
+                    tablePoint = Table_Normal(varian, mean);
                 }
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                if (vertex.ListPointsPDF == null || vertex.ListPointsPDF.Count == 0)
                 {
-                    var mean = vertex.TransitionType.Interval;
-                    tablePoint = Table_Exp(mean);
+                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    {
+                        var lamda = vertex.TransitionType.Para;
+                        tablePoint = Table_Exp(lamda);
+                    }
+                    else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    {
+                        var varian = vertex.TransitionType.Para;
+                        var mean = vertex.TransitionType.Mean;
+                        tablePoint = Table_Normal(varian, mean);
+                    }
                 }
-                else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                else
                 {
-                    var mean = vertex.TransitionType.Interval;
-                    tablePoint = Table_Normal(mean);
-                }
+                    tablePoint = Table(vertex.ListPointsPDF, vertex.ListPointsCDF);
+                }                
             }
             TableData.ItemsSource = tablePoint;
         }
-
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();

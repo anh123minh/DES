@@ -1467,14 +1467,14 @@ namespace SimulationV1.WPF.Pages
                     var nut = new GeneratorClass()
                     {
                         TypeDistribuion = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.TypeDistribuion,
-                        Interval = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Interval,
+                        Mean = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Mean,
                         LengthOfFile = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.LengthOfFile,
                         FirstTime = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.FirstTime,
-                        Variance = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Variance
+                        Para = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Para
                     };
                     danhsachnguon[i] = nut;
                 }
-                var ntchuyen = new GeneratorClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Interval = listTransition[0].GeneratorType.Interval , Variance = listTransition[0].GeneratorType.Variance};
+                var ntchuyen = new TransitionClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Mean = listTransition[0].GeneratorType.Mean , Para = listTransition[0].GeneratorType.Para};
                 var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
                 trans.Run();
 
