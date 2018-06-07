@@ -249,8 +249,8 @@ namespace SimulationV1.WPF.Pages
                         }
                         else
                         {
-                            VertexAfter.ListPointsPDF = null;
-                            VertexAfter.ListPointsCDF = null;
+                            VertexAfter.ListPointsPDF.Clear();
+                            VertexAfter.ListPointsCDF.Clear();
                         }
                         break;
                     default:

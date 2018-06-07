@@ -201,7 +201,17 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         ana1.Add(al1);
                         //------
-                        var d = RandomNumberFromTransition(NutTransition);
+                        double d;
+                        if (NutTransition.TListPointsCDF.Count != 0)
+                        {
+                            Random rand = new Random();
+                            var s = rand.Next(0, NutTransition.TListPointsCDF.Count);
+                            d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
+                        }
+                        else
+                        {
+                            d = RandomNumberFromTransition(NutTransition);
+                        }                       
                         for (int i = SoCungVao; i < SumCung; i++)
                         {
                             for (int j = 0; j < arrayDKCung[i]; j++)

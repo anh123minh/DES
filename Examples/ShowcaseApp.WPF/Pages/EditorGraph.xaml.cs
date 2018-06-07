@@ -1474,13 +1474,18 @@ namespace SimulationV1.WPF.Pages
                     };
                     danhsachnguon[i] = nut;
                 }
-                var ntchuyen = new TransitionClass() { TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion, Mean = listTransition[0].GeneratorType.Mean , Para = listTransition[0].GeneratorType.Para};
+                var ntchuyen = new TransitionClass() {  TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion,
+                                                        Mean = listTransition[0].GeneratorType.Mean,
+                                                        Para = listTransition[0].GeneratorType.Para,
+                                                        TListPointsCDF = listTransition[0].ListPointsCDF,
+                                                        TListPointsPDF = listTransition[0].ListPointsPDF
+                                                     };
                 var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon, ntchuyen);
                 trans.Run();
 
                 var tntb = trans.ListTimeNowTable;
                 var pttb = trans.PhantichTable;
-
+                var mm = tntb.Distinct();
                 var tng = trans.ListTimeNowGraph;
                 var ptg = trans.PhantichGraph;
 

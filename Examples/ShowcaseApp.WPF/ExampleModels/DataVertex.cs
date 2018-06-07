@@ -110,6 +110,8 @@ namespace SimulationV1.WPF
         public int NumberEdgesIn { get; set; } = 0;
         public int NumberEdgesOut { get; set; } = 0;
         public bool AllReady { get; set; } = false;
+        public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
+        public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
     }
 
     public interface IQueueClass

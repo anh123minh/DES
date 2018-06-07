@@ -237,7 +237,7 @@ namespace SimulationV1.WPF.Pages
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.ListPointsPDF == null || vertex.ListPointsPDF.Count == 0)
+                if (vertex.ListPointsPDF == null || vertex.ListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
                 {
                     if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
