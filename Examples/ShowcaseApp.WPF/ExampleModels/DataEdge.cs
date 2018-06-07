@@ -12,8 +12,6 @@ namespace SimulationV1.WPF
     [Serializable]
     public class DataEdge : EdgeBase<DataVertex>, INotifyPropertyChanged
     {
-        //public DataVertex Source { get; set; }
-        //public DataVertex Target { get; set; }
 
         [YAXCustomSerializer(typeof(YAXPointArraySerializer))]
         public override Point[] RoutingPoints { get; set; }

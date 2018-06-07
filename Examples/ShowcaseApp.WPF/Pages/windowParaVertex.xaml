@@ -47,7 +47,7 @@
                         <TextBox x:Name="tBxPara" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                     </DockPanel>
                 </DockPanel>
-                <Label Name="loadfromfile" Content="Loaded data from file!" HorizontalAlignment="Center" Visibility="Collapsed"></Label>
+                <Label Name="LbLoadfromfile" Content="Loaded data from file!" HorizontalAlignment="Center" Visibility="Collapsed"></Label>
             </DockPanel>
             <DockPanel Name="FromFile" DockPanel.Dock="Top" HorizontalAlignment="Center">
                 <Button Name="btnOpenFile" Content="Open File" HorizontalAlignment="Stretch" Width="60" Height="30" Click="btnOpenFile_Click" Margin="3 0"></Button>

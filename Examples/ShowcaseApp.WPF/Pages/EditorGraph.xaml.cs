@@ -417,7 +417,7 @@ namespace SimulationV1.WPF.Pages
                 return;
             }
             if (_ecFrom == vc) return;
-            var data = new DataEdge();
+            var data = new DataEdge(){};
             switch (_edgetype)
             {
                 case EdgeType.AMArc:
@@ -432,10 +432,10 @@ namespace SimulationV1.WPF.Pages
                     MessageBox.Show("k tim thay edge!");
                     break;
             }
-            var vertexsource = data.Source;
-            vertexsource.ListEdgesSorce.Add(data);
-            var vertextarget = data.Target;
-            vertextarget.ListEdgesTarget.Add(data);
+            //var vertexsource = data.Source;
+            //vertexsource.ListEdgesSorce.Add(data);         
+            //var vertextarget = data.Target;
+            //vertextarget.ListEdgesTarget.Add(data);
             var ec = new EdgeControl(_ecFrom, vc, data);
             graphArea.InsertEdgeAndData(data, ec, 0, true);//Chèn mới 1 Edge tại vị trí nhất định và thêm data Edge vào CSDL
             HighlightBehaviour.SetHighlighted(_ecFrom, false);
@@ -515,7 +515,6 @@ namespace SimulationV1.WPF.Pages
             }
         }
         #endregion
-
 
         #region GG_Loaded - Sự kiện Load lại App
         void GG_Loaded(object sender, RoutedEventArgs e)
@@ -635,9 +634,7 @@ namespace SimulationV1.WPF.Pages
         #endregion
         #endregion
 
-
         // Объявления делегатов для включения асинхронного вызова к установке свойств элементов управления
-
         #region MyRegion
         private delegate void SetTextCallback(System.Windows.Controls.TextBox control, string text);
         private void SetText(System.Windows.Controls.TextBox control, string text)
@@ -698,8 +695,6 @@ namespace SimulationV1.WPF.Pages
                 Dispatcher.Invoke(d, new object[] { windowResult, chromosome, iteration, alpha });
             }
         }
-
-
 
         #region ResetGraph_Click - Sự kiện nhấn nút Clear
         private void ResetGraph_Click(object sender, RoutedEventArgs e)
@@ -1287,7 +1282,6 @@ namespace SimulationV1.WPF.Pages
         #endregion        
 
 
-
         #region SearchSolution- Method tìm kết quả tối ưu với sự hỗ trợ của Giải thuật di truyền
         // Метод для поиска оптимального результата с помощью генетического алгоритма
         void SearchSolution()
@@ -1384,7 +1378,6 @@ namespace SimulationV1.WPF.Pages
         #endregion
 
 
-
         #region khong dung
         // Метод для получения названия маршрута по алгоритму Йена
         private string PathToString(IEnumerable<TaggedEquatableEdge<DataVertex, double>> NameOfPath)
@@ -1448,6 +1441,19 @@ namespace SimulationV1.WPF.Pages
                         listTransition.Add(dd);                       
                     }
                 }
+                listTransition[0].ListEdgesSorce = new List<DataEdge>();
+                listTransition[0].ListEdgesTarget = new List<DataEdge>();
+                foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                {
+                    if (ee.Source == listTransition[0])
+                    {
+                        listTransition[0].ListEdgesSorce.Add(ee);
+                    }
+                    if (ee.Target == listTransition[0])
+                    {
+                        listTransition[0].ListEdgesTarget.Add(ee);
+                    }
+                }
                 var socungdauvao = listTransition[0].ListEdgesTarget.Count;
                 var mangdkdauvao = new int[socungdauvao];
                 for (int i = 0; i < socungdauvao; i++)
@@ -1474,9 +1480,9 @@ namespace SimulationV1.WPF.Pages
                     };
                     danhsachnguon[i] = nut;
                 }
-                var ntchuyen = new TransitionClass() {  TypeDistribuion = listTransition[0].GeneratorType.TypeDistribuion,
-                                                        Mean = listTransition[0].GeneratorType.Mean,
-                                                        Para = listTransition[0].GeneratorType.Para,
+                var ntchuyen = new TransitionClass() {  TypeDistribuion = listTransition[0].TransitionType.TypeDistribuion,
+                                                        Mean = listTransition[0].TransitionType.Mean,
+                                                        Para = listTransition[0].TransitionType.Para,
                                                         TListPointsCDF = listTransition[0].ListPointsCDF,
                                                         TListPointsPDF = listTransition[0].ListPointsPDF
                                                      };

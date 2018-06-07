@@ -25,7 +25,8 @@ namespace SimulationV1.WPF.Pages
         public delegate void SetValueForm(DataVertex vtx);
         public SetValueForm SetValueControl;
         public DataVertex VertexBefore;
-        public DataVertex VertexAfter;       
+        public DataVertex VertexAfter;
+        //private bool loadedfromfile = false;
         public windowParaVertex()
         {
             InitializeComponent();
@@ -111,6 +112,12 @@ namespace SimulationV1.WPF.Pages
                     //tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
                     FromFile.Visibility = Visibility.Visible;
+                    if (VertexBefore.TransitionType.PathFullFile != "")
+                    {
+                        info.IsEnabled = false;
+                        LbLoadfromfile.Visibility = Visibility.Visible;
+                        btnFromWindow.IsEnabled = true;
+                    }
                     break;
                 default:
                     MessageBox.Show("Тип узлы не определен!");
@@ -187,7 +194,7 @@ namespace SimulationV1.WPF.Pages
             }
             Close();
         }
-        private void UpdateVertex(bool fromfile, List<List<double>> lispdf = null, List<List<double>> liscdf = null)
+        private void UpdateVertex(bool fromfile, List<List<double>> lispdf = null, List<List<double>> liscdf = null, string namefile = "")
         {
             try
             {
@@ -246,11 +253,13 @@ namespace SimulationV1.WPF.Pages
                         {
                             VertexAfter.ListPointsPDF = lispdf;
                             VertexAfter.ListPointsCDF = liscdf;
+                            VertexAfter.TransitionType.PathFullFile = System.IO.Path.GetFullPath(namefile);
                         }
                         else
                         {
                             VertexAfter.ListPointsPDF.Clear();
                             VertexAfter.ListPointsCDF.Clear();
+                            VertexAfter.TransitionType.PathFullFile = "";
                         }
                         break;
                     default:
@@ -287,8 +296,8 @@ namespace SimulationV1.WPF.Pages
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            info.Visibility = Visibility.Hidden;
-            loadfromfile.Visibility = Visibility.Visible;
+            info.IsEnabled = false;
+            
             btnFromWindow.IsEnabled = true;
             List<double> listxpdf = new List<double>();
             List<double> listypdf = new List<double>();
@@ -307,6 +316,7 @@ namespace SimulationV1.WPF.Pages
 
             if (openFileDialog.ShowDialog() == true)
             {
+                LbLoadfromfile.Visibility = Visibility.Visible;
                 var ms = Regex.Split(File.ReadAllLines(openFileDialog.FileName).First(x => x.Contains("PointCount")), "PointCount=");
                 var mss = Int32.Parse(ms[1]);
                 //StreamReader file = File.OpenText(openFileDialog.FileName);
@@ -350,7 +360,7 @@ namespace SimulationV1.WPF.Pages
             }
             var temppdf = SetListPoint(listxpdf, listypdf);
             var tempcdf = SetListPoint(listxcdf, listycdf);
-            UpdateVertex(true, temppdf, tempcdf);
+            UpdateVertex(true, temppdf, tempcdf, openFileDialog.FileName);
         }
 
         public List<List<double>> SetListPoint(List<double> listx, List<double> listy)
@@ -368,8 +378,8 @@ namespace SimulationV1.WPF.Pages
 
         private void btnFromWindow_Click(object sender, RoutedEventArgs e)
         {
-            info.Visibility = Visibility.Visible;
-            loadfromfile.Visibility = Visibility.Collapsed;
+            info.IsEnabled = true;
+            LbLoadfromfile.Visibility = Visibility.Collapsed;
             UpdateVertex(false);
         }
         //private void btnClose_Click(object sender, RoutedEventArgs e)

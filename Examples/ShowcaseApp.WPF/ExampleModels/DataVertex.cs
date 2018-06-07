@@ -25,6 +25,8 @@ namespace SimulationV1.WPF
 
         public List<DataEdge> ListEdgesTarget = new List<DataEdge>();//Danh sach cac edge ket thuc la vertex nay
         public List<DataEdge> ListEdgesSorce = new List<DataEdge>();//Danh sach cac edge bat dau la vertex nay
+        //public List<DataEdge> ListEdgesTarget { get; set; }//Danh sach cac edge ket thuc la vertex nay
+        //public List<DataEdge> ListEdgesSorce { get; set; }//Danh sach cac edge bat dau la vertex nay
 
         public List<List<double>> ListPointsPDF = new List<List<double>>();//f(x)
         public List<List<double>> ListPointsCDF = new List<List<double>>();//F(x)
@@ -37,7 +39,7 @@ namespace SimulationV1.WPF
         
         public bool IsBlue { get; set; }
 
-        public GeneratorClass GeneratorType = new GeneratorClass();
+        public GeneratorClass GeneratorType { get; set; } //= new GeneratorClass();
         public PlaceClass PlaceType { get; set; }
         public TerminateClass TerminateType { get; set; }
         public TransitionClass TransitionType { get; set; }
@@ -110,6 +112,7 @@ namespace SimulationV1.WPF
         public int NumberEdgesIn { get; set; } = 0;
         public int NumberEdgesOut { get; set; } = 0;
         public bool AllReady { get; set; } = false;
+        public string PathFullFile { get; set; } = "";//ten file load data
         public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
         public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
     }

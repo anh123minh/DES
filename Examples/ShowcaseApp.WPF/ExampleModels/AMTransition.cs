@@ -16,6 +16,7 @@ namespace SimulationV1.WPF.ExampleModels
         public List<List<int>> PhantichTable { get; set; }
         public List<int> ListTimeNowGraph { get; set; }//dung cho ve do thi
         public List<List<int>> PhantichGraph { get; set; }
+        public List<List<int>> listptTable = new List<List<int>>();//can xem lai
 
         public int[] ArrayDKCungVao;
         public int[] ArrayDKCungRa;
@@ -48,7 +49,7 @@ namespace SimulationV1.WPF.ExampleModels
                 ListTimeNowGraph = new List<int>();
                 PhantichGraph = new List<List<int>>();
 
-                var listptTable = new List<List<int>>();
+                //List<List<int>> listptTable = new List<List<int>>();//can xem lai
                 var ana1 = new List<List<int>>();
 
                 Queue<Customers>[] arrayHDVaoRa = new Queue<Customers>[SoCungVao];
