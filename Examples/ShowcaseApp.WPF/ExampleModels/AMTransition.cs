@@ -42,13 +42,13 @@ namespace SimulationV1.WPF.ExampleModels
                 var TimeNow = 0;
                 var TimeNowNext = 0;
                 var SumCung = SoCungVao + SoCungRa;
-                var LastTime = 0;
+                var LastTime = 0;//la thoi diem cuoi cung trong mo phong khi co bat cu Gen nao sinh het cus va time du kien < timeend
                 ListTimeNowTable = new List<int>();
                 PhantichTable = new List<List<int>>();
                 ListTimeNowGraph = new List<int>();
                 PhantichGraph = new List<List<int>>();
 
-                var ana = new List<List<int>>();
+                var listptTable = new List<List<int>>();
                 var ana1 = new List<List<int>>();
 
                 Queue<Customers>[] arrayHDVaoRa = new Queue<Customers>[SoCungVao];
@@ -107,17 +107,6 @@ namespace SimulationV1.WPF.ExampleModels
                 }
                 #endregion
 
-                //#region Them dk cho cung
-
-                //ListTimeNowTable.Add(TimeNow);
-                //var dkcung = new List<int>();
-                //for (int i = 0; i < SumCung; i++)
-                //{
-                //    dkcung.Add(arrayDKCung[i]);
-                //}
-                //ana.Add(dkcung);
-
-                //#endregion
                 #region Thoi diem timenow = 0
 
                 ListTimeNowTable.Add(TimeNow);
@@ -126,9 +115,18 @@ namespace SimulationV1.WPF.ExampleModels
                 {
                     firsttimenow.Add(sss.Count);
                 }
-                ana.Add(firsttimenow);
+                listptTable.Add(firsttimenow);
                 #endregion
-
+                var liststringnameout = new List<string>();//danh sach cac ten 
+                for (int i = SoCungRa; i < SumCung; i++)
+                {
+                    liststringnameout.Add(i.ToString());
+                }
+                var liststringnamein = new List<string>();//danh sach cac ten 
+                for (int i = 0; i < SoCungVao; i++)
+                {
+                    liststringnamein.Add(i.ToString());
+                }
                 do
                 {
                     for (int i = 0; i < SoCungVao; i++)
@@ -146,43 +144,57 @@ namespace SimulationV1.WPF.ExampleModels
                             arrayboolLengthOfFile[i] = true;
                         }
                     }
-                    listKH = listKH.FindAll(x => x.TimePlan < EndingTime);
+
+                    #region neu trong listKH co cus sinh ra tu Gen vaf co timeplan > ending thi xoa khoi danh sach
+                    var listmove = new List<Customers>();
+                    foreach (var a in listKH)
+                    {
+                        foreach (var b in liststringnamein)
+                        {
+                            if (a.Name == b && a.TimePlan > EndingTime)
+                            {
+                                listmove.Add(a);
+                            }
+                        }
+                    }
+                    foreach (var a in listmove)
+                    {
+                        listKH = listKH.FindAll(x => x != a);
+                    }
+                    #endregion
+
                     if (listKH.Count != 0)
                     {
-                        TimeNow = FindMinTimePlan(listKH);
+                        TimeNow = FindMinTimePlan(listKH);//tim timeplan nho nhat trong listKH de set TimeNow moi
                         ListTimeNowTable.Add(TimeNow);
                         ListTimeNowGraph.Add(TimeNow);
-                        //Console.WriteLine(TimeNow);
                     }
                     else
                     {
                         break;
-                        //TimeNow+=EndingTime;
-                        //Console.WriteLine(TimeNow);
                     }
-                    var listequaltimenow = listKH.FindAll(x => x.TimePlan == TimeNow);
-                    listKH = listKH.FindAll(x => x.TimePlan != TimeNow);
+                    var listequaltimenow = listKH.FindAll(x => x.TimePlan == TimeNow);//loc ra cac Cus co timeplan = timenow duoc chon
+                    listKH = listKH.FindAll(x => x.TimePlan != TimeNow);//xoa all Cus co timeplan = timenow
 
-                    foreach (var a in listequaltimenow)
+                    foreach (var a in listequaltimenow)//tu trong danh sach phan ve cac hang doi tuong ung
                     {
                         var cus = a;
                         var aa = cus.Name;
                         arrayHD[Int32.Parse(aa)].Enqueue(new Customers() { Name = cus.Name, TimePlan = cus.TimePlan });
                     }                   
-                    //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
                     var al = new List<int>();
-                    foreach (var sss in arrayHD)
+                    foreach (var sss in arrayHD)//thuc hien dem so Cus trong hang -> dua ra graph
                     {
                         al.Add(sss.Count);
                     }
-                    ana.Add(al);
+                    listptTable.Add(al);
                     ana1.Add(al);
                     //Co Generator nao sinh het chua && TimeNow == LastTime ? break : ;
                     if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow == LastTime)
                     {
                         break;
                     }
-                    if (AlReady(arrayHD, arrayDKCung))
+                    if (AlReady(arrayHD, arrayDKCung))//xac dinh da thoa man dieu kien chua
                     {
                         for (int i = 0; i < SoCungVao; i++)
                         {
@@ -192,7 +204,7 @@ namespace SimulationV1.WPF.ExampleModels
                                 arrayHDVaoRa[i].Enqueue(new Customers() { Name = cus1.Name, TimeIn = TimeNow, TimeOut = TimeNow, TimePlan = cus1.TimePlan });
                             }
                         }
-                        //------
+                        //------ghi lai tai thoi diem kich hoat
                         ListTimeNowGraph.Add(TimeNow);
                         var al1 = new List<int>();
                         foreach (var sss in arrayHD)
@@ -202,57 +214,72 @@ namespace SimulationV1.WPF.ExampleModels
                         ana1.Add(al1);
                         //------
                         double d;
-                        if (NutTransition.TListPointsCDF.Count != 0)
+                        if (NutTransition.TListPointsCDF.Count != 0)//neu lay du lieu tu file
                         {
                             Random rand = new Random();
                             var s = rand.Next(0, NutTransition.TListPointsCDF.Count);
                             d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
                         }
-                        else
+                        else//lay du lieu tu window
                         {
                             d = RandomNumberFromTransition(NutTransition);
                         }                       
                         for (int i = SoCungVao; i < SumCung; i++)
                         {
                             for (int j = 0; j < arrayDKCung[i]; j++)
-                            {
-                                ////listKH.Add(SinhMotCusWithName(i.ToString(), TimeNow, ran1));
-                                //listKH.Add(SinhMotCusAndName2(i.ToString(), NutTransition, TimeNow));
-                                listKH.Add(Sinh1Customer(i.ToString(), TimeNow + (int)d));
+                            {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
+                                listKH.Add(TimeNow > LastTime
+                                    ? Sinh1Customer(i.ToString(), TimeNow + (int) d)
+                                    : Sinh1Customer(i.ToString(), LastTime + (int) d));
                             }
                         }
-                        LastTime = TimeNow + (int)d;
+                        if (TimeNow > LastTime)
+                        {
+                            LastTime = TimeNow + (int)d;
+                        }
+                        else
+                        {
+                            LastTime += (int) d;
+                        }
                     }
-                    //Console.WriteLine("timenow " + TimeNow + " " + BLockCount(arrayHD));
-                } while (TimeNow < EndingTime);
-                //var s = new List<List<int>>();
-                //for (int i = 0; i < 5; i++)
-                //{
-                //    var m = new List<int>();
-                //    for (int j = 0; j < 3; j++)
-                //    {                       
-                //        m.Add(j+i);
-                //    }
-                //    s.Add(m);
-                //}
-                //var mm = ChuyenHang2Cot1(s);
-
-                PhantichTable = ChuyenHang2Cot1(ana);
+                } while (TimeNow < EndingTime);//while (TimeNow < EndingTime);
+                
+                if (LastTime > EndingTime)//lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi
+                {                    
+                    //lay ra tat ca cac cus sinh ra do kich hoat tu listKH
+                    var lcuslasttime = new List<Customers>();
+                    foreach (var a in liststringnameout)
+                    {
+                        foreach (var b in listKH)
+                        {
+                            if (b.Name == a)
+                            {
+                                lcuslasttime.Add(b);
+                            }
+                        }
+                    }
+                    var listsametimeplan1 = from n in lcuslasttime group n by n.TimePlan into g select new { g.Key, Cus = from o in g group o by o.Name};
+                    foreach (var t in listsametimeplan1)
+                    {
+                        var k = t.Key;
+                        foreach (var h in t.Cus)
+                        {
+                            foreach (var a in h)
+                            {
+                                arrayHD[Int32.Parse(a.Name)].Enqueue(new Customers() { Name = a.Name, TimePlan = a.TimePlan });
+                            }
+                        }
+                        ListTimeNowTable.Add(k);
+                        var al1 = new List<int>();
+                        foreach (var sss in arrayHD)
+                        {
+                            al1.Add(sss.Count);
+                        }
+                        listptTable.Add(al1);
+                    }
+                }
+                PhantichTable = ChuyenHang2Cot1(listptTable);
                 PhantichGraph = ChuyenHang2Cot1(ana1);
-                //PhantichTable = ChuyenHang2Cot(analis);
-                //PhantichGraph = ChuyenHang2Cot(anhminh);
-                ////foreach (var dc in PhantichTable)
-                ////{
-                ////    foreach (var vf in dc)
-                ////    {
-                ////        Console.Write(vf + " ");
-                ////    }
-                ////    Console.WriteLine();
-                ////}
-                ////foreach (var a in arrayHD)
-                ////{
-                ////    Console.WriteLine(a.Count);
-                ////}
 
             }
             catch (Exception e)
@@ -273,17 +300,6 @@ namespace SimulationV1.WPF.ExampleModels
             }
             return false;
         }
-
-        private bool AllCusGenerated(bool[] arraylengthoffile)
-        {
-            var allgenerated = true;
-            foreach (var s in arraylengthoffile)
-            {
-                allgenerated = allgenerated && s;
-            }
-            return allgenerated;
-        }
-
         public Customers Sinh1Customer(string name, int plantime)
         {
             var c = new Customers(name, plantime);
@@ -323,42 +339,18 @@ namespace SimulationV1.WPF.ExampleModels
             }
             return aa;
         }
-        private string BLockCount(Queue<Customers>[] listCustomerss)
-        {
-            var str = "";
-            foreach (var c in listCustomerss)
-            {
-                str = str + c.Count + "-";
-            }
-            return str;
-        }
-        private string BLockCount(List<List<int>> anaList)
-        {
-            var str = "";
-            foreach (var c in anaList)
-            {
-                foreach (var b in c)
-                {
-                    str += b.ToString();
-                }
-            }
-            return str;
-        }
-
         public Customers SinhMotCus(int timenow)
         {
             var ran = new Random();
             var c = new Customers(timenow + ran.Next(1, 5));
             return c;
         }
-
         public Customers SinhMotCusWithName(string name, int timenow, int ranmax)
         {
             var ran = new Random();
             var c = new Customers(name, timenow + ran.Next(1, ranmax));
             return c;
         }
-
         public Queue<Customers> SinhCus(int endingTime)
         {
             Queue<Customers> queueCustomerss = new Queue<Customers>();
@@ -375,31 +367,26 @@ namespace SimulationV1.WPF.ExampleModels
             } while (now < endingTime);
             return queueCustomerss;
         }
-
         public bool AlReady(Queue<Customers> a, Queue<Customers> b, int min1, int min2)
         {
             return a.Count >= min1 && b.Count >= min2;
         }
-
         public int FindMinTimePlan(List<Customers> listcus)
         {
             return listcus.Min(c => c.TimePlan);
         }
-
         public static int FindMinNextTimePlan(List<Customers> listcus)
         {
             var listemp = listcus;
             listemp.RemoveAll(a => a.TimePlan == listemp.Min(c => c.TimePlan));
             return listemp.Min(c => c.TimePlan);
         }
-
         public Customers CusHasEqualPlanTimeNow(List<Customers> listcus)
         {
             var cus = new Customers();
 
             return cus;
         }
-
         public bool AlReady(Queue<Customers>[] listqueuecus, int[] listminmachine)
         {
             var already = true;
@@ -418,7 +405,6 @@ namespace SimulationV1.WPF.ExampleModels
             }
             return already;
         }
-
         public long SinhMotCusAndName(string name, Nut nut)
         {
             switch (nut.TypeDistribuion)
@@ -464,14 +450,12 @@ namespace SimulationV1.WPF.ExampleModels
             var c = new Customers(name, timenow + (int)d);
             return c;
         }
-
-        public Customers SinhMotCusAndName2(string name, GeneratorClass nut, int timenow)
+        public Customers SinhMotCusAndName2(string name, GeneratorClass nut, int timeplanmin)
         {
             var d = RandomNumberFromTransition(nut);
-            var c = new Customers(name, timenow + (int)d);
+            var c = new Customers(name, timeplanmin + (int)d);
             return c;
         }
-
         private static long RandomNumberFromTransition(GeneratorClass nut)
         {
             switch (nut.TypeDistribuion)
@@ -493,13 +477,6 @@ namespace SimulationV1.WPF.ExampleModels
                 d = (long)nut.TypeDis.NextDouble();
             } while (d <= 0L);
             return d;
-        }
-
-        private static bool EpKieuDuoc(Customers cus)
-        {
-            int number;
-            bool result = Int32.TryParse(cus.Name, out number);
-            return result;
         }
     }
 
@@ -527,42 +504,4 @@ namespace SimulationV1.WPF.ExampleModels
         public int QueueCapacity { get; set; } = 500;
     }
 }
-//private int DoSomeThing1(Queue<Customers> kehoach1, int TimeNow, Queue<Customers> kehoach2,
-//Queue<Customers> hangdoi1, Queue<Customers> hangdoi2, int Min1,
-//int Min2, Queue<Customers> thuthap1, Queue<Customers> thuthap2, Queue<Customers> hangdoi3, int EndingTime)
-//{
-//do
-//{
-//kehoach1.Enqueue(SinhMotCus(TimeNow));
-//kehoach2.Enqueue(SinhMotCus(TimeNow));
-//var a = kehoach1.Peek();
-//var b = kehoach2.Peek();
-//    //TimeNow = Math.Min(a.TimePlan, b.TimePlan);
-//    if (a.TimePlan < b.TimePlan)
-//{
-//    TimeNow = a.TimePlan;
-//    kehoach1.Enqueue(SinhMotCus(TimeNow));
-//    hangdoi1.Enqueue(kehoach1.Dequeue());
-//}
-//else if (b.TimePlan < a.TimePlan)
-//{
-//    TimeNow = b.TimePlan;
-//    kehoach2.Enqueue(SinhMotCus(TimeNow));
-//    hangdoi2.Enqueue(kehoach2.Dequeue());
-//}
-//else
-//{
-//    TimeNow = a.TimePlan;
-//    hangdoi1.Enqueue(kehoach1.Dequeue());
-//    hangdoi2.Enqueue(kehoach2.Dequeue());
-//}
-//if (AlReady(hangdoi1, hangdoi2, Min1, Min2))
-//{
-//HangDoi2ThuThap(Min1, thuthap1, hangdoi1);
-//HangDoi2ThuThap(Min2, thuthap2, hangdoi2);
 
-//hangdoi3.Enqueue(SinhMotCus(TimeNow));
-//}
-//} while (TimeNow < EndingTime);
-//return TimeNow;
-//}

@@ -1485,7 +1485,7 @@ namespace SimulationV1.WPF.Pages
 
                 var tntb = trans.ListTimeNowTable;
                 var pttb = trans.PhantichTable;
-                var mm = tntb.Distinct();
+
                 var tng = trans.ListTimeNowGraph;
                 var ptg = trans.PhantichGraph;
 
