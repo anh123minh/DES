@@ -1517,8 +1517,8 @@ namespace SimulationV1.WPF.Pages
 
                         var trans = new Transition(end, arrayNguon1, arrayTransition1);
                         trans.Run1();
-                        var tntb1 = trans.ListTimeNowTable;
-                        var pttb1 = trans.PhantichTable;
+                        var tntb1 = trans.ListTimeNowTable1;
+                        var pttb1 = trans.PhantichTable1;
 
                         var asm = new AMMultiChart(tntb1, pttb1);
                         asm.Show();

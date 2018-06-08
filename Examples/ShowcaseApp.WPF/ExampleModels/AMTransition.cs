@@ -84,7 +84,7 @@ namespace SimulationV1.WPF.ExampleModels
                 //    arrayHDVaoRa[i] = new Queue<Customers>();
                 //}
 
-                
+
                 //#region Tao hang doi cho cac Places -> sau co the tao thanh field arrayHD cho class va tien hanh khoi tao trong Contructor
                 //Queue<Customers>[] arrayHD = new Queue<Customers>[SumCung];
                 //for (int i = 0; i < SoCungVao; i++)
@@ -122,6 +122,7 @@ namespace SimulationV1.WPF.ExampleModels
                 //}
                 //#endregion
                 #endregion
+
                 var listptTable1 = new List<List<int>>();
                 var listqueue1 = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Concat(ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex)).Distinct().ToList();
                 ListTimeNowTable1.Add(TimeNow1);
@@ -146,7 +147,7 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         sttnguon++;
                     }
-                    listKH1 = listKH1.FindAll(x => !(x.TimePlan > EndingTime1 && x.FromType == "AMGenerator" ));
+                    listKH1 = listKH1.FindAll(x => !(x.TimePlan > EndingTime1 && x.FromType == "AMGenerator"));
                     if (listKH1.Count != 0)
                     {
                         TimeNow1 = FindMinTimePlan(listKH1);//tim timeplan nho nhat trong listKH de set TimeNow moi
@@ -176,6 +177,52 @@ namespace SimulationV1.WPF.ExampleModels
                         al.Add(a.HdCustomerses.Count);
                     }
                     listptTable1.Add(al);
+                    foreach (var a in ArrayTransitions1)
+                    {
+                        var mm = true;
+                        for (int i = 0; i < a.Mangdkcungvao.Length; i++)
+                        {
+                            mm = mm && a.ListEdgesTargetVertex.Select(x => x.HdCustomerses.Count).ToArray()[i] >= a.Mangdkcungvao[i];
+                        }
+                        if (mm)
+                        {
+                            for (int i = 0; i < a.Mangdkcungvao.Length; i++)
+                            {
+                                for (int j = 0; j < a.Mangdkcungvao[i]; j++)
+                                {
+                                    var cus1 = a.ListEdgesTargetVertex[i].HdCustomerses.Dequeue();
+                                    a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue(new Customers() { Name = cus1.Name, FromType = cus1.FromType, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
+                                }
+                            }
+                            //sau co the bo sung them time kich hoat vao danh sach
+                            double d;
+                            if (a.TransitionType.TListPointsCDF.Count != 0)
+                            {
+                                Random rand = new Random();
+                                var s = rand.Next(0, a.TransitionType.TListPointsCDF.Count);
+                                d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
+                            }
+                            else//lay du lieu tu window
+                            {
+                                d = RandomNumberFromTransition1(a);
+                            }
+                            for (int i = 0; i < a.Mangdkcungra.Length; i++)
+                            {
+                                for (int j = 0; j < a.Mangdkcungra[i]; j++)
+                                {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
+                                    listKH1.Add(TimeNow1 > LastTime1 ? Sinh1Customer1(a.ListEdgesSorceVertex[i], TimeNow1 + (int)d) : Sinh1Customer1(a.ListEdgesSorceVertex[i], LastTime1 + (int)d));
+                                }
+                            }
+                            if (TimeNow1 > LastTime1)
+                            {
+                                LastTime1 = TimeNow1 + (int)d;
+                            }
+                            else
+                            {
+                                LastTime1 += (int)d;
+                            }
+                        }
+                    }
 
                 } while (TimeNow1 < EndingTime1);
                 PhantichTable1 = ChuyenHang2Cot1(listptTable1);
@@ -222,16 +269,16 @@ namespace SimulationV1.WPF.ExampleModels
                 //    {
                 //        break;
                 //    }
-                //    if (AlReady(arrayHD, arrayDKCung))//xac dinh da thoa man dieu kien chua
-                //    {
-                //        for (int i = 0; i < SoCungVao; i++)
-                //        {
-                //            for (int j = 0; j < arrayDKCung[i]; j++)
-                //            {
-                //                var cus1 = arrayHD[i].Dequeue();
-                //                arrayHDVaoRa[i].Enqueue(new Customers() { Name = cus1.Name, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
-                //            }
-                //        }
+                ////    if (AlReady(arrayHD, arrayDKCung))//xac dinh da thoa man dieu kien chua
+                ////    {
+                ////        for (int i = 0; i < SoCungVao; i++)
+                ////        {
+                ////            for (int j = 0; j < arrayDKCung[i]; j++)
+                ////            {
+                ////                var cus1 = arrayHD[i].Dequeue();
+                ////                arrayHDVaoRa[i].Enqueue(new Customers() { Name = cus1.Name, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
+                ////            }
+                ////        }
                 //        //------ghi lai tai thoi diem kich hoat
                 //        ListTimeNowGraph.Add(TimeNow);
                 //        var al1 = new List<int>();
@@ -241,34 +288,34 @@ namespace SimulationV1.WPF.ExampleModels
                 //        }
                 //        ana1.Add(al1);
                 //        //------
-                //        double d;
-                //        if (NutTransition.TListPointsCDF.Count != 0)//neu lay du lieu tu file
-                //        {
-                //            Random rand = new Random();
-                //            var s = rand.Next(0, NutTransition.TListPointsCDF.Count);
-                //            d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
-                //        }
-                //        else//lay du lieu tu window
-                //        {
-                //            d = RandomNumberFromTransition(NutTransition);
-                //        }
-                //        for (int i = SoCungVao; i < SumCung; i++)
-                //        {
-                //            for (int j = 0; j < arrayDKCung[i]; j++)
-                //            {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
-                //                listKH.Add(TimeNow > LastTime
-                //                    ? Sinh1Customer(i.ToString(), TimeNow + (int)d)
-                //                    : Sinh1Customer(i.ToString(), LastTime + (int)d));
-                //            }
-                //        }
-                //        if (TimeNow > LastTime)
-                //        {
-                //            LastTime = TimeNow + (int)d;
-                //        }
-                //        else
-                //        {
-                //            LastTime += (int)d;
-                //        }
+                ////        double d;
+                ////        if (NutTransition.TListPointsCDF.Count != 0)//neu lay du lieu tu file
+                ////        {
+                ////            Random rand = new Random();
+                ////            var s = rand.Next(0, NutTransition.TListPointsCDF.Count);
+                ////            d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
+                ////        }
+                ////        else//lay du lieu tu window
+                ////        {
+                ////            d = RandomNumberFromTransition(NutTransition);
+                ////        }
+                ////        for (int i = SoCungVao; i < SumCung; i++)
+                ////        {
+                ////            for (int j = 0; j < arrayDKCung[i]; j++)
+                ////            {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
+                ////                listKH.Add(TimeNow > LastTime
+                ////                    ? Sinh1Customer(i.ToString(), TimeNow + (int)d)
+                ////                    : Sinh1Customer(i.ToString(), LastTime + (int)d));
+                ////            }
+                ////        }
+                ////        if (TimeNow > LastTime)
+                ////        {
+                ////            LastTime = TimeNow + (int)d;
+                ////        }
+                ////        else
+                ////        {
+                ////            LastTime += (int)d;
+                ////        }
                 //    }
                 //} while (TimeNow < EndingTime);//while (TimeNow < EndingTime);
 
@@ -318,10 +365,15 @@ namespace SimulationV1.WPF.ExampleModels
             }
 
         }
+        public Customers Sinh1Customer1(DataVertex vertex, int plantime)
+        {
+            var c = new Customers(vertex.Text, vertex.TypeOfVertex, plantime);
+            return c;
+        }
         public Customers SinhMotCusAndName11(DataVertex vertex, int timeplanmin)
         {
             var d = RandomNumberFromTransition11(vertex);
-            var c = new Customers(vertex.Text,vertex.TypeOfVertex, timeplanmin + (int)d);
+            var c = new Customers(vertex.Text, vertex.TypeOfVertex, timeplanmin + (int)d);
             return c;
         }
         private static long RandomNumberFromTransition11(DataVertex vertex)
@@ -493,7 +545,7 @@ namespace SimulationV1.WPF.ExampleModels
                         var cus = a;
                         var aa = cus.Name;
                         arrayHD[Int32.Parse(aa)].Enqueue(new Customers() { Name = cus.Name, TimePlan = cus.TimePlan });
-                    }                   
+                    }
                     var al = new List<int>();
                     foreach (var sss in arrayHD)//thuc hien dem so Cus trong hang -> dua ra graph
                     {
@@ -535,14 +587,14 @@ namespace SimulationV1.WPF.ExampleModels
                         else//lay du lieu tu window
                         {
                             d = RandomNumberFromTransition(NutTransition);
-                        }                       
+                        }
                         for (int i = SoCungVao; i < SumCung; i++)
                         {
                             for (int j = 0; j < arrayDKCung[i]; j++)
                             {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
                                 listKH.Add(TimeNow > LastTime
-                                    ? Sinh1Customer(i.ToString(), TimeNow + (int) d)
-                                    : Sinh1Customer(i.ToString(), LastTime + (int) d));
+                                    ? Sinh1Customer(i.ToString(), TimeNow + (int)d)
+                                    : Sinh1Customer(i.ToString(), LastTime + (int)d));
                             }
                         }
                         if (TimeNow > LastTime)
@@ -551,13 +603,13 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         else
                         {
-                            LastTime += (int) d;
+                            LastTime += (int)d;
                         }
                     }
                 } while (TimeNow < EndingTime);//while (TimeNow < EndingTime);
-                
+
                 if (LastTime > EndingTime)//lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi
-                {                    
+                {
                     //lay ra tat ca cac cus sinh ra do kich hoat tu listKH
                     var lcuslasttime = new List<Customers>();
                     foreach (var a in liststringnameout)
@@ -570,7 +622,7 @@ namespace SimulationV1.WPF.ExampleModels
                             }
                         }
                     }
-                    var listsametimeplan1 = from n in lcuslasttime group n by n.TimePlan into g select new { g.Key, Cus = from o in g group o by o.Name};
+                    var listsametimeplan1 = from n in lcuslasttime group n by n.TimePlan into g select new { g.Key, Cus = from o in g group o by o.Name };
                     foreach (var t in listsametimeplan1)
                     {
                         var k = t.Key;
@@ -601,8 +653,32 @@ namespace SimulationV1.WPF.ExampleModels
 
         }
 
+        
+
+        private static long RandomNumberFromTransition1(DataVertex vertex)
+        {
+            switch (vertex.TransitionType.TypeDistribuion)
+            {
+                case GeneratorClass.Distribution.NormalDis:
+                    vertex.TransitionType.TypeDis = new Normal(vertex.TransitionType.Mean, Math.Sqrt(vertex.TransitionType.Para));
+                    break;
+                case GeneratorClass.Distribution.ExponentialDis:
+                    vertex.TransitionType.TypeDis = new Exponential(vertex.TransitionType.Para);
+                    break;
+                default:
+                    Console.WriteLine("k tim thay");
+                    break;
+            }
+
+            long d;
+            do
+            {
+                d = (long)vertex.TransitionType.TypeDis.NextDouble();
+            } while (d <= 0L);
+            return d;
+        }
         private bool IsAnyGenEnd(bool[] arrayboolLengthOfFile)
-        {            
+        {
             foreach (var a in arrayboolLengthOfFile)
             {
                 if (a)
@@ -762,7 +838,7 @@ namespace SimulationV1.WPF.ExampleModels
             var c = new Customers(name, timenow + (int)d);
             return c;
         }
-        
+
         public Customers SinhMotCusAndName2(string name, GeneratorClass nut, int timeplanmin)
         {
             var d = RandomNumberFromTransition(nut);
