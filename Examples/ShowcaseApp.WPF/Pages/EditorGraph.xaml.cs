@@ -1432,6 +1432,110 @@ namespace SimulationV1.WPF.Pages
             {
                 var flagbreak = false;
                 var nameconflik = "";
+
+                
+
+                if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any())
+                {
+                    MessageBox.Show("tap hop rong", "canh bao", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    #region canh bao loi
+                    foreach (var dd in graphArea.LogicCore.Graph.Vertices)
+                    {
+                        if (dd.TypeOfVertex == "AMPlace")
+                        {
+                            var count = 0;
+                            foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                            {
+                                if (ee.Source == dd)
+                                {
+                                    count++;
+                                }
+                            }
+                            if (count > 1)
+                            {
+                                flagbreak = true;
+                                nameconflik = "vi tri " + dd.Text + " di 2 chuyen";
+                                break;
+                            }
+                        }
+                        if (dd.TypeOfVertex == "AMGenerator")
+                        {
+                            var count = 0;
+                            foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                            {
+                                if (ee.Source == dd)
+                                {
+                                    count++;
+                                }
+                            }
+                            if (count > 1)
+                            {
+                                flagbreak = true;
+                                nameconflik = "nguon " + dd.Text + " di 2 chuyen";
+                                break;
+                            }
+                        }
+                    }
+                    #endregion
+                    if (flagbreak)
+                    {
+                        MessageBox.Show(nameconflik, "canh bao", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        var end = Int32.Parse(tBxTimeEnd.Text);
+
+                        var arrayNguon1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMGenerator").ToArray();
+                        var arrayTransition1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMTransition").ToArray();
+                        var listNguon1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMGenerator").ToList();
+                        var listTransition1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMTransition").ToList();
+
+                        //reset listedgesorce and listedgestarget tranh lap thi them moi
+                        foreach (var a in arrayTransition1)
+                        {
+                            a.ListEdgesSorce = new List<DataEdge>();
+                            a.ListEdgesTarget = new List<DataEdge>();
+                            a.ListEdgesSorceVertex = new List<DataVertex>();
+                            a.ListEdgesSorceVertex = new List<DataVertex>();
+                            a.Mangdkcungra = new int[a.ListEdgesTarget.Count];
+                            a.Mangdkcungvao = new int[a.ListEdgesSorce.Count];
+                        }
+
+                        //tien hanh set data cho cac Transition
+                        foreach (var tt in arrayTransition1)
+                        {
+                            tt.ListEdgesSorce = graphArea.LogicCore.Graph.Edges.Where(x => x.Source == tt).ToList();
+                            tt.ListEdgesTarget = graphArea.LogicCore.Graph.Edges.Where(x => x.Target == tt).ToList();
+                            tt.ListEdgesSorceVertex = tt.ListEdgesSorce.Select(x => x.Target).ToList();
+                            tt.ListEdgesTargetVertex = tt.ListEdgesTarget.Select(x => x.Source).ToList();
+                            tt.Mangdkcungra = tt.ListEdgesSorce.Select(x => x.Number).ToArray();
+                            tt.Mangdkcungvao = tt.ListEdgesTarget.Select(x => x.Number).ToArray();
+                        }
+
+                        var trans = new Transition(end, arrayNguon1, arrayTransition1);
+                        trans.Run1();
+                        var tntb1 = trans.ListTimeNowTable;
+                        var pttb1 = trans.PhantichTable;
+
+                        var asm = new AMMultiChart(tntb1, pttb1);
+                        asm.Show();
+                    }
+                }               
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
+        private void BtnStart_OnClick0(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var flagbreak = false;
+                var nameconflik = "";
                 //canh bao loi
                 foreach (var dd in graphArea.LogicCore.Graph.Vertices)
                 {
