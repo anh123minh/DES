@@ -353,7 +353,7 @@ namespace SimulationV1.WPF.Pages
                 vertexBefore = (DataVertex)args.VertexControl.Vertex;// để sau nếu có thay đổi tham số nào thì có thể lấy cái mới(selected) update vào cái cũ(before)
                 args.VertexControl.ContextMenu = new System.Windows.Controls.ContextMenu();//Tạo mới 1 menu chuột phải
                 var miVertex = new MenuItem { Header = "Параметры", Tag = args.VertexControl };//Tạo mới 1 MenuItem
-                miVertex.Click += MiVertex_Click;//call method -> tạo mới 1 windowParaVertex 
+                miVertex.Click += MiVertex_Click;//call method -> tạo mới 1 WindowParaVertex 
                 args.VertexControl.ContextMenu.Items.Add(miVertex);//Thêm vào 1 item
                 args.VertexControl.ContextMenu.IsOpen = true;
             }
@@ -368,11 +368,11 @@ namespace SimulationV1.WPF.Pages
         }
         #endregion
 
-        #region MiVertex_Click - Sự kiện sau chuột phải vào Vertex và nhấn chọn mở windowParaVertex mới
+        #region MiVertex_Click - Sự kiện sau chuột phải vào Vertex và nhấn chọn mở WindowParaVertex mới
         // Обработчик события выбора меню "Параметр" элемента
         private void MiVertex_Click(object sender, RoutedEventArgs e)
         {
-            windowParaVertex frmVertex = new windowParaVertex();//Tạo mới một window
+            WindowParaVertex frmVertex = new WindowParaVertex();//Tạo mới một window
             frmVertex.SetValueControl(vertexSelected);//Thể hiện các giá trị của Vertex được chọn lên của sổ
             frmVertex.Closed += FrmVertex_Closed;
             frmVertex.Show();
@@ -1432,8 +1432,9 @@ namespace SimulationV1.WPF.Pages
             {
                 var flagbreak = false;
                 var nameconflik = "";
+                var pdf = "[Probability_density]";
+                var cdf = "[Distribution_function]";
 
-                
 
                 if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any())
                 {
@@ -1494,14 +1495,28 @@ namespace SimulationV1.WPF.Pages
                         var listTransition1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMTransition").ToList();
 
                         //reset listedgesorce and listedgestarget tranh lap thi them moi
-                        foreach (var a in arrayTransition1)
+                        //foreach (var a in arrayTransition1)
+                        //{
+                        //    a.ListEdgesSorce = new List<DataEdge>();
+                        //    a.ListEdgesTarget = new List<DataEdge>();
+                        //    a.ListEdgesSorceVertex = new List<DataVertex>();
+                        //    a.ListEdgesTargetVertex= new List<DataVertex>();
+                        //    a.Mangdkcungra = new int[a.ListEdgesTarget.Count];
+                        //    a.Mangdkcungvao = new int[a.ListEdgesSorce.Count];
+                        //    a.HdCustomerses = new Queue<Customers>();
+                        //    a.HdCustomersesPhantich = new Queue<Customers>();
+                        //}
+                        foreach (var a in graphArea.LogicCore.Graph.Vertices)
                         {
                             a.ListEdgesSorce = new List<DataEdge>();
                             a.ListEdgesTarget = new List<DataEdge>();
                             a.ListEdgesSorceVertex = new List<DataVertex>();
-                            a.ListEdgesSorceVertex = new List<DataVertex>();
+                            a.ListEdgesTargetVertex = new List<DataVertex>();
                             a.Mangdkcungra = new int[a.ListEdgesTarget.Count];
                             a.Mangdkcungvao = new int[a.ListEdgesSorce.Count];
+                            a.HdCustomerses = new Queue<Customers>();
+                            a.HdCustomersesPhantich = new Queue<Customers>();
+                            
                         }
 
                         //tien hanh set data cho cac Transition
@@ -1513,6 +1528,10 @@ namespace SimulationV1.WPF.Pages
                             tt.ListEdgesTargetVertex = tt.ListEdgesTarget.Select(x => x.Source).ToList();
                             tt.Mangdkcungra = tt.ListEdgesSorce.Select(x => x.Number).ToArray();
                             tt.Mangdkcungvao = tt.ListEdgesTarget.Select(x => x.Number).ToArray();
+                            tt.TransitionType.TListPointsCDF =
+                                WindowParaVertex.SetDistributionFromFile(tt, cdf, tt.TransitionType.PathFullFile);//graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsCDF;
+                            tt.TransitionType.TListPointsPDF =
+                                WindowParaVertex.SetDistributionFromFile(tt, pdf, tt.TransitionType.PathFullFile);//graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsPDF;
                         }
 
                         var trans = new Transition(end, arrayNguon1, arrayTransition1);

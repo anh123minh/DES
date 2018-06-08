@@ -154,7 +154,7 @@ namespace SimulationV1.WPF.Pages
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.ListPointsPDF == null || vertex.ListPointsPDF.Count == 0)
+                if (vertex.TransitionType.TListPointsPDF == null || vertex.TransitionType.TListPointsPDF.Count == 0)
                 {
                     if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
@@ -170,7 +170,7 @@ namespace SimulationV1.WPF.Pages
                 }
                 else
                 {
-                    result = PDF(vertex.ListPointsPDF);
+                    result = PDF(vertex.TransitionType.TListPointsPDF);
                 }
             }
             DoThi.ItemsSource = result;
@@ -196,7 +196,7 @@ namespace SimulationV1.WPF.Pages
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.ListPointsCDF == null || vertex.ListPointsPDF.Count == 0)
+                if (vertex.TransitionType.TListPointsCDF == null || vertex.TransitionType.TListPointsPDF.Count == 0)
                 {
                     if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
@@ -212,7 +212,7 @@ namespace SimulationV1.WPF.Pages
                 }
                 else
                 {
-                    result = CDF(vertex.ListPointsCDF);
+                    result = CDF(vertex.TransitionType.TListPointsCDF);
                 }
             }
             DoThi.ItemsSource = result;
@@ -237,7 +237,7 @@ namespace SimulationV1.WPF.Pages
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.ListPointsPDF == null || vertex.ListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
+                if (vertex.TransitionType.TListPointsPDF == null || vertex.TransitionType.TListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
                 {
                     if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
@@ -253,7 +253,7 @@ namespace SimulationV1.WPF.Pages
                 }
                 else
                 {
-                    tablePoint = Table(vertex.ListPointsPDF, vertex.ListPointsCDF);
+                    tablePoint = Table(vertex.TransitionType.TListPointsPDF, vertex.TransitionType.TListPointsCDF);
                 }                
             }
             TableData.ItemsSource = tablePoint;

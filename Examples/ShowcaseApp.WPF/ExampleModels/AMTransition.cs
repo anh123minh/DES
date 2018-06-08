@@ -132,21 +132,33 @@ namespace SimulationV1.WPF.ExampleModels
                     firsttimenow.Add(a.HdCustomerses.Count);
                 }
                 listptTable1.Add(firsttimenow);
-                var arrayTimeKH1 = new int[ArrayNguon1.Count()];
+                var arrayTimeKh1 = new int[ArrayNguon1.Count()];
+                var listnumcusnguon = new int[ArrayNguon1.Count()];
                 do
                 {
-                    var sttnguon = 0;
-                    foreach (var a in ArrayNguon1)
+                    var ss = true;
+                    for (int i = 0; i < ArrayNguon1.Length; i++)
                     {
-                        if (a.GeneratorType.LengthOfFile > 0)
+                        if (ArrayNguon1.Select(x => x.GeneratorType.LengthOfFile).ToArray()[i] > listnumcusnguon[i])
                         {
-                            var cus = SinhMotCusAndName11(a, arrayTimeKH1[sttnguon]);
+                            var cus = SinhMotCusAndName11(ArrayNguon1[i], arrayTimeKh1[i]);
                             listKH1.Add(cus);
-                            a.GeneratorType.LengthOfFile--;
-                            arrayTimeKH1[sttnguon] = cus.TimePlan;
+                            listnumcusnguon[i]++;
+                            arrayTimeKh1[i] = cus.TimePlan;
                         }
-                        sttnguon++;
                     }
+                    //var sttnguon = 0;
+                    //foreach (var a in ArrayNguon1)
+                    //{
+                    //    if (a.GeneratorType.LengthOfFile > 0)
+                    //    {
+                    //        var cus = SinhMotCusAndName11(a, arrayTimeKh1[sttnguon]);
+                    //        listKH1.Add(cus);
+                    //        a.GeneratorType.LengthOfFile--;
+                    //        arrayTimeKh1[sttnguon] = cus.TimePlan;
+                    //    }
+                    //    sttnguon++;
+                    //}
                     listKH1 = listKH1.FindAll(x => !(x.TimePlan > EndingTime1 && x.FromType == "AMGenerator"));
                     if (listKH1.Count != 0)
                     {
@@ -194,13 +206,21 @@ namespace SimulationV1.WPF.ExampleModels
                                     a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue(new Customers() { Name = cus1.Name, FromType = cus1.FromType, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
                                 }
                             }
-                            //sau co the bo sung them time kich hoat vao danh sach
+                            //        //------ghi lai tai thoi diem kich hoat
+                            //        ListTimeNowGraph.Add(TimeNow);
+                            //        var al1 = new List<int>();
+                            //        foreach (var sss in arrayHD)
+                            //        {
+                            //            al1.Add(sss.Count);
+                            //        }
+                            //        ana1.Add(al1);
+                            //        //------
                             double d;
                             if (a.TransitionType.TListPointsCDF.Count != 0)
                             {
                                 Random rand = new Random();
                                 var s = rand.Next(0, a.TransitionType.TListPointsCDF.Count);
-                                d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
+                                d = Math.Abs(Math.Round(a.TransitionType.TListPointsCDF[s][0]));
                             }
                             else//lay du lieu tu window
                             {
@@ -227,13 +247,7 @@ namespace SimulationV1.WPF.ExampleModels
                 } while (TimeNow1 < EndingTime1);
                 PhantichTable1 = ChuyenHang2Cot1(listptTable1);
                 #region MyRegion
-                //#region Tao mang lengoffile tu cac Generator dau vao
-                //var arrayLengthOfFile = new int[SoCungVao];
-                //for (int i = 0; i < SoCungVao; i++)
-                //{
-                //    arrayLengthOfFile[i] = ArrayNguon[i].LengthOfFile;
-                //}
-                //#endregion
+      
                 //var liststringnameout = new List<string>();//danh sach cac ten 
                 //for (int i = SoCungRa; i < SumCung; i++)
                 //{
@@ -269,55 +283,7 @@ namespace SimulationV1.WPF.ExampleModels
                 //    {
                 //        break;
                 //    }
-                ////    if (AlReady(arrayHD, arrayDKCung))//xac dinh da thoa man dieu kien chua
-                ////    {
-                ////        for (int i = 0; i < SoCungVao; i++)
-                ////        {
-                ////            for (int j = 0; j < arrayDKCung[i]; j++)
-                ////            {
-                ////                var cus1 = arrayHD[i].Dequeue();
-                ////                arrayHDVaoRa[i].Enqueue(new Customers() { Name = cus1.Name, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
-                ////            }
-                ////        }
-                //        //------ghi lai tai thoi diem kich hoat
-                //        ListTimeNowGraph.Add(TimeNow);
-                //        var al1 = new List<int>();
-                //        foreach (var sss in arrayHD)
-                //        {
-                //            al1.Add(sss.Count);
-                //        }
-                //        ana1.Add(al1);
-                //        //------
-                ////        double d;
-                ////        if (NutTransition.TListPointsCDF.Count != 0)//neu lay du lieu tu file
-                ////        {
-                ////            Random rand = new Random();
-                ////            var s = rand.Next(0, NutTransition.TListPointsCDF.Count);
-                ////            d = Math.Abs(Math.Round(NutTransition.TListPointsCDF[s][0]));
-                ////        }
-                ////        else//lay du lieu tu window
-                ////        {
-                ////            d = RandomNumberFromTransition(NutTransition);
-                ////        }
-                ////        for (int i = SoCungVao; i < SumCung; i++)
-                ////        {
-                ////            for (int j = 0; j < arrayDKCung[i]; j++)
-                ////            {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
-                ////                listKH.Add(TimeNow > LastTime
-                ////                    ? Sinh1Customer(i.ToString(), TimeNow + (int)d)
-                ////                    : Sinh1Customer(i.ToString(), LastTime + (int)d));
-                ////            }
-                ////        }
-                ////        if (TimeNow > LastTime)
-                ////        {
-                ////            LastTime = TimeNow + (int)d;
-                ////        }
-                ////        else
-                ////        {
-                ////            LastTime += (int)d;
-                ////        }
-                //    }
-                //} while (TimeNow < EndingTime);//while (TimeNow < EndingTime);
+               
 
                 //if (LastTime > EndingTime)//lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi
                 //{

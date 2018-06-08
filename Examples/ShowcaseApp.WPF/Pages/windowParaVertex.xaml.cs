@@ -14,20 +14,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
+using DevExpress.Mvvm.Native;
 
 namespace SimulationV1.WPF.Pages
 {
     /// <summary>
-    /// Interaction logic for windowParaVertex.xaml
+    /// Interaction logic for WindowParaVertex.xaml
     /// </summary>
-    public partial class windowParaVertex : Window
+    public partial class WindowParaVertex : Window
     {
         public delegate void SetValueForm(DataVertex vtx);
         public SetValueForm SetValueControl;
         public DataVertex VertexBefore;
         public DataVertex VertexAfter;
         //private bool loadedfromfile = false;
-        public windowParaVertex()
+        public WindowParaVertex()
         {
             InitializeComponent();
             SetValueControl = new SetValueForm(GetValue);
@@ -133,7 +134,7 @@ namespace SimulationV1.WPF.Pages
         
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            UpdateVertex(false);
+            UpdateVertex();
             EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
             MessageBox.Show("Saved!");
@@ -194,7 +195,7 @@ namespace SimulationV1.WPF.Pages
             }
             Close();
         }
-        private void UpdateVertex(bool fromfile, List<List<double>> lispdf = null, List<List<double>> liscdf = null, string namefile = "")
+        private void UpdateVertex(bool fromfile = false, List<List<double>> lispdf = null, List<List<double>> liscdf = null, string namefile = "")
         {
             try
             {
@@ -220,8 +221,8 @@ namespace SimulationV1.WPF.Pages
                         }
                         //if (fromfile)
                         //{
-                        //    VertexAfter.ListPointsPDF = lispdf;
-                        //    VertexAfter.ListPointsCDF = liscdf;
+                        //    VertexAfter.TransitionType.TListPointsPDF = lispdf;
+                        //    VertexAfter.TransitionType.TListPointsCDF = liscdf;
                         //}
                         break;
                     case "AMPlace":
@@ -251,21 +252,20 @@ namespace SimulationV1.WPF.Pages
                         }
                         if (fromfile)
                         {
-                            VertexAfter.ListPointsPDF = lispdf;
-                            VertexAfter.ListPointsCDF = liscdf;
+                            VertexAfter.TransitionType.TListPointsPDF = lispdf;
+                            VertexAfter.TransitionType.TListPointsCDF = liscdf;
                             VertexAfter.TransitionType.PathFullFile = System.IO.Path.GetFullPath(namefile);
                         }
                         else
                         {
-                            VertexAfter.ListPointsPDF.Clear();
-                            VertexAfter.ListPointsCDF.Clear();
+                            VertexAfter.TransitionType.TListPointsPDF.Clear();
+                            VertexAfter.TransitionType.TListPointsCDF.Clear();
                             VertexAfter.TransitionType.PathFullFile = "";
                         }
                         break;
                     default:
                         break;
                 }
-                //MessageBox.Show("Saved!");
             }
             catch (Exception e)
             {
@@ -277,6 +277,20 @@ namespace SimulationV1.WPF.Pages
 
         private void btnGraph_Click(object sender, RoutedEventArgs e)
         {
+            if (VertexAfter.TransitionType.PathFullFile != "")
+            {
+                var pdf = "[Probability_density]";
+                var cdf = "[Distribution_function]";
+                var filename = VertexAfter.TransitionType.PathFullFile;
+                var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
+                var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
+                UpdateVertex(true, temppdf, tempcdf, filename);
+                //SetFromFile(VertexBefore);
+            }
+            else
+            {
+                UpdateVertex();
+            }           
             var amGraph = new AMGraph(VertexAfter);
             amGraph.Show();
         }
@@ -296,74 +310,115 @@ namespace SimulationV1.WPF.Pages
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            info.IsEnabled = false;
-            
-            btnFromWindow.IsEnabled = true;
+            try
+            {
+                info.IsEnabled = false;
+                LbLoadfromfile.Visibility = Visibility.Visible;
+                btnFromWindow.IsEnabled = true;              
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                //openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";                           
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    var pdf = "[Probability_density]";
+                    var cdf = "[Distribution_function]";
+                    var filename = VertexBefore.TransitionType.PathFullFile != "" && VertexBefore.TransitionType.PathFullFile == openFileDialog.FileName
+                        ? VertexBefore.TransitionType.PathFullFile
+                        : openFileDialog.FileName;
+                    var temppdf = SetDistributionFromFile(VertexBefore, pdf, filename);
+                    var tempcdf = SetDistributionFromFile(VertexBefore, cdf, filename);
+                    UpdateVertex(true, temppdf, tempcdf, filename);
+                    //SetFromFile(VertexBefore, openFileDialog.FileName);
+                }                
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Kiem tra lai file", "canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(exception.ToString());
+            }            
+        }
+
+        public static List<List<double>> SetDistributionFromFile(DataVertex vertex, string dis, string filename)
+        {
+            List<double> listdistriX = new List<double>();
+            List<double> listdistriY = new List<double>();
+            string patternX = "X=";
+            string patternY = "Y=";
+            string rpatternX = @"^Point_\d{1,3}_X=";
+            string rpatternY = @"^Point_\d{1,3}_Y=";
+
+            //tim dong PointCount -> Spilt -> lay phan tu thu 2 -> Chuyen sang int => so diem
+            var ms = Int32.Parse(Regex.Split(File.ReadAllLines(filename).First(x => x.Contains("PointCount")), "PointCount=")[1]);
+            //doc toan bo file <- bo qua cac dong ma tu do bat dap dis
+            foreach (var line in File.ReadAllLines(filename).Skip(File.ReadAllLines(filename).IndexOf(x=>x == dis)))
+            {
+                if (line.Contains(patternX))
+                {
+                    var ss = Regex.Split(line, rpatternX);
+                    listdistriX.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+                }
+                if (line.Contains(patternY))
+                {
+                    var ss = Regex.Split(line, rpatternY);
+                    listdistriY.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+                }
+                if(listdistriY.Count == ms) { break;}// neu da du so diem thi k doc tiep maf thoat
+            }
+            return SetListPoint(listdistriX, listdistriY);
+        }
+        public void SetFromFile(DataVertex vertex, string openFileDialog = "")
+        {
             List<double> listxpdf = new List<double>();
             List<double> listypdf = new List<double>();
             List<double> listxcdf = new List<double>();
             List<double> listycdf = new List<double>();
-            bool flagdis = false;
-            string s="";
+            string s = "";
             string dis = "[Distribution_function]";
             string patternX = "X=";
             string patternY = "Y=";
-            string rpatternX = @"^Point_\d{1,3}_X=";            
+            string rpatternX = @"^Point_\d{1,3}_X=";
             string rpatternY = @"^Point_\d{1,3}_Y=";
-            
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";           
-
-            if (openFileDialog.ShowDialog() == true)
+            string filename = "";
+            filename = vertex.TransitionType.PathFullFile != ""
+                ? vertex.TransitionType.PathFullFile
+                : openFileDialog;
+            var ms = Regex.Split(File.ReadAllLines(filename).First(x => x.Contains("PointCount")), "PointCount=");
+            var mss = Int32.Parse(ms[1]);
+            foreach (var line in File.ReadAllLines(filename))
             {
-                LbLoadfromfile.Visibility = Visibility.Visible;
-                var ms = Regex.Split(File.ReadAllLines(openFileDialog.FileName).First(x => x.Contains("PointCount")), "PointCount=");
-                var mss = Int32.Parse(ms[1]);
-                //StreamReader file = File.OpenText(openFileDialog.FileName);
-                foreach (var line in File.ReadAllLines(openFileDialog.FileName))
+                var flagdis = listypdf.Count == mss;
+                if (!flagdis)
                 {
-                    flagdis = listypdf.Count == mss;
-                    if (!flagdis)
+                    if (line.Contains(patternX))
                     {
-                        if (line.Contains(patternX))
-                        {
-                            var ss = Regex.Split(line, rpatternX);
-                            listxpdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-
-                        }
-
-                        if (line.Contains(patternY))
-                        {
-                            var ss = Regex.Split(line, rpatternY);
-                            listypdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-
-                        }
+                        var ss = Regex.Split(line, rpatternX);
+                        listxpdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
                     }
-                    else
+                    if (line.Contains(patternY))
                     {
-                        if (line.Contains(patternX))
-                        {
-                            var ss = Regex.Split(line, rpatternX);
-                            listxcdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-
-                        }
-
-                        if (line.Contains(patternY))
-                        {
-                            var ss = Regex.Split(line, rpatternY);
-                            listycdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-
-                        }
+                        var ss = Regex.Split(line, rpatternY);
+                        listypdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
                     }
-
+                }
+                else
+                {
+                    if (line.Contains(patternX))
+                    {
+                        var ss = Regex.Split(line, rpatternX);
+                        listxcdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+                    }
+                    if (line.Contains(patternY))
+                    {
+                        var ss = Regex.Split(line, rpatternY);
+                        listycdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
+                    }
                 }
             }
             var temppdf = SetListPoint(listxpdf, listypdf);
             var tempcdf = SetListPoint(listxcdf, listycdf);
-            UpdateVertex(true, temppdf, tempcdf, openFileDialog.FileName);
+            UpdateVertex(true, temppdf, tempcdf, filename);
         }
-
-        public List<List<double>> SetListPoint(List<double> listx, List<double> listy)
+        public static List<List<double>> SetListPoint(List<double> listx, List<double> listy)
         {
             var result = new List<List<double>>();
             for (int i = 0; i < listx.Count; i++)
@@ -375,12 +430,11 @@ namespace SimulationV1.WPF.Pages
             }
             return result;
         }
-
         private void btnFromWindow_Click(object sender, RoutedEventArgs e)
         {
             info.IsEnabled = true;
             LbLoadfromfile.Visibility = Visibility.Collapsed;
-            UpdateVertex(false);
+            UpdateVertex();
         }
         //private void btnClose_Click(object sender, RoutedEventArgs e)
         //{
