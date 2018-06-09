@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:SimulationV1.WPF.Pages"
         xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="AMMultiChart" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel>
             <DockPanel x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible" HorizontalAlignment="Stretch" MaxHeight="800">
                 <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="False">
                     <DataGrid.Columns >
-                        <DataGridTextColumn Header="TimeNow" Binding="{Binding Path=[0]}" MinWidth="50" Width="*" />
+                        <DataGridTextColumn Header="Время" Binding="{Binding Path=[0]}" MinWidth="50" Width="*" />
                         <DataGridTextColumn Header="Позиция 1" Binding="{Binding Path=[1]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 2" Binding="{Binding Path=[2]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 3" Binding="{Binding Path=[3]}" MinWidth="50" Width="*"/>
@@ -25,8 +25,8 @@
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Center" >
                 <DockPanel DockPanel.Dock="Top">
-                    <Button x:Name="btnTable" Content="Table" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnTable_Click"></Button>
-                    <Button x:Name="btnMultiGraph" Content="Graph" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnMultiGraph_Click"></Button>
+                    <Button x:Name="btnTable" Content="Таблица" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnTable_Click"></Button>
+                    <Button x:Name="btnMultiGraph" Content="Граф" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnMultiGraph_Click"></Button>
                 </DockPanel>
             </DockPanel>
             <DockPanel Name="Graph"  DockPanel.Dock="Bottom" LastChildFill="True" Visibility="Collapsed">
@@ -37,7 +37,7 @@
                     <local:MultiChart.SeriesTemplate>
                         <DataTemplate>
                             <local:StepLineSeries
-                                Title="AnhMinh"
+                                Title=""
                                 ItemsSource="{Binding}"
                                 IndependentValueBinding="{Binding Key}"
                                 DependentValueBinding="{Binding Value}" />

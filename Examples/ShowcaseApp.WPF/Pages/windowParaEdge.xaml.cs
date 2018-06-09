@@ -59,13 +59,13 @@ namespace SimulationV1.WPF.Pages
                     Label2.Content = "Задержка:";
                     tBx2.Text = ed.Delay.ToString();
                     DP3.Visibility = Visibility.Visible;
-                    Label3.Content = "Number of edge";
+                    Label3.Content = "Количество дугов:";
                     tBx3.Text = ed.Number.ToString();
                     break;
                 case "Red":                   
                     break;
                 default:
-                    MessageBox.Show("Тип узлы не определен1!");
+                    MessageBox.Show("Тип узлы не определен!");
                     break;
             }
             //edgeBefore = new DataEdge();
@@ -98,7 +98,7 @@ namespace SimulationV1.WPF.Pages
                 case "Red":
                     break;
                 default:
-                    MessageBox.Show("Тип узлы не определен2!");
+                    MessageBox.Show("Тип узлы не определен!");
                     break;
             }
             Close();
@@ -123,7 +123,7 @@ namespace SimulationV1.WPF.Pages
                     case "Red":
                         break;
                     default:
-                        MessageBox.Show("Тип узлы не определен3!");
+                        MessageBox.Show("Тип узлы не определен!");
                         break;
                 }
             }

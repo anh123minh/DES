@@ -55,12 +55,24 @@
             <Setter.Value>
                 <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Background="{StaticResource NormalBrush}" UseLayoutRounding="True">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Text}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                        <!--<StackPanel Orientation="Horizontal" Margin="3">                            
-                            <TextBlock MinWidth="70" Text="Трафик(Мб/с): " VerticalAlignment="Center"/>
-                            <TextBlock FontWeight="Bold" Text="{Binding Traffic}" Margin="3" VerticalAlignment="Center"/>
+                        <!--<TextBlock Text="{Binding Text}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>-->
+                        <!--<StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="TypeDistribuion: " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding GeneratorType.TypeDistribuion}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="Mean: " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding GeneratorType.Mean}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3">                            
+                            <TextBlock MinWidth="70" Text="Parameters: " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding GeneratorType.Para}" Margin="3" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock MinWidth="70" Text="LengthOfFile: " VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{Binding GeneratorType.LengthOfFile}" Margin="3" VerticalAlignment="Center"/>
                         </StackPanel>-->
-                        
+
                     </StackPanel>
                 </Border>
             </Setter.Value>
@@ -149,8 +161,9 @@
                             <TextBlock MinWidth="70" Text="Уровень использования(%): " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Alpha}" Margin="3" VerticalAlignment="Center"/>
                         </StackPanel>-->
+                        <TextBlock Text="{Binding NameOfEdge}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold"/>
                         <StackPanel Orientation="Horizontal" Margin="3">
-                            <TextBlock MinWidth="70" Text="Number of edges: " VerticalAlignment="Center"/>
+                            <TextBlock MinWidth="70" Text="Количество дуг: " VerticalAlignment="Center"/>
                             <TextBlock FontWeight="Bold" Text="{Binding Number}" Margin="3" VerticalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>

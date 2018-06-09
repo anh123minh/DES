@@ -113,7 +113,7 @@ namespace SimulationV1.WPF.Pages
             //Graph.LastChildFill = true;
 
             ChartData = new ChartData();
-            ChartData.Title = "Chart Title";
+            ChartData.Title = "Количество разметки в системе";
             ChartData.DataSeriesList = new List<Dictionary<int, int>>();
 
             for (int i = 0; i < listblockcounttable.Count; i++)

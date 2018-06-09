@@ -77,7 +77,7 @@ namespace SimulationV1.WPF
             set { _alpha = value; }
         }
         //AM
-        //public string TypeOfEdge { get; set; } = "";
+        public string NameOfEdge => this.Source.Text + " - " + this.Target.Text;
         public double Probability { get; set; } = 0;
         public double Delay { get; set; } = 0;
         public int Number { get; set; } = 1;

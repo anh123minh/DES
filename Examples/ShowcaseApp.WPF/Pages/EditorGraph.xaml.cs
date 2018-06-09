@@ -1438,7 +1438,7 @@ namespace SimulationV1.WPF.Pages
 
                 if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any() || graphArea.LogicCore.Graph.Edges == null || !graphArea.LogicCore.Graph.Edges.Any())
                 {
-                    MessageBox.Show("tap hop rong", "canh bao", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Существуют изолированные вершины или не связаны между собой", "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
@@ -1458,7 +1458,7 @@ namespace SimulationV1.WPF.Pages
                             if (count > 1)
                             {
                                 flagbreak = true;
-                                nameconflik = "vi tri " + dd.Text + " di 2 chuyen";
+                                nameconflik = dd.Text + " присоединяется к 2 или более вершин!";
                                 break;
                             }
                         }
@@ -1475,7 +1475,7 @@ namespace SimulationV1.WPF.Pages
                             if (count > 1)
                             {
                                 flagbreak = true;
-                                nameconflik = "nguon " + dd.Text + " di 2 chuyen";
+                                nameconflik = dd.Text + " присоединяется к 2 или более вершин!";
                                 break;
                             }
                         }
@@ -1489,7 +1489,7 @@ namespace SimulationV1.WPF.Pages
                             if (khonglanguoncuabatcuedgenao)
                             {
                                 flagbreak = true;
-                                nameconflik = dd.Text + " khong co nguon vao";
+                                nameconflik = dd.Text + " нет входного потока";
                                 break;
                                 ;
                             }
@@ -1500,14 +1500,14 @@ namespace SimulationV1.WPF.Pages
                         if (ee.Target.TypeOfVertex == "AMGenerator")
                         {
                             flagbreak = true;
-                            nameconflik = "co cung " + ee.Text +" chi den nguon";
+                            nameconflik = ee.Text + " присоединяется к генератору!";
                             break;
                         }
                     }
                     #endregion
                     if (flagbreak)
                     {
-                        MessageBox.Show(nameconflik, "canh bao", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(nameconflik, "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {

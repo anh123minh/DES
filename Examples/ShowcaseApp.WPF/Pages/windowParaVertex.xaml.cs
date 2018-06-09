@@ -73,11 +73,14 @@ namespace SimulationV1.WPF.Pages
                     DP1.Visibility = Visibility.Visible;
                     Label1.Content = "Ёмкость очереди:";
                     tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
+                    tBx1.IsEnabled = false;//
                     Label2.Content = "Приоритет:";
                     tBx2.Text = VertexBefore.PlaceType.Priority.ToString();
+                    tBx2.IsEnabled = false;//
                     DP3.Visibility = Visibility.Visible;
                     Label3.Content = "Тип файла:";
                     tBx3.Text = VertexBefore.PlaceType.FileType.ToString();
+                    tBx3.IsEnabled = false;//
                     FromFile.Visibility = Visibility.Collapsed;
                     break;
                 case "AMTerminate":
@@ -137,7 +140,7 @@ namespace SimulationV1.WPF.Pages
             UpdateVertex();
             EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
-            MessageBox.Show("Saved!");
+            MessageBox.Show("Сохранены!");
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -281,22 +284,30 @@ namespace SimulationV1.WPF.Pages
 
         private void btnGraph_Click(object sender, RoutedEventArgs e)
         {
-            if (VertexAfter.TransitionType.PathFullFile != "")
+            try
             {
-                var pdf = "[Probability_density]";
-                var cdf = "[Distribution_function]";
-                var filename = VertexAfter.TransitionType.PathFullFile;
-                var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
-                var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
-                UpdateVertex(true, temppdf, tempcdf, filename);
-                //SetFromFile(VertexBefore);
+                if (VertexAfter.TypeOfVertex == "AMTransition" && VertexAfter.TransitionType.PathFullFile != "")
+                {
+                    var pdf = "[Probability_density]";
+                    var cdf = "[Distribution_function]";
+                    var filename = VertexAfter.TransitionType.PathFullFile;
+                    var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
+                    var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
+                    UpdateVertex(true, temppdf, tempcdf, filename);
+                    //SetFromFile(VertexBefore);
+                }
+                else
+                {
+                    UpdateVertex();
+                }
+                var amGraph = new AMGraph(VertexAfter);
+                amGraph.Show();
             }
-            else
+            catch (Exception exception)
             {
-                UpdateVertex();
-            }           
-            var amGraph = new AMGraph(VertexAfter);
-            amGraph.Show();
+                MessageBox.Show(exception.ToString());
+
+            }
         }
 
         private void cbbDistribution_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -320,7 +331,7 @@ namespace SimulationV1.WPF.Pages
                 LbLoadfromfile.Visibility = Visibility.Visible;
                 btnFromWindow.IsEnabled = true;              
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                //openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";                           
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";                           
 
                 if (openFileDialog.ShowDialog() == true)
                 {
@@ -337,7 +348,7 @@ namespace SimulationV1.WPF.Pages
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Kiem tra lai file", "canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Проверите файл!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 MessageBox.Show(exception.ToString());
             }            
         }

@@ -37,21 +37,21 @@
                     <DockPanel x:Name="DP2" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False">
                         <Label x:Name="Label2"  DockPanel.Dock="Left" Margin="3"></Label>
                         <ComboBox x:Name="cbbDistribution" DockPanel.Dock="Left" Margin="3" Width="104" Visibility="Collapsed" SelectionChanged="cbbDistribution_SelectionChanged">
-                            <ComboBoxItem Content="Normal" IsSelected="True" ToolTip="Para"></ComboBoxItem>
-                            <ComboBoxItem Content="Exponential" ToolTip="Lamda"></ComboBoxItem>
+                            <ComboBoxItem Content="Нормальное" IsSelected="True" ToolTip="Para"></ComboBoxItem>
+                            <ComboBoxItem Content="Экспоненциальное" ToolTip="Lamda"></ComboBoxItem>
                         </ComboBox>
                         <TextBox x:Name="tBx2" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                     </DockPanel>
                     <DockPanel x:Name="DPPara" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Visible">
-                        <Label x:Name="LabelPara" Content="Parameters" DockPanel.Dock="Left" Margin="3"></Label>
+                        <Label x:Name="LabelPara" Content="Параметр:" DockPanel.Dock="Left" Margin="3"></Label>
                         <TextBox x:Name="tBxPara" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                     </DockPanel>
                 </DockPanel>
-                <Label Name="LbLoadfromfile" Content="Loaded data from file!" HorizontalAlignment="Center" Visibility="Collapsed"></Label>
+                <Label Name="LbLoadfromfile" Content="Данные, загруженные из файла!" HorizontalAlignment="Center" Visibility="Collapsed"></Label>
             </DockPanel>
             <DockPanel Name="FromFile" DockPanel.Dock="Top" HorizontalAlignment="Center">
-                <Button Name="btnOpenFile" Content="Open File" HorizontalAlignment="Stretch" Width="60" Height="30" Click="btnOpenFile_Click" Margin="3 0"></Button>
-                <Button Name="btnFromWindow" Content="From Window" HorizontalAlignment="Stretch" Width="80" Height="30" Click="btnFromWindow_Click" Margin="3 0" IsEnabled="False"></Button>
+                <Button Name="btnOpenFile" Content="Окрыть файл" HorizontalAlignment="Stretch"  Height="30" Click="btnOpenFile_Click" Margin="3 0"></Button>
+                <Button Name="btnFromWindow" Content="Заполнить" HorizontalAlignment="Stretch" Width="80" Height="30" Click="btnFromWindow_Click" Margin="3 0" IsEnabled="False"></Button>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="3">
                 <!--<DockPanel DockPanel.Dock="Bottom">
@@ -64,7 +64,7 @@
                 </DockPanel>-->
 
                 <DockPanel DockPanel.Dock="Bottom">
-                    <Button x:Name="btnOK" Content="Save" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnOK_Click"></Button>
+                    <Button x:Name="btnOK" Content="Сохранить" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnOK_Click"></Button>
                     <Button x:Name="btnGraph" Content="Граф" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnGraph_Click" Visibility="Collapsed"></Button>
                     <Button x:Name="btnCancel" Content="Отмена" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnCancel_Click"></Button>
                 </DockPanel>

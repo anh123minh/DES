@@ -63,7 +63,7 @@ namespace SimulationV1.WPF.Pages
         {
             List<TablePoint> pointcoll = new List<TablePoint>();
             NormalDist dist = new NormalDist(men, variance);
-            for (double i = 0 - Math.Sqrt(variance)*4; i < Math.Sqrt(variance) * 4; i += Math.Sqrt(variance)/20)
+            for (double i = men - Math.Sqrt(variance)*4; i < Math.Sqrt(variance) * 4 + men; i += Math.Sqrt(variance)/20)
             {
                 var pdf = dist.PDF(i);
                 var cdf = dist.CDF(i);
@@ -115,7 +115,7 @@ namespace SimulationV1.WPF.Pages
         {
             PointCollection pointcoll = new PointCollection();
             NormalDist dist = new NormalDist(men, variance);
-            for (double i = 0 - Math.Sqrt(variance) * 4; i < Math.Sqrt(variance) * 4; i += Math.Sqrt(variance) / 20)
+            for (double i = men - Math.Sqrt(variance) * 4; i < Math.Sqrt(variance) * 4 + men; i += Math.Sqrt(variance) / 20)
             {
                 var y = dist.PDF(i);
                 pointcoll.Add(new Point(i, y));
@@ -126,7 +126,7 @@ namespace SimulationV1.WPF.Pages
         {
             PointCollection pointcoll = new PointCollection();
             NormalDist dist = new NormalDist(men, variance);
-            for (double i = 0 - Math.Sqrt(variance) * 4; i < Math.Sqrt(variance) * 4; i += Math.Sqrt(variance) / 20)
+            for (double i = men - Math.Sqrt(variance) * 4; i < Math.Sqrt(variance) * 4 + men; i += Math.Sqrt(variance) / 20)
             {
                 var y = dist.CDF(i);
                 pointcoll.Add(new Point(i, y));
@@ -138,6 +138,8 @@ namespace SimulationV1.WPF.Pages
         {
             Bang.Visibility = Visibility.Collapsed;
             Chart.Visibility = Visibility.Visible;
+            Bang.LastChildFill = false;
+            Chart.LastChildFill = true;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
@@ -179,6 +181,8 @@ namespace SimulationV1.WPF.Pages
         {
             Bang.Visibility = Visibility.Collapsed;
             Chart.Visibility = Visibility.Visible;
+            Bang.LastChildFill = false;
+            Chart.LastChildFill = true;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
@@ -221,6 +225,8 @@ namespace SimulationV1.WPF.Pages
         {
             Bang.Visibility = Visibility.Visible;
             Chart.Visibility = Visibility.Collapsed;
+            Bang.LastChildFill = true;
+            Chart.LastChildFill = false;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
                 if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)

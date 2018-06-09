@@ -658,6 +658,9 @@
   <ItemGroup>
     <Resource Include="Assets\AMTransition.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\model1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
