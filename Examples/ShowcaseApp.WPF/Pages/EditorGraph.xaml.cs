@@ -1436,7 +1436,7 @@ namespace SimulationV1.WPF.Pages
                 var cdf = "[Distribution_function]";
 
 
-                if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any())
+                if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any() || graphArea.LogicCore.Graph.Edges == null || !graphArea.LogicCore.Graph.Edges.Any())
                 {
                     MessageBox.Show("tap hop rong", "canh bao", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -1479,6 +1479,30 @@ namespace SimulationV1.WPF.Pages
                                 break;
                             }
                         }
+                        if (dd.TypeOfVertex == "AMTransition")
+                        {
+                            var khonglanguoncuabatcuedgenao = true;
+                            foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                            {
+                                khonglanguoncuabatcuedgenao = khonglanguoncuabatcuedgenao && ee.Target != dd;
+                            }
+                            if (khonglanguoncuabatcuedgenao)
+                            {
+                                flagbreak = true;
+                                nameconflik = dd.Text + " khong co nguon vao";
+                                break;
+                                ;
+                            }
+                        }
+                    }
+                    foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                    {
+                        if (ee.Target.TypeOfVertex == "AMGenerator")
+                        {
+                            flagbreak = true;
+                            nameconflik = "co cung " + ee.Text +" chi den nguon";
+                            break;
+                        }
                     }
                     #endregion
                     if (flagbreak)
@@ -1494,18 +1518,6 @@ namespace SimulationV1.WPF.Pages
                         var listNguon1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMGenerator").ToList();
                         var listTransition1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMTransition").ToList();
 
-                        //reset listedgesorce and listedgestarget tranh lap thi them moi
-                        //foreach (var a in arrayTransition1)
-                        //{
-                        //    a.ListEdgesSorce = new List<DataEdge>();
-                        //    a.ListEdgesTarget = new List<DataEdge>();
-                        //    a.ListEdgesSorceVertex = new List<DataVertex>();
-                        //    a.ListEdgesTargetVertex= new List<DataVertex>();
-                        //    a.Mangdkcungra = new int[a.ListEdgesTarget.Count];
-                        //    a.Mangdkcungvao = new int[a.ListEdgesSorce.Count];
-                        //    a.HdCustomerses = new Queue<Customers>();
-                        //    a.HdCustomersesPhantich = new Queue<Customers>();
-                        //}
                         foreach (var a in graphArea.LogicCore.Graph.Vertices)
                         {
                             a.ListEdgesSorce = new List<DataEdge>();
@@ -1528,12 +1540,15 @@ namespace SimulationV1.WPF.Pages
                             tt.ListEdgesTargetVertex = tt.ListEdgesTarget.Select(x => x.Source).ToList();
                             tt.Mangdkcungra = tt.ListEdgesSorce.Select(x => x.Number).ToArray();
                             tt.Mangdkcungvao = tt.ListEdgesTarget.Select(x => x.Number).ToArray();
-                            tt.TransitionType.TListPointsCDF =
-                                WindowParaVertex.SetDistributionFromFile(tt, cdf, tt.TransitionType.PathFullFile);//graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsCDF;
-                            tt.TransitionType.TListPointsPDF =
-                                WindowParaVertex.SetDistributionFromFile(tt, pdf, tt.TransitionType.PathFullFile);//graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsPDF;
+                            if (tt.TransitionType.PathFullFile != "")
+                            {
+                                tt.TransitionType.TListPointsCDF =
+                                    WindowParaVertex.SetDistributionFromFile(tt, cdf, tt.TransitionType.PathFullFile);
+                                tt.TransitionType.TListPointsPDF =
+                                    WindowParaVertex.SetDistributionFromFile(tt, pdf, tt.TransitionType.PathFullFile);
+                            }
                         }
-
+                        //graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsPDF;
                         var trans = new Transition(end, arrayNguon1, arrayTransition1);
                         trans.Run1();
                         var tntb1 = trans.ListTimeNowTable1;

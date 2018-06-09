@@ -19,6 +19,7 @@
                         <DataGridTextColumn Header="Позиция 4" Binding="{Binding Path=[4]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 5" Binding="{Binding Path=[5]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 6" Binding="{Binding Path=[6]}" MinWidth="50" Width="*"/>
+                        <DataGridTextColumn Header="Позиция 6" Binding="{Binding Path=[7]}" MinWidth="50" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

@@ -159,6 +159,7 @@ namespace SimulationV1.WPF.Pages
                             break;
                         case GeneratorClass.Distribution.ExponentialDis:
                             cbbDistribution.SelectedIndex = 1;
+                            tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
                             break;
                         default:
                             break;
@@ -185,6 +186,7 @@ namespace SimulationV1.WPF.Pages
                             break;
                         case GeneratorClass.Distribution.ExponentialDis:
                             cbbDistribution.SelectedIndex = 1;
+                            tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
                             break;
                         default:
                             break;
@@ -215,6 +217,7 @@ namespace SimulationV1.WPF.Pages
                                 break;
                             case 1:
                                 VertexAfter.GeneratorType.TypeDistribuion = GeneratorClass.Distribution.ExponentialDis;
+                                VertexAfter.GeneratorType.Para = double.Parse(tBxPara.Text);
                                 break;
                             default:
                                 break;
@@ -246,6 +249,7 @@ namespace SimulationV1.WPF.Pages
                                 break;
                             case 1:
                                 VertexAfter.TransitionType.TypeDistribuion = GeneratorClass.Distribution.ExponentialDis;
+                                VertexAfter.TransitionType.Para = double.Parse(tBxPara.Text);
                                 break;
                             default:
                                 break;
