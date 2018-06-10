@@ -44,6 +44,7 @@
                     </DockPanel>
                     <DockPanel x:Name="DPPara" DockPanel.Dock="Top" Margin="3" HorizontalAlignment="Stretch" LastChildFill="False" Visibility="Visible">
                         <Label x:Name="LabelPara" Content="Параметр:" DockPanel.Dock="Left" Margin="3"></Label>
+                        <!--<TextBlock x:Name="LabelPara1" Text="Параметр:" DockPanel.Dock="Left" Margin="3"></TextBlock>-->
                         <TextBox x:Name="tBxPara" DockPanel.Dock="Right" Margin="3" Width="40"></TextBox>
                     </DockPanel>
                 </DockPanel>

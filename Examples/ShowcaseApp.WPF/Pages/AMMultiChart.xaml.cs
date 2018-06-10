@@ -36,8 +36,6 @@ namespace SimulationV1.WPF.Pages
 
             InitializeComponent();
             btnMultiGraph_Click(null, null);
-
-
         }
 
         public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb)
@@ -59,18 +57,21 @@ namespace SimulationV1.WPF.Pages
                 {
                     listtemp.Add(listblockcounttb1[i][j]);
                 }
-                listblockcounttable.Add(listtemp);
-            }
-            for (int i = 0; i < listblockcounttb2.Count; i++)
-            {
-                var listtemp = new List<int>();
                 for (int j = 0; j < listblockcounttb2[0].Count; j++)
                 {
                     listtemp.Add(listblockcounttb2[i][j]);
                 }
                 listblockcounttable.Add(listtemp);
             }
-
+            //for (int i = 0; i < listblockcounttb2.Count; i++)
+            //{
+            //    var listtemp = new List<int>();
+            //    for (int j = 0; j < listblockcounttb2[0].Count; j++)
+            //    {
+            //        listtemp.Add(listblockcounttb2[i][j]);
+            //    }
+            //    listblockcounttable.Add(listtemp);
+            //}
             InitializeComponent();
             btnMultiGraph_Click(null, null);
         }
@@ -132,10 +133,10 @@ namespace SimulationV1.WPF.Pages
         //}
         private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
         {
-            Bang.Visibility = Visibility.Collapsed;
-            //Bang.LastChildFill = false;
+            TableData.Visibility = Visibility.Collapsed;
+            btnTable.IsEnabled = true;
             Graph.Visibility = Visibility.Visible;
-            //Graph.LastChildFill = true;
+            btnMultiGraph.IsEnabled = false;
 
             ChartData = new ChartData();
             ChartData.Title = "Количество разметки в системе";
@@ -182,8 +183,10 @@ namespace SimulationV1.WPF.Pages
 
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
+            btnMultiGraph.IsEnabled = true;
+            btnTable.IsEnabled = false;
             Graph.Visibility = Visibility.Collapsed;
-            Bang.Visibility = Visibility.Visible;
+            TableData.Visibility = Visibility.Visible;
 
             var dara = new List<List<int>>();
             dara.Add(listtimenowtable);

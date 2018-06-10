@@ -35,7 +35,6 @@ namespace SimulationV1.WPF.Pages
             InitializeComponent();
             vertex = vertex0;
             btnTable_Click(null, null);
-                     
         }
 
         public List<TablePoint> Table(List<List<double>> listpdf, List<List<double>> listcdf)
@@ -136,6 +135,10 @@ namespace SimulationV1.WPF.Pages
 
         private void btnPDF_Click(object sender, RoutedEventArgs e)
         {
+            ChartIn.Title = "Плотность вероятности";
+            btnPDF.IsEnabled = false;
+            btnCDF.IsEnabled = true;
+            btnTable.IsEnabled = true;
             Bang.Visibility = Visibility.Collapsed;
             Chart.Visibility = Visibility.Visible;
             Bang.LastChildFill = false;
@@ -179,6 +182,10 @@ namespace SimulationV1.WPF.Pages
         }
         private void btnCDF_Click(object sender, RoutedEventArgs e)
         {
+            ChartIn.Title = "Функция распределения";
+            btnPDF.IsEnabled = true;
+            btnCDF.IsEnabled = false;
+            btnTable.IsEnabled = true;
             Bang.Visibility = Visibility.Collapsed;
             Chart.Visibility = Visibility.Visible;
             Bang.LastChildFill = false;
@@ -196,7 +203,6 @@ namespace SimulationV1.WPF.Pages
                     var mean = vertex.GeneratorType.Mean;
                     result = NormalDistribution_CDF(varian, mean);
                 }
-
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
@@ -223,6 +229,9 @@ namespace SimulationV1.WPF.Pages
         }
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
+            btnPDF.IsEnabled = true;
+            btnCDF.IsEnabled = true;
+            btnTable.IsEnabled = false;
             Bang.Visibility = Visibility.Visible;
             Chart.Visibility = Visibility.Collapsed;
             Bang.LastChildFill = true;

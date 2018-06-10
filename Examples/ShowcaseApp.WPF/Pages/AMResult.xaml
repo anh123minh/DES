@@ -12,16 +12,13 @@
             <DockPanel Margin="0">
                 <chartingToolkit:Chart  DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Padding="0" BorderBrush="White" >
                     <local:StepLineSeries x:Name="BieuDo" DependentValuePath="Y" IndependentValuePath="X" ItemsSource="{Binding}" VerticalContentAlignment="Stretch">
-
                         <chartingToolkit:LineSeries.DataPointStyle>
                             <Style TargetType="chartingToolkit:LineDataPoint">
                                 <Setter Property="Width" Value="2"/>
                                 <Setter Property="Height" Value="2"/>
                                 <Setter Property="Background" Value="Green"/>
-
                             </Style>
                         </chartingToolkit:LineSeries.DataPointStyle>
-
                     </local:StepLineSeries>
                     <chartingToolkit:Chart.LegendStyle>
                         <Style TargetType="Control">
