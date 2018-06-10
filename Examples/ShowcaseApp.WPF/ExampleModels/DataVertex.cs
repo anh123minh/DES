@@ -29,11 +29,15 @@ namespace SimulationV1.WPF
         public List<DataVertex> ListEdgesSorceVertex = new List<DataVertex>();//Danh sach cac vertex bat dau cua edge bat dau la vertex nay
         public int[] Mangdkcungvao;
         public int[] Mangdkcungra;
-        public Queue<Customers> HdCustomerses = new Queue<Customers>();//hang doi de them cus vao
-        public Queue<Customers> HdCustomersesPhantich = new Queue<Customers>();// de sau dung phan tich// co le k can thiet
+        public Queue<Chips> HdCustomerses = new Queue<Chips>();//hang doi de them cus vao
+        public Queue<Chips> HdCustomersesPhantich = new Queue<Chips>();// de sau dung phan tich// co le k can thiet
 
         public List<List<double>> ListPointsPDF = new List<List<double>>();//f(x)
         public List<List<double>> ListPointsCDF = new List<List<double>>();//F(x)
+
+        public List<int> ListTimeNow = new List<int>();
+        public List<List<int>> ListTimePlaceIn = new List<List<int>>();
+        public List<List<int>> ListTimePlaceOut = new List<List<int>>();
 
         public string Name { get; set; }
         public string Profession { get; set; }

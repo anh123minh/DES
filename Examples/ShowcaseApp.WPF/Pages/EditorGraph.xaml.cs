@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -1526,8 +1527,8 @@ namespace SimulationV1.WPF.Pages
                             a.ListEdgesTargetVertex = new List<DataVertex>();
                             a.Mangdkcungra = new int[a.ListEdgesTarget.Count];
                             a.Mangdkcungvao = new int[a.ListEdgesSorce.Count];
-                            a.HdCustomerses = new Queue<Customers>();
-                            a.HdCustomersesPhantich = new Queue<Customers>();
+                            a.HdCustomerses = new Queue<Chips>();
+                            a.HdCustomersesPhantich = new Queue<Chips>();
                             
                         }
 
@@ -1540,7 +1541,7 @@ namespace SimulationV1.WPF.Pages
                             tt.ListEdgesTargetVertex = tt.ListEdgesTarget.Select(x => x.Source).ToList();
                             tt.Mangdkcungra = tt.ListEdgesSorce.Select(x => x.Number).ToArray();
                             tt.Mangdkcungvao = tt.ListEdgesTarget.Select(x => x.Number).ToArray();
-                            if (tt.TransitionType.PathFullFile != "")
+                            if (tt.TransitionType.PathFullFile != "" && File.Exists(tt.TransitionType.PathFullFile))
                             {
                                 tt.TransitionType.TListPointsCDF =
                                     WindowParaVertex.SetDistributionFromFile(tt, cdf, tt.TransitionType.PathFullFile);
@@ -1549,13 +1550,17 @@ namespace SimulationV1.WPF.Pages
                             }
                         }
                         //graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsPDF;
+                        
                         var trans = new Transition(end, arrayNguon1, arrayTransition1);
                         trans.Run1();
-                        var tntb1 = trans.ListTimeNowTable1;
-                        var pttb1 = trans.PhantichTable1;
+                        var resulttransition = new AMResultTransitions(trans.ArrayTransitions1);
+                        MessageBox.Show("Завершено моделирование по времени " + trans.LastTime1 + " единиц!", "Завершено моделирование", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resulttransition.Show();
+                        //var tntb1 = trans.ListTimeNowTable1;
+                        //var pttb1 = trans.PhantichTable1;
 
-                        var asm = new AMMultiChart(tntb1, pttb1);
-                        asm.Show();
+                        //var asm = new AMMultiChart(tntb1, pttb1);
+                        //asm.Show();
                     }
                 }               
             }

@@ -168,6 +168,9 @@
     <Compile Include="Pages\AMResult.xaml.cs">
       <DependentUpon>AMResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AMResultTransitions.xaml.cs">
+      <DependentUpon>AMResultTransitions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MultiChart.cs" />
     <Compile Include="Pages\NormalDist.cs" />
     <Compile Include="Pages\StepLineSeries.cs" />
@@ -243,6 +246,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\AMResultTransitions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\FeatureLists\FeaturesPageEdges.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -258,10 +265,6 @@
     <Page Include="Pages\FeatureLists\FeaturesPageTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Debug\DebugGraph.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\GeneralGraph.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -363,10 +366,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Templates\Debug\TestTemplates.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Templates\ThemedGraphXTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -417,9 +416,6 @@
     </Compile>
     <Compile Include="Pages\FeatureLists\FeaturesPageTemplates.xaml.cs">
       <DependentUpon>FeaturesPageTemplates.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Debug\DebugGraph.xaml.cs">
-      <DependentUpon>DebugGraph.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\FitnessFunction.cs" />
     <Compile Include="Pages\GeneralGraph.xaml.cs">
@@ -632,7 +628,9 @@
     <Resource Include="Assets\setting.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages\Debug\" />
     <Folder Include="Resources\" />
+    <Folder Include="Templates\Debug\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\AMCreate.jpg" />

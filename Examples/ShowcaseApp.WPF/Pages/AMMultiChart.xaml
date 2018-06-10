@@ -10,8 +10,8 @@
     <Grid>
         <DockPanel>
             <DockPanel x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible" HorizontalAlignment="Stretch" MaxHeight="800">
-                <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="False">
-                    <DataGrid.Columns >
+                <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="true">
+                    <!--<DataGrid.Columns >
                         <DataGridTextColumn Header="Время" Binding="{Binding Path=[0]}" MinWidth="50" Width="*" />
                         <DataGridTextColumn Header="Позиция 1" Binding="{Binding Path=[1]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 2" Binding="{Binding Path=[2]}" MinWidth="50" Width="*"/>
@@ -20,8 +20,9 @@
                         <DataGridTextColumn Header="Позиция 5" Binding="{Binding Path=[5]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 6" Binding="{Binding Path=[6]}" MinWidth="50" Width="*"/>
                         <DataGridTextColumn Header="Позиция 6" Binding="{Binding Path=[7]}" MinWidth="50" Width="*"/>
-                    </DataGrid.Columns>
+                    </DataGrid.Columns>-->
                 </DataGrid>
+                
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Center" >
                 <DockPanel DockPanel.Dock="Top">
@@ -37,11 +38,18 @@
                     <local:MultiChart.SeriesTemplate>
                         <DataTemplate>
                             <local:StepLineSeries
-                                Title=""
-                                ItemsSource="{Binding}"
+                                Title="{Binding Name}"
+                                ItemsSource="{Binding Data}"
                                 IndependentValueBinding="{Binding Key}"
                                 DependentValueBinding="{Binding Value}" />
                         </DataTemplate>
+                        <!--<DataTemplate>
+                            <local:StepLineSeries
+                                Title="{Binding Name}"
+                                ItemsSource="{Binding Data}"
+                                IndependentValueBinding="{Binding Time}"
+                                DependentValueBinding="{Binding Value}" />
+                        </DataTemplate>-->
                     </local:MultiChart.SeriesTemplate>
                 </local:MultiChart>
             </DockPanel>

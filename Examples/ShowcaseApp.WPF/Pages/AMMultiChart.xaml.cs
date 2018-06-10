@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -24,7 +25,7 @@ namespace SimulationV1.WPF.Pages
         private List<int> listtimenowgraph;
         private List<List<int>> listblockcountgraph;
         private List<int> listtimenowtable;
-        private List<List<int>> listblockcounttable;
+        private List<List<int>> listblockcounttable = new List<List<int>>();
         public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb, List<int> listtimenowgr, List<List<int>> listblockcountgr)
         {
             listtimenowtable = listtimenowtb;
@@ -46,8 +47,32 @@ namespace SimulationV1.WPF.Pages
 
             InitializeComponent();
             btnMultiGraph_Click(null, null);
+        }
 
+        public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb1, List<List<int>> listblockcounttb2)
+        {
+            listtimenowtable = listtimenowtb;
+            for (int i = 0; i < listblockcounttb1.Count; i++)
+            {
+                var listtemp = new List<int>();
+                for (int j = 0; j < listblockcounttb1[0].Count; j++)
+                {
+                    listtemp.Add(listblockcounttb1[i][j]);
+                }
+                listblockcounttable.Add(listtemp);
+            }
+            for (int i = 0; i < listblockcounttb2.Count; i++)
+            {
+                var listtemp = new List<int>();
+                for (int j = 0; j < listblockcounttb2[0].Count; j++)
+                {
+                    listtemp.Add(listblockcounttb2[i][j]);
+                }
+                listblockcounttable.Add(listtemp);
+            }
 
+            InitializeComponent();
+            btnMultiGraph_Click(null, null);
         }
         //private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
         //{
@@ -114,17 +139,39 @@ namespace SimulationV1.WPF.Pages
 
             ChartData = new ChartData();
             ChartData.Title = "Количество разметки в системе";
-            ChartData.DataSeriesList = new List<Dictionary<int, int>>();
+            ChartData.DataSeriesList = new List<ChartDataSerie>();
 
-            for (int i = 0; i < listblockcounttable.Count; i++)
+            //for (int i = 0; i < listblockcounttable.Count; i++)
+            //{
+            //    var dataSeries = new Dictionary<int, int>();
+            //    for (int j = 0; j < listtimenowtable.Count; j++)
+            //    {
+            //        dataSeries.Add(listtimenowtable[j], listblockcounttable[i][j]);
+            //    }
+            //    ChartData.DataSeriesList.Add(dataSeries);
+            //}
+
+            for (int i = 0; i < listblockcounttable[0].Count; i++)
             {
                 var dataSeries = new Dictionary<int, int>();
                 for (int j = 0; j < listtimenowtable.Count; j++)
                 {
-                    dataSeries.Add(listtimenowtable[j], listblockcounttable[i][j]);
+                    dataSeries.Add(listtimenowtable[j], listblockcounttable[j][i]);
                 }
-                ChartData.DataSeriesList.Add(dataSeries);
+                ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
             }
+//quan trong mo rong
+            //for (int i = 0; i < listblockcounttable[0].Count; i++)
+            //{
+            //    var dataSeries = new List<ChartPoint>();
+            //    for (int j = 0; j < listtimenowtable.Count; j++)
+            //    {
+            //        dataSeries.Add(new ChartPoint(){ Time = listtimenowtable[j], Value = listblockcounttable[j][i]});
+            //    }
+            //    ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
+            //}
+
+
 
 
             ChartDataList = new List<ChartData>();
@@ -136,26 +183,63 @@ namespace SimulationV1.WPF.Pages
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
             Graph.Visibility = Visibility.Collapsed;
-            //Graph.LastChildFill = false;
             Bang.Visibility = Visibility.Visible;
-            //Bang.LastChildFill = true;
-            
-            //var dara = new ObservableCollection<List<int>>();
+
             var dara = new List<List<int>>();
             dara.Add(listtimenowtable);
-            foreach (var sd in listblockcounttable)
+
+            for (int i = 0; i < listblockcounttable[0].Count; i++)
             {
-                dara.Add(sd);
+                var temp = new List<int>();
+                for (int j = 0; j < listblockcounttable.Count; j++)
+                {
+                    temp.Add(listblockcounttable[j][i]);
+                }
+                dara.Add(temp);
             }
-            TableData.ItemsSource = Cot2Hang(dara);
-            //var ns = new List<List<int>>();
-            //var s1 = new List<int>(){1,2,3,4,5};
-            //var s2 = new List<int>() { 2, 4, 6, 8, 10 };
-            //var s3 = new List<int>() { 10, 20, 30, 40, 50 };
-            //ns.Add(s1);
-            //ns.Add(s2);
-            //ns.Add(s3);
-            //TableData.ItemsSource = s1;
+            
+            var result = Cot2Hang(dara);
+            var dataTable = new DataTable();
+            for (int i = 0; i < result[0].Count; i++)
+            {
+                var cl = new DataColumn($"column {i}", typeof(int));
+                dataTable.Columns.Add(cl);               
+            }
+            for (int i = 0; i < result.Count; i++)
+            {
+                var row = dataTable.NewRow();
+                for (int j = 0; j < dataTable.Columns.Count; j++)
+                {
+                    row[j] = result[i][j];
+                }
+
+                dataTable.Rows.Add(row);
+            }
+
+            TableData.ItemsSource = dataTable.DefaultView;
+            
+
+            //Graph.Visibility = Visibility.Collapsed;
+            ////Graph.LastChildFill = false;
+            //Bang.Visibility = Visibility.Visible;
+            ////Bang.LastChildFill = true;
+
+            ////var dara = new ObservableCollection<List<int>>();
+            //var dara = new List<List<int>>();
+            //dara.Add(listtimenowtable);
+            //foreach (var sd in listblockcounttable)
+            //{
+            //    dara.Add(sd);
+            //}
+            //TableData.ItemsSource = Cot2Hang(dara);
+            ////var ns = new List<List<int>>();
+            ////var s1 = new List<int>(){1,2,3,4,5};
+            ////var s2 = new List<int>() { 2, 4, 6, 8, 10 };
+            ////var s3 = new List<int>() { 10, 20, 30, 40, 50 };
+            ////ns.Add(s1);
+            ////ns.Add(s2);
+            ////ns.Add(s3);
+            ////TableData.ItemsSource = s1;
         }
 
         List<List<int>> Cot2Hang(List<List<int>> list)
@@ -188,14 +272,33 @@ namespace SimulationV1.WPF.Pages
     public class ChartData
     {
         public string Title { get; set; }
-        public List<Dictionary<int, int>> DataSeriesList { get; set; }
+        public List<ChartDataSerie> DataSeriesList { get; set; }
     }
 
-    //public class ChartData
+    public class ChartDataSerie
+    {
+        public string Name { get; set; }
+
+        public Dictionary<int, int> Data { get; set; }
+    }
+//quan trong mo rong
+    //public class ChartDataSerie
     //{
-    //    public string Title { get; set; }
-    //    public List<List<int>> DataSeriesList { get; set; }
+    //    public string Name { get; set; }
+
+    //    public List<ChartPoint> Data { get; set; }
     //}
+
+    //public class ChartPoint
+    //{
+    //    public int Time { get; set; }
+    //    public int Value { get; set; }
+    //}
+    ////public class ChartData
+    ////{
+    ////    public string Title { get; set; }
+    ////    public List<List<int>> DataSeriesList { get; set; }
+    ////}
 }
 
 //var dataSeries = new Dictionary<string, int>();

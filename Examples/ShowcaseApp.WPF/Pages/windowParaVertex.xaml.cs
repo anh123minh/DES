@@ -116,7 +116,7 @@ namespace SimulationV1.WPF.Pages
                     //tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
                     FromFile.Visibility = Visibility.Visible;
-                    if (VertexBefore.TransitionType.PathFullFile != "")
+                    if (VertexBefore.TransitionType.PathFullFile != "" && File.Exists(VertexBefore.TransitionType.PathFullFile))
                     {
                         info.IsEnabled = false;
                         LbLoadfromfile.Visibility = Visibility.Visible;
@@ -262,6 +262,7 @@ namespace SimulationV1.WPF.Pages
                             VertexAfter.TransitionType.TListPointsPDF = lispdf;
                             VertexAfter.TransitionType.TListPointsCDF = liscdf;
                             VertexAfter.TransitionType.PathFullFile = System.IO.Path.GetFullPath(namefile);
+                            //VertexAfter.TransitionType.PathFullFile = System.IO.Path.GetFileName(namefile);
                         }
                         else
                         {
@@ -286,7 +287,7 @@ namespace SimulationV1.WPF.Pages
         {
             try
             {
-                if (VertexAfter.TypeOfVertex == "AMTransition" && VertexAfter.TransitionType.PathFullFile != "")
+                if (VertexAfter.TypeOfVertex == "AMTransition" && VertexAfter.TransitionType.PathFullFile != "" && File.Exists(VertexAfter.TransitionType.PathFullFile))
                 {
                     var pdf = "[Probability_density]";
                     var cdf = "[Distribution_function]";
@@ -306,7 +307,7 @@ namespace SimulationV1.WPF.Pages
             catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString());
-
+                //UpdateVertex();
             }
         }
 
@@ -331,7 +332,7 @@ namespace SimulationV1.WPF.Pages
                 LbLoadfromfile.Visibility = Visibility.Visible;
                 btnFromWindow.IsEnabled = true;              
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";                           
+                openFileDialog.Filter = "GPD files (*.gpd)|*.gpd|All files (*.*)|*.*";                           
 
                 if (openFileDialog.ShowDialog() == true)
                 {
@@ -349,7 +350,7 @@ namespace SimulationV1.WPF.Pages
             catch (Exception exception)
             {
                 MessageBox.Show("Проверите файл!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                MessageBox.Show(exception.ToString());
+                //MessageBox.Show(exception.ToString());
             }            
         }
 

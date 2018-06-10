@@ -8,9 +8,56 @@
         mc:Ignorable="d"
         Title="" Height="450" Width="600" WindowStartupLocation="CenterScreen">
     <Grid>
-        <GroupBox Margin="3" DockPanel.Dock="Top" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible">
+            <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="False" MaxHeight="300">
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="X" Binding="{Binding Path=x}" MinWidth="50" Width="*" />
+                    <DataGridTextColumn Header="Плотность вероятности" Binding="{Binding Path=y}" MinWidth="50" Width="*"/>
+                    <DataGridTextColumn Header="Функция распределения" Binding="{Binding Path=z}" MinWidth="50" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <DockPanel Grid.Row="0" Name="Chart" DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+            <chartingToolkit:Chart DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" BorderBrush="White">
+                <chartingToolkit:LineSeries x:Name="DoThi" DependentValuePath="Y" IndependentValuePath="X" ItemsSource="{Binding}" VerticalContentAlignment="Stretch">
+
+                    <chartingToolkit:LineSeries.DataPointStyle>
+                        <Style TargetType="chartingToolkit:LineDataPoint">
+                            <Setter Property="Width" Value="2"/>
+                            <Setter Property="Height" Value="2"/>
+                            <Setter Property="Background" Value="Green"/>
+
+                        </Style>
+                    </chartingToolkit:LineSeries.DataPointStyle>
+
+                </chartingToolkit:LineSeries>
+                <chartingToolkit:Chart.LegendStyle>
+                    <Style TargetType="Control">
+                        <Setter Property="Width" Value="0" />
+                        <Setter Property="Height" Value="0" />
+                    </Style>
+                </chartingToolkit:Chart.LegendStyle>
+                <chartingToolkit:Chart.Axes>
+                    <chartingToolkit:LinearAxis
+                        Orientation="Y" Minimum="0" ShowGridLines="True"/>
+                    <chartingToolkit:LinearAxis
+                        Orientation="X" ShowGridLines="True"/>
+                </chartingToolkit:Chart.Axes>
+            </chartingToolkit:Chart>
+        </DockPanel>
+        <DockPanel Grid.Row="1" DockPanel.Dock="Bottom"  HorizontalAlignment="Center" Height="40" LastChildFill="False">
+            <Button x:Name="btnTable" Content="Таблица" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnTable_Click"></Button>
+            <Button x:Name="btnPDF" Content="Плотность вероятности" DockPanel.Dock="Left" Margin="3" Width="Auto" Height="30" Click="btnPDF_Click"></Button>
+            <Button x:Name="btnClose" Content="Закрыть" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnClose_Click"></Button>
+            <Button x:Name="btnCDF" Content="Функция распределения" DockPanel.Dock="Right" Margin="3" Width="Auto" Height="30" Click="btnCDF_Click"></Button>
+        </DockPanel>
+        <!--<GroupBox Margin="3" DockPanel.Dock="Top" >
             <DockPanel Margin="0">
-                <DockPanel x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible">
+                --><!--<DockPanel x:Name ="Bang"  DockPanel.Dock="Top" Visibility="Visible">
                     <DataGrid x:Name="TableData" ItemsSource="{Binding}" HorizontalAlignment="Left" AutoGenerateColumns="False" MaxHeight="300">
                         <DataGrid.Columns >
                             <DataGridTextColumn Header="X" Binding="{Binding Path=x}" MinWidth="50" Width="*" />
@@ -18,9 +65,9 @@
                             <DataGridTextColumn Header="Функция распределения" Binding="{Binding Path=z}" MinWidth="50" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </DockPanel>
-                <DockPanel Name="Chart" DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
-                    <chartingToolkit:Chart DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="320" Padding="0" BorderBrush="White">
+                </DockPanel>-->
+                <!--<DockPanel Name="Chart" DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+                    <chartingToolkit:Chart DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" BorderBrush="White">
                         <chartingToolkit:LineSeries x:Name="DoThi" DependentValuePath="Y" IndependentValuePath="X" ItemsSource="{Binding}" VerticalContentAlignment="Stretch">
 
                             <chartingToolkit:LineSeries.DataPointStyle>
@@ -46,15 +93,15 @@
                                 Orientation="X" ShowGridLines="True"/>
                         </chartingToolkit:Chart.Axes>
                     </chartingToolkit:Chart>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Bottom"  HorizontalAlignment="Center" Height="40" LastChildFill="False">
+                </DockPanel>-->
+                <!--<DockPanel DockPanel.Dock="Bottom"  HorizontalAlignment="Center" Height="40" LastChildFill="False">
                     <Button x:Name="btnTable" Content="Таблица" DockPanel.Dock="Left" Margin="3" Width="60" Height="30" Click="btnTable_Click"></Button>
                     <Button x:Name="btnPDF" Content="Плотность вероятности" DockPanel.Dock="Left" Margin="3" Width="Auto" Height="30" Click="btnPDF_Click"></Button>
                     <Button x:Name="btnClose" Content="Закрыть" DockPanel.Dock="Right" Margin="3" Width="60" Height="30" Click="btnClose_Click"></Button>
                     <Button x:Name="btnCDF" Content="Функция распределения" DockPanel.Dock="Right" Margin="3" Width="Auto" Height="30" Click="btnCDF_Click"></Button>
-                </DockPanel>
+                </DockPanel>--><!--
             </DockPanel>
             
-        </GroupBox>
+        </GroupBox>-->
     </Grid>
 </Window>
