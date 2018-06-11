@@ -24,12 +24,12 @@ namespace SimulationV1.WPF.Pages
         public List<ChartData> ChartDataList { get; set; }
         private List<int> listtimenowgraph;
         private List<List<int>> listblockcountgraph;
-        private List<int> listtimenowtable;
-        private List<List<int>> listblockcounttable = new List<List<int>>();
+        private readonly List<int> _listtimenowtable;
+        private readonly List<List<int>> _listblockcounttable = new List<List<int>>();
         public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb, List<int> listtimenowgr, List<List<int>> listblockcountgr)
         {
-            listtimenowtable = listtimenowtb;
-            listblockcounttable = listblockcounttb;
+            _listtimenowtable = listtimenowtb;
+            _listblockcounttable = listblockcounttb;
 
             listtimenowgraph = listtimenowgr;
             listblockcountgraph = listblockcountgr;           
@@ -40,8 +40,8 @@ namespace SimulationV1.WPF.Pages
 
         public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb)
         {
-            listtimenowtable = listtimenowtb;
-            listblockcounttable = listblockcounttb;
+            _listtimenowtable = listtimenowtb;
+            _listblockcounttable = listblockcounttb;
 
             InitializeComponent();
             btnMultiGraph_Click(null, null);
@@ -49,7 +49,7 @@ namespace SimulationV1.WPF.Pages
 
         public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb1, List<List<int>> listblockcounttb2)
         {
-            listtimenowtable = listtimenowtb;
+            _listtimenowtable = listtimenowtb;
             for (int i = 0; i < listblockcounttb1.Count; i++)
             {
                 var listtemp = new List<int>();
@@ -61,7 +61,7 @@ namespace SimulationV1.WPF.Pages
                 {
                     listtemp.Add(listblockcounttb2[i][j]);
                 }
-                listblockcounttable.Add(listtemp);
+                _listblockcounttable.Add(listtemp);
             }
             //for (int i = 0; i < listblockcounttb2.Count; i++)
             //{
@@ -151,16 +151,19 @@ namespace SimulationV1.WPF.Pages
             //    }
             //    ChartData.DataSeriesList.Add(dataSeries);
             //}
-
-            for (int i = 0; i < listblockcounttable[0].Count; i++)
+            if (_listblockcounttable[0].Count != 0)
             {
-                var dataSeries = new Dictionary<int, int>();
-                for (int j = 0; j < listtimenowtable.Count; j++)
+                for (int i = 0; i < _listblockcounttable[0].Count; i++)
                 {
-                    dataSeries.Add(listtimenowtable[j], listblockcounttable[j][i]);
+                    var dataSeries = new Dictionary<int, int>();
+                    for (int j = 0; j < _listtimenowtable.Count; j++)
+                    {
+                        dataSeries.Add(_listtimenowtable[j], _listblockcounttable[j][i]);
+                    }
+                    ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
                 }
-                ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
             }
+            
 //quan trong mo rong
             //for (int i = 0; i < listblockcounttable[0].Count; i++)
             //{
@@ -189,14 +192,14 @@ namespace SimulationV1.WPF.Pages
             TableData.Visibility = Visibility.Visible;
 
             var dara = new List<List<int>>();
-            dara.Add(listtimenowtable);
+            dara.Add(_listtimenowtable);
 
-            for (int i = 0; i < listblockcounttable[0].Count; i++)
+            for (int i = 0; i < _listblockcounttable[0].Count; i++)
             {
                 var temp = new List<int>();
-                for (int j = 0; j < listblockcounttable.Count; j++)
+                for (int j = 0; j < _listblockcounttable.Count; j++)
                 {
-                    temp.Add(listblockcounttable[j][i]);
+                    temp.Add(_listblockcounttable[j][i]);
                 }
                 dara.Add(temp);
             }

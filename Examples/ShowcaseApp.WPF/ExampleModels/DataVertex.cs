@@ -39,6 +39,8 @@ namespace SimulationV1.WPF
         public List<List<int>> ListTimePlaceIn = new List<List<int>>();
         public List<List<int>> ListTimePlaceOut = new List<List<int>>();
 
+        public int FirstMark { get; set; }// so luong ban dau trong mang
+
         public string Name { get; set; }
         public string Profession { get; set; }
         public string Gender { get; set; }

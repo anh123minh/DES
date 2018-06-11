@@ -6,7 +6,7 @@ using React.Distribution;
 
 namespace SimulationV1.WPF.ExampleModels
 {
-    class Transition
+    public class Transition
     {
 
         public int SoCungVao { get; set; } = 3;
@@ -44,6 +44,7 @@ namespace SimulationV1.WPF.ExampleModels
         public List<int> ListTimeNowTable1 { get; set; }
         public List<List<int>> PhantichTable1 { get; set; }
         public List<Chips> listKH1 = new List<Chips>();//list ke hoach chua cac cus se vao he thong 
+        public int Count = 0;//dem so lan kich khoat trong toan bo he thong
 
         public Transition(int endingtime, int socungvao, int[] arraycungvao, int socungra, int[] arraycungra, GeneratorClass[] mangnguon, TransitionClass nutchuyen)
         {
@@ -73,7 +74,8 @@ namespace SimulationV1.WPF.ExampleModels
         {
             try
             {
-     
+
+                PhantichTable1 = new List<List<int>>();
                 var listptTable1 = new List<List<int>>();
                 //listqueue1 - danh sach cac hang doi ca truoc va sau Chuyen
                 var listQueueBeforAndAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Concat(ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex)).Distinct().ToList();
@@ -88,22 +90,7 @@ namespace SimulationV1.WPF.ExampleModels
                     firsttimenow.Add(a.HdCustomerses.Count);
                 }
                 listptTable1.Add(firsttimenow);
-                foreach (var a in ArrayTransitions1)
-                {
-                    a.ListTimeNow.Add(TimeNow1);
-                    var befor = new List<int>();
-                    foreach (var b in a.ListEdgesTargetVertex)
-                    {
-                        befor.Add(b.HdCustomerses.Count);
-                    }
-                    a.ListTimePlaceIn.Add(befor);
-                    var after = new List<int>();
-                    foreach (var b in a.ListEdgesSorceVertex)
-                    {
-                        after.Add(b.HdCustomerses.Count);
-                    }
-                    a.ListTimePlaceOut.Add(after);
-                }
+                CountAndSetNumberCusInQueue();
                 var arrayTimeKh1 = new int[ArrayNguon1.Count()];
                 var listnumcusnguon = new int[ArrayNguon1.Count()];
                 do
@@ -145,23 +132,23 @@ namespace SimulationV1.WPF.ExampleModels
                         al.Add(a.HdCustomerses.Count);
                     }
                     listptTable1.Add(al);
-                    
-                    foreach (var a in ArrayTransitions1)
-                    {
-                        a.ListTimeNow.Add(TimeNow1);
-                        var befor = new List<int>();
-                        foreach (var b in a.ListEdgesTargetVertex)
-                        {
-                            befor.Add(b.HdCustomerses.Count);
-                        }
-                        a.ListTimePlaceIn.Add(befor);
-                        var after = new List<int>();
-                        foreach (var b in a.ListEdgesSorceVertex)
-                        {
-                            after.Add(b.HdCustomerses.Count);
-                        }
-                        a.ListTimePlaceOut.Add(after);
-                    }
+                    CountAndSetNumberCusInQueue();
+                    //foreach (var a in ArrayTransitions1)
+                    //{
+                    //    a.ListTimeNow.Add(TimeNow1);
+                    //    var befor = new List<int>();
+                    //    foreach (var b in a.ListEdgesTargetVertex)
+                    //    {
+                    //        befor.Add(b.HdCustomerses.Count);
+                    //    }
+                    //    a.ListTimePlaceIn.Add(befor);
+                    //    var after = new List<int>();
+                    //    foreach (var b in a.ListEdgesSorceVertex)
+                    //    {
+                    //        after.Add(b.HdCustomerses.Count);
+                    //    }
+                    //    a.ListTimePlaceOut.Add(after);
+                    //}
 
                     //    //Co Generator nao sinh het chua && TimeNow == LastTime thi dung -> neu co cai chua het thi co sinh them nua cung k de lam gif vi 1 cai da dung roi nen k the kich hoat bat cu Chuyen nao duoc nua ;
                     //    if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow1 == LastTime)
@@ -177,6 +164,7 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         if (mm)//Kich hoat
                         {
+                            Count++;
                             for (int i = 0; i < a.Mangdkcungvao.Length; i++)
                             {
                                 for (int j = 0; j < a.Mangdkcungvao[i]; j++)
@@ -269,32 +257,54 @@ namespace SimulationV1.WPF.ExampleModels
                             al1.Add(sss.HdCustomerses.Count);
                         }
                         listptTable1.Add(al1);
-                        foreach (var a in ArrayTransitions1)
-                        {
-                            a.ListTimeNow.Add(TimeNow1);
-                            var befor = new List<int>();
-                            foreach (var b in a.ListEdgesTargetVertex)
-                            {
-                                befor.Add(b.HdCustomerses.Count);
-                            }
-                            a.ListTimePlaceIn.Add(befor);
-                            var after = new List<int>();
-                            foreach (var b in a.ListEdgesSorceVertex)
-                            {
-                                befor.Add(b.HdCustomerses.Count);
-                            }
-                            a.ListTimePlaceOut.Add(after);
-                        }
+                        CountAndSetNumberCusInQueue();
+                        //foreach (var a in ArrayTransitions1)
+                        //{
+                        //    a.ListTimeNow.Add(TimeNow1);
+                        //    var befor = new List<int>();
+                        //    foreach (var b in a.ListEdgesTargetVertex)
+                        //    {
+                        //        befor.Add(b.HdCustomerses.Count);
+                        //    }
+                        //    a.ListTimePlaceIn.Add(befor);
+                        //    var after = new List<int>();
+                        //    foreach (var b in a.ListEdgesSorceVertex)
+                        //    {
+                        //        befor.Add(b.HdCustomerses.Count);
+                        //    }
+                        //    a.ListTimePlaceOut.Add(after);
+                        //}
                     }
                     
                 }
-                PhantichTable1 = ChuyenHang2Cot1(listptTable1);
+                //PhantichTable1 = ChuyenHang2Cot1(listptTable1);
+                PhantichTable1 = listptTable1;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
 
+        }
+
+        private void CountAndSetNumberCusInQueue()
+        {
+            foreach (var a in ArrayTransitions1)
+            {
+                a.ListTimeNow.Add(TimeNow1);
+                var befor = new List<int>();
+                foreach (var b in a.ListEdgesTargetVertex)
+                {
+                    befor.Add(b.HdCustomerses.Count);
+                }
+                a.ListTimePlaceIn.Add(befor);
+                var after = new List<int>();
+                foreach (var b in a.ListEdgesSorceVertex)
+                {
+                    after.Add(b.HdCustomerses.Count);
+                }
+                a.ListTimePlaceOut.Add(after);
+            }
         }
 
         private static long RandomNumberFromTransition1(DataVertex vertex)

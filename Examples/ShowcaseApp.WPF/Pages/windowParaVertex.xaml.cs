@@ -52,7 +52,7 @@ namespace SimulationV1.WPF.Pages
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     DP1.Visibility = Visibility.Visible;
                     Label1.Content = "Начало:";
-                    tBx1.Text = VertexBefore.GeneratorType.FirstTime.ToString();
+                    tBx1.Text = VertexBefore.FirstMark.ToString();
                     Label2.Content = "Интервал:";
                     tBx2.Text = VertexBefore.GeneratorType.Mean.ToString();                    
                     DP3.Visibility = Visibility.Visible;
@@ -66,9 +66,11 @@ namespace SimulationV1.WPF.Pages
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     DP1.Visibility = Visibility.Visible;
-                    Label1.Content = "Ёмкость очереди:";
-                    tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
-                    tBx1.IsEnabled = false;//
+                    //Label1.Content = "Ёмкость очереди:";
+                    //tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
+                    //tBx1.IsEnabled = false;//
+                    Label1.Content = "Начало:";
+                    tBx1.Text = VertexBefore.FirstMark.ToString();
                     Label2.Content = "Приоритет:";
                     tBx2.Text = VertexBefore.PlaceType.Priority.ToString();
                     tBx2.IsEnabled = false;//
@@ -121,7 +123,7 @@ namespace SimulationV1.WPF.Pages
             UpdateVertex();
             EditorGraph graph = new Pages.EditorGraph();
             graph.vertexSelected = VertexAfter;
-            MessageBox.Show("Сохранены!");
+            MessageBox.Show("Сохранены!", "Заявление", MessageBoxButton.OK, MessageBoxImage.Information );
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -132,7 +134,7 @@ namespace SimulationV1.WPF.Pages
             switch (VertexBefore.TypeOfVertex)
             {
                 case "AMGenerator":
-                    tBx1.Text = VertexBefore.GeneratorType.FirstTime.ToString();
+                    tBx1.Text = VertexBefore.FirstMark.ToString();
                     tBx2.Text = VertexBefore.GeneratorType.Mean.ToString();
                     tBx3.Text = VertexBefore.GeneratorType.LengthOfFile.ToString();
                     switch (VertexBefore.GeneratorType.TypeDistribuion)
@@ -150,7 +152,7 @@ namespace SimulationV1.WPF.Pages
                     }
                     break;
                 case "AMPlace":
-                    tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
+                    tBx1.Text = VertexBefore.FirstMark.ToString();
                     tBx2.Text = VertexBefore.PlaceType.Priority.ToString();
                     tBx3.Text = VertexBefore.PlaceType.FileType.ToString();
                     break;
@@ -190,7 +192,7 @@ namespace SimulationV1.WPF.Pages
                 switch (VertexBefore.TypeOfVertex)
                 {
                     case "AMGenerator":
-                        VertexAfter.GeneratorType.FirstTime = int.Parse(tBx1.Text);
+                        VertexAfter.FirstMark = int.Parse(tBx1.Text);
                         VertexAfter.GeneratorType.Mean = double.Parse(tBx2.Text);
                         VertexAfter.GeneratorType.LengthOfFile = int.Parse(tBx3.Text);
                         switch (cbbDistribution.SelectedIndex)
