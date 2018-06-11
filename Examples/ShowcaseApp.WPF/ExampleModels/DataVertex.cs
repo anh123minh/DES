@@ -7,6 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using AForge.Math.Geometry;
+using SimulationV1.WPF.Pages;
 
 namespace SimulationV1.WPF
 {
@@ -39,7 +40,12 @@ namespace SimulationV1.WPF
         public List<List<int>> ListTimePlaceIn = new List<List<int>>();
         public List<List<int>> ListTimePlaceOut = new List<List<int>>();
 
+        public Lines LineTimeNow = new Lines();
+        public List<Lines> ListLinePlaceIn = new List<Lines>();
+        public List<Lines> ListLinePlaceOut = new List<Lines>();
+
         public int FirstMark { get; set; }// so luong ban dau trong mang
+        public double LastTime { get; set; }// thoiwf diem cus cuoi dc sinh
 
         public string Name { get; set; }
         public string Profession { get; set; }

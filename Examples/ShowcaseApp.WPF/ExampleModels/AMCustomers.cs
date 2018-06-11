@@ -39,7 +39,7 @@
 
         public override string ToString()
         {
-            return "Name " + Name + "- FromType " + FromType + "- TimePlan " + TimePlan + "- TimeIn " + TimeIn + "- TimeOut " + TimeOut + "- TimeStayQueue " + TimeStayQueue + "- TimeStaySystem " + TimeStaySystem;
+            return "TimePlan " + TimePlan + " - Name " + Name + "- FromType " + FromType +  "- TimeIn " + TimeIn + "- TimeOut " + TimeOut + "- TimeStayQueue " + TimeStayQueue + "- TimeStaySystem " + TimeStaySystem;
         }
     }
 }

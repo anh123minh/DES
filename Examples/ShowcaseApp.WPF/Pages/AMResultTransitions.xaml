@@ -32,9 +32,9 @@
                 </ComboBox>
             </DockPanel>
             <DockPanel  HorizontalAlignment="Center" Dock="Bottom" Margin="2">
-                <Button Name="btnPlacesIn" DockPanel.Dock="Top" Height="40" Margin="5 5" Click="btnPlacesIn_Click">Входящие потоки</Button>
-                <Button Name="btnPlacesOut" DockPanel.Dock="Top" Height="40" Margin="5 5" Click="btnPlacesOut_Click">Выходящие потоки</Button>
-                <Button Name="btnPlacesCommon" DockPanel.Dock="Top" Height="40" Margin="5 5" Click="btnPlacesCommon_Click">Общие потоки</Button>
+                <Button Name="btnPlacesIn" DockPanel.Dock="Top" Height="40" Margin="5 5" Click="btnPlacesIn_Click">Входящие позиции</Button>
+                <Button Name="btnPlacesOut" DockPanel.Dock="Top" Height="40" Margin="5 5" Click="btnPlacesOut_Click">Выходящие позиции</Button>
+                <Button Name="btnPlacesCommon" DockPanel.Dock="Top" Height="40" Margin="5 5" Click="btnPlacesCommon_Click">Общие позиции</Button>
             </DockPanel>
             
         </DockPanel>
@@ -47,10 +47,7 @@
                 <Label DockPanel.Dock="Left">Количество срабатывания переходов:</Label>
                 <TextBlock Name="txtSumfire" DockPanel.Dock="Left" Width="40"></TextBlock>
             </DockPanel>
-            <!--<DockPanel DockPanel.Dock="Top">
-                <Label DockPanel.Dock="Left">3</Label>
-                <TextBlock DockPanel.Dock="Right">33</TextBlock>
-            </DockPanel>-->
+            <Button Name="btnGraph" Content="Диаграмма" Margin="5" Height="30" Click="btnGraph_Click"></Button>
         </DockPanel>
         
 

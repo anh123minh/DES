@@ -85,11 +85,7 @@ namespace SimulationV1.WPF.Pages
             Pies.Visibility = Visibility.Collapsed;
             Analis.Visibility = Visibility.Visible;
             BtnPies.IsEnabled = true;
-            BtnCommon.IsEnabled = false;
-            var tntb1 = Transition.ListTimeNowTable1;
-            var pttb1 = Transition.PhantichTable1;
-            var asm = new AMMultiChart(tntb1, pttb1);
-            asm.Show();
+            BtnCommon.IsEnabled = false;            
         }
 
         private void BtnPies_Click(object sender, RoutedEventArgs e)
@@ -98,8 +94,14 @@ namespace SimulationV1.WPF.Pages
             Analis.Visibility = Visibility.Collapsed;
             BtnPies.IsEnabled = false;
             BtnCommon.IsEnabled = true;
-            
-            //btnPlacesCommon_Click(null, null);
+        }
+
+        private void btnGraph_Click(object sender, RoutedEventArgs e)
+        {
+            var tntb1 = Transition.ListTimeNowTable1;
+            var pttb1 = Transition.PhantichTable1;
+            var asm = new AMMultiChart(tntb1, pttb1);
+            asm.Show();
         }
     }
 }

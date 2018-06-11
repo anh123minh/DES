@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using React.Distribution;
+using SimulationV1.WPF.Pages;
 
 namespace SimulationV1.WPF.ExampleModels
 {
@@ -133,22 +134,6 @@ namespace SimulationV1.WPF.ExampleModels
                     }
                     listptTable1.Add(al);
                     CountAndSetNumberCusInQueue();
-                    //foreach (var a in ArrayTransitions1)
-                    //{
-                    //    a.ListTimeNow.Add(TimeNow1);
-                    //    var befor = new List<int>();
-                    //    foreach (var b in a.ListEdgesTargetVertex)
-                    //    {
-                    //        befor.Add(b.HdCustomerses.Count);
-                    //    }
-                    //    a.ListTimePlaceIn.Add(befor);
-                    //    var after = new List<int>();
-                    //    foreach (var b in a.ListEdgesSorceVertex)
-                    //    {
-                    //        after.Add(b.HdCustomerses.Count);
-                    //    }
-                    //    a.ListTimePlaceOut.Add(after);
-                    //}
 
                     //    //Co Generator nao sinh het chua && TimeNow == LastTime thi dung -> neu co cai chua het thi co sinh them nua cung k de lam gif vi 1 cai da dung roi nen k the kich hoat bat cu Chuyen nao duoc nua ;
                     //    if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow1 == LastTime)
@@ -173,23 +158,7 @@ namespace SimulationV1.WPF.ExampleModels
                                     a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue(new Chips() { Name = cus1.Name, FromType = cus1.FromType, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
                                 }
                             }
-                            //------ghi lai tai thoi diem kich hoat
-                            //foreach (var c in ArrayTransitions1)
-                            //{
-                            //    c.ListTimeNow.Add(TimeNow1);
-                            //    var befor = new List<int>();
-                            //    foreach (var b in c.ListEdgesTargetVertex)
-                            //    {
-                            //        befor.Add(b.HdCustomerses.Count);
-                            //    }
-                            //    c.ListTimePlaceIn.Add(befor);
-                            //    var after = new List<int>();
-                            //    foreach (var b in c.ListEdgesSorceVertex)
-                            //    {
-                            //        befor.Add(b.HdCustomerses.Count);
-                            //    }
-                            //    c.ListTimePlaceOut.Add(after);      
-
+                            //------ghi lai tai thoi diem kich hoat------//
                             double d;
                             if (a.TransitionType.TListPointsCDF.Count != 0)
                             {
@@ -203,37 +172,42 @@ namespace SimulationV1.WPF.ExampleModels
                             }
                             for (int i = 0; i < a.Mangdkcungra.Length; i++)
                             {
-                                for (int j = 0; j < a.Mangdkcungra[i]; j++)
-                                {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
-                                    listKH1.Add(TimeNow1 > LastTime1 ? Sinh1Customer1(a.ListEdgesSorceVertex[i], TimeNow1 + (int)d) : Sinh1Customer1(a.ListEdgesSorceVertex[i], LastTime1 + (int)d));
+                                //gan LastTime cua tung vertex 
+                                if (TimeNow1 > a.ListEdgesSorceVertex[i].LastTime)
+                                {
+                                    a.ListEdgesSorceVertex[i].LastTime = TimeNow1 + d;
                                 }
-                            }
-                            if (TimeNow1 > LastTime1)
-                            {
-                                LastTime1 = TimeNow1 + (int)d;
-                            }
-                            else
-                            {
-                                LastTime1 += (int)d;
+                                else
+                                {
+                                    a.ListEdgesSorceVertex[i].LastTime += d;
+                                }
+                                for (int j = 0; j < a.Mangdkcungra[i]; j++)
+                                { //tranh truong hop cai den sau lai duoc tao truoc       
+                                    //listKH1.Add(TimeNow1 > a.ListEdgesSorceVertex[i].LastTime ? 
+                                    //    Sinh1Customer1(a.ListEdgesSorceVertex[i], TimeNow1 + (int)d) : 
+                                    //    Sinh1Customer1(a.ListEdgesSorceVertex[i], (int)a.ListEdgesSorceVertex[i].LastTime));
+                                    listKH1.Add(Sinh1Customer1(a.ListEdgesSorceVertex[i], (int)a.ListEdgesSorceVertex[i].LastTime));
+                                }
                             }
                         }
                     }
 
                 } while (TimeNow1 < EndingTime1);
 
-                if (LastTime1 > EndingTime1) //lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi
-                {                   
-                    
-                    //
-                    var lcuslasttime = new List<Chips>();
-                    //lay ra tat ca cac cus sinh ra do kich hoat tu listKH1
-                    foreach (var a in listQueueAfter)
+                LastTime1 = TimeNow1;
+                //lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi tuong ung
+                var lcuslasttime = new List<Chips>();
+                //lay ra tat ca cac cus sinh ra do kich hoat tu listKH1
+                foreach (var a in listQueueAfter)
+                {
+                    foreach (var b in listKH1.Where(x => x.Name == a.Text).ToList())
                     {
-                        foreach (var b in listKH1.Where(x => x.Name == a.Text).ToList())
-                        {
-                            lcuslasttime.Add(b);
-                        }
+                        lcuslasttime.Add(b);
                     }
+                }                
+                if (lcuslasttime.Count != 0)
+                {
+                    LastTime1 = lcuslasttime.Max(x => x.TimePlan);
                     while (lcuslasttime.Count != 0)
                     {
                         //tim timeplan nho nhat trong cac cus duoc sinh do kich hoat -> lau nhu TimeNow -> lay ra cac cus do -> phan ve hang tuong ung
@@ -258,26 +232,8 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         listptTable1.Add(al1);
                         CountAndSetNumberCusInQueue();
-                        //foreach (var a in ArrayTransitions1)
-                        //{
-                        //    a.ListTimeNow.Add(TimeNow1);
-                        //    var befor = new List<int>();
-                        //    foreach (var b in a.ListEdgesTargetVertex)
-                        //    {
-                        //        befor.Add(b.HdCustomerses.Count);
-                        //    }
-                        //    a.ListTimePlaceIn.Add(befor);
-                        //    var after = new List<int>();
-                        //    foreach (var b in a.ListEdgesSorceVertex)
-                        //    {
-                        //        befor.Add(b.HdCustomerses.Count);
-                        //    }
-                        //    a.ListTimePlaceOut.Add(after);
-                        //}
                     }
-                    
                 }
-                //PhantichTable1 = ChuyenHang2Cot1(listptTable1);
                 PhantichTable1 = listptTable1;
             }
             catch (Exception e)
@@ -304,6 +260,34 @@ namespace SimulationV1.WPF.ExampleModels
                     after.Add(b.HdCustomerses.Count);
                 }
                 a.ListTimePlaceOut.Add(after);
+            }
+        }
+        private void CountAndSetNumberCusInQueueWithName()
+        {
+            foreach (var a in ArrayTransitions1)
+            {
+                a.LineTimeNow.LineName = a.Text;
+                a.LineTimeNow.LineData = a.ListTimeNow;
+                var linein = new Lines();
+                foreach (var b in a.ListEdgesTargetVertex)
+                {
+                    linein.LineName = b.Text;
+                    a.ListLinePlaceIn.Add(linein);
+                }
+                for (int i = 0; i < a.ListLinePlaceIn.Count; i++)
+                {
+                    a.ListLinePlaceIn[i].LineData = a.ListTimePlaceIn[i];
+                }
+                var lineout = new Lines();
+                foreach (var b in a.ListEdgesSorceVertex)
+                {
+                    lineout.LineName = b.Text;
+                    a.ListLinePlaceOut.Add(lineout);
+                }
+                for (int i = 0; i < a.ListLinePlaceOut.Count; i++)
+                {
+                    a.ListLinePlaceOut[i].LineData = a.ListTimePlaceOut[i];
+                }
             }
         }
 
@@ -634,7 +618,7 @@ namespace SimulationV1.WPF.ExampleModels
                 MessageBox.Show(e.ToString());
             }
 
-        }        
+        }
         private bool IsAnyGenEnd(bool[] arrayboolLengthOfFile)
         {
             foreach (var a in arrayboolLengthOfFile)
@@ -667,7 +651,7 @@ namespace SimulationV1.WPF.ExampleModels
                 aa.Add(nn);
             }
             return aa;
-        }     
+        }
         public Chips SinhMotCus(int timenow)
         {
             var ran = new Random();
@@ -806,6 +790,224 @@ namespace SimulationV1.WPF.ExampleModels
                 d = (long)nut.TypeDis.NextDouble();
             } while (d <= 0L);
             return d;
+        }
+        public void Run11()
+        {
+            try
+            {
+
+                PhantichTable1 = new List<List<int>>();
+                var listptTable1 = new List<List<int>>();
+                //listqueue1 - danh sach cac hang doi ca truoc va sau Chuyen
+                var listQueueBeforAndAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Concat(ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex)).Distinct().ToList();
+                //listQueueAfter - danh sach cac hang doi phia sau Chuyen
+                var listQueueAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex).Distinct().ToList();
+                //listQueueBefor - danh sach cac hang doi phia sau Chuyen
+                var listQueueBefor = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Distinct().ToList();
+                ListTimeNowTable1.Add(TimeNow1);
+                var firsttimenow = new List<int>();
+                foreach (var a in listQueueBeforAndAfter)
+                {
+                    firsttimenow.Add(a.HdCustomerses.Count);
+                }
+                listptTable1.Add(firsttimenow);
+                CountAndSetNumberCusInQueue();
+                var arrayTimeKh1 = new int[ArrayNguon1.Count()];
+                var listnumcusnguon = new int[ArrayNguon1.Count()];
+                do
+                {
+                    for (int i = 0; i < ArrayNguon1.Length; i++)
+                    {
+                        if (ArrayNguon1.Select(x => x.GeneratorType.LengthOfFile).ToArray()[i] > listnumcusnguon[i])
+                        {
+                            var cus = SinhMotCusAndName11(ArrayNguon1[i], arrayTimeKh1[i]);
+                            listKH1.Add(cus);
+                            listnumcusnguon[i]++;
+                            arrayTimeKh1[i] = cus.TimePlan;
+                        }
+                    }
+                    listKH1 = listKH1.FindAll(x => !(x.TimePlan > EndingTime1 && x.FromType == "AMGenerator"));
+                    if (listKH1.Count == 0)
+                    {
+                        break;
+                    }
+                    TimeNow1 = FindMinTimePlan(listKH1);//tim timeplan nho nhat trong listKH de set TimeNow moi
+                    ListTimeNowTable1.Add(TimeNow1);
+                    var listequaltimenow1 = listKH1.FindAll(x => x.TimePlan == TimeNow1);//loc ra cac Cus co timeplan = timenow duoc chon
+                    listKH1 = listKH1.FindAll(x => x.TimePlan != TimeNow1);//xoa all Cus co timeplan = timenow
+
+                    foreach (var a in listequaltimenow1)//tu trong danh sach phan ve cac hang doi tuong ung
+                    {
+                        foreach (var b in listQueueBeforAndAfter)
+                        {
+                            if (b.Text == a.Name)
+                            {
+                                b.HdCustomerses.Enqueue(a);
+                                break;
+                            }
+                        }
+                    }
+                    var al = new List<int>();
+                    foreach (var a in listQueueBeforAndAfter)//thuc hien dem so Cus trong hang -> dua ra graph
+                    {
+                        al.Add(a.HdCustomerses.Count);
+                    }
+                    listptTable1.Add(al);
+                    CountAndSetNumberCusInQueue();
+                    //foreach (var a in ArrayTransitions1)
+                    //{
+                    //    a.ListTimeNow.Add(TimeNow1);
+                    //    var befor = new List<int>();
+                    //    foreach (var b in a.ListEdgesTargetVertex)
+                    //    {
+                    //        befor.Add(b.HdCustomerses.Count);
+                    //    }
+                    //    a.ListTimePlaceIn.Add(befor);
+                    //    var after = new List<int>();
+                    //    foreach (var b in a.ListEdgesSorceVertex)
+                    //    {
+                    //        after.Add(b.HdCustomerses.Count);
+                    //    }
+                    //    a.ListTimePlaceOut.Add(after);
+                    //}
+
+                    //    //Co Generator nao sinh het chua && TimeNow == LastTime thi dung -> neu co cai chua het thi co sinh them nua cung k de lam gif vi 1 cai da dung roi nen k the kich hoat bat cu Chuyen nao duoc nua ;
+                    //    if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow1 == LastTime)
+                    //    {
+                    //        break;
+                    //    }
+                    foreach (var a in ArrayTransitions1)
+                    {
+                        var mm = true;
+                        for (int i = 0; i < a.Mangdkcungvao.Length; i++)
+                        {
+                            mm = mm && a.ListEdgesTargetVertex.Select(x => x.HdCustomerses.Count).ToArray()[i] >= a.Mangdkcungvao[i];
+                        }
+                        if (mm)//Kich hoat
+                        {
+                            Count++;
+                            for (int i = 0; i < a.Mangdkcungvao.Length; i++)
+                            {
+                                for (int j = 0; j < a.Mangdkcungvao[i]; j++)
+                                {
+                                    var cus1 = a.ListEdgesTargetVertex[i].HdCustomerses.Dequeue();
+                                    a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue(new Chips() { Name = cus1.Name, FromType = cus1.FromType, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
+                                }
+                            }
+                            //------ghi lai tai thoi diem kich hoat
+                            //foreach (var c in ArrayTransitions1)
+                            //{
+                            //    c.ListTimeNow.Add(TimeNow1);
+                            //    var befor = new List<int>();
+                            //    foreach (var b in c.ListEdgesTargetVertex)
+                            //    {
+                            //        befor.Add(b.HdCustomerses.Count);
+                            //    }
+                            //    c.ListTimePlaceIn.Add(befor);
+                            //    var after = new List<int>();
+                            //    foreach (var b in c.ListEdgesSorceVertex)
+                            //    {
+                            //        befor.Add(b.HdCustomerses.Count);
+                            //    }
+                            //    c.ListTimePlaceOut.Add(after);      
+
+                            double d;
+                            if (a.TransitionType.TListPointsCDF.Count != 0)
+                            {
+                                Random rand = new Random();
+                                var s = rand.Next(0, a.TransitionType.TListPointsCDF.Count);
+                                d = Math.Abs(Math.Round(a.TransitionType.TListPointsCDF[s][0]));
+                            }
+                            else//lay du lieu tu window
+                            {
+                                d = RandomNumberFromTransition1(a);
+                            }
+                            //gan LastTime cua tung vertex
+
+                            for (int i = 0; i < a.Mangdkcungra.Length; i++)
+                            {
+                                for (int j = 0; j < a.Mangdkcungra[i]; j++)
+                                {//de tranh truong hop cus sinh sau nhung co timeplan < timeplan cus sinh truoc
+                                    listKH1.Add(TimeNow1 > LastTime1 ? Sinh1Customer1(a.ListEdgesSorceVertex[i], TimeNow1 + (int)d) : Sinh1Customer1(a.ListEdgesSorceVertex[i], LastTime1 + (int)d));
+                                }
+                            }
+                            if (TimeNow1 > LastTime1)
+                            {
+                                LastTime1 = TimeNow1 + (int)d;
+                            }
+                            else
+                            {
+                                LastTime1 += (int)d;
+                            }
+                        }
+                    }
+
+                } while (TimeNow1 < EndingTime1);
+
+                if (LastTime1 > EndingTime1) //lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi
+                {
+
+                    //
+                    var lcuslasttime = new List<Chips>();
+                    //lay ra tat ca cac cus sinh ra do kich hoat tu listKH1
+                    foreach (var a in listQueueAfter)
+                    {
+                        foreach (var b in listKH1.Where(x => x.Name == a.Text).ToList())
+                        {
+                            lcuslasttime.Add(b);
+                        }
+                    }
+                    while (lcuslasttime.Count != 0)
+                    {
+                        //tim timeplan nho nhat trong cac cus duoc sinh do kich hoat -> lau nhu TimeNow -> lay ra cac cus do -> phan ve hang tuong ung
+                        ListTimeNowTable1.Add(lcuslasttime.Min(x => x.TimePlan));
+                        var list = lcuslasttime.Where(x => x.TimePlan == lcuslasttime.Min(y => y.TimePlan)).ToList();
+                        lcuslasttime = lcuslasttime.FindAll(x => x.TimePlan != lcuslasttime.Min(y => y.TimePlan));//xoa all Cus co timeplan = timenow
+                        foreach (var a in list)//tu trong danh sach phan ve cac hang doi tuong ung
+                        {
+                            foreach (var b in listQueueAfter)
+                            {
+                                if (b.Text == a.Name)
+                                {
+                                    b.HdCustomerses.Enqueue(a);
+                                    break;
+                                }
+                            }
+                        }
+                        var al1 = new List<int>();
+                        foreach (var sss in listQueueBeforAndAfter)
+                        {
+                            al1.Add(sss.HdCustomerses.Count);
+                        }
+                        listptTable1.Add(al1);
+                        CountAndSetNumberCusInQueue();
+                        //foreach (var a in ArrayTransitions1)
+                        //{
+                        //    a.ListTimeNow.Add(TimeNow1);
+                        //    var befor = new List<int>();
+                        //    foreach (var b in a.ListEdgesTargetVertex)
+                        //    {
+                        //        befor.Add(b.HdCustomerses.Count);
+                        //    }
+                        //    a.ListTimePlaceIn.Add(befor);
+                        //    var after = new List<int>();
+                        //    foreach (var b in a.ListEdgesSorceVertex)
+                        //    {
+                        //        befor.Add(b.HdCustomerses.Count);
+                        //    }
+                        //    a.ListTimePlaceOut.Add(after);
+                        //}
+                    }
+
+                }
+                //PhantichTable1 = ChuyenHang2Cot1(listptTable1);
+                PhantichTable1 = listptTable1;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+
         }
     }
 

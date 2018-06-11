@@ -26,6 +26,9 @@ namespace SimulationV1.WPF.Pages
         private List<List<int>> listblockcountgraph;
         private readonly List<int> _listtimenowtable;
         private readonly List<List<int>> _listblockcounttable = new List<List<int>>();
+
+        private readonly Lines _listtimenowtableline;
+        private readonly List<Lines> _listblockcounttableline = new List<Lines>();
         public AMMultiChart(List<int> listtimenowtb, List<List<int>> listblockcounttb, List<int> listtimenowgr, List<List<int>> listblockcountgr)
         {
             _listtimenowtable = listtimenowtb;
@@ -63,18 +66,94 @@ namespace SimulationV1.WPF.Pages
                 }
                 _listblockcounttable.Add(listtemp);
             }
-            //for (int i = 0; i < listblockcounttb2.Count; i++)
-            //{
-            //    var listtemp = new List<int>();
-            //    for (int j = 0; j < listblockcounttb2[0].Count; j++)
-            //    {
-            //        listtemp.Add(listblockcounttb2[i][j]);
-            //    }
-            //    listblockcounttable.Add(listtemp);
-            //}
             InitializeComponent();
             btnMultiGraph_Click(null, null);
         }
+
+        public AMMultiChart(Lines listtimenowtbline, List<Lines> listblockcounttbline)
+        {
+            _listtimenowtableline = listtimenowtbline;
+            _listblockcounttableline = listblockcounttbline;
+
+            InitializeComponent();
+            btnMultiGraph_Click(null, null);
+        }
+
+        #region ban den nay da chay
+        private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
+        {
+            TableData.Visibility = Visibility.Collapsed;
+            btnTable.IsEnabled = true;
+            Graph.Visibility = Visibility.Visible;
+            btnMultiGraph.IsEnabled = false;
+
+            ChartData = new ChartData();
+            ChartData.Title = "Количество разметки в системе";
+            ChartData.DataSeriesList = new List<ChartDataSerie>();
+
+            //for (int i = 0; i < listblockcounttable.Count; i++)
+            //{
+            //    var dataSeries = new Dictionary<int, int>();
+            //    for (int j = 0; j < listtimenowtable.Count; j++)
+            //    {
+            //        dataSeries.Add(listtimenowtable[j], listblockcounttable[i][j]);
+            //    }
+            //    ChartData.DataSeriesList.Add(dataSeries);
+            //}
+            if (_listblockcounttable[0].Count != 0)
+            {
+                for (int i = 0; i < _listblockcounttable[0].Count; i++)
+                {
+                    var dataSeries = new Dictionary<int, int>();
+                    for (int j = 0; j < _listtimenowtable.Count; j++)
+                    {
+                        dataSeries.Add(_listtimenowtable[j], _listblockcounttable[j][i]);
+                    }
+                    ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
+                }
+            }
+
+            //quan trong mo rong
+            //for (int i = 0; i < listblockcounttable[0].Count; i++)
+            //{
+            //    var dataSeries = new List<ChartPoint>();
+            //    for (int j = 0; j < listtimenowtable.Count; j++)
+            //    {
+            //        dataSeries.Add(new ChartPoint(){ Time = listtimenowtable[j], Value = listblockcounttable[j][i]});
+            //    }
+            //    ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
+            //}
+
+
+
+
+            ChartDataList = new List<ChartData>();
+            ChartDataList.Add(ChartData);
+
+            this.DataContext = this;
+        }
+        #endregion
+
+
+        //public AMMultiChart(Lines listtimenowtbline, List<Lines> listblockcounttblinein, List<Lines> listblockcounttblineout)
+        //{
+        //    _listtimenowtable = listtimenowtbline;
+        //    for (int i = 0; i < listblockcounttblinein.Count; i++)
+        //    {
+        //        var listtemp = new List<int>();
+        //        for (int j = 0; j < listblockcounttb1[0].Count; j++)
+        //        {
+        //            listtemp.Add(listblockcounttb1[i][j]);
+        //        }
+        //        for (int j = 0; j < listblockcounttblineout; j++)
+        //        {
+        //            listtemp.Add(listblockcounttblineout[i][j]);
+        //        }
+        //        _listblockcounttable.Add(listtemp);
+        //    }
+        //    InitializeComponent();
+        //    btnMultiGraph_Click(null, null);
+        //}
         //private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
         //{
         //    Bang.Visibility = Visibility.Collapsed;
@@ -131,58 +210,7 @@ namespace SimulationV1.WPF.Pages
 
         //    this.DataContext = this;
         //}
-        private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
-        {
-            TableData.Visibility = Visibility.Collapsed;
-            btnTable.IsEnabled = true;
-            Graph.Visibility = Visibility.Visible;
-            btnMultiGraph.IsEnabled = false;
 
-            ChartData = new ChartData();
-            ChartData.Title = "Количество разметки в системе";
-            ChartData.DataSeriesList = new List<ChartDataSerie>();
-
-            //for (int i = 0; i < listblockcounttable.Count; i++)
-            //{
-            //    var dataSeries = new Dictionary<int, int>();
-            //    for (int j = 0; j < listtimenowtable.Count; j++)
-            //    {
-            //        dataSeries.Add(listtimenowtable[j], listblockcounttable[i][j]);
-            //    }
-            //    ChartData.DataSeriesList.Add(dataSeries);
-            //}
-            if (_listblockcounttable[0].Count != 0)
-            {
-                for (int i = 0; i < _listblockcounttable[0].Count; i++)
-                {
-                    var dataSeries = new Dictionary<int, int>();
-                    for (int j = 0; j < _listtimenowtable.Count; j++)
-                    {
-                        dataSeries.Add(_listtimenowtable[j], _listblockcounttable[j][i]);
-                    }
-                    ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
-                }
-            }
-            
-//quan trong mo rong
-            //for (int i = 0; i < listblockcounttable[0].Count; i++)
-            //{
-            //    var dataSeries = new List<ChartPoint>();
-            //    for (int j = 0; j < listtimenowtable.Count; j++)
-            //    {
-            //        dataSeries.Add(new ChartPoint(){ Time = listtimenowtable[j], Value = listblockcounttable[j][i]});
-            //    }
-            //    ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = $"Serie {i}", Data = dataSeries });
-            //}
-
-
-
-
-            ChartDataList = new List<ChartData>();
-            ChartDataList.Add(ChartData);
-
-            this.DataContext = this;
-        }
 
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
@@ -286,6 +314,12 @@ namespace SimulationV1.WPF.Pages
         public string Name { get; set; }
 
         public Dictionary<int, int> Data { get; set; }
+    }
+
+    public class Lines
+    {
+        public string LineName { get; set; }
+        public List<int> LineData { get; set; }
     }
 //quan trong mo rong
     //public class ChartDataSerie
