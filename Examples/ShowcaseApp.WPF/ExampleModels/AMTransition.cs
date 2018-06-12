@@ -108,42 +108,7 @@ namespace SimulationV1.WPF.ExampleModels
                 var listnumcusnguon = new int[ArrayNguon1.Count()];
                 do
                 {
-                    foreach (var a in ArrayTransitions1)
-                    {
-                        while (KiemtradieukienkichhoatMm(a))//Kich hoat
-                        {
-                            Count++;
-                            for (int i = 0; i < a.Mangdkcungvao.Length; i++)
-                            {
-                                for (int j = 0; j < a.Mangdkcungvao[i]; j++)
-                                {
-                                    var cus1 = a.ListEdgesTargetVertex[i].HdCustomerses.Dequeue();
-                                    a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue(new Chips() { Name = cus1.Name, FromType = cus1.FromType, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
-                                }
-                            }
-                            //------ghi lai tai thoi diem kich hoat------//
-                            double d;
-                            if (a.TransitionType.TListPointsCDF.Count != 0)
-                            {
-                                Random rand = new Random();
-                                var s = rand.Next(0, a.TransitionType.TListPointsCDF.Count);
-                                d = Math.Abs(Math.Round(a.TransitionType.TListPointsCDF[s][0]));
-                            }
-                            else//lay du lieu tu window
-                            {
-                                d = RandomNumberFromTransition1(a);
-                            }
-                            for (int i = 0; i < a.Mangdkcungra.Length; i++)
-                            {
-                                //gan LastTime cua tung vertex 
-                                a.ListEdgesSorceVertex[i].LastTime = TimeNow1 + d;
-                                for (int j = 0; j < a.Mangdkcungra[i]; j++)
-                                { //tranh truong hop cai den sau lai duoc tao truoc       
-                                    listKH1.Add(Sinh1Customer1(a.ListEdgesSorceVertex[i], (int)a.ListEdgesSorceVertex[i].LastTime));
-                                }
-                            }
-                        }
-                    }
+                    InspectTrigger();
                     for (int i = 0; i < ArrayNguon1.Length; i++)
                     {
                         if (ArrayNguon1.Select(x => x.GeneratorType.LengthOfFile).ToArray()[i] > listnumcusnguon[i])
@@ -189,53 +154,7 @@ namespace SimulationV1.WPF.ExampleModels
                     //    {
                     //        break;
                     //    }
-                    foreach (var a in ArrayTransitions1)
-                    {
-                        while (KiemtradieukienkichhoatMm(a))//Kich hoat
-                        {
-                            Count++;
-                            for (int i = 0; i < a.Mangdkcungvao.Length; i++)
-                            {
-                                for (int j = 0; j < a.Mangdkcungvao[i]; j++)
-                                {
-                                    var cus1 = a.ListEdgesTargetVertex[i].HdCustomerses.Dequeue();
-                                    a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue(new Chips() { Name = cus1.Name, FromType = cus1.FromType, TimeIn = TimeNow1, TimeOut = TimeNow1, TimePlan = cus1.TimePlan });
-                                }
-                            }
-                            //------ghi lai tai thoi diem kich hoat------//
-                            double d;
-                            if (a.TransitionType.TListPointsCDF.Count != 0)
-                            {
-                                Random rand = new Random();
-                                var s = rand.Next(0, a.TransitionType.TListPointsCDF.Count);
-                                d = Math.Abs(Math.Round(a.TransitionType.TListPointsCDF[s][0]));
-                            }
-                            else//lay du lieu tu window
-                            {
-                                d = RandomNumberFromTransition1(a);
-                            }
-                            for (int i = 0; i < a.Mangdkcungra.Length; i++)
-                            {
-                                //gan LastTime cua tung vertex 
-                                a.ListEdgesSorceVertex[i].LastTime = TimeNow1 + d;
-                                //if (TimeNow1 > a.ListEdgesSorceVertex[i].LastTime)
-                                //{
-                                //    a.ListEdgesSorceVertex[i].LastTime = TimeNow1 + d;
-                                //}
-                                //else
-                                //{
-                                //    a.ListEdgesSorceVertex[i].LastTime += d;
-                                //}
-                                for (int j = 0; j < a.Mangdkcungra[i]; j++)
-                                { //tranh truong hop cai den sau lai duoc tao truoc       
-                                    //listKH1.Add(TimeNow1 > a.ListEdgesSorceVertex[i].LastTime ? 
-                                    //    Sinh1Customer1(a.ListEdgesSorceVertex[i], TimeNow1 + (int)d) : 
-                                    //    Sinh1Customer1(a.ListEdgesSorceVertex[i], (int)a.ListEdgesSorceVertex[i].LastTime));
-                                    listKH1.Add(Sinh1Customer1(a.ListEdgesSorceVertex[i], (int)a.ListEdgesSorceVertex[i].LastTime));
-                                }
-                            }
-                        }
-                    }
+                    InspectTrigger();
 
                 } while (TimeNow1 < EndingTime1);
 
@@ -294,6 +213,55 @@ namespace SimulationV1.WPF.ExampleModels
                 MessageBox.Show(e.ToString());
             }
 
+        }
+
+        private void InspectTrigger()
+        {
+            foreach (var a in ArrayTransitions1)
+            {
+                while (KiemtradieukienkichhoatMm(a)) //Kich hoat
+                {
+                    Count++;
+                    for (int i = 0; i < a.Mangdkcungvao.Length; i++)
+                    {
+                        for (int j = 0; j < a.Mangdkcungvao[i]; j++)
+                        {
+                            var cus1 = a.ListEdgesTargetVertex[i].HdCustomerses.Dequeue();
+                            a.ListEdgesTargetVertex[i].HdCustomersesPhantich.Enqueue
+                            (new Chips()
+                            {
+                                Name = cus1.Name,
+                                FromType = cus1.FromType,
+                                TimeIn = TimeNow1,
+                                TimeOut = TimeNow1,
+                                TimePlan = cus1.TimePlan
+                            });
+                        }
+                    }
+                    //------ghi lai tai thoi diem kich hoat------//
+                    double d;
+                    if (a.TransitionType.TListPointsCDF.Count != 0)
+                    {
+                        Random rand = new Random();
+                        var s = rand.Next(0, a.TransitionType.TListPointsCDF.Count);
+                        d = Math.Abs(Math.Round(a.TransitionType.TListPointsCDF[s][0]));
+                    }
+                    else //lay du lieu tu window
+                    {
+                        d = RandomNumberFromTransition1(a);
+                    }
+                    for (int i = 0; i < a.Mangdkcungra.Length; i++)
+                    {
+                        //gan LastTime cua tung vertex 
+                        a.ListEdgesSorceVertex[i].LastTime = TimeNow1 + d;
+                        for (int j = 0; j < a.Mangdkcungra[i]; j++)
+                        {
+                            //tranh truong hop cai den sau lai duoc tao truoc       
+                            listKH1.Add(Sinh1Customer1(a.ListEdgesSorceVertex[i], (int) a.ListEdgesSorceVertex[i].LastTime));
+                        }
+                    }
+                }
+            }
         }
 
         private static bool KiemtradieukienkichhoatMm(DataVertex a)

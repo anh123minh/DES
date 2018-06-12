@@ -1684,15 +1684,15 @@ namespace SimulationV1.WPF.Pages
                             }
                         }
                     }
-                    foreach (var ee in graphArea.LogicCore.Graph.Edges)
-                    {
-                        if (ee.Target.TypeOfVertex == "AMGenerator")
-                        {
-                            flagbreak = true;
-                            nameconflik = ee.Text + " присоединяется к генератору!";
-                            break;
-                        }
-                    }
+                    //foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                    //{
+                    //    if (ee.Target.TypeOfVertex == "AMGenerator")
+                    //    {
+                    //        flagbreak = true;
+                    //        nameconflik = ee.Text + " присоединяется к генератору!";
+                    //        break;
+                    //    }
+                    //}
 
                     #endregion
 
