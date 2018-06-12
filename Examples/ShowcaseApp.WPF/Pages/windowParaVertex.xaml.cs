@@ -215,7 +215,7 @@ namespace SimulationV1.WPF.Pages
                         //}
                         break;
                     case "AMPlace":
-                        VertexAfter.PlaceType.QueueCapacity = int.Parse(tBx1.Text);
+                        VertexAfter.FirstMark = int.Parse(tBx1.Text);
                         VertexAfter.PlaceType.Priority = int.Parse(tBx2.Text);
                         VertexAfter.PlaceType.FileType = int.Parse(tBx3.Text);
                         break;
