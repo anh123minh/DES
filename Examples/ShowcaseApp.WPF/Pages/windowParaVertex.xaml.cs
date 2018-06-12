@@ -312,14 +312,16 @@ namespace SimulationV1.WPF.Pages
         {
             try
             {
-                info.IsEnabled = false;
-                LbLoadfromfile.Visibility = Visibility.Visible;
-                btnFromWindow.IsEnabled = true;              
+                            
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "GPD files (*.gpd)|*.gpd|All files (*.*)|*.*";                           
 
                 if (openFileDialog.ShowDialog() == true)
                 {
+                    info.IsEnabled = false;
+                    LbLoadfromfile.Visibility = Visibility.Visible;
+                    btnFromWindow.IsEnabled = true;
+
                     var pdf = "[Probability_density]";
                     var cdf = "[Distribution_function]";
                     var filename = VertexBefore.TransitionType.PathFullFile != "" && VertexBefore.TransitionType.PathFullFile == openFileDialog.FileName
