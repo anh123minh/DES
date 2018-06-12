@@ -45,9 +45,7 @@ namespace SimulationV1.WPF.Pages
                     //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.SelectedIndex = (int)VertexBefore.GeneratorType.TypeDistribuion;
-
-                        tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
-
+                    tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     DP1.Visibility = Visibility.Visible;

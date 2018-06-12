@@ -72,7 +72,7 @@ namespace SimulationV1.WPF.ExampleModels
             ArrayNguon1 = mangnguon;
             ArrayTransitions1 = mangchuyen;
             ListTimeNowTable1 = new List<int>();
-            LineTimeNowTable1 = new Lines(){LineName = "TimeNow", LineData = new List<int>()};
+            LineTimeNowTable1 = new Lines(){LineName = "Время", LineData = new List<int>()};
         }
         public void Run1()
         {
@@ -106,9 +106,10 @@ namespace SimulationV1.WPF.ExampleModels
                 CountAndSetNumberCusInQueue();
                 var arrayTimeKh1 = new int[ArrayNguon1.Count()];
                 var listnumcusnguon = new int[ArrayNguon1.Count()];
+                InspectTrigger();
                 do
                 {
-                    InspectTrigger();
+                    
                     for (int i = 0; i < ArrayNguon1.Length; i++)
                     {
                         if (ArrayNguon1.Select(x => x.GeneratorType.LengthOfFile).ToArray()[i] > listnumcusnguon[i])
@@ -157,8 +158,9 @@ namespace SimulationV1.WPF.ExampleModels
                     InspectTrigger();
 
                 } while (TimeNow1 < EndingTime1);
-
+                
                 LastTime1 = TimeNow1;
+                InspectTrigger();
                 //lay nhung cus sinh ra do kich hoat tu listKH cho vao hang doi tuong ung
                 var lcuslasttime = new List<Chips>();
                 //lay ra tat ca cac cus sinh ra do kich hoat tu listKH1
@@ -197,6 +199,7 @@ namespace SimulationV1.WPF.ExampleModels
                         }
                         listptTable1.Add(al1);
                         CountAndSetNumberCusInQueue();
+                        InspectTrigger();
                     }
                 }
                 PhantichTable1 = listptTable1;
@@ -257,7 +260,8 @@ namespace SimulationV1.WPF.ExampleModels
                         for (int j = 0; j < a.Mangdkcungra[i]; j++)
                         {
                             //tranh truong hop cai den sau lai duoc tao truoc       
-                            listKH1.Add(Sinh1Customer1(a.ListEdgesSorceVertex[i], (int) a.ListEdgesSorceVertex[i].LastTime));
+                            listKH1.Add(Sinh1Customer1(a.ListEdgesSorceVertex[i], (int) a.
+                                ListEdgesSorceVertex[i].LastTime));
                         }
                     }
                 }

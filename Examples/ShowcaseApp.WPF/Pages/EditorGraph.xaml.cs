@@ -1620,20 +1620,62 @@ namespace SimulationV1.WPF.Pages
                 var nameconflik = "";
                 var pdf = "[Probability_density]";
                 var cdf = "[Distribution_function]";
-
+                
 
                 if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any() ||
                     graphArea.LogicCore.Graph.Edges == null || !graphArea.LogicCore.Graph.Edges.Any())
                 {
-                    MessageBox.Show("Существуют изолированные вершины или не связаны между собой", "Warning",
+                    MessageBox.Show("Создайте сетевую модель!", "Warning",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
                     #region canh bao loi
-
+                    var listdinh = graphArea.LogicCore.Graph.Edges.Select(x => x.Source).Concat(graphArea.LogicCore.Graph.Edges.Select(x => x.Target)).Distinct();
                     foreach (var dd in graphArea.LogicCore.Graph.Vertices)
                     {
+                        if (dd.TypeOfVertex == "AMGenerator" || dd.TypeOfVertex == "AMPlace")
+                        {
+                            if (dd.FirstMark < 0)
+                            {
+                                flagbreak = true;
+                                nameconflik = dd.Text + " - Начало должен быть больше 0!";
+                                break;
+                            }
+                        }
+                        if (dd.TypeOfVertex == "AMGenerator")
+                        {
+                            if (dd.GeneratorType.LengthOfFile < 0)
+                            {
+                                flagbreak = true;
+                                nameconflik = dd.Text + " - Длина файла должена быть больше 0!";
+                                break;
+                            }
+                            if (dd.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis && dd.GeneratorType.Para < 0)
+                            {
+                                flagbreak = true;
+                                nameconflik = dd.Text + " - Лабда должена быть больше 0!";
+                                break;
+                            }
+
+                        }
+                        if (dd.TypeOfVertex == "AMTransition")
+                        {
+                            if (dd.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis && dd.TransitionType.Para < 0)
+                            {
+                                flagbreak = true;
+                                nameconflik = dd.Text + " - Лабда должена быть больше 0!";
+                                break;
+                            }
+
+                        }
+                        if (!listdinh.Contains(dd))
+                        {
+                            flagbreak = true;
+                            nameconflik = "Существуют изолированные вершины или не связаны между собой";
+                            break;
+                        }
+                        
                         if (dd.TypeOfVertex == "AMPlace")
                         {
                             var count = 0;
@@ -1684,15 +1726,34 @@ namespace SimulationV1.WPF.Pages
                             }
                         }
                     }
-                    //foreach (var ee in graphArea.LogicCore.Graph.Edges)
-                    //{
-                    //    if (ee.Target.TypeOfVertex == "AMGenerator")
-                    //    {
-                    //        flagbreak = true;
-                    //        nameconflik = ee.Text + " присоединяется к генератору!";
-                    //        break;
-                    //    }
-                    //}
+                    foreach (var ee in graphArea.LogicCore.Graph.Edges)
+                    {
+                        //if (ee.Target.TypeOfVertex == "AMGenerator")
+                        //{
+                        //    flagbreak = true;
+                        //    nameconflik = ee.Text + " присоединяется к генератору!";
+                        //    break;
+                        //}
+                        if (ee.Target.TypeOfVertex == ee.Source.TypeOfVertex)
+                        {
+                            flagbreak = true;
+                            nameconflik = ee.Target.Text + " и " + ee.Source.Text + " того же типа!";
+                            break;
+                        }
+                        if ((ee.Target.TypeOfVertex == "AMGenerator" && ee.Source.TypeOfVertex == "AMPlace") ||
+                            (ee.Target.TypeOfVertex == "AMPlace" && ee.Source.TypeOfVertex == "AMGenerator"))
+                        {
+                            flagbreak = true;
+                            nameconflik = ee.Target.Text + " и " + ee.Source.Text + " того же типа!";
+                            break;
+                        }
+                        if (ee.Number < 0)
+                        {
+                            flagbreak = true;
+                            nameconflik = $"Дуга {ee.Text} - Количество дугов должено быть больше 0!";
+                            break;
+                        }
+                    }
 
                     #endregion
 
