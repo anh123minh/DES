@@ -40,39 +40,50 @@ namespace SimulationV1.WPF.Pages
 
             txtTime.Text = transition.LastTime1.ToString();
             txtSumfire.Text = transition.Count.ToString();
+            BtnCommon.IsEnabled = false;
         }
         private void btnPlacesIn_Click(object sender, RoutedEventArgs e)
         {
-            var tntb1 = _vertexTransition.ListTimeNow;
-            var pttb1 = _vertexTransition.ListTimePlaceIn;
-            var asm = new AMMultiChart(tntb1, pttb1);
+            //var tntb1 = _vertexTransition.ListTimeNow;
+            //var pttb1 = _vertexTransition.ListTimePlaceIn;
+            //var asm = new AMMultiChart(tntb1, pttb1);
+            //asm.Show();
+
+            var tntb1 = _vertexTransition.LineTimeNow;
+            var pttb1 = _vertexTransition.ListLinePlaceIn;
+            var namegraph = "входящих позиции <" + _vertexTransition.Text + ">";   
+            var asm = new AMMultiChart(tntb1, pttb1, namegraph);
             asm.Show();
-            //btnPlacesIn.IsEnabled = false;
-            //btnPlacesOut.IsEnabled = true;
-            //btnPlacesCommon.IsEnabled = true;
+
         }
 
         private void btnPlacesOut_Click(object sender, RoutedEventArgs e)
         {
-            var tntb1 = _vertexTransition.ListTimeNow;
-            var pttb1 = _vertexTransition.ListTimePlaceOut;
-            var asm = new AMMultiChart(tntb1, pttb1);
+            //var tntb1 = _vertexTransition.ListTimeNow;
+            //var pttb1 = _vertexTransition.ListTimePlaceOut;
+            //var asm = new AMMultiChart(tntb1, pttb1);
+            //asm.Show();
+
+            var tntb1 = _vertexTransition.LineTimeNow;
+            var pttb1 = _vertexTransition.ListLinePlaceOut;
+            var namegraph = "выходящих позиции <" + _vertexTransition.Text + ">";
+            var asm = new AMMultiChart(tntb1, pttb1, namegraph);
             asm.Show();
-            //btnPlacesIn.IsEnabled = true;
-            //btnPlacesOut.IsEnabled = false;
-            //btnPlacesCommon.IsEnabled = true;
         }
 
         private void btnPlacesCommon_Click(object sender, RoutedEventArgs e)
         {
-            var tntb1 = _vertexTransition.ListTimeNow;
-            var pttb1 = _vertexTransition.ListTimePlaceIn;
-            var pttb2 = _vertexTransition.ListTimePlaceOut;
-            var asm = new AMMultiChart(tntb1, pttb1, pttb2);
+            //var tntb1 = _vertexTransition.ListTimeNow;
+            //var pttb1 = _vertexTransition.ListTimePlaceIn;
+            //var pttb2 = _vertexTransition.ListTimePlaceOut;
+            //var asm = new AMMultiChart(tntb1, pttb1, pttb2);
+            //asm.Show();
+            var tntb1 = _vertexTransition.LineTimeNow;
+            var pttb1 = _vertexTransition.ListLinePlaceIn;
+            var pttb2 = _vertexTransition.ListLinePlaceOut;
+            var namegraph = "общих позиции <" + _vertexTransition.Text + ">";
+            var asm = new AMMultiChart(tntb1, pttb1, pttb2, namegraph);
             asm.Show();
-            //btnPlacesIn.IsEnabled = true;
-            //btnPlacesOut.IsEnabled = true;
-            //btnPlacesCommon.IsEnabled = false;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -98,9 +109,14 @@ namespace SimulationV1.WPF.Pages
 
         private void btnGraph_Click(object sender, RoutedEventArgs e)
         {
-            var tntb1 = Transition.ListTimeNowTable1;
-            var pttb1 = Transition.PhantichTable1;
-            var asm = new AMMultiChart(tntb1, pttb1);
+            //var tntb1 = Transition.ListTimeNowTable1;
+            //var pttb1 = Transition.PhantichTable1;
+            //var asm = new AMMultiChart(tntb1, pttb1);
+            //asm.Show();
+            var tntb1 = Transition.LineTimeNowTable1;
+            var pttb1 = Transition.LinePhanTichTable1;
+            var namegraph = "в системе";
+            var asm = new AMMultiChart(tntb1, pttb1, namegraph);
             asm.Show();
         }
     }

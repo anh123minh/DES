@@ -43,7 +43,9 @@ namespace SimulationV1.WPF.ExampleModels
         public int TimeNowNext1 = 0;
         public int LastTime1 = 0;//la thoi diem cuoi cung trong mo phong khi co bat cu Gen nao sinh het cus va time du kien < timeend
         public List<int> ListTimeNowTable1 { get; set; }
+        public Lines LineTimeNowTable1 { get; set; }
         public List<List<int>> PhantichTable1 { get; set; }
+        public List<Lines> LinePhanTichTable1 { get; set; }
         public List<Chips> listKH1 = new List<Chips>();//list ke hoach chua cac cus se vao he thong 
         public int Count = 0;//dem so lan kich khoat trong toan bo he thong
 
@@ -70,6 +72,7 @@ namespace SimulationV1.WPF.ExampleModels
             ArrayNguon1 = mangnguon;
             ArrayTransitions1 = mangchuyen;
             ListTimeNowTable1 = new List<int>();
+            LineTimeNowTable1 = new Lines(){LineName = "TimeNow", LineData = new List<int>()};
         }
         public void Run1()
         {
@@ -77,6 +80,7 @@ namespace SimulationV1.WPF.ExampleModels
             {
 
                 PhantichTable1 = new List<List<int>>();
+                LinePhanTichTable1 = new List<Lines>();
                 var listptTable1 = new List<List<int>>();
                 //listqueue1 - danh sach cac hang doi ca truoc va sau Chuyen
                 var listQueueBeforAndAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Concat(ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex)).Distinct().ToList();
@@ -85,12 +89,20 @@ namespace SimulationV1.WPF.ExampleModels
                 //listQueueBefor - danh sach cac hang doi phia sau Chuyen
                 var listQueueBefor = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Distinct().ToList();
                 ListTimeNowTable1.Add(TimeNow1);
+                LineTimeNowTable1.LineData.Add(TimeNow1);
                 var firsttimenow = new List<int>();
                 foreach (var a in listQueueBeforAndAfter)
                 {
                     firsttimenow.Add(a.HdCustomerses.Count);
                 }
                 listptTable1.Add(firsttimenow);
+                
+                foreach (var a in listQueueBeforAndAfter)
+                {
+                    var first = new Lines();
+                    first.LineName = a.Text;
+                    LinePhanTichTable1.Add(first);
+                }
                 CountAndSetNumberCusInQueue();
                 var arrayTimeKh1 = new int[ArrayNguon1.Count()];
                 var listnumcusnguon = new int[ArrayNguon1.Count()];
@@ -113,6 +125,7 @@ namespace SimulationV1.WPF.ExampleModels
                     }
                     TimeNow1 = FindMinTimePlan(listKH1);//tim timeplan nho nhat trong listKH de set TimeNow moi
                     ListTimeNowTable1.Add(TimeNow1);
+                    LineTimeNowTable1.LineData.Add(TimeNow1);
                     var listequaltimenow1 = listKH1.FindAll(x => x.TimePlan == TimeNow1);//loc ra cac Cus co timeplan = timenow duoc chon
                     listKH1 = listKH1.FindAll(x => x.TimePlan != TimeNow1);//xoa all Cus co timeplan = timenow
 
@@ -142,12 +155,7 @@ namespace SimulationV1.WPF.ExampleModels
                     //    }
                     foreach (var a in ArrayTransitions1)
                     {
-                        var mm = true;
-                        for (int i = 0; i < a.Mangdkcungvao.Length; i++)
-                        {
-                            mm = mm && a.ListEdgesTargetVertex.Select(x => x.HdCustomerses.Count).ToArray()[i] >= a.Mangdkcungvao[i];
-                        }
-                        if (mm)//Kich hoat
+                        while (KiemtradieukienkichhoatMm(a))//Kich hoat
                         {
                             Count++;
                             for (int i = 0; i < a.Mangdkcungvao.Length; i++)
@@ -212,6 +220,7 @@ namespace SimulationV1.WPF.ExampleModels
                     {
                         //tim timeplan nho nhat trong cac cus duoc sinh do kich hoat -> lau nhu TimeNow -> lay ra cac cus do -> phan ve hang tuong ung
                         ListTimeNowTable1.Add(lcuslasttime.Min(x => x.TimePlan));
+                        LineTimeNowTable1.LineData.Add(lcuslasttime.Min(x => x.TimePlan));
                         var list = lcuslasttime.Where(x => x.TimePlan == lcuslasttime.Min(y => y.TimePlan)).ToList();
                         lcuslasttime = lcuslasttime.FindAll(x => x.TimePlan != lcuslasttime.Min(y => y.TimePlan));//xoa all Cus co timeplan = timenow
                         foreach (var a in list)//tu trong danh sach phan ve cac hang doi tuong ung
@@ -235,12 +244,29 @@ namespace SimulationV1.WPF.ExampleModels
                     }
                 }
                 PhantichTable1 = listptTable1;
+                var ss = ChuyenHang2Cot1(listptTable1);
+                for (int i = 0; i < ss.Count; i++)
+                {
+                    LinePhanTichTable1[i].LineData = ss[i];
+                }
+
+                CountAndSetNumberCusInQueueWithName();
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
 
+        }
+
+        private static bool KiemtradieukienkichhoatMm(DataVertex a)
+        {
+            var mm = true;
+            for (int i = 0; i < a.Mangdkcungvao.Length; i++)
+            {
+                mm = mm && a.ListEdgesTargetVertex.Select(x => x.HdCustomerses.Count).ToArray()[i] >= a.Mangdkcungvao[i];
+            }
+            return mm;
         }
 
         private void CountAndSetNumberCusInQueue()
@@ -268,25 +294,37 @@ namespace SimulationV1.WPF.ExampleModels
             {
                 a.LineTimeNow.LineName = a.Text;
                 a.LineTimeNow.LineData = a.ListTimeNow;
-                var linein = new Lines();
+                a.ListLinePlaceIn = new List<Lines>();
                 foreach (var b in a.ListEdgesTargetVertex)
                 {
+                    var linein = new Lines();
                     linein.LineName = b.Text;
                     a.ListLinePlaceIn.Add(linein);
                 }
                 for (int i = 0; i < a.ListLinePlaceIn.Count; i++)
                 {
-                    a.ListLinePlaceIn[i].LineData = a.ListTimePlaceIn[i];
+                    var lin = new List<int>();
+                    for (int j = 0; j < a.ListTimePlaceIn.Count; j++)
+                    {
+                        lin.Add(a.ListTimePlaceIn[j][i]);
+                    }
+                    a.ListLinePlaceIn[i].LineData = lin;
                 }
-                var lineout = new Lines();
+                a.ListLinePlaceOut = new List<Lines>();
                 foreach (var b in a.ListEdgesSorceVertex)
                 {
-                    lineout.LineName = b.Text;
+                    var lineout = new Lines() {LineName = b.Text, LineData = new List<int>()};
                     a.ListLinePlaceOut.Add(lineout);
+                    
                 }
                 for (int i = 0; i < a.ListLinePlaceOut.Count; i++)
                 {
-                    a.ListLinePlaceOut[i].LineData = a.ListTimePlaceOut[i];
+                    var lin = new List<int>();
+                    for (int j = 0; j < a.ListTimePlaceOut.Count; j++)
+                    {
+                        lin.Add(a.ListTimePlaceOut[j][i]);
+                    }
+                    a.ListLinePlaceOut[i].LineData = lin;
                 }
             }
         }
