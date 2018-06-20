@@ -42,7 +42,6 @@ namespace SimulationV1.WPF.Pages
             switch (VertexBefore.TypeOfVertex)
             {
                 case "AMGenerator":
-                    //DPDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.Visibility = Visibility.Visible;
                     cbbDistribution.SelectedIndex = (int)VertexBefore.GeneratorType.TypeDistribuion;
                     tBxPara.Text = VertexBefore.GeneratorType.Para.ToString();
@@ -57,16 +56,19 @@ namespace SimulationV1.WPF.Pages
                     Label3.Content = "Длина файла:";
                     tBx3.Text = VertexBefore.GeneratorType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
-                    FromFile.Visibility = Visibility.Collapsed;                    
+                    FromFile.Visibility = Visibility.Visible;
+                    if (VertexBefore.GeneratorType.PathFullFile != "" && File.Exists(VertexBefore.GeneratorType.PathFullFile))
+                    {
+                        info.IsEnabled = false;
+                        LbLoadfromfile.Visibility = Visibility.Visible;
+                        btnFromWindow.IsEnabled = true;
+                    }
                     break;
                 case "AMPlace":
                     DPPara.Visibility = Visibility.Collapsed;
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
                     DP1.Visibility = Visibility.Visible;
-                    //Label1.Content = "Ёмкость очереди:";
-                    //tBx1.Text = VertexBefore.PlaceType.QueueCapacity.ToString();
-                    //tBx1.IsEnabled = false;//
                     Label1.Content = "Начало:";
                     tBx1.Text = VertexBefore.FirstMark.ToString();
                     Label2.Content = "Приоритет:";
@@ -92,13 +94,8 @@ namespace SimulationV1.WPF.Pages
                     tBxPara.Text = VertexBefore.TransitionType.Para.ToString();
                     tBxName.Text = VertexBefore.Text;
                     tBxTraffic.Text = VertexBefore.Traffic.ToString();
-                    //Label1.Content = "Начало:";
-                    //tBx1.Text = VertexBefore.TransitionType.FirstTime.ToString();
                     Label2.Content = "Интервал:";
                     tBx2.Text = VertexBefore.TransitionType.Mean.ToString();
-                    //DP3.Visibility = Visibility.Visible;
-                    //Label3.Content = "Длина файла:";
-                    //tBx3.Text = VertexBefore.TransitionType.LengthOfFile.ToString();
                     btnGraph.Visibility = Visibility.Visible;
                     FromFile.Visibility = Visibility.Visible;
                     if (VertexBefore.TransitionType.PathFullFile != "" && File.Exists(VertexBefore.TransitionType.PathFullFile))
@@ -206,11 +203,18 @@ namespace SimulationV1.WPF.Pages
                             default:
                                 break;
                         }
-                        //if (fromfile)
-                        //{
-                        //    VertexAfter.TransitionType.TListPointsPDF = lispdf;
-                        //    VertexAfter.TransitionType.TListPointsCDF = liscdf;
-                        //}
+                        if (fromfile)
+                        {
+                            VertexAfter.GeneratorType.TListPointsPDF = lispdf;
+                            VertexAfter.GeneratorType.TListPointsCDF = liscdf;
+                            VertexAfter.GeneratorType.PathFullFile = System.IO.Path.GetFullPath(namefile);
+                        }
+                        else
+                        {
+                            VertexAfter.GeneratorType.TListPointsPDF.Clear();
+                            VertexAfter.GeneratorType.TListPointsCDF.Clear();
+                            VertexAfter.GeneratorType.PathFullFile = "";
+                        }
                         break;
                     case "AMPlace":
                         VertexAfter.FirstMark = int.Parse(tBx1.Text);
@@ -222,9 +226,7 @@ namespace SimulationV1.WPF.Pages
                         VertexAfter.TerminateType.StoppingTime = int.Parse(tBx2.Text);
                         break;
                     case "AMTransition":
-                        //VertexAfter.TransitionType.FirstTime = int.Parse(tBx1.Text);
                         VertexAfter.TransitionType.Mean = double.Parse(tBx2.Text);
-                        //VertexAfter.TransitionType.LengthOfFile = int.Parse(tBx3.Text);
                         switch (cbbDistribution.SelectedIndex)
                         {
                             case 0:
@@ -243,7 +245,6 @@ namespace SimulationV1.WPF.Pages
                             VertexAfter.TransitionType.TListPointsPDF = lispdf;
                             VertexAfter.TransitionType.TListPointsCDF = liscdf;
                             VertexAfter.TransitionType.PathFullFile = System.IO.Path.GetFullPath(namefile);
-                            //VertexAfter.TransitionType.PathFullFile = System.IO.Path.GetFileName(namefile);
                         }
                         else
                         {
@@ -276,7 +277,15 @@ namespace SimulationV1.WPF.Pages
                     var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
                     var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
                     UpdateVertex(true, temppdf, tempcdf, filename);
-                    //SetFromFile(VertexBefore);
+                }
+                else if (VertexAfter.TypeOfVertex == "AMGenerator" && VertexAfter.GeneratorType.PathFullFile != "" && File.Exists(VertexAfter.GeneratorType.PathFullFile))
+                {
+                    var pdf = "[Probability_density]";
+                    var cdf = "[Distribution_function]";
+                    var filename = VertexAfter.GeneratorType.PathFullFile;
+                    var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
+                    var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
+                    UpdateVertex(true, temppdf, tempcdf, filename);
                 }
                 else
                 {
@@ -288,7 +297,6 @@ namespace SimulationV1.WPF.Pages
             catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString());
-                //UpdateVertex();
             }
         }
 
@@ -322,19 +330,27 @@ namespace SimulationV1.WPF.Pages
 
                     var pdf = "[Probability_density]";
                     var cdf = "[Distribution_function]";
-                    var filename = VertexBefore.TransitionType.PathFullFile != "" && VertexBefore.TransitionType.PathFullFile == openFileDialog.FileName
-                        ? VertexBefore.TransitionType.PathFullFile
-                        : openFileDialog.FileName;
+                    var filename = "";
+                    if (VertexBefore.TypeOfVertex == "AMGenerator")
+                    {
+                        filename = VertexBefore.GeneratorType.PathFullFile != "" && VertexBefore.GeneratorType.PathFullFile == openFileDialog.FileName
+                            ? VertexBefore.GeneratorType.PathFullFile
+                            : openFileDialog.FileName;
+                    }
+                    if (VertexBefore.TypeOfVertex == "AMTransition")
+                    {
+                        filename = VertexBefore.TransitionType.PathFullFile != "" && VertexBefore.TransitionType.PathFullFile == openFileDialog.FileName
+                            ? VertexBefore.TransitionType.PathFullFile
+                            : openFileDialog.FileName;
+                    }                   
                     var temppdf = SetDistributionFromFile(VertexBefore, pdf, filename);
                     var tempcdf = SetDistributionFromFile(VertexBefore, cdf, filename);
                     UpdateVertex(true, temppdf, tempcdf, filename);
-                    //SetFromFile(VertexBefore, openFileDialog.FileName);
                 }                
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 MessageBox.Show("Проверите файл!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                //MessageBox.Show(exception.ToString());
             }            
         }
 
@@ -366,66 +382,17 @@ namespace SimulationV1.WPF.Pages
             }
             return SetListPoint(listdistriX, listdistriY);
         }
-        public void SetFromFile(DataVertex vertex, string openFileDialog = "")
-        {
-            List<double> listxpdf = new List<double>();
-            List<double> listypdf = new List<double>();
-            List<double> listxcdf = new List<double>();
-            List<double> listycdf = new List<double>();
-            string s = "";
-            string dis = "[Distribution_function]";
-            string patternX = "X=";
-            string patternY = "Y=";
-            string rpatternX = @"^Point_\d{1,3}_X=";
-            string rpatternY = @"^Point_\d{1,3}_Y=";
-            string filename = "";
-            filename = vertex.TransitionType.PathFullFile != ""
-                ? vertex.TransitionType.PathFullFile
-                : openFileDialog;
-            var ms = Regex.Split(File.ReadAllLines(filename).First(x => x.Contains("PointCount")), "PointCount=");
-            var mss = Int32.Parse(ms[1]);
-            foreach (var line in File.ReadAllLines(filename))
-            {
-                var flagdis = listypdf.Count == mss;
-                if (!flagdis)
-                {
-                    if (line.Contains(patternX))
-                    {
-                        var ss = Regex.Split(line, rpatternX);
-                        listxpdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-                    }
-                    if (line.Contains(patternY))
-                    {
-                        var ss = Regex.Split(line, rpatternY);
-                        listypdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-                    }
-                }
-                else
-                {
-                    if (line.Contains(patternX))
-                    {
-                        var ss = Regex.Split(line, rpatternX);
-                        listxcdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-                    }
-                    if (line.Contains(patternY))
-                    {
-                        var ss = Regex.Split(line, rpatternY);
-                        listycdf.Add(Double.Parse(ss[1], System.Globalization.NumberStyles.Float));
-                    }
-                }
-            }
-            var temppdf = SetListPoint(listxpdf, listypdf);
-            var tempcdf = SetListPoint(listxcdf, listycdf);
-            UpdateVertex(true, temppdf, tempcdf, filename);
-        }
+
         public static List<List<double>> SetListPoint(List<double> listx, List<double> listy)
         {
             var result = new List<List<double>>();
             for (int i = 0; i < listx.Count; i++)
             {
-                var temp = new List<double>();
-                temp.Add(listx[i]);
-                temp.Add(listy[i]);
+                var temp = new List<double>
+                {
+                    listx[i],
+                    listy[i]
+                };
                 result.Add(temp);
             }
             return result;

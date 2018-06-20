@@ -1747,10 +1747,10 @@ namespace SimulationV1.WPF.Pages
                             nameconflik = ee.Target.Text + " и " + ee.Source.Text + " того же типа!";
                             break;
                         }
-                        if (ee.Number < 0)
+                        if (ee.Number < 1)
                         {
                             flagbreak = true;
-                            nameconflik = $"Дуга {ee.Text} - Количество дугов должено быть больше 0!";
+                            nameconflik = $"Дуга {ee.Text} - Количество дуг должено быть больше 1!";
                             break;
                         }
                     }
@@ -1769,12 +1769,8 @@ namespace SimulationV1.WPF.Pages
                             .ToArray();
                         var arrayTransition1 = graphArea.LogicCore.Graph.Vertices
                             .Where(x => x.TypeOfVertex == "AMTransition").ToArray();
-                        var listNguon1 = graphArea.LogicCore.Graph.Vertices.Where(x => x.TypeOfVertex == "AMGenerator")
-                            .ToList();
-                        var listTransition1 = graphArea.LogicCore.Graph.Vertices
-                            .Where(x => x.TypeOfVertex == "AMTransition").ToList();
 
-                        foreach (var a in graphArea.LogicCore.Graph.Vertices)
+                        foreach (var a in graphArea.LogicCore.Graph.Vertices)//lam sach bo nho all vertex
                         {
                             a.ListEdgesSorce = new List<DataEdge>();
                             a.ListEdgesTarget = new List<DataEdge>();
@@ -1793,8 +1789,17 @@ namespace SimulationV1.WPF.Pages
                             a.ListTimePlaceOut = new List<List<int>>();
                         }
 
-                        //tien hanh set data cho cac Transition
-                        foreach (var tt in arrayTransition1)
+                        foreach (var gg in arrayNguon1)//tien hanh set data cho cac Generator
+                        {
+                            if (gg.GeneratorType.PathFullFile != "" && File.Exists(gg.GeneratorType.PathFullFile))
+                            {
+                                gg.GeneratorType.TListPointsCDF =
+                                    WindowParaVertex.SetDistributionFromFile(gg, cdf, gg.GeneratorType.PathFullFile);
+                                gg.GeneratorType.TListPointsPDF =
+                                    WindowParaVertex.SetDistributionFromFile(gg, pdf, gg.GeneratorType.PathFullFile);
+                            }
+                        }
+                        foreach (var tt in arrayTransition1)//tien hanh set data cho cac Transition
                         {
                             tt.ListEdgesSorce = graphArea.LogicCore.Graph.Edges.Where(x => x.Source == tt).ToList();
                             tt.ListEdgesTarget = graphArea.LogicCore.Graph.Edges.Where(x => x.Target == tt).ToList();
@@ -1825,137 +1830,6 @@ namespace SimulationV1.WPF.Pages
                         //var asm = new AMMultiChart(tntb1, pttb1);
                         //asm.Show();
                     }
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString());
-            }
-        }
-
-        private void BtnStart_OnClick0(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var flagbreak = false;
-                var nameconflik = "";
-                //canh bao loi
-                foreach (var dd in graphArea.LogicCore.Graph.Vertices)
-                {
-                    if (dd.TypeOfVertex == "AMPlace")
-                    {
-                        var count = 0;
-                        foreach (var ee in graphArea.LogicCore.Graph.Edges)
-                        {
-                            if (ee.Source == dd)
-                            {
-                                count++;
-                            }
-                        }
-                        if (count > 1)
-                        {
-                            flagbreak = true;
-                            nameconflik = "vi tri " + dd.Text + " di 2 chuyen";
-                            break;
-                        }
-                    }
-                    if (dd.TypeOfVertex == "AMGenerator")
-                    {
-                        var count = 0;
-                        foreach (var ee in graphArea.LogicCore.Graph.Edges)
-                        {
-                            if (ee.Source == dd)
-                            {
-                                count++;
-                            }
-                        }
-                        if (count > 1)
-                        {
-                            flagbreak = true;
-                            nameconflik = "nguon " + dd.Text + " di 2 chuyen";
-                            break;
-                        }
-                    }
-                }
-                if (flagbreak)
-                {
-                    MessageBox.Show(nameconflik, "canh bao", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    var end = Int32.Parse(tBxTimeEnd.Text);
-
-                    List<DataVertex> listTransition = new List<DataVertex>(); //loc ra danh sach Transition
-                    foreach (var dd in graphArea.LogicCore.Graph.Vertices)
-                    {
-                        if (dd.TypeOfVertex == "AMTransition")
-                        {
-                            listTransition.Add(dd);
-                        }
-                    }
-                    //reset listedgesorce and listedgestarget tranh lap thi them moi
-                    listTransition[0].ListEdgesSorce = new List<DataEdge>();
-                    listTransition[0].ListEdgesTarget = new List<DataEdge>();
-                    //them cac edge vao list cua Transition
-                    foreach (var ee in graphArea.LogicCore.Graph.Edges)
-                    {
-                        if (ee.Source == listTransition[0])
-                        {
-                            listTransition[0].ListEdgesSorce.Add(ee);
-                        }
-                        if (ee.Target == listTransition[0])
-                        {
-                            listTransition[0].ListEdgesTarget.Add(ee);
-                        }
-                    }
-                    //tien hanh set data
-                    var socungdauvao = listTransition[0].ListEdgesTarget.Count;
-                    var mangdkdauvao = new int[socungdauvao];
-                    for (int i = 0; i < socungdauvao; i++)
-                    {
-                        mangdkdauvao[i] = listTransition[0].ListEdgesTarget[i].Number;
-                    }
-                    var socungdaura = listTransition[0].ListEdgesSorce.Count;
-                    var mangdkdaura = new int[socungdaura];
-                    for (int i = 0; i < socungdaura; i++)
-                    {
-                        mangdkdaura[i] = listTransition[0].ListEdgesSorce[i].Number;
-                    }
-                    //Sau nho sua thanh Nut class
-                    GeneratorClass[] danhsachnguon = new GeneratorClass[socungdauvao];
-                    for (int i = 0; i < listTransition[0].ListEdgesTarget.Count; i++)
-                    {
-                        var nut = new GeneratorClass()
-                        {
-                            TypeDistribuion = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.TypeDistribuion,
-                            Mean = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Mean,
-                            LengthOfFile = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.LengthOfFile,
-                            FirstTime = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.FirstTime,
-                            Para = listTransition[0].ListEdgesTarget[i].Source.GeneratorType.Para
-                        };
-                        danhsachnguon[i] = nut;
-                    }
-                    var ntchuyen = new TransitionClass()
-                    {
-                        TypeDistribuion = listTransition[0].TransitionType.TypeDistribuion,
-                        Mean = listTransition[0].TransitionType.Mean,
-                        Para = listTransition[0].TransitionType.Para,
-                        TListPointsCDF = listTransition[0].ListPointsCDF,
-                        TListPointsPDF = listTransition[0].ListPointsPDF
-                    };
-                    var trans = new Transition(end, socungdauvao, mangdkdauvao, socungdaura, mangdkdaura, danhsachnguon,
-                        ntchuyen);
-                    trans.Run();
-
-                    var tntb = trans.ListTimeNowTable;
-                    var pttb = trans.PhantichTable;
-
-                    var tng = trans.ListTimeNowGraph;
-                    var ptg = trans.PhantichGraph;
-
-                    var asm = new AMMultiChart(tntb, pttb);
-                    //var asm = new AMMultiChart(tntb, pttb, tng, ptg);
-                    asm.Show();
                 }
             }
             catch (Exception exception)

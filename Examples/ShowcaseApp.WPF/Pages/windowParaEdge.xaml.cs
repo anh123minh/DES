@@ -59,7 +59,7 @@ namespace SimulationV1.WPF.Pages
                     Label2.Content = "Задержка:";
                     tBx2.Text = ed.Delay.ToString();
                     DP3.Visibility = Visibility.Visible;
-                    Label3.Content = "Количество дугов:";
+                    Label3.Content = "Количество дуг:";
                     tBx3.Text = ed.Number.ToString();
                     break;
                 case "Red":                   

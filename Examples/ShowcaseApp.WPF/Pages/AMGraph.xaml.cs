@@ -145,17 +145,24 @@ namespace SimulationV1.WPF.Pages
             Chart.LastChildFill = true;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                if (vertex.GeneratorType.TListPointsPDF == null || vertex.GeneratorType.TListPointsPDF.Count == 0)
                 {
-                    var lamda = vertex.GeneratorType.Para;
-                    result = ExponentialDistribution_PDF(lamda);
+                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    {
+                        var lamda = vertex.GeneratorType.Para;
+                        result = ExponentialDistribution_PDF(lamda);
+                    }
+                    else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    {
+                        var varian = vertex.GeneratorType.Para;
+                        var mean = vertex.GeneratorType.Mean;
+                        result = NormallDistribution_PDF(varian, mean);
+                    }
                 }
-                else if(vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                else
                 {
-                    var varian = vertex.GeneratorType.Para;
-                    var mean = vertex.GeneratorType.Mean;
-                    result = NormallDistribution_PDF(varian, mean);
-                }
+                    result = PDF(vertex.GeneratorType.TListPointsPDF);
+                }                
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
@@ -192,17 +199,25 @@ namespace SimulationV1.WPF.Pages
             Chart.LastChildFill = true;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                if (vertex.GeneratorType.TListPointsCDF == null || vertex.GeneratorType.TListPointsPDF.Count == 0)
                 {
-                    var lamda = vertex.GeneratorType.Para;
-                    result = ExponentialDistribution_CDF(lamda);
+                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    {
+                        var lamda = vertex.GeneratorType.Para;
+                        result = ExponentialDistribution_CDF(lamda);
+                    }
+                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    {
+                        var varian = vertex.GeneratorType.Para;
+                        var mean = vertex.GeneratorType.Mean;
+                        result = NormalDistribution_CDF(varian, mean);
+                    }
                 }
-                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                else
                 {
-                    var varian = vertex.GeneratorType.Para;
-                    var mean = vertex.GeneratorType.Mean;
-                    result = NormalDistribution_CDF(varian, mean);
+                    result = CDF(vertex.GeneratorType.TListPointsCDF);
                 }
+                
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {
@@ -238,17 +253,25 @@ namespace SimulationV1.WPF.Pages
             Chart.LastChildFill = false;
             if (vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                if (vertex.GeneratorType.TListPointsPDF == null || vertex.GeneratorType.TListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
                 {
-                    var lamda = vertex.GeneratorType.Para;
-                    tablePoint = Table_Exp(lamda);
+                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    {
+                        var lamda = vertex.GeneratorType.Para;
+                        tablePoint = Table_Exp(lamda);
+                    }
+                    else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    {
+                        var varian = vertex.GeneratorType.Para;
+                        var mean = vertex.GeneratorType.Mean;
+                        tablePoint = Table_Normal(varian, mean);
+                    }
                 }
-                else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                else
                 {
-                    var varian = vertex.GeneratorType.Para;
-                    var mean = vertex.GeneratorType.Mean;
-                    tablePoint = Table_Normal(varian, mean);
+                    tablePoint = Table(vertex.GeneratorType.TListPointsPDF, vertex.GeneratorType.TListPointsCDF);
                 }
+                
             }
             else if (vertex.TypeOfVertex == "AMTransition")
             {

@@ -114,7 +114,18 @@ namespace SimulationV1.WPF.ExampleModels
                     {
                         if (ArrayNguon1.Select(x => x.GeneratorType.LengthOfFile).ToArray()[i] > listnumcusnguon[i])
                         {
-                            var cus = SinhMotCusAndName11(ArrayNguon1[i], arrayTimeKh1[i]);
+                            Chips cus;
+                            if (ArrayNguon1[i].GeneratorType.TListPointsCDF.Count != 0)
+                            {
+                                Random rand = new Random();
+                                var s = rand.Next(0, ArrayNguon1[i].GeneratorType.TListPointsCDF.Count);
+                                double d = Math.Abs(Math.Round(ArrayNguon1[i].GeneratorType.TListPointsCDF[s][0]));
+                                cus = new Chips(ArrayNguon1[i].Text, ArrayNguon1[i].TypeOfVertex, arrayTimeKh1[i] + (int)d);
+                            }
+                            else //lay du lieu tu window
+                            {
+                                cus = SinhMotCusAndName11(ArrayNguon1[i], arrayTimeKh1[i]);
+                            }
                             listKH1.Add(cus);
                             listnumcusnguon[i]++;
                             arrayTimeKh1[i] = cus.TimePlan;

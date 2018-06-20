@@ -103,6 +103,9 @@ namespace SimulationV1.WPF
         public double Para { get; set; } = 2;//Lamda or Variance  --Normal dung Standard Deviation nen nho can 2
         public int LengthOfFile { get; set; } = 20;//số Customer tối đa       
         public Distribution TypeDistribuion { get; set; } = Distribution.NormalDis;
+        public string PathFullFile { get; set; } = "";//ten file load data
+        public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
+        public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
         //---------------------------
 
 
@@ -128,9 +131,9 @@ namespace SimulationV1.WPF
         public int NumberEdgesIn { get; set; } = 0;
         public int NumberEdgesOut { get; set; } = 0;
         public bool AllReady { get; set; } = false;
-        public string PathFullFile { get; set; } = "";//ten file load data
-        public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
-        public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
+        //public string PathFullFile { get; set; } = "";//ten file load data
+        //public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
+        //public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
     }
 
     public interface IQueueClass
