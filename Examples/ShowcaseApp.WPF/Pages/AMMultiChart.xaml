@@ -50,7 +50,7 @@
                     <chartingToolkit:LinearAxis
                         Orientation="Y" Minimum="0" Title="Количество разметки" ShowGridLines="True"/>
                     <chartingToolkit:LinearAxis
-                        Orientation="X" Minimum="0" Title="Время" ShowGridLines="True"/>
+                        Orientation="X" Minimum="-1" Title="Время" ShowGridLines="True"/>
                 </local:MultiChart.Axes>
             </local:MultiChart>
         </DockPanel>

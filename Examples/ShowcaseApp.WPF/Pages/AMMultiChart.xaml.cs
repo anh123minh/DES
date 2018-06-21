@@ -134,7 +134,6 @@ namespace SimulationV1.WPF.Pages
 
             this.DataContext = this;
         }
-
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
             btnMultiGraph.IsEnabled = true;
@@ -167,7 +166,6 @@ namespace SimulationV1.WPF.Pages
             }
             TableData.ItemsSource = dataTable.DefaultView;
         }
-
         List<List<int>> Cot2Hang(List<Lines> listline)
         {
 
@@ -187,7 +185,6 @@ namespace SimulationV1.WPF.Pages
             }
             return list1;
         }
-
         #region ban den nay da chay
         //private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
         //{
@@ -242,9 +239,6 @@ namespace SimulationV1.WPF.Pages
         //    this.DataContext = this;
         //}
         #endregion
-
-
-
         //private void btnMultiGraph_Click(object sender, RoutedEventArgs e)
         //{
         //    Bang.Visibility = Visibility.Collapsed;
@@ -301,7 +295,6 @@ namespace SimulationV1.WPF.Pages
 
         //    this.DataContext = this;
         //}
-
         #region den day chay on
         //private void btnTable_Click(object sender, RoutedEventArgs e)
         //{
@@ -367,8 +360,6 @@ namespace SimulationV1.WPF.Pages
         //    ////TableData.ItemsSource = s1;
         //}
         #endregion
-
-
         List<List<int>> Cot2Hang(List<List<int>> list)
         {
             

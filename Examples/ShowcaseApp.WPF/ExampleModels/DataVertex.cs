@@ -85,8 +85,6 @@ namespace SimulationV1.WPF
             Text = string.IsNullOrEmpty(text) ? "New Vertex" : text;
             TypeOfVertex = string.IsNullOrEmpty(type) ? "No type" : type;
         }
-
-
     }
 
     public class GeneratorClass //: Simulation
@@ -107,8 +105,6 @@ namespace SimulationV1.WPF
         public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
         public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
         //---------------------------
-
-
     }
     public class PlaceClass
     {
@@ -116,7 +112,6 @@ namespace SimulationV1.WPF
         public int QueueCapacity { get; set; } = 500;//Cần tìm thuộc tính liên quan đến số Customer có thể chứa trong hàng đợi
         public int Priority { get; set; } = 0;
         public int FileType { get; set; } = 0;
-
         //Bien dung trong tinh toan
         public bool IsReady { get; set; } = false;//San sang de thuc thi hay chua
     }
@@ -131,41 +126,5 @@ namespace SimulationV1.WPF
         public int NumberEdgesIn { get; set; } = 0;
         public int NumberEdgesOut { get; set; } = 0;
         public bool AllReady { get; set; } = false;
-        //public string PathFullFile { get; set; } = "";//ten file load data
-        //public List<List<double>> TListPointsPDF = new List<List<double>>();//f(x)
-        //public List<List<double>> TListPointsCDF = new List<List<double>>();//F(x)
-    }
-
-    public interface IQueueClass
-    {
-        //Bien truyen tu ngoai vao
-        int QueueCapacity { get; set; } //Cần tìm thuộc tính liên quan đến số Customer có thể chứa trong hàng đợi
-        int Priority { get; set; }
-        int FileType { get; set; }
-    }
-    public interface ITerminateClass
-    {
-        int OutputCounter { get; set; }//Số Customer xử lý được là dừng, trường hợp này chưa xem xét tới
-        int StoppingTime { get; set; }//bằng với EndingTime trong GeneratorClass
-    }
-    public interface IAndClass : ICreateClass
-    {
-        int NumberEdgesIn { get; set; }
-        int NumberEdgesOut { get; set; }
-        bool AllReady { get; set; }
-    }
-    public interface ICreateClass
-    {
-        NonUniform TypeDis { get; set; }//Kieu Distribution
-        Distribution TypeDistribuion { get; set; }
-        //Nhung Bien set tu giao dien duoc
-        int FirstTime { get; set; }//Thời điểm bắt đầu mô phỏng
-        double Interval { get; set; }//Khoang lamda
-        int LengthOfFile { get; set; }//số Customer tối đa       
-    }
-    public enum Distribution
-    {
-        NormalDis,
-        ExponentialDis
     }
 }

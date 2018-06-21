@@ -18,10 +18,9 @@ namespace SimulationV1.WPF.Pages
     /// </summary>
     public partial class AMGraph : Window
     {
-        readonly DataVertex vertex;
-        PointCollection result = new PointCollection();
-        List<List<double>> tableList = new List<List<double>>();
-        List<TablePoint> tablePoint = new List<TablePoint>();
+        readonly DataVertex _vertex;
+        private PointCollection _result = new PointCollection();
+        List<TablePoint> _tablePoint = new List<TablePoint>();
 
         public class TablePoint
         {
@@ -29,21 +28,19 @@ namespace SimulationV1.WPF.Pages
             public double y { get; set; }
             public double z { get; set; }
         }
-
         public AMGraph(DataVertex vertex0)
         {
             InitializeComponent();
-            vertex = vertex0;
+            _vertex = vertex0;
             btnTable_Click(null, null);
         }
-
         public List<TablePoint> Table(List<List<double>> listpdf, List<List<double>> listcdf)
         {
             List<TablePoint> pointcoll = new List<TablePoint>();
 
             for (int i = 0; i < listpdf.Count; i++)
             {
-                pointcoll.Add(new TablePoint() { x = listpdf[i][0], y = listpdf[i][1], z = listcdf[i][1] });
+                pointcoll.Add(new TablePoint { x = listpdf[i][0], y = listpdf[i][1], z = listcdf[i][1] });
             }
             return pointcoll;
         }
@@ -70,7 +67,6 @@ namespace SimulationV1.WPF.Pages
             }
             return pointcoll;
         }
-
         public PointCollection PDF(List<List<double>> listpdf)
         {
             PointCollection pointcoll = new PointCollection();
@@ -100,7 +96,6 @@ namespace SimulationV1.WPF.Pages
             }
             return pointcoll;
         }
-
         public PointCollection CDF(List<List<double>> listcdf)
         {
             PointCollection pointcoll = new PointCollection();
@@ -132,7 +127,6 @@ namespace SimulationV1.WPF.Pages
             }
             return pointcoll;
         }
-
         private void btnPDF_Click(object sender, RoutedEventArgs e)
         {
             ChartIn.Title = "Плотность вероятности";
@@ -143,49 +137,49 @@ namespace SimulationV1.WPF.Pages
             Chart.Visibility = Visibility.Visible;
             Bang.LastChildFill = false;
             Chart.LastChildFill = true;
-            if (vertex.TypeOfVertex == "AMGenerator")
+            if (_vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.GeneratorType.TListPointsPDF == null || vertex.GeneratorType.TListPointsPDF.Count == 0)
+                if (_vertex.GeneratorType.TListPointsPDF == null || _vertex.GeneratorType.TListPointsPDF.Count == 0)
                 {
-                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    if (_vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
-                        var lamda = vertex.GeneratorType.Para;
-                        result = ExponentialDistribution_PDF(lamda);
+                        var lamda = _vertex.GeneratorType.Para;
+                        _result = ExponentialDistribution_PDF(lamda);
                     }
-                    else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    else if (_vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     {
-                        var varian = vertex.GeneratorType.Para;
-                        var mean = vertex.GeneratorType.Mean;
-                        result = NormallDistribution_PDF(varian, mean);
+                        var varian = _vertex.GeneratorType.Para;
+                        var mean = _vertex.GeneratorType.Mean;
+                        _result = NormallDistribution_PDF(varian, mean);
                     }
                 }
                 else
                 {
-                    result = PDF(vertex.GeneratorType.TListPointsPDF);
+                    _result = PDF(_vertex.GeneratorType.TListPointsPDF);
                 }                
             }
-            else if (vertex.TypeOfVertex == "AMTransition")
+            else if (_vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.TransitionType.TListPointsPDF == null || vertex.TransitionType.TListPointsPDF.Count == 0)
+                if (_vertex.TransitionType.TListPointsPDF == null || _vertex.TransitionType.TListPointsPDF.Count == 0)
                 {
-                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    if (_vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
-                        var lamda = vertex.TransitionType.Para;
-                        result = ExponentialDistribution_PDF(lamda);
+                        var lamda = _vertex.TransitionType.Para;
+                        _result = ExponentialDistribution_PDF(lamda);
                     }
-                    else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    else if (_vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     {
-                        var varian = vertex.TransitionType.Para;
-                        var mean = vertex.TransitionType.Mean;
-                        result = NormallDistribution_PDF(varian, mean);
+                        var varian = _vertex.TransitionType.Para;
+                        var mean = _vertex.TransitionType.Mean;
+                        _result = NormallDistribution_PDF(varian, mean);
                     }
                 }
                 else
                 {
-                    result = PDF(vertex.TransitionType.TListPointsPDF);
+                    _result = PDF(_vertex.TransitionType.TListPointsPDF);
                 }
             }
-            DoThi.ItemsSource = result;
+            DoThi.ItemsSource = _result;
         }
         private void btnCDF_Click(object sender, RoutedEventArgs e)
         {
@@ -197,50 +191,50 @@ namespace SimulationV1.WPF.Pages
             Chart.Visibility = Visibility.Visible;
             Bang.LastChildFill = false;
             Chart.LastChildFill = true;
-            if (vertex.TypeOfVertex == "AMGenerator")
+            if (_vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.GeneratorType.TListPointsCDF == null || vertex.GeneratorType.TListPointsPDF.Count == 0)
+                if (_vertex.GeneratorType.TListPointsCDF == null || _vertex.GeneratorType.TListPointsPDF.Count == 0)
                 {
-                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    if (_vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
-                        var lamda = vertex.GeneratorType.Para;
-                        result = ExponentialDistribution_CDF(lamda);
+                        var lamda = _vertex.GeneratorType.Para;
+                        _result = ExponentialDistribution_CDF(lamda);
                     }
-                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    if (_vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     {
-                        var varian = vertex.GeneratorType.Para;
-                        var mean = vertex.GeneratorType.Mean;
-                        result = NormalDistribution_CDF(varian, mean);
+                        var varian = _vertex.GeneratorType.Para;
+                        var mean = _vertex.GeneratorType.Mean;
+                        _result = NormalDistribution_CDF(varian, mean);
                     }
                 }
                 else
                 {
-                    result = CDF(vertex.GeneratorType.TListPointsCDF);
+                    _result = CDF(_vertex.GeneratorType.TListPointsCDF);
                 }
                 
             }
-            else if (vertex.TypeOfVertex == "AMTransition")
+            else if (_vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.TransitionType.TListPointsCDF == null || vertex.TransitionType.TListPointsPDF.Count == 0)
+                if (_vertex.TransitionType.TListPointsCDF == null || _vertex.TransitionType.TListPointsPDF.Count == 0)
                 {
-                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    if (_vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
-                        var lamda = vertex.TransitionType.Para;
-                        result = ExponentialDistribution_CDF(lamda);
+                        var lamda = _vertex.TransitionType.Para;
+                        _result = ExponentialDistribution_CDF(lamda);
                     }
-                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    if (_vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     {
-                        var varian = vertex.TransitionType.Para;
-                        var mean = vertex.TransitionType.Mean;
-                        result = NormalDistribution_CDF(varian, mean);
+                        var varian = _vertex.TransitionType.Para;
+                        var mean = _vertex.TransitionType.Mean;
+                        _result = NormalDistribution_CDF(varian, mean);
                     }
                 }
                 else
                 {
-                    result = CDF(vertex.TransitionType.TListPointsCDF);
+                    _result = CDF(_vertex.TransitionType.TListPointsCDF);
                 }
             }
-            DoThi.ItemsSource = result;
+            DoThi.ItemsSource = _result;
         }
         private void btnTable_Click(object sender, RoutedEventArgs e)
         {
@@ -251,50 +245,50 @@ namespace SimulationV1.WPF.Pages
             Chart.Visibility = Visibility.Collapsed;
             Bang.LastChildFill = true;
             Chart.LastChildFill = false;
-            if (vertex.TypeOfVertex == "AMGenerator")
+            if (_vertex.TypeOfVertex == "AMGenerator")
             {
-                if (vertex.GeneratorType.TListPointsPDF == null || vertex.GeneratorType.TListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
+                if (_vertex.GeneratorType.TListPointsPDF == null || _vertex.GeneratorType.TListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
                 {
-                    if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    if (_vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
-                        var lamda = vertex.GeneratorType.Para;
-                        tablePoint = Table_Exp(lamda);
+                        var lamda = _vertex.GeneratorType.Para;
+                        _tablePoint = Table_Exp(lamda);
                     }
-                    else if (vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    else if (_vertex.GeneratorType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     {
-                        var varian = vertex.GeneratorType.Para;
-                        var mean = vertex.GeneratorType.Mean;
-                        tablePoint = Table_Normal(varian, mean);
+                        var varian = _vertex.GeneratorType.Para;
+                        var mean = _vertex.GeneratorType.Mean;
+                        _tablePoint = Table_Normal(varian, mean);
                     }
                 }
                 else
                 {
-                    tablePoint = Table(vertex.GeneratorType.TListPointsPDF, vertex.GeneratorType.TListPointsCDF);
+                    _tablePoint = Table(_vertex.GeneratorType.TListPointsPDF, _vertex.GeneratorType.TListPointsCDF);
                 }
                 
             }
-            else if (vertex.TypeOfVertex == "AMTransition")
+            else if (_vertex.TypeOfVertex == "AMTransition")
             {
-                if (vertex.TransitionType.TListPointsPDF == null || vertex.TransitionType.TListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
+                if (_vertex.TransitionType.TListPointsPDF == null || _vertex.TransitionType.TListPointsPDF.Count == 0)//xem lai xem co can check null nua k?
                 {
-                    if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
+                    if (_vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.ExponentialDis)
                     {
-                        var lamda = vertex.TransitionType.Para;
-                        tablePoint = Table_Exp(lamda);
+                        var lamda = _vertex.TransitionType.Para;
+                        _tablePoint = Table_Exp(lamda);
                     }
-                    else if (vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
+                    else if (_vertex.TransitionType.TypeDistribuion == GeneratorClass.Distribution.NormalDis)
                     {
-                        var varian = vertex.TransitionType.Para;
-                        var mean = vertex.TransitionType.Mean;
-                        tablePoint = Table_Normal(varian, mean);
+                        var varian = _vertex.TransitionType.Para;
+                        var mean = _vertex.TransitionType.Mean;
+                        _tablePoint = Table_Normal(varian, mean);
                     }
                 }
                 else
                 {
-                    tablePoint = Table(vertex.TransitionType.TListPointsPDF, vertex.TransitionType.TListPointsCDF);
+                    _tablePoint = Table(_vertex.TransitionType.TListPointsPDF, _vertex.TransitionType.TListPointsCDF);
                 }                
             }
-            TableData.ItemsSource = tablePoint;
+            TableData.ItemsSource = _tablePoint;
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {

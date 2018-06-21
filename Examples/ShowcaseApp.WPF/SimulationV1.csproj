@@ -158,7 +158,7 @@
     <Compile Include="ExampleModels\AMCustomer.cs" />
     <Compile Include="ExampleModels\AMShop.cs" />
     <Compile Include="ExampleModels\AMTransition.cs" />
-    <Compile Include="ExampleModels\AMCustomers.cs" />
+    <Compile Include="ExampleModels\AMChips.cs" />
     <Compile Include="Pages\AMGraph.xaml.cs">
       <DependentUpon>AMGraph.xaml</DependentUpon>
     </Compile>

@@ -51,7 +51,6 @@ namespace SimulationV1.WPF.Pages
             AMPlace,
             AMTerminate,
             AMTransition,
-            IP
         }
 
         private enum EdgeType
@@ -62,9 +61,6 @@ namespace SimulationV1.WPF.Pages
 
         private VertexType _vertextype = VertexType.AMGenerator;
         private EdgeType _edgetype = EdgeType.AMArc;
-
-        private Resource _ambarbers;
-        //private List<Barber> _ambarbers = new List<Barber>();
 
         // Параметры генетического алгоритма
         private int populationSize = 40;
@@ -1621,7 +1617,6 @@ namespace SimulationV1.WPF.Pages
                 var pdf = "[Probability_density]";
                 var cdf = "[Distribution_function]";
                 
-
                 if (graphArea.LogicCore.Graph.Vertices == null || !graphArea.LogicCore.Graph.Vertices.Any() ||
                     graphArea.LogicCore.Graph.Edges == null || !graphArea.LogicCore.Graph.Edges.Any())
                 {
@@ -1756,7 +1751,6 @@ namespace SimulationV1.WPF.Pages
                     }
 
                     #endregion
-
                     if (flagbreak)
                     {
                         MessageBox.Show(nameconflik, "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1794,9 +1788,9 @@ namespace SimulationV1.WPF.Pages
                             if (gg.GeneratorType.PathFullFile != "" && File.Exists(gg.GeneratorType.PathFullFile))
                             {
                                 gg.GeneratorType.TListPointsCDF =
-                                    WindowParaVertex.SetDistributionFromFile(gg, cdf, gg.GeneratorType.PathFullFile);
+                                    WindowParaVertex.SetDistributionFromFile(cdf, gg.GeneratorType.PathFullFile);
                                 gg.GeneratorType.TListPointsPDF =
-                                    WindowParaVertex.SetDistributionFromFile(gg, pdf, gg.GeneratorType.PathFullFile);
+                                    WindowParaVertex.SetDistributionFromFile(pdf, gg.GeneratorType.PathFullFile);
                             }
                         }
                         foreach (var tt in arrayTransition1)//tien hanh set data cho cac Transition
@@ -1810,9 +1804,9 @@ namespace SimulationV1.WPF.Pages
                             if (tt.TransitionType.PathFullFile != "" && File.Exists(tt.TransitionType.PathFullFile))
                             {
                                 tt.TransitionType.TListPointsCDF =
-                                    WindowParaVertex.SetDistributionFromFile(tt, cdf, tt.TransitionType.PathFullFile);
+                                    WindowParaVertex.SetDistributionFromFile(cdf, tt.TransitionType.PathFullFile);
                                 tt.TransitionType.TListPointsPDF =
-                                    WindowParaVertex.SetDistributionFromFile(tt, pdf, tt.TransitionType.PathFullFile);
+                                    WindowParaVertex.SetDistributionFromFile(pdf, tt.TransitionType.PathFullFile);
                             }
                         }
                         //graphArea.LogicCore.Graph.Vertices.First(x => x.Text == tt.Text).TransitionType.TListPointsPDF;

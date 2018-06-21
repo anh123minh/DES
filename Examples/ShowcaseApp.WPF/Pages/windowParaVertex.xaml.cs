@@ -274,8 +274,8 @@ namespace SimulationV1.WPF.Pages
                     var pdf = "[Probability_density]";
                     var cdf = "[Distribution_function]";
                     var filename = VertexAfter.TransitionType.PathFullFile;
-                    var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
-                    var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
+                    var temppdf = SetDistributionFromFile(pdf, filename);
+                    var tempcdf = SetDistributionFromFile(cdf, filename);
                     UpdateVertex(true, temppdf, tempcdf, filename);
                 }
                 else if (VertexAfter.TypeOfVertex == "AMGenerator" && VertexAfter.GeneratorType.PathFullFile != "" && File.Exists(VertexAfter.GeneratorType.PathFullFile))
@@ -283,8 +283,8 @@ namespace SimulationV1.WPF.Pages
                     var pdf = "[Probability_density]";
                     var cdf = "[Distribution_function]";
                     var filename = VertexAfter.GeneratorType.PathFullFile;
-                    var temppdf = SetDistributionFromFile(VertexAfter, pdf, filename);
-                    var tempcdf = SetDistributionFromFile(VertexAfter, cdf, filename);
+                    var temppdf = SetDistributionFromFile(pdf, filename);
+                    var tempcdf = SetDistributionFromFile(cdf, filename);
                     UpdateVertex(true, temppdf, tempcdf, filename);
                 }
                 else
@@ -317,8 +317,7 @@ namespace SimulationV1.WPF.Pages
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
-                            
+            {                            
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "GPD files (*.gpd)|*.gpd|All files (*.*)|*.*";                           
 
@@ -343,8 +342,8 @@ namespace SimulationV1.WPF.Pages
                             ? VertexBefore.TransitionType.PathFullFile
                             : openFileDialog.FileName;
                     }                   
-                    var temppdf = SetDistributionFromFile(VertexBefore, pdf, filename);
-                    var tempcdf = SetDistributionFromFile(VertexBefore, cdf, filename);
+                    var temppdf = SetDistributionFromFile(pdf, filename);
+                    var tempcdf = SetDistributionFromFile(cdf, filename);
                     UpdateVertex(true, temppdf, tempcdf, filename);
                 }                
             }
@@ -354,7 +353,7 @@ namespace SimulationV1.WPF.Pages
             }            
         }
 
-        public static List<List<double>> SetDistributionFromFile(DataVertex vertex, string dis, string filename)
+        public static List<List<double>> SetDistributionFromFile(string dis, string filename)
         {
             List<double> listdistriX = new List<double>();
             List<double> listdistriY = new List<double>();
@@ -382,7 +381,6 @@ namespace SimulationV1.WPF.Pages
             }
             return SetListPoint(listdistriX, listdistriY);
         }
-
         public static List<List<double>> SetListPoint(List<double> listx, List<double> listy)
         {
             var result = new List<List<double>>();

@@ -8,33 +8,65 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <Grid>
-        <DockPanel Margin="0">
-            <chartingToolkit:Chart Height="320" VerticalAlignment="Top">
-                <local:StepLineSeries x:Name="BieuDo" DependentValuePath="Y" IndependentValuePath="X" VerticalContentAlignment="Stretch">
-                    <local:StepLineSeries.DataPointStyle>
-                        <Style TargetType="chartingToolkit:LineDataPoint">
-                            <Setter Property="Width" Value="0"/>
-                            <Setter Property="Height" Value="0"/>
-                            <Setter Property="Background" Value="Green"/>
-                        </Style>
-                    </local:StepLineSeries.DataPointStyle>
- 
-                </local:StepLineSeries>
-                <chartingToolkit:Chart.LegendStyle>
-                    <Style TargetType="Control">
-                        <Setter Property="Width" Value="0" />
-                        <Setter Property="Height" Value="0" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <chartingToolkit:Chart VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0">
+            <local:StepLineSeries x:Name="BieuDo" DependentValuePath="Y" IndependentValuePath="X" VerticalContentAlignment="Stretch">
+                <local:StepLineSeries.DataPointStyle>
+                    <Style TargetType="chartingToolkit:LineDataPoint">
+                        <Setter Property="Width" Value="2"/>
+                        <Setter Property="Height" Value="2"/>
+                        <Setter Property="Background" Value="Green"/>
                     </Style>
-                </chartingToolkit:Chart.LegendStyle>
-                <chartingToolkit:Chart.Axes>
-                    <chartingToolkit:LinearAxis
-                        Orientation="Y" Minimum="0" Title="Уровень исполь-я" ShowGridLines="True"/>
-                    <chartingToolkit:LinearAxis
-                        Orientation="X" Title="Итерация" ShowGridLines="True"/>
-                </chartingToolkit:Chart.Axes>
+                </local:StepLineSeries.DataPointStyle>
 
-            </chartingToolkit:Chart>
+            </local:StepLineSeries>
+            <chartingToolkit:Chart.LegendStyle>
+                <Style TargetType="Control">
+                    <Setter Property="Width" Value="0" />
+                    <Setter Property="Height" Value="0" />
+                </Style>
+            </chartingToolkit:Chart.LegendStyle>
+            <chartingToolkit:Chart.Axes>
+                <chartingToolkit:LinearAxis
+                    Orientation="Y" Minimum="0" Title="Уровень исполь-я" ShowGridLines="True"/>
+                <chartingToolkit:LinearAxis
+                    Orientation="X" Title="Итерация" ShowGridLines="True"/>
+            </chartingToolkit:Chart.Axes>
+        </chartingToolkit:Chart>
+        <DockPanel Grid.Row="1" Name="Graph" Visibility="Visible" Margin="10">
+            <!-- This chart works -->
+            <local:MultiChart DockPanel.Dock="Top" 
+                              Title="{Binding ChartData.Title}"
+                              SeriesSource="{Binding ChartData.DataSeriesList}">
+                <local:MultiChart.SeriesTemplate>
+                    <!--<DataTemplate>
+                        <local:StepLineSeries
+                            Title="{Binding Name}"
+                            ItemsSource="{Binding Data}"
+                            IndependentValueBinding="{Binding Key}"
+                            DependentValueBinding="{Binding Value}" />
+                    </DataTemplate>-->
+                    <!--ben duoi quan trong-->
+                    
+                    <DataTemplate>
+                            <local:StepLineSeries
+                                Title="{Binding Name}"
+                                ItemsSource="{Binding Data}"
+                                IndependentValueBinding="{Binding Time}"
+                                DependentValueBinding="{Binding Value}" />
+                    </DataTemplate>
 
+                </local:MultiChart.SeriesTemplate>
+                <local:MultiChart.Axes>
+                    <chartingToolkit:LinearAxis
+                        Orientation="Y" Minimum="0" Title="Количество разметки" ShowGridLines="True"/>
+                    <chartingToolkit:LinearAxis
+                        Orientation="X" Minimum="-1" Title="Время" ShowGridLines="True"/>
+                </local:MultiChart.Axes>
+            </local:MultiChart>
         </DockPanel>
     </Grid>
 </Window>
