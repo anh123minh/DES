@@ -44,9 +44,9 @@
         </Border>
 
         <TabControl x:Name="TabControl" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" Height="Auto" Width="260" HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectionChanged="TabControl_SelectionChanged">
-            <TabItem Header="Главный">
+            <TabItem Header="Главное меню">
                 <DockPanel LastChildFill="False" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3">
-                    <TextBlock Text="Главный панел" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
+                    <TextBlock Text="Главная панель" Margin="3" FontSize="16" FontWeight="Bold" Background="LightSlateGray" TextAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource toggleButtonModernStyle}">

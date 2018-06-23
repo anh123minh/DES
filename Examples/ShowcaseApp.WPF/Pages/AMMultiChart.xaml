@@ -29,21 +29,21 @@
                               Title="{Binding ChartData.Title}"
                               SeriesSource="{Binding ChartData.DataSeriesList}">
                 <local:MultiChart.SeriesTemplate>
-                    <DataTemplate>
+                    <!--<DataTemplate>
                         <local:StepLineSeries
                             Title="{Binding Name}"
                             ItemsSource="{Binding Data}"
                             IndependentValueBinding="{Binding Key}"
                             DependentValueBinding="{Binding Value}" />
-                    </DataTemplate>
-                    <!--ben duoi quan trong--><!--
+                    </DataTemplate>-->
+                    <!--ben duoi quan trong-->
                     <DataTemplate>
                             <local:StepLineSeries
                                 Title="{Binding Name}"
                                 ItemsSource="{Binding Data}"
                                 IndependentValueBinding="{Binding Time}"
                                 DependentValueBinding="{Binding Value}" />
-                        </DataTemplate>-->
+                    </DataTemplate>
                      
                 </local:MultiChart.SeriesTemplate>
                 <local:MultiChart.Axes>

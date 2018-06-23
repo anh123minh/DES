@@ -37,61 +37,28 @@ namespace SimulationV1.WPF.Pages
             }
         }
 
-        PointCollection CreateStepLineSeries(PointCollection source)
-        {
-            PointCollection returnValue = new PointCollection();
-            var zeroy = source[0].Y;
-            var oney = source[0].X;// doi voi nguon
-            //for (int i = 1; i < source.Count - 1; i++)
-            //{
-            //    if (source[i].Y < zeroy)
-            //    {
-            //        oney = source[i].Y;
-            //        break;
-            //    }
-            //}
-            foreach (var z in source)
-            {
-                if (z.Y < zeroy)
-                {
-                    oney = z.Y;
-                    break;
-                }
-            }
-
-            for (int i = 0; i < source.Count; i++)
-            {
-                Point currentValue = source[i];
-                returnValue.Add(currentValue);
-                if (i < source.Count - 1)
-                {
-                    Point nextValue = source[i + 1];
-                    if (nextValue.Y <= currentValue.Y)//y sau cao hon y truoc?
-                    {
-                        returnValue.Add(new Point(nextValue.X, currentValue.Y));
-                        
-                    }
-                    else
-                    {
-                        //if (Math.Abs(nextValue.Y - oney) < 1)
-                        //{
-                        //    returnValue.Add(new Point(currentValue.X, zeroy));
-                        //    returnValue.Add(new Point(nextValue.X, zeroy));
-
-                        //}
-                        //else
-                        //{
-                        //    returnValue.Add(new Point(currentValue.X, nextValue.Y));
-                        //}
-                        returnValue.Add(new Point(currentValue.X, nextValue.Y));
-                    }
-                }
-            }
-            return returnValue;
-        }
         //PointCollection CreateStepLineSeries(PointCollection source)
         //{
         //    PointCollection returnValue = new PointCollection();
+        //    var zeroy = source[0].Y;
+        //    var oney = source[0].X;// doi voi nguon
+        //    //for (int i = 1; i < source.Count - 1; i++)
+        //    //{
+        //    //    if (source[i].Y < zeroy)
+        //    //    {
+        //    //        oney = source[i].Y;
+        //    //        break;
+        //    //    }
+        //    //}
+        //    foreach (var z in source)
+        //    {
+        //        if (z.Y < zeroy)
+        //        {
+        //            oney = z.Y;
+        //            break;
+        //        }
+        //    }
+
         //    for (int i = 0; i < source.Count; i++)
         //    {
         //        Point currentValue = source[i];
@@ -99,18 +66,57 @@ namespace SimulationV1.WPF.Pages
         //        if (i < source.Count - 1)
         //        {
         //            Point nextValue = source[i + 1];
-        //            if (nextValue.Y <= currentValue.Y)
+        //            if (nextValue.Y <= currentValue.Y)//y sau cao hon y truoc?
         //            {
         //                returnValue.Add(new Point(nextValue.X, currentValue.Y));
+                        
         //            }
         //            else
         //            {
+        //                //if (Math.Abs(nextValue.Y - oney) < 1)
+        //                //{
+        //                //    returnValue.Add(new Point(currentValue.X, zeroy));
+        //                //    returnValue.Add(new Point(nextValue.X, zeroy));
+
+        //                //}
+        //                //else
+        //                //{
+        //                //    returnValue.Add(new Point(currentValue.X, nextValue.Y));
+        //                //}
         //                returnValue.Add(new Point(currentValue.X, nextValue.Y));
         //            }
         //        }
         //    }
         //    return returnValue;
         //}
+        PointCollection CreateStepLineSeries(PointCollection source)
+        {
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (i < source.Count - 1)
+                {
+                    if (Math.Abs(source[i].X - source[i + 1].X) < 0.1 && source[i].Y > source[i + 1].Y)
+                    {
+                        var temp = source[i];
+                        source[i] = source[i + 1];
+                        source[i + 1] = temp;
+                    }
+                }
+
+            }
+            PointCollection returnValue = new PointCollection();
+            for (int i = 0; i < source.Count; i++)
+            {
+                Point currentValue = source[i];
+                returnValue.Add(currentValue);
+                if (i < source.Count - 1)
+                {
+                    Point nextValue = source[i + 1];
+                    returnValue.Add(new Point(nextValue.X, currentValue.Y));
+                }
+            }
+            return returnValue;
+        }
         ////PointCollection CreateStepLineSeries(PointCollection source)
         ////{
         ////    PointCollection returnValue = new PointCollection();

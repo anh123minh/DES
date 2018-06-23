@@ -53,14 +53,14 @@ namespace StepLineChart
 
             };
             //var a = new StepLineSeries {Points = aaa};
-            BieuDo.ItemsSource = aaa; //.Points;
+            //BieuDo.ItemsSource = aaa; //.Points;
 
-            var listtime = new List<int> {0, 1, 1, 3, 4, 5,5, 6, 7, 8, 9, 10};
+            var listtime = new List<int> {0, 1, 2, 3, 4, 5,5, 6, 7, 8, 9, 10,10,11,12};
             var listblockcount = new List<List<int>>();
-            var liscount1 = new List<int> {0, 1, 0, 1, 8, 10,5, 7, 9, 11, 18, 5};
-            var liscount2 = new List<int> { 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0 };
+            var liscount1 = new List<int> {0, 1, 2, 3, 4, 5,0, 1, 2, 3, 4, 5,0,1,2};
+            //var liscount2 = new List<int> { 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0,0,0 };
             listblockcount.Add(liscount1);
-            listblockcount.Add(liscount2);
+            //listblockcount.Add(liscount2);
 
 
             ChartData = new ChartData();

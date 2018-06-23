@@ -43,7 +43,9 @@ namespace SimulationV1.WPF.ExampleModels
         public int LastTime1 = 0;//la thoi diem cuoi cung trong mo phong khi co bat cu Gen nao sinh het cus va time du kien < timeend
         public List<int> ListTimeNowTable1 { get; set; }
         public Lines LineTimeNowTable1 { get; set; }
-        public List<List<int>> PhantichTable1 { get; set; }
+        //public List<List<int>> PhantichTable1 { get; set; }
+        public List<List<int>> ListptTable1 { get; set; }
+        public List<DataVertex> ListQueueBeforAndAfter { get; set; }
         public List<Lines> LinePhanTichTable1 { get; set; }
         public List<Chips> ListKh1 = new List<Chips>();//list ke hoach chua cac cus se vao he thong 
         public int Count = 0;//dem so lan kich khoat trong toan bo he thong
@@ -78,31 +80,26 @@ namespace SimulationV1.WPF.ExampleModels
             try
             {
 
-                PhantichTable1 = new List<List<int>>();
+                //PhantichTable1 = new List<List<int>>();
                 LinePhanTichTable1 = new List<Lines>();
-                var listptTable1 = new List<List<int>>();
+                ListptTable1 = new List<List<int>>();
                 //listqueue1 - danh sach cac hang doi ca truoc va sau Chuyen
-                var listQueueBeforAndAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Concat(ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex)).Distinct().ToList();
+                ListQueueBeforAndAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Concat(ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex)).Distinct().ToList();
                 //listQueueAfter - danh sach cac hang doi phia sau Chuyen
                 var listQueueAfter = ArrayTransitions1.SelectMany(x => x.ListEdgesSorceVertex).Distinct().ToList();
                 //listQueueBefor - danh sach cac hang doi phia sau Chuyen
                 var listQueueBefor = ArrayTransitions1.SelectMany(x => x.ListEdgesTargetVertex).Distinct().ToList();
                 ListTimeNowTable1.Add(TimeNow1);
                 LineTimeNowTable1.LineData.Add(TimeNow1);
-                var firsttimenow = new List<int>();
-                foreach (var a in listQueueBeforAndAfter)
-                {
-                    firsttimenow.Add(a.HdCustomerses.Count);
-                }
-                listptTable1.Add(firsttimenow);
-                
-                foreach (var a in listQueueBeforAndAfter)
+                CountAllPlaces();
+
+                foreach (var a in ListQueueBeforAndAfter)
                 {
                     var first = new Lines();
                     first.LineName = a.Text;
                     LinePhanTichTable1.Add(first);
                 }
-                CountAndSetNumberCusInQueue();
+                CountAndSetNumberCusInQueueTransition();
                 var arrayTimeKh1 = new int[ArrayNguon1.Count()];
                 var listnumcusnguon = new int[ArrayNguon1.Count()];
                 InspectTrigger();
@@ -143,7 +140,7 @@ namespace SimulationV1.WPF.ExampleModels
 
                     foreach (var a in listequaltimenow1)//tu trong danh sach phan ve cac hang doi tuong ung
                     {
-                        foreach (var b in listQueueBeforAndAfter)
+                        foreach (var b in ListQueueBeforAndAfter)
                         {
                             if (b.Text == a.Name)
                             {
@@ -152,13 +149,14 @@ namespace SimulationV1.WPF.ExampleModels
                             }
                         }
                     }
-                    var al = new List<int>();
-                    foreach (var a in listQueueBeforAndAfter)//thuc hien dem so Cus trong hang -> dua ra graph
-                    {
-                        al.Add(a.HdCustomerses.Count);
-                    }
-                    listptTable1.Add(al);
-                    CountAndSetNumberCusInQueue();
+                    //var al = new List<int>();
+                    //foreach (var a in ListQueueBeforAndAfter)//thuc hien dem so Cus trong hang -> dua ra graph
+                    //{
+                    //    al.Add(a.HdCustomerses.Count);
+                    //}
+                    //ListptTable1.Add(al);
+                    CountAllPlaces();
+                    CountAndSetNumberCusInQueueTransition();
 
                     //    //Co Generator nao sinh het chua && TimeNow == LastTime thi dung -> neu co cai chua het thi co sinh them nua cung k de lam gif vi 1 cai da dung roi nen k the kich hoat bat cu Chuyen nao duoc nua ;
                     //    if (IsAnyGenEnd(arrayboolLengthOfFile) && TimeNow1 == LastTime)
@@ -187,6 +185,7 @@ namespace SimulationV1.WPF.ExampleModels
                     while (lcuslasttime.Count != 0)
                     {
                         //tim timeplan nho nhat trong cac cus duoc sinh do kich hoat -> lau nhu TimeNow -> lay ra cac cus do -> phan ve hang tuong ung
+                        TimeNow1 = lcuslasttime.Min(x => x.TimePlan);
                         ListTimeNowTable1.Add(lcuslasttime.Min(x => x.TimePlan));
                         LineTimeNowTable1.LineData.Add(lcuslasttime.Min(x => x.TimePlan));
                         var list = lcuslasttime.Where(x => x.TimePlan == lcuslasttime.Min(y => y.TimePlan)).ToList();
@@ -202,29 +201,41 @@ namespace SimulationV1.WPF.ExampleModels
                                 }
                             }
                         }
-                        var al1 = new List<int>();
-                        foreach (var sss in listQueueBeforAndAfter)
-                        {
-                            al1.Add(sss.HdCustomerses.Count);
-                        }
-                        listptTable1.Add(al1);
-                        CountAndSetNumberCusInQueue();
+                        //var al1 = new List<int>();
+                        //foreach (var sss in ListQueueBeforAndAfter)
+                        //{
+                        //    al1.Add(sss.HdCustomerses.Count);
+                        //}
+                        //ListptTable1.Add(al1);
+                        CountAllPlaces();
+                        CountAndSetNumberCusInQueueTransition();
                         InspectTrigger();
                     }
                 }
-                PhantichTable1 = listptTable1;
-                var ss = ChuyenHang2Cot1(listptTable1);
+                //PhantichTable1 = listptTable1;
+                var ss = ChuyenHang2Cot1(ListptTable1);
                 for (int i = 0; i < ss.Count; i++)
                 {
                     LinePhanTichTable1[i].LineData = ss[i];
                 }
-                CountAndSetNumberCusInQueueWithName();
+                CountAndSetNumberCusInQueueWithNameTransition();
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
         }
+
+        private void CountAllPlaces()
+        {
+            var templist = new List<int>();
+            foreach (var a in ListQueueBeforAndAfter)
+            {
+                templist.Add(a.HdCustomerses.Count);
+            }
+            ListptTable1.Add(templist);
+        }
+
         private void InspectTrigger()
         {
             foreach (var a in ArrayTransitions1)
@@ -271,6 +282,10 @@ namespace SimulationV1.WPF.ExampleModels
                                 ListEdgesSorceVertex[i].LastTime));
                         }
                     }
+                    ListTimeNowTable1.Add(TimeNow1);
+                    LineTimeNowTable1.LineData.Add(TimeNow1);
+                    CountAllPlaces();
+                    CountAndSetNumberCusInQueueTransition();
                 }
             }
         }
@@ -283,7 +298,7 @@ namespace SimulationV1.WPF.ExampleModels
             }
             return mm;
         }
-        private void CountAndSetNumberCusInQueue()//dem nhung chua co ten
+        private void CountAndSetNumberCusInQueueTransition()//dem nhung chua co ten
         {
             foreach (var a in ArrayTransitions1)
             {
@@ -302,7 +317,7 @@ namespace SimulationV1.WPF.ExampleModels
                 a.ListTimePlaceOut.Add(after);
             }
         }
-        private void CountAndSetNumberCusInQueueWithName()//dem co ten =>dung de xuat ra ngoai
+        private void CountAndSetNumberCusInQueueWithNameTransition()//dem co ten =>dung de xuat ra ngoai
         {
             foreach (var a in ArrayTransitions1)
             {

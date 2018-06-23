@@ -90,6 +90,20 @@ namespace StepLineChart
         //}
         PointCollection CreateStepLineSeries(PointCollection source)
         {
+
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (i < source.Count - 1)
+                {
+                    if (Math.Abs(source[i].X - source[i + 1].X) < 0.1 && source[i].Y > source[i+1].Y)
+                    {
+                        var temp = source[i];
+                        source[i] = source[i + 1];
+                        source[i + 1] = temp;
+                    }
+                }
+                
+            }
             PointCollection returnValue = new PointCollection();
             for (int i = 0; i < source.Count; i++)
             {

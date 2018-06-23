@@ -81,7 +81,7 @@ namespace SimulationV1.WPF.Pages
             var tntb1 = _vertexTransition.LineTimeNow;
             var pttb1 = _vertexTransition.ListLinePlaceIn;
             var pttb2 = _vertexTransition.ListLinePlaceOut;
-            var namegraph = "общих позиции <" + _vertexTransition.Text + ">";
+            var namegraph = "позиций <" + _vertexTransition.Text + ">";
             var asm = new AMMultiChart(tntb1, pttb1, pttb2, namegraph);
             asm.Show();
         }

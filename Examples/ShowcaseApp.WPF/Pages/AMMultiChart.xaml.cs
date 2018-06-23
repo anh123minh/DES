@@ -102,17 +102,30 @@ namespace SimulationV1.WPF.Pages
             btnMultiGraph.IsEnabled = false;
 
             ChartData = new ChartData();
-            ChartData.Title = "Количество разметки " + _namegraph;
+            ChartData.Title = "Изменение разметки " + _namegraph;
             ChartData.DataSeriesList = new List<ChartDataSerie>();
+
+            //if (_listblockcounttableline.Count != 0)
+            //{
+            //    for (int i = 0; i < _listblockcounttableline.Count; i++)
+            //    {
+            //        var dataSeries = new Dictionary<int, int>();
+            //        for (int j = 0; j < _listblockcounttableline[0].LineData.Count; j++)
+            //        {
+            //            dataSeries.Add(_listtimenowtableline.LineData[j], _listblockcounttableline[i].LineData[j]);
+            //        }
+            //        ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = _listblockcounttableline[i].LineName, Data = dataSeries });
+            //    }
+            //}
 
             if (_listblockcounttableline.Count != 0)
             {
                 for (int i = 0; i < _listblockcounttableline.Count; i++)
                 {
-                    var dataSeries = new Dictionary<int, int>();
+                    var dataSeries = new List<ChartPoint>();
                     for (int j = 0; j < _listblockcounttableline[0].LineData.Count; j++)
                     {
-                        dataSeries.Add(_listtimenowtableline.LineData[j], _listblockcounttableline[i].LineData[j]);
+                        dataSeries.Add(new ChartPoint { Time = _listtimenowtableline.LineData[j], Value = _listblockcounttableline[i].LineData[j]});
                     }
                     ChartData.DataSeriesList.Add(new ChartDataSerie() { Name = _listblockcounttableline[i].LineName, Data = dataSeries });
                 }
@@ -393,36 +406,36 @@ namespace SimulationV1.WPF.Pages
         public List<ChartDataSerie> DataSeriesList { get; set; }
     }
 
-    public class ChartDataSerie
-    {
-        public string Name { get; set; }
+    //public class ChartDataSerie
+    //{
+    //    public string Name { get; set; }
 
-        public Dictionary<int, int> Data { get; set; }
-    }
+    //    public Dictionary<int, int> Data { get; set; }
+    //}
 
     public class Lines
     {
         public string LineName { get; set; }
         public List<int> LineData { get; set; }
     }
-//quan trong mo rong
-    //public class ChartDataSerie
-    //{
-    //    public string Name { get; set; }
+    //quan trong mo rong
+    public class ChartDataSerie
+    {
+        public string Name { get; set; }
 
-    //    public List<ChartPoint> Data { get; set; }
-    //}
+        public List<ChartPoint> Data { get; set; }
+    }
 
-    //public class ChartPoint
+    public class ChartPoint
+    {
+        public int Time { get; set; }
+        public int Value { get; set; }
+    }
+    //public class ChartData
     //{
-    //    public int Time { get; set; }
-    //    public int Value { get; set; }
+    //    public string Title { get; set; }
+    //    public List<List<int>> DataSeriesList { get; set; }
     //}
-    ////public class ChartData
-    ////{
-    ////    public string Title { get; set; }
-    ////    public List<List<int>> DataSeriesList { get; set; }
-    ////}
 }
 
 //var dataSeries = new Dictionary<string, int>();

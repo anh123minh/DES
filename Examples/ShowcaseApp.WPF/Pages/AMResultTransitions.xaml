@@ -44,7 +44,7 @@
                 <TextBlock Name="txtTime" DockPanel.Dock="Left" Width="40"></TextBlock>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" Margin="5">
-                <Label DockPanel.Dock="Left">Количество срабатывания переходов:</Label>
+                <Label DockPanel.Dock="Left">Количество срабатываний переходов:</Label>
                 <TextBlock Name="txtSumfire" DockPanel.Dock="Left" Width="40"></TextBlock>
             </DockPanel>
             <Button Name="btnGraph" Content="Диаграмма" Margin="5" Height="30" Click="btnGraph_Click"></Button>
